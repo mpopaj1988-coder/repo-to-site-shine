@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useChildMatches } from "@tanstack/react-router";
 import { getPublishedPosts } from "@/lib/blog";
 import { SITE_URL } from "@/data/properties";
 import { Header } from "@/components/site/Header";
@@ -56,6 +56,10 @@ export const Route = createFileRoute("/blog")({
 });
 
 function BlogIndex() {
+  const childMatches = useChildMatches();
+  if (childMatches.length > 0) {
+    return <Outlet />;
+  }
   const posts = getPublishedPosts();
 
   return (

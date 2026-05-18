@@ -16,6 +16,19 @@
   hostname is accepted.
 - No backend changes — repo is static / static-rendered marketing site.
 
+## Implemented (2026-01-18 / iteration 5)
+- **Fixed broken "Read more" on the blog** (`src/routes/blog.tsx`). Same
+  parent-route swallow bug we hit on `/explore/<slug>` — `blog.tsx` lacked
+  an `<Outlet />`, so `/blog/<slug>` was rendering the blog index instead
+  of the post. Patched to render `<Outlet />` when `useChildMatches()` is
+  non-empty. Verified by clicking "Read more" → full article opens with
+  correct H1, URL and rendered markdown.
+- **Weekly scheduling confirmed working as-is**: `src/lib/blog.ts`
+  already filters out future-dated posts via `isPublished` (compares
+  `publishDate` to `Date.now()`), so each new week auto-publishes on its
+  date with no manual action. The 30 in-repo markdown posts cover
+  May 8, 2026 → Nov 27, 2026 (1 per week).
+
 ## Implemented (2026-01-18 / iteration 4)
 - **Added "Top stay in <City>" mini-row at the bottom of every card on
   `/explore`** (`src/routes/explore.tsx`). Each guide card now finishes with
