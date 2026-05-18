@@ -16,6 +16,18 @@
   hostname is accepted.
 - No backend changes — repo is static / static-rendered marketing site.
 
+## Implemented (2026-01-18 / iteration 2)
+- **Added "Read the local guide" card to every property listing page**
+  (`src/routes/listings.$slug.tsx`). The card sits between Amenities and the
+  Inquiry block and shows the matching guide's hero image, city, tagline and
+  a `Read the <City> guide →` link with analytics tracking
+  (`track("guide_click", { surface: "listing_<slug>", guide: "<slug>" })`)
+  and `data-testid="listing-<slug>-guide-link"`.
+- City-to-guide mapping handled by an in-file `LOCATION_TO_GUIDE` dict:
+  Tampa → tampa; St. Petersburg → st-petersburg; Clearwater / Largo /
+  Indian Rocks Beach → clearwater-beach. Verified server-rendered URLs for
+  all 9 listings.
+
 ## Implemented (2026-01-18 / iteration 1)
 - Cloned repo `repo-to-site-shine` into `/app/frontend` (replaced the empty
   scaffold), installed deps via `yarn install --ignore-engines`, added a

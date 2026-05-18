@@ -4,7 +4,8 @@ import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
 import { properties, BOOK_DIRECT_URL, HOSPITABLE_INQUIRY_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
-import { Bath, BedDouble, Users, Star, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { guides } from "@/data/guides";
+import { Bath, BedDouble, Users, Star, MapPin, X, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
 import { getListingPricing, getListingReviews, getListingAvailability, type Pricing, type ReviewItem, type CalendarDay } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
@@ -163,6 +164,24 @@ export const Route = createFileRoute("/listings/$slug")({
   component: ListingPage,
 });
 
+// Map property location -> neighborhood guide slug.
+// Largo / Indian Rocks Beach / Clearwater all roll up to the Clearwater Beach guide;
+// St. Petersburg -> st-petersburg; Tampa -> tampa.
+const LOCATION_TO_GUIDE: Record<string, string> = {
+  "Tampa": "tampa",
+  "St. Petersburg": "st-petersburg",
+  "Clearwater": "clearwater-beach",
+  "Largo": "clearwater-beach",
+  "Indian Rocks Beach": "clearwater-beach",
+};
+
+function guideForProperty(location: string) {
+  const city = location.split(",")[0].trim();
+  const slug = LOCATION_TO_GUIDE[city];
+  if (!slug) return null;
+  return guides.find((g) => g.slug === slug) ?? null;
+}
+
 function ListingPage() {
   const { property: p, pricing, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
   const [lightbox, setLightbox] = useState<number | null>(null);
@@ -304,6 +323,46 @@ function ListingPage() {
               </li>
             ))}
           </ul>
+
+          {/* NEIGHBORHOOD GUIDE CTA */}
+          {(() => {
+            const guide = guideForProperty(p.location);
+            if (!guide) return null;
+            return (
+              <div className="mt-14 flex flex-col gap-6 overflow-hidden rounded-md border border-border bg-card sm:flex-row sm:items-center">
+                <div className="relative h-40 w-full shrink-0 sm:h-auto sm:w-56 sm:self-stretch">
+                  <img
+                    src={guide.hero}
+                    alt={guide.heroAlt}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep)]/60 via-transparent to-transparent" />
+                </div>
+                <div className="flex-1 px-6 py-5 sm:py-7 sm:pr-7">
+                  <p className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.3em] text-[var(--color-sea)]">
+                    <BookOpen className="size-3.5" /> Neighborhood Guide
+                  </p>
+                  <h2 className="mt-2 font-display text-2xl font-medium tracking-tight">
+                    Read our {guide.city} local guide
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {guide.tagline} The spots we send our own friends — restaurants,
+                    beaches, nightlife, fitness and things to do near this stay.
+                  </p>
+                  <Link
+                    to="/explore/$slug"
+                    params={{ slug: guide.slug }}
+                    onClick={() => track("guide_click", { surface: `listing_${p.slug}`, guide: guide.slug })}
+                    data-testid={`listing-${p.slug}-guide-link`}
+                    className="mt-4 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] underline-offset-4 hover:underline"
+                  >
+                    Read the {guide.city} guide →
+                  </Link>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* INQUIRY */}
           <div id="inquire" className="mt-14 rounded-md border border-border bg-[var(--color-sand)] p-8">
