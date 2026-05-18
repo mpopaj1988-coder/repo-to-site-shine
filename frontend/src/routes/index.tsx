@@ -5,6 +5,7 @@ import { PropertyCard } from "@/components/site/PropertyCard";
 import { properties, BOOK_DIRECT_URL, type Category } from "@/data/properties";
 import { RealReviews } from "@/components/site/RealReviews";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
+import { getPublishedPosts } from "@/lib/blog";
 import { track } from "@/lib/analytics";
 import heroTampa from "@/assets/hero-tampa.jpg";
 import heroLargo from "@/assets/hero-largo.jpg";
@@ -99,6 +100,7 @@ function Index() {
   }, []);
   const filtered =
     active === "All" ? properties : properties.filter((p) => p.categories.includes(active));
+  const latestPosts = getPublishedPosts().slice(0, 3);
 
   return (
     <Layout>
@@ -326,6 +328,76 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* LATEST FROM THE BLOG */}
+      {latestPosts.length > 0 ? (
+        <section
+          data-testid="home-latest-blog"
+          className="border-y border-border bg-[var(--color-sand)]"
+        >
+          <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-[var(--color-sea)]">
+                  Journal
+                </p>
+                <h2 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight text-foreground sm:text-5xl">
+                  Latest from the blog
+                </h2>
+              </div>
+              <Link
+                to="/blog"
+                data-testid="home-latest-blog-all"
+                className="hidden shrink-0 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] underline-offset-4 hover:underline sm:inline-block"
+              >
+                All posts →
+              </Link>
+            </div>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {latestPosts.map((p) => (
+                <Link
+                  key={p.slug}
+                  to="/blog/$slug"
+                  params={{ slug: p.slug }}
+                  onClick={() => track("home_blog_click", { post: p.slug })}
+                  data-testid={`home-latest-blog-${p.slug}`}
+                  className="group flex flex-col rounded-md bg-card p-6 shadow-sm ring-1 ring-border transition hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <time className="text-[10px] font-medium uppercase tracking-[0.25em] text-[var(--color-sea)]">
+                    {new Date(p.publishDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      timeZone: "UTC",
+                    })}
+                  </time>
+                  <h3 className="mt-3 font-display text-2xl leading-snug text-foreground group-hover:text-[var(--color-deep)]">
+                    {p.title}
+                  </h3>
+                  {p.description ? (
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                      {p.description}
+                    </p>
+                  ) : null}
+                  <span className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)]">
+                    Read post →
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-10 text-center sm:hidden">
+              <Link
+                to="/blog"
+                className="text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] underline-offset-4 hover:underline"
+              >
+                All posts →
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* GUIDES */}
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">

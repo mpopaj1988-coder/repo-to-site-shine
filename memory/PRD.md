@@ -16,6 +16,19 @@
   hostname is accepted.
 - No backend changes — repo is static / static-rendered marketing site.
 
+## Implemented (2026-01-18 / iteration 6)
+- **Added "Latest from the blog" strip to the homepage**
+  (`src/routes/index.tsx`). Sits on a sand-colored band between
+  "Hosted with heart" and "Explore Tampa Bay". Shows the 3 most recently
+  published posts via `getPublishedPosts().slice(0, 3)` — so it auto-rotates
+  every week as new posts unlock. Each card links to `/blog/<slug>` with
+  `track("home_blog_click")` and
+  `data-testid="home-latest-blog-<slug>"`. Section also has an "All posts →"
+  link (`data-testid="home-latest-blog-all"`) and a mobile-only repeat at the
+  bottom of the strip.
+- Today (May 18, 2026) the strip shows 2 cards (week1 + week2). It will
+  auto-expand to a clean 3-card row on May 22 when week3 publishes.
+
 ## Implemented (2026-01-18 / iteration 5)
 - **Fixed broken "Read more" on the blog** (`src/routes/blog.tsx`). Same
   parent-route swallow bug we hit on `/explore/<slug>` — `blog.tsx` lacked
