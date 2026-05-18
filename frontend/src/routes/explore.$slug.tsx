@@ -1,8 +1,21 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
+import { PropertyCard } from "@/components/site/PropertyCard";
 import { guides, guideBySlug, type Guide } from "@/data/guides";
-import { SITE_URL, BOOK_DIRECT_URL } from "@/data/properties";
+import { SITE_URL, BOOK_DIRECT_URL, properties } from "@/data/properties";
 import { track } from "@/lib/analytics";
+
+// Reverse mapping: guide slug -> property locations that should appear on it.
+const GUIDE_TO_LOCATIONS: Record<string, string[]> = {
+  tampa: ["Tampa"],
+  "st-petersburg": ["St. Petersburg"],
+  "clearwater-beach": ["Clearwater", "Largo", "Indian Rocks Beach"],
+};
+
+function propertiesForGuide(slug: string) {
+  const locs = GUIDE_TO_LOCATIONS[slug] ?? [];
+  return properties.filter((p) => locs.includes(p.location.split(",")[0].trim()));
+}
 
 export const Route = createFileRoute("/explore/$slug")({
   loader: ({ params }) => {
@@ -76,6 +89,7 @@ function slugifyHeading(heading: string) {
 function GuidePage() {
   const { guide: g } = Route.useLoaderData() as { guide: Guide };
   const others = guides.filter((x) => x.slug !== g.slug);
+  const nearbyProperties = propertiesForGuide(g.slug);
 
   return (
     <Layout>
@@ -219,23 +233,47 @@ function GuidePage() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-4xl px-6 py-20 text-center lg:px-10">
+      <section className="mx-auto max-w-7xl px-6 pb-6 pt-20 text-center lg:px-10">
         <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[var(--color-sea)]">
           Stay nearby
         </p>
         <h2 className="mt-3 font-display text-3xl font-medium tracking-tight sm:text-4xl">
           Find your perfect base in {g.city}
         </h2>
-        <p className="mt-4 text-muted-foreground">
+        <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
           Book direct with us and save up to 15% on any of our nine Tampa Bay properties.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+      </section>
+
+      {/* NEARBY PROPERTIES */}
+      {nearbyProperties.length > 0 ? (
+        <section
+          data-testid={`guide-${g.slug}-nearby-properties`}
+          className="mx-auto max-w-7xl px-6 pb-16 lg:px-10"
+        >
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {nearbyProperties.slice(0, 3).map((p) => (
+              <div
+                key={p.slug}
+                data-testid={`guide-${g.slug}-nearby-${p.slug}`}
+                onClick={() => track("nearby_property_click", { surface: `guide_${g.slug}`, property: p.slug })}
+              >
+                <PropertyCard p={p} />
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {/* CTA BUTTONS */}
+      <section className="mx-auto max-w-4xl px-6 pb-20 text-center lg:px-10">
+        <div className="flex flex-wrap justify-center gap-3">
           <Link
             to="/properties"
             data-testid={`guide-${g.slug}-view-properties`}
             className="rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
           >
-            View Properties
+            View all properties
           </Link>
           <a
             href={BOOK_DIRECT_URL}

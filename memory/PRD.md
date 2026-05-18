@@ -16,6 +16,18 @@
   hostname is accepted.
 - No backend changes — repo is static / static-rendered marketing site.
 
+## Implemented (2026-01-18 / iteration 3)
+- **Added "Stay nearby" property card grid to every guide page**
+  (`src/routes/explore.$slug.tsx`). Up to 3 matching property cards now
+  appear under the "Find your perfect base in <City>" heading, closing the
+  guide-to-listing loop in both directions. Uses the existing `PropertyCard`
+  component. Mapping (reverse of the listing CTA):
+  - `tampa` → Tampa properties (1 card)
+  - `st-petersburg` → St. Petersburg properties (3 cards)
+  - `clearwater-beach` → Clearwater / Largo / Indian Rocks Beach (3 cards)
+- Added analytics tracking `nearby_property_click` and
+  `data-testid="guide-<slug>-nearby-<property-slug>"` on each card.
+
 ## Implemented (2026-01-18 / iteration 2)
 - **Added "Read the local guide" card to every property listing page**
   (`src/routes/listings.$slug.tsx`). The card sits between Amenities and the
