@@ -16,6 +16,22 @@
   hostname is accepted.
 - No backend changes — repo is static / static-rendered marketing site.
 
+## Implemented (2026-01-18 / iteration 7)
+- **Added 3 new images to the "Private Hot Tub | 1BR" listing**
+  (`stpete-hottub`). Saved to `src/assets/properties/stpete-hottub/` as
+  `07.jpg` (marble walk-in shower & vanity), `08.jpg` (renovated laundry
+  pantry w/ washer + dryer), `09.jpg` (Crescent Lake sunset — neighborhood
+  walk). Manifest entries added in `src/data/galleryAlts.ts` with SEO alt
+  text and conversion-optimal order (hot tub → patio → exterior → living →
+  kitchen → laundry → bedroom → bathroom → neighborhood). Listing now
+  shows **9 photos** (was 6 placeholders).
+- **Removed Tampa images 02, 07, 08, 21, 24, 35** — deleted from
+  `src/assets/properties/tampa/` and from the `tampa` manifest in
+  `src/data/galleryAlts.ts`. Tampa gallery now shows **31 photos** (was 36).
+- All existing listings already use a manually-curated conversion-optimal
+  gallery order (hero/exterior → pool/amenity → kitchen → living → bedrooms
+  → baths → neighborhood). Verified hero ordering for each slug.
+
 ## Implemented (2026-01-18 / iteration 6)
 - **Added "Latest from the blog" strip to the homepage**
   (`src/routes/index.tsx`). Sits on a sand-colored band between
