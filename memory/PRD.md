@@ -16,6 +16,21 @@
   hostname is accepted.
 - No backend changes — repo is static / static-rendered marketing site.
 
+## Implemented (2026-01-18 / iteration 4)
+- **Added "Top stay in <City>" mini-row at the bottom of every card on
+  `/explore`** (`src/routes/explore.tsx`). Each guide card now finishes with
+  a sand-colored footer showing a 56px thumbnail of the most-reviewed
+  property in that region plus title, rating and review count. The footer
+  itself is a `<Link>` to `/listings/<top-property-slug>` (separate from
+  the main guide link), wired with `track("top_stay_click")` analytics and
+  `data-testid="explore-card-<guide-slug>-top-stay"`.
+- "Top stay" selection logic = matches via the same
+  `GUIDE_TO_LOCATIONS` map, sorted by `reviews desc, rating desc`.
+  Result for the current catalog:
+  - Tampa → Waterfront 6BR (5.00 · 6 reviews)
+  - St. Petersburg → Modern Retreat 1BR (4.86 · 90 reviews)
+  - Clearwater Beach → Family Pool Getaway (4.94 · 279 reviews)
+
 ## Implemented (2026-01-18 / iteration 3)
 - **Added "Stay nearby" property card grid to every guide page**
   (`src/routes/explore.$slug.tsx`). Up to 3 matching property cards now
