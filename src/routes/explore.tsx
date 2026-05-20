@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useChildMatches } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import { guides } from "@/data/guides";
-import { properties, type Property } from "@/data/properties";
+import { properties, type Property, SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/explore")({
@@ -12,6 +12,7 @@ export const Route = createFileRoute("/explore")({
       { property: "og:title", content: "Explore Tampa Bay — Sea & City Rentals" },
       { property: "og:description", content: "Neighborhood guides for Tampa, St. Pete and Clearwater Beach." },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/explore` }],
   }),
   component: ExplorePage,
 });

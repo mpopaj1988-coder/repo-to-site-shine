@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
-import { properties } from "@/data/properties";
+import { properties, SITE_URL } from "@/data/properties";
 import { RealReviews } from "@/components/site/RealReviews";
 
 export const Route = createFileRoute("/reviews")({
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/reviews")({
       { property: "og:title", content: "Guest Reviews — Sea & City Rentals" },
       { property: "og:description", content: "Real guest reviews from across our Florida portfolio." },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/reviews` }],
   }),
   component: ReviewsPage,
 });

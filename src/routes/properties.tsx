@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
-import { properties, BOOK_DIRECT_URL } from "@/data/properties";
+import { properties, BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
@@ -32,6 +32,7 @@ export const Route = createFileRoute("/properties")({
       { property: "og:title", content: "Our Properties — Sea & City Rentals" },
       { property: "og:description", content: "Hand-picked Florida vacation rentals — book direct & save." },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/properties` }],
   }),
   component: PropertiesPage,
 });

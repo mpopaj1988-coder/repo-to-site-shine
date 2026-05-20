@@ -105,7 +105,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "canonical", href: "https://www.seaandcityrentals.com/" },
       { rel: "icon", href: "/favicon.ico" },
     ],
     scripts: [

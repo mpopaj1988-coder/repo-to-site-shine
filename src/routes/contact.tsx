@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
-import { BOOK_DIRECT_URL } from "@/data/properties";
+import { BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/contact")({
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact — Sea & City Rentals" },
       { property: "og:description", content: "Talk directly to us — no platforms, no bots." },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/contact` }],
   }),
   component: ContactPage,
 });
