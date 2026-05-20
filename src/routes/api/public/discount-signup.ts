@@ -118,7 +118,34 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           console.error('enqueue_email failed', enqueueError)
         }
 
-        // 5) Sync to Mailchimp (best-effort)
+        // 5) Sync to MailerLite (best-effort)
+        try {
+          const mlApiKey = process.env.MAILERLITE_API_KEY
+          if (mlApiKey) {
+            const mlRes = await fetch('https://connect.mailerlite.com/api/subscribers', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${mlApiKey}`,
+              },
+              body: JSON.stringify({
+                email: data.email,
+                groups: ['187986355712689414'], // "Website Leads" group
+                fields: {
+                  ...(data.utm_source ? { city: data.utm_source } : {}),
+                },
+              }),
+            })
+            if (!mlRes.ok) {
+              const errText = await mlRes.text()
+              console.error('mailerlite sync failed', mlRes.status, errText)
+            }
+          }
+        } catch (mlErr) {
+          console.error('mailerlite sync error', mlErr)
+        }
+
+        // 6) Sync to Mailchimp (best-effort, legacy)
         try {
           const apiKey = process.env.MAILCHIMP_API_KEY
           const audienceId = process.env.MAILCHIMP_AUDIENCE_ID
