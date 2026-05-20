@@ -10,6 +10,7 @@ const links = [
   { to: "/about", label: "About" },
   { to: "/explore", label: "Explore" },
   { to: "/reviews", label: "Reviews" },
+  { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -60,9 +61,6 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
               {l.label}
             </Link>
           ))}
-          <Link to="/blog" className={linkClass} activeProps={linkActive}>
-            Blog
-          </Link>
           <a
             href={BOOK_DIRECT_URL}
             target="_blank"
@@ -104,13 +102,6 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
                 {l.label}
               </Link>
             ))}
-            <Link
-              to="/blog"
-              onClick={() => setOpen(false)}
-              className="text-sm uppercase tracking-[0.25em] text-white"
-            >
-              Blog
-            </Link>
             <a
               href={BOOK_DIRECT_URL}
               target="_blank"

@@ -26,10 +26,10 @@ export function Footer() {
             Book Direct
           </a>
         </div>
-        <div>
-          <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
+        <nav aria-label="Footer navigation">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
             Explore
-          </h2>
+          </p>
           <ul className="mt-5 space-y-3 text-sm text-white/85">
             <li><Link to="/properties" className="hover:text-[var(--color-sea)]">All Properties</Link></li>
             <li><Link to="/about" className="hover:text-[var(--color-sea)]">About</Link></li>
@@ -37,11 +37,11 @@ export function Footer() {
             <li><Link to="/reviews" className="hover:text-[var(--color-sea)]">Reviews</Link></li>
             <li><Link to="/contact" className="hover:text-[var(--color-sea)]">Contact</Link></li>
           </ul>
-        </div>
+        </nav>
         <div>
-          <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
             Locations
-          </h2>
+          </p>
           <ul className="mt-5 space-y-3 text-sm text-white/85">
             <li>Tampa, FL</li>
             <li>St. Petersburg, FL</li>

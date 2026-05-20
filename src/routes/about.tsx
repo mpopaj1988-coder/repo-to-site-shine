@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import sunset from "@/assets/sunset-beach.jpg";
-import { BOOK_DIRECT_URL } from "@/data/properties";
+import { BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/about")({
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/about")({
       { property: "og:title", content: "About Sea & City Rentals" },
       { property: "og:description", content: "Hosted with heart — meet Nella." },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/about` }],
   }),
   component: AboutPage,
 });

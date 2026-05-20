@@ -54,6 +54,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:image", content: "/og.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://www.seaandcityrentals.com/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -403,7 +404,7 @@ function Index() {
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
         <div className="text-center">
           <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-[var(--color-sea)]">
-            Explore Tampa Bay
+            Area Guides
           </p>
           <h2 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight text-foreground sm:text-5xl">
             Explore Tampa Bay
