@@ -35,6 +35,7 @@ export type BlogPostMeta = {
   author?: string;
   cover?: string;
   tags?: string[];
+  readingTime: number; // minutes, rounded up
 };
 
 export type BlogPost = BlogPostMeta & {
@@ -56,6 +57,7 @@ function parseAll(): BlogPost[] {
   for (const [path, raw] of Object.entries(rawModules)) {
     const { data, content } = parseFrontmatter(raw);
     const slug = slugFromPath(path);
+    const wordCount = content.trim().split(/\s+/).length;
     posts.push({
       slug,
       title: String(data.title ?? slug),
@@ -64,6 +66,7 @@ function parseAll(): BlogPost[] {
       author: data.author ? String(data.author) : undefined,
       cover: data.cover ? String(data.cover) : undefined,
       tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
+      readingTime: Math.max(1, Math.ceil(wordCount / 200)),
       html: marked.parse(content, { async: false }) as string,
     });
   }
