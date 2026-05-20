@@ -1,0 +1,72 @@
+name: Weekly Site Monitoring
+
+on:
+  schedule:
+    # Every Monday at 08:00 UTC
+    - cron: "0 8 * * 1"
+  workflow_dispatch: # allow manual trigger from GitHub UI
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code — weekly site monitoring
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          branch: claude/website-monitoring-setup-MxGBy
+          prompt: |
+            You are running the weekly Sea & City Rentals website monitoring pass.
+
+            Audit the codebase at /home/user/repo-to-site-shine for the following categories,
+            implement any improvements you find, then commit and push to the current branch.
+
+            ## Audit checklist (run every pass)
+
+            ### SEO
+            - Verify every route has a correct, unique canonical URL
+            - Check meta title/description length and uniqueness across routes
+            - Inspect structured data (JSON-LD) for accuracy and completeness
+            - Check for missing or broken Open Graph / Twitter card tags
+            - Verify sitemap.xml and robots.txt are up to date
+
+            ### Accessibility
+            - Skip-to-content link present and functional
+            - All interactive elements have accessible labels (aria-label / aria-labelledby)
+            - Heading hierarchy is correct (h1 → h2 → h3, no skipped levels)
+            - Images have meaningful alt text
+            - Color contrast meets WCAG AA (check text on brand colors)
+            - Focus management in modals and mobile menu
+
+            ### Performance
+            - Images use lazy loading where appropriate (non-LCP images)
+            - First hero image uses eager loading + fetchPriority="high"
+            - No render-blocking scripts
+            - Check for unnecessarily large inline scripts or styles
+
+            ### UX & Conversion
+            - CTA buttons are prominent and clearly labeled
+            - "Book Direct" links open in new tab with rel="noreferrer"
+            - Analytics tracking events on key CTAs (book_direct_click, etc.)
+            - No broken internal links (check all route imports)
+            - Footer links are complete and accurate
+
+            ### Code quality
+            - No duplicate JSX/code that can be consolidated
+            - No commented-out dead code
+            - TypeScript: run `npx tsc --noEmit` — fix any type errors
+
+            ## After implementing improvements
+            1. Run `npx tsc --noEmit` to confirm no TypeScript errors
+            2. Commit all changes with a message following this format:
+               "Weekly monitoring pass #N: <summary of what was fixed>"
+            3. Push to branch `claude/website-monitoring-setup-MxGBy`
+            4. Report what was found and fixed as a summary comment
+
+          allowed_tools: "Bash,Read,Edit,Write"
