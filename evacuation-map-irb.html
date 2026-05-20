@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pinellas County Evacuation Map — 2602 Bay Blvd, Indian Rocks Beach</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #e8e8e2;
+      padding: 24px 16px 40px;
+    }
+
+    /* ── Print button ── */
+    .print-bar {
+      max-width: 740px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .print-btn {
+      background: #1a2e4a;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+    .print-btn:hover { opacity: 0.88; }
+
+    /* ── Page ── */
+    .page {
+      max-width: 740px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.18);
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #1a2e4a;
+      color: #fff;
+      padding: 18px 28px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-icon { font-size: 26px; flex-shrink: 0; }
+    .header h1 {
+      font-size: 19px;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+    }
+    .header .sub {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.70);
+      margin-top: 3px;
+    }
+
+    /* ── Map ── */
+    #map {
+      width: 100%;
+      height: 440px;
+    }
+
+    /* Tooltip */
+    .property-tip {
+      background: #c0392b !important;
+      border: none !important;
+      border-radius: 4px !important;
+      color: #fff !important;
+      font-size: 10.5px !important;
+      font-weight: 800 !important;
+      padding: 4px 9px !important;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35) !important;
+    }
+    .property-tip::before { border-top-color: #c0392b !important; }
+
+    /* ── Legend bar ── */
+    .legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 22px;
+      padding: 8px 20px;
+      background: #f5f5f0;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      font-size: 11.5px;
+      color: #444;
+    }
+    .leg { display: flex; align-items: center; gap: 6px; }
+    .leg-zone {
+      width: 18px; height: 13px;
+      background: rgba(255,96,0,0.30);
+      border: 2px solid #e84000;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .leg-route {
+      width: 26px; height: 4px;
+      background: #1457b8;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .leg-pin { font-size: 13px; flex-shrink: 0; }
+
+    /* ── Info panels ── */
+    .info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 18px 26px 20px;
+    }
+
+    .panel {
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .panel-zone {
+      background: #fff3f0;
+      border: 1px solid #f5c0b0;
+      border-left: 5px solid #c0392b;
+    }
+    .panel-app {
+      background: #eef3ff;
+      border: 1px solid #bbd0f5;
+      border-left: 5px solid #1457b8;
+    }
+
+    .panel-eyebrow {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .panel-zone .panel-eyebrow { color: #c0392b; }
+    .panel-app  .panel-eyebrow { color: #1457b8; }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+      line-height: 1.2;
+    }
+
+    .panel-addr {
+      font-size: 11px;
+      font-weight: 700;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .panel-body {
+      font-size: 11.5px;
+      color: #555;
+      margin-top: 7px;
+      line-height: 1.55;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 10px;
+      color: #bbb;
+      padding: 9px;
+      border-top: 1px solid #eeeeea;
+    }
+
+    /* ── Print ── */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: #fff; padding: 0; }
+      .print-bar { display: none; }
+      .page { box-shadow: none; border-radius: 0; max-width: 100%; }
+      #map { height: 430px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="print-bar">
+  <button class="print-btn" onclick="window.print()">🖨 Print / Save as PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">🗺</div>
+    <div>
+      <h1>Pinellas County — Hurricane Evacuation Map</h1>
+      <div class="sub">📍 2602 Bay Blvd, Indian Rocks Beach, FL 33785</div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Legend -->
+  <div class="legend-bar">
+    <div class="leg"><div class="leg-zone"></div><span>Evacuation Zone A (barrier islands)</span></div>
+    <div class="leg"><div class="leg-route"></div><span>Evacuation Route — head east/inland</span></div>
+    <div class="leg"><span class="leg-pin">📍</span><span>Your Location</span></div>
+  </div>
+
+  <!-- Info panels -->
+  <div class="info">
+    <div class="panel panel-zone">
+      <div class="panel-eyebrow">⚠ Hurricane Evacuation</div>
+      <div class="panel-title">YOU ARE IN<br>EVACUATION ZONE A</div>
+      <div class="panel-addr">📍 2602 Bay Blvd, Indian Rocks Beach, FL 33785</div>
+      <div class="panel-body">
+        Zone A is the <strong>highest-priority</strong> evacuation zone and the first ordered to leave. Indian Rocks Beach is a barrier island — storm surge risk is significant. <strong>Leave early</strong> before roads congest. Do not wait for mandatory orders.
+      </div>
+    </div>
+
+    <div class="panel panel-app">
+      <div class="panel-eyebrow">📱 Stay Informed</div>
+      <div class="panel-title">READY Pinellas App</div>
+      <div class="panel-body">
+        Download the free <strong>READY Pinellas</strong> app to receive real-time Evacuation Orders, open shelter locations, and emergency alerts for Pinellas County.<br><br>
+        Search <strong>"Ready Pinellas"</strong> on the App Store or Google Play. Free to download.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Sea &amp; City Rentals · seaandcityrentals.com &nbsp;|&nbsp; Source: Pinellas County Emergency Management</div>
+
+</div>
+
+<script>
+  // ── Map init ──
+  // Center shifted east so both the barrier island and I-275 fit in view
+  const map = L.map('map', {
+    zoomControl: true,
+    scrollWheelZoom: false,
+    dragging: true,
+  }).setView([27.920, -82.760], 12);
+
+  // CartoDB Positron — clean light-gray tiles, ideal for print
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map);
+
+  // ── Zone A — Clearwater Beach / Sand Key (north) ──
+  L.polygon([
+    // Gulf side, N→S
+    [28.003, -82.833],
+    [27.992, -82.837],
+    [27.980, -82.841],
+    [27.969, -82.840],
+    [27.961, -82.833],
+    [27.957, -82.825],
+    // Bay side, S→N
+    [27.960, -82.816],
+    [27.969, -82.821],
+    [27.980, -82.824],
+    [27.992, -82.828],
+    [28.003, -82.826],
+  ], { color:'#e84000', weight:1.5, fillColor:'#ff6600', fillOpacity:0.26 }).addTo(map);
+
+  // ── Zone A — Belleair Beach / Indian Rocks Beach / Indian Shores ──
+  L.polygon([
+    // Gulf side, N→S
+    [27.940, -82.855],
+    [27.928, -82.857],
+    [27.916, -82.858],
+    [27.906, -82.857],
+    [27.896, -82.854],
+    [27.886, -82.851],
+    [27.876, -82.848],
+    [27.866, -82.844],
+    [27.858, -82.841],
+    [27.853, -82.838],
+    // South tip
+    [27.850, -82.835],
+    // Bay/ICW side, S→N
+    [27.852, -82.831],
+    [27.858, -82.833],
+    [27.866, -82.836],
+    [27.876, -82.838],
+    [27.886, -82.840],
+    [27.896, -82.841],
+    [27.906, -82.843],
+    [27.916, -82.845],
+    [27.928, -82.847],
+    [27.940, -82.848],
+  ], { color:'#e84000', weight:1.5, fillColor:'#ff6600', fillOpacity:0.26 }).addTo(map);
+
+  // ── Zone A — Madeira Beach / Redington Beach (south of IRB) ──
+  L.polygon([
+    // Gulf side, N→S
+    [27.852, -82.836],
+    [27.842, -82.832],
+    [27.832, -82.828],
+    [27.820, -82.822],
+    [27.810, -82.817],
+    [27.804, -82.813],
+    [27.800, -82.810],
+    // South tip
+    [27.796, -82.808],
+    [27.795, -82.805],
+    // Bay side, S→N
+    [27.798, -82.801],
+    [27.804, -82.804],
+    [27.812, -82.808],
+    [27.822, -82.813],
+    [27.832, -82.820],
+    [27.842, -82.826],
+    [27.852, -82.830],
+  ], { color:'#e84000', weight:1.5, fillColor:'#ff6600', fillOpacity:0.26 }).addTo(map);
+
+  // ── ZONE A label on island ──
+  L.marker([27.900, -82.852], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:rgba(220,55,0,0.92);color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:0.08em;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.4);">ZONE A</div>',
+      iconAnchor: [22, 8],
+    })
+  }).addTo(map);
+
+  // ── Evacuation Route 1: East via Walsingham Road Bridge → US‑19 → I‑275 ──
+  L.polyline([
+    [27.906, -82.843],  // IRB bridge (east side of island)
+    [27.906, -82.835],
+    [27.905, -82.820],
+    [27.904, -82.808],
+    [27.902, -82.793],
+    [27.900, -82.783],  // US-19 (Largo)
+    [27.897, -82.768],
+    [27.894, -82.750],
+    [27.890, -82.728],
+    [27.885, -82.707],
+    [27.881, -82.684],  // Approaching I-275
+    [27.877, -82.670],
+  ], { color:'#1457b8', weight:5, opacity:0.88 }).addTo(map);
+
+  // ── Evacuation Route 2: North on Gulf Blvd → SR‑60 Memorial Causeway → I‑275 ──
+  L.polyline([
+    [27.908, -82.852],  // Gulf Blvd near property
+    [27.920, -82.853],
+    [27.932, -82.855],
+    [27.943, -82.853],
+    [27.952, -82.849],
+    [27.961, -82.843],
+    [27.967, -82.836],
+    [27.969, -82.827],  // Clearwater Beach / Memorial Causeway
+    [27.970, -82.814],
+    [27.969, -82.800],
+    [27.968, -82.786],  // Downtown Clearwater
+    [27.965, -82.768],
+    [27.961, -82.748],  // SR-60 east
+    [27.957, -82.722],
+    [27.951, -82.700],
+    [27.945, -82.679],
+    [27.940, -82.661],  // I-275
+  ], { color:'#1457b8', weight:5, opacity:0.88 }).addTo(map);
+
+  // ── Route destination labels ──
+  function routeLabel(lat, lng, html, anchorX) {
+    L.marker([lat, lng], {
+      icon: L.divIcon({
+        className: '',
+        html: `<div style="background:#1457b8;color:#fff;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.30);">${html}</div>`,
+        iconAnchor: [anchorX || 0, 8],
+      })
+    }).addTo(map);
+  }
+
+  routeLabel(27.877, -82.666, '▶ I-275 North/South', 0);
+  routeLabel(27.940, -82.657, '▶ I-275 North', 0);
+  routeLabel(27.904, -82.790, 'Walsingham Rd / US-19', 60);
+  routeLabel(27.969, -82.826, 'SR-60 Memorial Causeway', 80);
+
+  // ── Property marker ──
+  const propertyIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:18px;height:18px;background:#c0392b;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 10px rgba(0,0,0,0.55);"></div>',
+    iconSize: [18, 18],
+    iconAnchor: [9, 9],
+  });
+
+  L.marker([27.9079573, -82.8453425], { icon: propertyIcon })
+    .addTo(map)
+    .bindTooltip('📍 YOU ARE HERE — 2602 Bay Blvd', {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -12],
+      className: 'property-tip',
+    });
+</script>
+
+</body>
+</html>
