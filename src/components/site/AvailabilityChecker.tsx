@@ -25,9 +25,11 @@ function nightsBetween(from: Date, to: Date): number {
 export function AvailabilityChecker({
   bookingUrl,
   calendar,
+  propertySlug,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
+  propertySlug?: string;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
@@ -100,7 +102,12 @@ export function AvailabilityChecker({
       <button
         type="button"
         data-testid="availability-toggle"
-        onClick={() => setShowCalendar((s) => !s)}
+        onClick={() => {
+          setShowCalendar((s) => {
+            if (!s) track("availability_opened", { property: propertySlug });
+            return !s;
+          });
+        }}
         className="mt-3 grid w-full grid-cols-2 gap-2 rounded-sm border border-border bg-background p-2 text-left transition hover:border-[var(--color-deep)]"
       >
         <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
@@ -168,6 +175,7 @@ export function AvailabilityChecker({
             return;
           }
           track("reserve_click", {
+            property: propertySlug,
             nights,
             total,
             currency,

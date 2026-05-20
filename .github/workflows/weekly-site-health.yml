@@ -1,0 +1,105 @@
+name: Weekly Site Health Check
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Every Monday at 9 AM UTC
+  workflow_dispatch: # Allow manual run from the Actions tab
+
+jobs:
+  health-check:
+    name: Check key pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check homepage (/)
+        id: home
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://www.seaandcityrentals.com/)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "Homepage: $STATUS"
+          [ "$STATUS" = "200" ] || echo "FAIL: homepage returned $STATUS"
+
+      - name: Check /properties
+        id: properties
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://www.seaandcityrentals.com/properties)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "/properties: $STATUS"
+
+      - name: Check /blog
+        id: blog
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://www.seaandcityrentals.com/blog)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "/blog: $STATUS"
+
+      - name: Check listing page (/listings/clearwater)
+        id: listing
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://www.seaandcityrentals.com/listings/clearwater)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "/listings/clearwater: $STATUS"
+
+      - name: Check sitemap.xml
+        id: sitemap
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://www.seaandcityrentals.com/sitemap.xml)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "/sitemap.xml: $STATUS"
+
+      - name: Open issue if any check failed
+        if: |
+          steps.home.outputs.status != '200' ||
+          steps.properties.outputs.status != '200' ||
+          steps.blog.outputs.status != '200' ||
+          steps.listing.outputs.status != '200' ||
+          steps.sitemap.outputs.status != '200'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const checks = [
+              { name: "Homepage (/)",               status: "${{ steps.home.outputs.status }}" },
+              { name: "/properties",                 status: "${{ steps.properties.outputs.status }}" },
+              { name: "/blog",                       status: "${{ steps.blog.outputs.status }}" },
+              { name: "/listings/clearwater",        status: "${{ steps.listing.outputs.status }}" },
+              { name: "/sitemap.xml",                status: "${{ steps.sitemap.outputs.status }}" },
+            ];
+
+            const failed = checks.filter(c => c.status !== "200");
+            const rows = checks.map(c =>
+              `| ${c.name} | ${c.status === "200" ? "✅ 200" : `❌ ${c.status}`} |`
+            ).join("\n");
+
+            const body = [
+              "## 🚨 Weekly site health check failed",
+              "",
+              `**Date:** ${new Date().toISOString().slice(0, 10)}`,
+              `**Failed checks:** ${failed.map(c => c.name).join(", ")}`,
+              "",
+              "| Page | Status |",
+              "|---|---|",
+              rows,
+              "",
+              "Check the [Actions run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.",
+            ].join("\n");
+
+            // Avoid duplicate open issues for the same week
+            const weekTag = `health-${new Date().toISOString().slice(0, 7)}`;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: "site-health",
+              state: "open",
+            });
+            const alreadyOpen = existing.data.some(i => i.body?.includes(weekTag));
+            if (alreadyOpen) {
+              console.log("Issue already open for this month — skipping.");
+              return;
+            }
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Site health check failed — ${new Date().toISOString().slice(0, 10)}`,
+              body: body + `\n\n<!-- ${weekTag} -->`,
+              labels: ["site-health"],
+            });

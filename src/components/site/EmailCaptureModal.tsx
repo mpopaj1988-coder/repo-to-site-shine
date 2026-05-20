@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics";
 
 const STORAGE_KEY = "scr_email_capture_v1";
 
@@ -47,8 +48,7 @@ export function EmailCaptureModal() {
       setMessage("Thanks! Check your inbox — we just sent your DIRECT10 code for 10% off any direct booking.");
       try {
         localStorage.setItem(STORAGE_KEY, String(Date.now()));
-        // GA4 conversion event
-        (window as any).gtag?.("event", "email_signup", { method: "modal" });
+        track("email_signup", { method: "modal" });
       } catch {}
     } catch (err: any) {
       console.error(err);

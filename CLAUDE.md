@@ -183,11 +183,31 @@ export const myFn = createServerFn({ method: "GET" })
 - shadcn/ui components live in `src/components/ui/` — install new ones with `npx shadcn@latest add <component>`, never edit generated files manually
 
 ### Analytics
-Use `track()` from `@/lib/analytics` for GA4 events:
+Use `track()` from `@/lib/analytics` for GA4 events — always use this helper, never call `window.gtag` directly:
 ```ts
 import { track } from "@/lib/analytics";
 track("book_direct_click", { surface: "header", property: "tampa" });
 ```
+
+**Tracked events (complete list):**
+
+| Event | Where | Key params |
+|---|---|---|
+| `property_card_click` | `PropertyCard` | `property`, `location` |
+| `listing_view` | `listings.$slug` (mount) | `property`, `location` |
+| `availability_opened` | `AvailabilityChecker` | `property` |
+| `reserve_click` | `AvailabilityChecker` | `property`, `nights`, `total`, `check_in`, `check_out` |
+| `book_direct_click` | Header, Footer, Home, Listing, Properties, About, Contact, Guides | `surface` |
+| `email_signup` | `EmailCaptureModal`, `FooterEmailSignup` | `method` (`modal`\|`footer`) |
+| `inquiry_click` | Listing (multiple CTAs), Contact | `surface`, `property` |
+| `phone_click` | Listing sticky bar + mobile bar | `surface`, `property` |
+| `map_pin_click` | `PropertyMap` | `property`, `location` |
+| `home_blog_click` | Homepage blog preview | `post` |
+| `guide_click` | Listing page | `surface`, `guide` |
+| `nearby_property_click` | Explore guide pages | `surface`, `property` |
+| `top_stay_click` | Explore index | `property`, `surface` |
+
+**Automated monitoring:** A GitHub Actions workflow (`.github/workflows/weekly-site-health.yml`) runs every Monday at 9 AM UTC, checks that `/`, `/properties`, `/blog`, `/listings/clearwater`, and `/sitemap.xml` all return HTTP 200, and opens a GitHub issue labelled `site-health` if any check fails.
 
 ---
 
