@@ -28,6 +28,8 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
+import { Route as ApiInternalGapDayUpsellRouteImport } from './routes/api/internal/gap-day-upsell'
+import { Route as ApiInternalGapDayFulfillRouteImport } from './routes/api/internal/gap-day-fulfill'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -127,6 +129,16 @@ const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   path: '/api/public/discount-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInternalGapDayUpsellRoute = ApiInternalGapDayUpsellRouteImport.update({
+  id: '/api/internal/gap-day-upsell',
+  path: '/api/internal/gap-day-upsell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInternalGapDayFulfillRoute = ApiInternalGapDayFulfillRouteImport.update({
+  id: '/api/internal/gap-day-fulfill',
+  path: '/api/internal/gap-day-fulfill',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -165,6 +177,8 @@ export interface FileRoutesByFullPath {
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/internal/gap-day-upsell': typeof ApiInternalGapDayUpsellRoute
+  '/api/internal/gap-day-fulfill': typeof ApiInternalGapDayFulfillRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -189,6 +203,8 @@ export interface FileRoutesByTo {
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/internal/gap-day-upsell': typeof ApiInternalGapDayUpsellRoute
+  '/api/internal/gap-day-fulfill': typeof ApiInternalGapDayFulfillRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -214,6 +230,8 @@ export interface FileRoutesById {
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/internal/gap-day-upsell': typeof ApiInternalGapDayUpsellRoute
+  '/api/internal/gap-day-fulfill': typeof ApiInternalGapDayFulfillRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -240,6 +258,8 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/api/public/discount-signup'
     | '/api/public/refresh-reviews'
+    | '/api/internal/gap-day-upsell'
+    | '/api/internal/gap-day-fulfill'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -264,6 +284,8 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/api/public/discount-signup'
     | '/api/public/refresh-reviews'
+    | '/api/internal/gap-day-upsell'
+    | '/api/internal/gap-day-fulfill'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -288,6 +310,8 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/api/public/discount-signup'
     | '/api/public/refresh-reviews'
+    | '/api/internal/gap-day-upsell'
+    | '/api/internal/gap-day-fulfill'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -310,6 +334,8 @@ export interface RootRouteChildren {
   ListingsSlugRoute: typeof ListingsSlugRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
+  ApiInternalGapDayUpsellRoute: typeof ApiInternalGapDayUpsellRoute
+  ApiInternalGapDayFulfillRoute: typeof ApiInternalGapDayFulfillRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -451,6 +477,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDiscountSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/gap-day-upsell': {
+      id: '/api/internal/gap-day-upsell'
+      path: '/api/internal/gap-day-upsell'
+      fullPath: '/api/internal/gap-day-upsell'
+      preLoaderRoute: typeof ApiInternalGapDayUpsellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal/gap-day-fulfill': {
+      id: '/api/internal/gap-day-fulfill'
+      path: '/api/internal/gap-day-fulfill'
+      fullPath: '/api/internal/gap-day-fulfill'
+      preLoaderRoute: typeof ApiInternalGapDayFulfillRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -514,6 +554,8 @@ const rootRouteChildren: RootRouteChildren = {
   ListingsSlugRoute: ListingsSlugRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
+  ApiInternalGapDayUpsellRoute: ApiInternalGapDayUpsellRoute,
+  ApiInternalGapDayFulfillRoute: ApiInternalGapDayFulfillRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,

@@ -134,6 +134,54 @@ export type Database = {
         }
         Relationships: []
       }
+      gap_day_upsell_log: {
+        Row: {
+          id: string
+          property_hospitable_id: string
+          gap_date: string
+          checkout_reservation_uuid: string
+          checkin_reservation_uuid: string
+          original_price_cents: number | null
+          discounted_price_cents: number | null
+          currency: string
+          checkout_message_sent_at: string | null
+          checkin_message_sent_at: string | null
+          fulfill_checkout_sent_at: string | null
+          fulfill_checkin_sent_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          property_hospitable_id: string
+          gap_date: string
+          checkout_reservation_uuid: string
+          checkin_reservation_uuid: string
+          original_price_cents?: number | null
+          discounted_price_cents?: number | null
+          currency?: string
+          checkout_message_sent_at?: string | null
+          checkin_message_sent_at?: string | null
+          fulfill_checkout_sent_at?: string | null
+          fulfill_checkin_sent_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          property_hospitable_id?: string
+          gap_date?: string
+          checkout_reservation_uuid?: string
+          checkin_reservation_uuid?: string
+          original_price_cents?: number | null
+          discounted_price_cents?: number | null
+          currency?: string
+          checkout_message_sent_at?: string | null
+          checkin_message_sent_at?: string | null
+          fulfill_checkout_sent_at?: string | null
+          fulfill_checkin_sent_at?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       hospitable_reviews_cache: {
         Row: {
           fetched_at: string
