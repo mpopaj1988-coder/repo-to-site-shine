@@ -28,7 +28,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+        const supabaseUrl = process.env.SUPABASE_URL
         const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
         if (!supabaseUrl || !serviceKey) {
           return Response.json({ error: 'Server misconfigured' }, { status: 500 })
