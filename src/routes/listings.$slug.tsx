@@ -422,7 +422,7 @@ function ListingPage() {
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={HOSPITABLE_INQUIRY_URL} calendar={availability} />
+            <AvailabilityChecker bookingUrl={HOSPITABLE_INQUIRY_URL} calendar={availability} propertySlug={p.slug} />
             <a
               href={HOSPITABLE_INQUIRY_URL}
               target="_blank"

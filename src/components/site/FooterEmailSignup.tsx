@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { track } from "@/lib/analytics";
 
 export function FooterEmailSignup() {
   const [email, setEmail] = useState("");
@@ -27,9 +28,7 @@ export function FooterEmailSignup() {
       if (!res.ok) throw new Error("Signup failed");
       setStatus("success");
       setMessage("Thanks! Check your inbox for your 10% off code.");
-      try {
-        (window as any).gtag?.("event", "email_signup", { method: "footer" });
-      } catch {}
+      track("email_signup", { method: "footer" });
       setEmail("");
     } catch {
       setStatus("error");

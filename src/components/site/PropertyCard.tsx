@@ -2,12 +2,14 @@ import { Bath, BedDouble, Star, Users } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import type { Property } from "@/data/properties";
 import type { Pricing } from "@/lib/hospitable.functions";
+import { track } from "@/lib/analytics";
 
 export function PropertyCard({ p, pricing }: { p: Property; pricing?: Pricing }) {
   return (
     <Link
       to="/listings/$slug"
       params={{ slug: p.slug }}
+      onClick={() => track("property_card_click", { property: p.slug, location: p.location })}
       className="group block overflow-hidden rounded-md bg-card shadow-sm ring-1 ring-border transition hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
