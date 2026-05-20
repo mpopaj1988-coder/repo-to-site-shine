@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency Information — 2602 Bay Blvd, Indian Rocks Beach</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      background: #f5f5f0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .sheet {
+      background: #fff;
+      width: 100%;
+      max-width: 680px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #1a2e4a;
+      color: #fff;
+      padding: 36px 40px 32px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .warning-icon {
+      font-size: 32px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .header .subtitle {
+      margin-top: 6px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    .address-box {
+      margin-top: 24px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .address-box .pin {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .address-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .address-text {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* ── Sections ── */
+    .body {
+      padding: 28px 40px 36px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .label-red    { background: #c0392b; }
+    .label-navy   { background: #1a2e4a; }
+    .label-orange { background: #d35400; }
+    .label-teal   { background: #1a7a7a; }
+
+    .card {
+      border: 1px solid #e5e5e0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      gap: 16px;
+    }
+
+    .entry + .entry {
+      border-top: 1px solid #e5e5e0;
+    }
+
+    .entry-info { flex: 1; min-width: 0; }
+
+    .entry-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .entry-detail {
+      font-size: 13px;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    .entry-address {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .phone-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f5f5f0;
+      border-radius: 6px;
+      padding: 8px 14px;
+      text-decoration: none;
+      color: #1a2e4a;
+      font-size: 15px;
+      font-weight: 700;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .phone-chip .phone-icon { font-size: 14px; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #bbb;
+      padding-bottom: 28px;
+    }
+
+    /* ── Print styles ── */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .sheet { box-shadow: none; border-radius: 0; max-width: 100%; }
+      .phone-chip { background: #f5f5f0; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div class="warning-icon">⚠️</div>
+      <div>
+        <h1>Emergency Information</h1>
+        <p class="subtitle">
+          We hope you never have to use these, but if you ever do,<br>
+          here are important numbers.
+        </p>
+      </div>
+    </div>
+
+    <div class="address-box">
+      <div class="pin">📍</div>
+      <div>
+        <div class="address-label">This Property</div>
+        <div class="address-text">2602 Bay Blvd, Indian Rocks Beach, FL 33785</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <!-- Emergency -->
+    <div class="section">
+      <div class="section-label label-red">Emergency Services</div>
+      <div class="card">
+        <div class="entry">
+          <div class="entry-info">
+            <div class="entry-name">Emergency — Police, Fire, Medical</div>
+            <div class="entry-detail">Call for any life-threatening emergency</div>
+          </div>
+          <a href="tel:911" class="phone-chip">
+            <span class="phone-icon">📞</span> 911
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sheriff -->
+    <div class="section">
+      <div class="section-label label-navy">Police</div>
+      <div class="card">
+        <div class="entry">
+          <div class="entry-info">
+            <div class="entry-name">Pinellas County Sheriff</div>
+            <div class="entry-detail">Non-emergency line</div>
+          </div>
+          <a href="tel:7275826200" class="phone-chip">
+            <span class="phone-icon">📞</span> (727) 582-6200
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fire & Rescue -->
+    <div class="section">
+      <div class="section-label label-orange">Fire &amp; Rescue</div>
+      <div class="card">
+        <div class="entry">
+          <div class="entry-info">
+            <div class="entry-name">Pinellas Suncoast Fire &amp; Rescue District</div>
+            <div class="entry-detail">Non-emergency</div>
+          </div>
+          <a href="tel:7275951117" class="phone-chip">
+            <span class="phone-icon">📞</span> (727) 595-1117
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hospitals -->
+    <div class="section">
+      <div class="section-label label-teal">Nearest Hospitals</div>
+      <div class="card">
+        <div class="entry">
+          <div class="entry-info">
+            <div class="entry-name">HCA Florida Largo Hospital</div>
+            <div class="entry-detail">Full-service emergency room · ~4 miles</div>
+            <div class="entry-address">📍 201 14th St SW, Largo, FL 33770</div>
+          </div>
+          <a href="tel:7275885200" class="phone-chip">
+            <span class="phone-icon">📞</span> (727) 588-5200
+          </a>
+        </div>
+        <div class="entry">
+          <div class="entry-info">
+            <div class="entry-name">Morton Plant Hospital</div>
+            <div class="entry-detail">Full-service emergency room · ~8 miles</div>
+            <div class="entry-address">📍 300 Pinellas St, Clearwater, FL 33756</div>
+          </div>
+          <a href="tel:7274627000" class="phone-chip">
+            <span class="phone-icon">📞</span> (727) 462-7000
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <div class="footer">Sea &amp; City Rentals</div>
+
+</div><!-- /sheet -->
+
+</body>
+</html>

@@ -22,7 +22,6 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingsSlugRouteImport } from './routes/listings.$slug'
 import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
-import { Route as EmergencyIrbRouteImport } from './routes/emergency.irb'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -98,11 +97,6 @@ const ExploreSlugRoute = ExploreSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ExploreRoute,
 } as any)
-const EmergencyIrbRoute = EmergencyIrbRouteImport.update({
-  id: '/emergency/irb',
-  path: '/emergency/irb',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
   id: '/email/unsubscribe',
   path: '/email/unsubscribe',
@@ -167,7 +161,6 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
-  '/emergency/irb': typeof EmergencyIrbRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
@@ -192,7 +185,6 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
-  '/emergency/irb': typeof EmergencyIrbRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
@@ -218,7 +210,6 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
-  '/emergency/irb': typeof EmergencyIrbRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
@@ -245,7 +236,6 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/rss.xml'
     | '/email/unsubscribe'
-    | '/emergency/irb'
     | '/explore/$slug'
     | '/listings/$slug'
     | '/api/public/discount-signup'
@@ -270,7 +260,6 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/rss.xml'
     | '/email/unsubscribe'
-    | '/emergency/irb'
     | '/explore/$slug'
     | '/listings/$slug'
     | '/api/public/discount-signup'
@@ -295,7 +284,6 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/rss.xml'
     | '/email/unsubscribe'
-    | '/emergency/irb'
     | '/explore/$slug'
     | '/listings/$slug'
     | '/api/public/discount-signup'
@@ -319,7 +307,6 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
-  EmergencyIrbRoute: typeof EmergencyIrbRoute
   ListingsSlugRoute: typeof ListingsSlugRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
@@ -421,13 +408,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/explore/$slug'
       preLoaderRoute: typeof ExploreSlugRouteImport
       parentRoute: typeof ExploreRoute
-    }
-    '/emergency/irb': {
-      id: '/emergency/irb'
-      path: '/emergency/irb'
-      fullPath: '/emergency/irb'
-      preLoaderRoute: typeof EmergencyIrbRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/email/unsubscribe': {
       id: '/email/unsubscribe'
@@ -531,7 +511,6 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
-  EmergencyIrbRoute: EmergencyIrbRoute,
   ListingsSlugRoute: ListingsSlugRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
