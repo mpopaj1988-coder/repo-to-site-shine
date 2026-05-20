@@ -1,0 +1,83 @@
+name: Weekly MailerLite Campaign
+
+on:
+  schedule:
+    # Every Monday at 09:00 UTC (1 hour after monitoring pass)
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  create-campaign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create weekly MailerLite campaign draft
+        uses: anthropics/claude-code-action@beta
+        env:
+          MAILERLITE_API_KEY: ${{ secrets.MAILERLITE_API_KEY }}
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are creating this week's Sea & City Rentals email newsletter as a draft in MailerLite.
+
+            Today's date: ${{ github.event.schedule && 'Monday' || 'now' }}
+            Week number: use `date +%V` via Bash to get the ISO week number.
+
+            ## Your task
+
+            1. Use `date +%V` and `date +%Y` to determine the current week and year.
+            2. Craft a short, engaging weekly newsletter for Sea & City Rentals.
+            3. Call the MailerLite API via curl to create the campaign as a **draft**.
+            4. Print the campaign ID and preview URL so the result is logged.
+
+            ## Business context
+
+            Sea & City Rentals (seaandcityrentals.com) is a small STR portfolio:
+            - 9 properties in Tampa Bay, FL: Tampa waterfront, St. Pete, Clearwater, Gulf beaches
+            - Owner: Nella (mpopaj1988@gmail.com)
+            - USP: book direct, save up to 15% vs Airbnb. Promo code DIRECT10 = 10% off first booking
+            - Direct booking portal: https://seaandcityrentals.hospitable.rentals/
+            - Target audience: families & groups, snowbirds, bachelorette trips, beach lovers
+
+            ## Email guidelines
+
+            - Subject line: punchy, 50 chars max, vary the angle each week
+              (seasonal, urgency, property spotlight, savings, local events, etc.)
+            - Body: 150-250 words max, conversational tone, signed "Nella"
+            - Always include one clear CTA button linking to the direct booking portal
+            - Rotate weekly focus: Week 1 = savings, Week 2 = property spotlight,
+              Week 3 = local Tampa Bay events/things to do, Week 4 = social proof/reviews
+              (use week % 4 to pick focus)
+            - HTML: simple inline-styled HTML, brand colors #1A3A4A (dark blue) and #C9A84C (gold)
+
+            ## MailerLite API call
+
+            After composing the HTML content, create the draft with:
+
+            ```
+            curl -s -X POST https://connect.mailerlite.com/api/campaigns \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $MAILERLITE_API_KEY" \
+              -d '{
+                "name": "Weekly Newsletter — Week <WEEK> <YEAR>",
+                "type": "regular",
+                "subject": "<YOUR SUBJECT>",
+                "from_name": "Nella @ Sea & City Rentals",
+                "from": "mpopaj1988@gmail.com",
+                "reply_to": "mpopaj1988@gmail.com",
+                "groups": ["187986355712689414"],
+                "emails": [{
+                  "subject": "<YOUR SUBJECT>",
+                  "from_name": "Nella @ Sea & City Rentals",
+                  "from": "mpopaj1988@gmail.com",
+                  "reply_to": "mpopaj1988@gmail.com",
+                  "content": "<YOUR HTML>"
+                }]
+              }'
+            ```
+
+            Print the full JSON response. If the `id` field is present, the draft was created successfully.
+            If there is an error, print it clearly and exit 1.
+
+          allowed_tools: "Bash"
