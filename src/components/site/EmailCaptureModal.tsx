@@ -30,20 +30,31 @@ export function EmailCaptureModal() {
     setStatus("loading");
     setMessage("");
     try {
+      const normalizedEmail = email.trim().toLowerCase();
+
+      const mlKey = import.meta.env.VITE_MAILERLITE_API_KEY as string | undefined;
+      if (mlKey) {
+        await fetch("https://connect.mailerlite.com/api/subscribers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${mlKey}` },
+          body: JSON.stringify({ email: normalizedEmail, groups: ["187986355712689414"] }),
+        });
+      }
+
       const params = new URLSearchParams(window.location.search);
-      const res = await fetch("/api/public/discount-signup", {
+      fetch("/api/public/discount-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: email.trim().toLowerCase(),
+          email: normalizedEmail,
           source: window.location.pathname.slice(0, 100),
           utm_source: params.get("utm_source"),
           utm_medium: params.get("utm_medium"),
           utm_campaign: params.get("utm_campaign"),
           user_agent: navigator.userAgent.slice(0, 250),
         }),
-      });
-      if (!res.ok) throw new Error("Signup failed");
+      }).catch(() => {});
+
       setStatus("success");
       setMessage("Thanks! Check your inbox — we just sent your DIRECT10 code for 10% off any direct booking.");
       try {

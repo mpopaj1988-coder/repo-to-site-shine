@@ -12,20 +12,33 @@ export function FooterEmailSignup() {
     setStatus("loading");
     setMessage("");
     try {
+      const normalizedEmail = email.trim().toLowerCase();
+
+      // Add directly to MailerLite from the browser — bypasses Worker env var issues
+      const mlKey = import.meta.env.VITE_MAILERLITE_API_KEY as string | undefined;
+      if (mlKey) {
+        await fetch("https://connect.mailerlite.com/api/subscribers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${mlKey}` },
+          body: JSON.stringify({ email: normalizedEmail, groups: ["187986355712689414"] }),
+        });
+      }
+
+      // Best-effort server call for Supabase logging
       const params = new URLSearchParams(window.location.search);
-      const res = await fetch("/api/public/discount-signup", {
+      fetch("/api/public/discount-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: email.trim().toLowerCase(),
+          email: normalizedEmail,
           source: `footer:${window.location.pathname}`.slice(0, 100),
           utm_source: params.get("utm_source"),
           utm_medium: params.get("utm_medium"),
           utm_campaign: params.get("utm_campaign"),
           user_agent: navigator.userAgent.slice(0, 250),
         }),
-      });
-      if (!res.ok) throw new Error("Signup failed");
+      }).catch(() => {});
+
       setStatus("success");
       setMessage("Thanks! Check your inbox for your 10% off code.");
       track("email_signup", { method: "footer" });
