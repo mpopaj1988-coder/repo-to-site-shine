@@ -99,13 +99,21 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         }
 
         // MailerLite — adds subscriber to "Website Leads" group, triggers automation
+        // import.meta.env.VITE_MAILERLITE_API_KEY is baked in at build time by Vite,
+        // so it works in the Worker even though process.env is not populated at runtime.
         try {
-          const mlApiKey = process.env.MAILERLITE_API_KEY ?? process.env.VITE_MAILERLITE_API_KEY
+          const mlApiKey = process.env.MAILERLITE_API_KEY
+            ?? (import.meta.env.VITE_MAILERLITE_API_KEY as string | undefined)
           if (mlApiKey) {
             await fetch('https://connect.mailerlite.com/api/subscribers', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` },
-              body: JSON.stringify({ email: data.email, groups: [ML_GROUP_ID] }),
+              body: JSON.stringify({
+                email: data.email,
+                groups: [ML_GROUP_ID],
+                resubscribe: true,
+                status: 'active',
+              }),
             })
           }
         } catch (err) {
