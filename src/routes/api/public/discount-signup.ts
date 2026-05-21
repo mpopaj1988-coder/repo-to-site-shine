@@ -80,42 +80,43 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           unsubscribeToken = stored?.token ?? unsubscribeToken
         }
 
-        // 4) Render template
-        const template = TEMPLATES['welcome-discount']
-        const element = React.createElement(template.component, { code: 'DIRECT10' })
-        const html = await render(element)
-        const plainText = await render(element, { plainText: true })
-        const subject = typeof template.subject === 'function'
-          ? template.subject({ code: 'DIRECT10' }) : template.subject
+        // 4) Render template + enqueue (best-effort — don't let this block the response)
+        try {
+          const template = TEMPLATES['welcome-discount']
+          const element = React.createElement(template.component, { code: 'DIRECT10' })
+          const html = await render(element)
+          const plainText = await render(element, { plainText: true })
+          const subject = typeof template.subject === 'function'
+            ? template.subject({ code: 'DIRECT10' }) : template.subject
 
-        const messageId = crypto.randomUUID()
-        await supabase.from('email_send_log').insert({
-          message_id: messageId,
-          template_name: 'welcome-discount',
-          recipient_email: data.email,
-          status: 'pending',
-        })
-
-        const { error: enqueueError } = await supabase.rpc('enqueue_email', {
-          queue_name: 'transactional_emails',
-          payload: {
+          const messageId = crypto.randomUUID()
+          await supabase.from('email_send_log').insert({
             message_id: messageId,
-            to: data.email,
-            from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
-            sender_domain: SENDER_DOMAIN,
-            subject,
-            html,
-            text: plainText,
-            purpose: 'transactional',
-            label: 'welcome-discount',
-            idempotency_key: `welcome-discount-${data.email}`,
-            unsubscribe_token: unsubscribeToken,
-            queued_at: new Date().toISOString(),
-          },
-        })
+            template_name: 'welcome-discount',
+            recipient_email: data.email,
+            status: 'pending',
+          })
 
-        if (enqueueError) {
-          console.error('enqueue_email failed', enqueueError)
+          const { error: enqueueError } = await supabase.rpc('enqueue_email', {
+            queue_name: 'transactional_emails',
+            payload: {
+              message_id: messageId,
+              to: data.email,
+              from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+              sender_domain: SENDER_DOMAIN,
+              subject,
+              html,
+              text: plainText,
+              purpose: 'transactional',
+              label: 'welcome-discount',
+              idempotency_key: `welcome-discount-${data.email}`,
+              unsubscribe_token: unsubscribeToken,
+              queued_at: new Date().toISOString(),
+            },
+          })
+          if (enqueueError) console.error('enqueue_email failed', enqueueError)
+        } catch (renderErr) {
+          console.error('email render/enqueue failed', renderErr)
         }
 
         // 5) Sync to Mailchimp (best-effort)
