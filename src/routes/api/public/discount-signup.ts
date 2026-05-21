@@ -9,7 +9,7 @@ const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
 const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
-const ML_GROUP_ID = '187986355712689414'
+const ML_GROUP_ID = '187986355712689414' // Website Leads
 
 const SignupSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
