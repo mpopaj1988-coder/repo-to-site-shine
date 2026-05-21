@@ -8,6 +8,7 @@ import { TEMPLATES } from '@/lib/email-templates/registry'
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
+const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
 
 const SignupSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
@@ -28,9 +29,8 @@ export const Route = createFileRoute('/api/public/discount-signup')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const supabaseUrl = process.env.SUPABASE_URL
         const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-        if (!supabaseUrl || !serviceKey) {
+        if (!serviceKey) {
           return Response.json({ error: 'Server misconfigured' }, { status: 500 })
         }
 
@@ -43,7 +43,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           return Response.json({ error: 'Invalid input' }, { status: 400 })
         }
         const data = parsed.data
-        const supabase = createClient(supabaseUrl, serviceKey)
+        const supabase = createClient(SUPABASE_URL, serviceKey)
 
         // 1) Save lead (ignore duplicate)
         const { error: insertError } = await supabase.from('email_leads').insert({
