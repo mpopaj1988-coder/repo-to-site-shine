@@ -5,11 +5,15 @@ import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
+declare const __MAILERLITE_API_KEY__: string
+
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
 const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
 const ML_GROUP_ID = '187986355712689414' // Website Leads
+// Chars chosen to avoid look-alikes (0/O, 1/I/l)
+const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 
 const SignupSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
@@ -26,6 +30,12 @@ function genToken(): string {
   return Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
+function genDiscountCode(): string {
+  const bytes = new Uint8Array(7)
+  crypto.getRandomValues(bytes)
+  return 'DIRECT' + Array.from(bytes).map((b) => CODE_CHARS[b % CODE_CHARS.length]).join('')
+}
+
 export const Route = createFileRoute('/api/public/discount-signup')({
   server: {
     handlers: {
@@ -40,6 +50,8 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         }
         const data = parsed.data
 
+        const discountCode = genDiscountCode()
+
         // Supabase — best-effort, never blocks the response
         try {
           const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -53,6 +65,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
               utm_medium: data.utm_medium ?? null,
               utm_campaign: data.utm_campaign ?? null,
               user_agent: data.user_agent ?? null,
+              discount_code: discountCode,
             })
 
             const { data: suppressed } = await supabase
@@ -71,11 +84,11 @@ export const Route = createFileRoute('/api/public/discount-signup')({
               }
 
               const template = TEMPLATES['welcome-discount']
-              const element = React.createElement(template.component, { code: 'DIRECT10' })
+              const element = React.createElement(template.component, { code: discountCode })
               const html = await render(element)
               const plainText = await render(element, { plainText: true })
               const subject = typeof template.subject === 'function'
-                ? template.subject({ code: 'DIRECT10' }) : template.subject
+                ? template.subject({ code: discountCode }) : template.subject
               const messageId = crypto.randomUUID()
               await supabase.from('email_send_log').insert({
                 message_id: messageId, template_name: 'welcome-discount',
@@ -98,12 +111,11 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           console.error('supabase ops failed', err)
         }
 
-        // MailerLite — adds subscriber to "Website Leads" group, triggers automation
-        // import.meta.env.VITE_MAILERLITE_API_KEY is baked in at build time by Vite,
-        // so it works in the Worker even though process.env is not populated at runtime.
+        // MailerLite — adds subscriber to "Website Leads" group, triggers automation.
+        // __MAILERLITE_API_KEY__ is replaced at build time by vite.config.ts define(),
+        // so it's baked into the Worker bundle without needing a runtime env var.
         try {
-          const mlApiKey = process.env.MAILERLITE_API_KEY
-            ?? (import.meta.env.VITE_MAILERLITE_API_KEY as string | undefined)
+          const mlApiKey = process.env.MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
           if (mlApiKey) {
             await fetch('https://connect.mailerlite.com/api/subscribers', {
               method: 'POST',
@@ -113,6 +125,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                 groups: [ML_GROUP_ID],
                 resubscribe: true,
                 status: 'active',
+                fields: { discount_code: discountCode },
               }),
             })
           }
@@ -125,4 +138,3 @@ export const Route = createFileRoute('/api/public/discount-signup')({
     },
   },
 })
-
