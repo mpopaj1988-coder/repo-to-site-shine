@@ -13,20 +13,8 @@ export function FooterEmailSignup() {
     setMessage("");
     try {
       const normalizedEmail = email.trim().toLowerCase();
-
-      // Add directly to MailerLite from the browser — bypasses Worker env var issues
-      const mlKey = import.meta.env.VITE_MAILERLITE_API_KEY as string | undefined;
-      if (mlKey) {
-        await fetch("https://connect.mailerlite.com/api/subscribers", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${mlKey}` },
-          body: JSON.stringify({ email: normalizedEmail, groups: ["187986355712689414"] }),
-        });
-      }
-
-      // Best-effort server call for Supabase logging
       const params = new URLSearchParams(window.location.search);
-      fetch("/api/public/discount-signup", {
+      const res = await fetch("/api/public/discount-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -37,8 +25,8 @@ export function FooterEmailSignup() {
           utm_campaign: params.get("utm_campaign"),
           user_agent: navigator.userAgent.slice(0, 250),
         }),
-      }).catch(() => {});
-
+      });
+      if (!res.ok) throw new Error("server error");
       setStatus("success");
       setMessage("Thanks! Check your inbox for your 10% off code.");
       track("email_signup", { method: "footer" });

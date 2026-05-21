@@ -100,7 +100,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
 
         // MailerLite — adds subscriber to "Website Leads" group, triggers automation
         try {
-          const mlApiKey = process.env.MAILERLITE_API_KEY
+          const mlApiKey = process.env.MAILERLITE_API_KEY ?? process.env.VITE_MAILERLITE_API_KEY
           if (mlApiKey) {
             await fetch('https://connect.mailerlite.com/api/subscribers', {
               method: 'POST',
@@ -118,10 +118,3 @@ export const Route = createFileRoute('/api/public/discount-signup')({
   },
 })
 
-async function sha256Hex(input: string): Promise<string> {
-  const data = new TextEncoder().encode(input.toLowerCase())
-  const hash = await crypto.subtle.digest('SHA-256', data)
-  return Array.from(new Uint8Array(hash))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('')
-}
