@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
+import { sendLovableEmail } from '@lovable.dev/email-js'
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
@@ -52,12 +53,14 @@ export const Route = createFileRoute('/api/public/discount-signup')({
 
         const discountCode = genDiscountCode()
 
-        // Supabase — best-effort, never blocks the response
+        // Send welcome email — try direct send first, fall back to queue
         try {
           const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-          if (serviceKey) {
-            const supabase = createClient(SUPABASE_URL, serviceKey)
+          const lovableApiKey = process.env.LOVABLE_API_KEY
+          const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
 
+          // Log lead (best-effort, ignore duplicate errors)
+          if (supabase) {
             await supabase.from('email_leads').insert({
               email: data.email,
               source: data.source ?? null,
@@ -67,14 +70,20 @@ export const Route = createFileRoute('/api/public/discount-signup')({
               user_agent: data.user_agent ?? null,
               discount_code: discountCode,
             })
+          }
 
-            const { data: suppressed } = await supabase
-              .from('suppressed_emails').select('email').eq('email', data.email).maybeSingle()
+          // Check suppression list
+          const suppressed = supabase
+            ? (await supabase.from('suppressed_emails').select('email').eq('email', data.email).maybeSingle()).data
+            : null
 
-            if (!suppressed) {
+          if (!suppressed) {
+            // Get or create unsubscribe token
+            let unsubscribeToken = ''
+            if (supabase) {
               const { data: existing } = await supabase
                 .from('email_unsubscribe_tokens').select('token, used_at').eq('email', data.email).maybeSingle()
-              let unsubscribeToken = existing?.token
+              unsubscribeToken = existing?.token ?? ''
               if (!unsubscribeToken || existing?.used_at) {
                 unsubscribeToken = genToken()
                 await supabase.from('email_unsubscribe_tokens').upsert(
@@ -82,14 +91,43 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                   { onConflict: 'email' },
                 )
               }
+            }
 
-              const template = TEMPLATES['welcome-discount']
-              const element = React.createElement(template.component, { code: discountCode })
-              const html = await render(element)
-              const plainText = await render(element, { plainText: true })
-              const subject = typeof template.subject === 'function'
-                ? template.subject({ code: discountCode }) : template.subject
-              const messageId = crypto.randomUUID()
+            const template = TEMPLATES['welcome-discount']
+            const element = React.createElement(template.component, { code: discountCode })
+            const html = await render(element)
+            const plainText = await render(element, { plainText: true })
+            const subject = typeof template.subject === 'function'
+              ? template.subject({ code: discountCode }) : template.subject
+            const messageId = crypto.randomUUID()
+            const idempotencyKey = `welcome-discount-${data.email}`
+
+            if (lovableApiKey) {
+              // Direct send — no queue, no cron needed
+              await sendLovableEmail(
+                {
+                  to: data.email,
+                  from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                  sender_domain: SENDER_DOMAIN,
+                  subject,
+                  html,
+                  text: plainText,
+                  purpose: 'transactional',
+                  label: 'welcome-discount',
+                  idempotency_key: idempotencyKey,
+                  unsubscribe_token: unsubscribeToken,
+                  message_id: messageId,
+                },
+                { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+              )
+              if (supabase) {
+                await supabase.from('email_send_log').insert({
+                  message_id: messageId, template_name: 'welcome-discount',
+                  recipient_email: data.email, status: 'sent',
+                })
+              }
+            } else if (supabase) {
+              // Fall back to queue (requires cron to process)
               await supabase.from('email_send_log').insert({
                 message_id: messageId, template_name: 'welcome-discount',
                 recipient_email: data.email, status: 'pending',
@@ -101,14 +139,16 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                   from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
                   sender_domain: SENDER_DOMAIN, subject, html, text: plainText,
                   purpose: 'transactional', label: 'welcome-discount',
-                  idempotency_key: `welcome-discount-${data.email}`,
+                  idempotency_key: idempotencyKey,
                   unsubscribe_token: unsubscribeToken, queued_at: new Date().toISOString(),
                 },
               })
+            } else {
+              console.error('No email path available: LOVABLE_API_KEY and SUPABASE_SERVICE_ROLE_KEY are both missing')
             }
           }
         } catch (err) {
-          console.error('supabase ops failed', err)
+          console.error('email send failed', err)
         }
 
         // MailerLite — adds subscriber to "Website Leads" group, triggers automation.
