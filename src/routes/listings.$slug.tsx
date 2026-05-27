@@ -1,11 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState, useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
 import { properties, BOOK_DIRECT_URL, HOSPITABLE_INQUIRY_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
 import { guides } from "@/data/guides";
-import { Bath, BedDouble, Users, Star, MapPin, X, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
+import { Bath, BedDouble, Users, Star, MapPin, BookOpen } from "lucide-react";
+import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { getListingPricing, getListingReviews, getListingAvailability, type Pricing, type ReviewItem, type CalendarDay } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
@@ -184,36 +185,9 @@ function guideForProperty(location: string) {
 
 function ListingPage() {
   const { property: p, pricing, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
-  const [lightbox, setLightbox] = useState<number | null>(null);
-
   useEffect(() => {
     track("listing_view", { property: p.slug, location: p.location });
   }, [p.slug, p.location]);
-
-  const close = useCallback(() => setLightbox(null), []);
-  const next = useCallback(
-    () => setLightbox((i) => (i === null ? null : (i + 1) % p.images.length)),
-    [p.images.length],
-  );
-  const prev = useCallback(
-    () => setLightbox((i) => (i === null ? null : (i - 1 + p.images.length) % p.images.length)),
-    [p.images.length],
-  );
-
-  useEffect(() => {
-    if (lightbox === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [lightbox, close, next, prev]);
 
   const related = properties.filter((x) => x.slug !== p.slug).slice(0, 3);
 
@@ -261,33 +235,9 @@ function ListingPage() {
         </div>
       </div>
 
-      {/* PHOTO GRID */}
+      {/* PHOTO GALLERY */}
       <section className="mx-auto max-w-7xl px-6 pt-8 lg:px-10">
-        <div className="grid grid-cols-4 grid-rows-2 gap-2 overflow-hidden rounded-md sm:gap-3" style={{ aspectRatio: "16/9" }}>
-          {p.images.slice(0, 5).map((src, i) => (
-            <button
-              key={i}
-              onClick={() => setLightbox(i)}
-              className={`group relative overflow-hidden ${i === 0 ? "col-span-4 row-span-2 sm:col-span-2" : "col-span-2 sm:col-span-1"}`}
-              aria-label={`Open photo ${i + 1}`}
-            >
-              <img
-                src={src}
-                alt={p.imageAlts[i] ?? `${p.alt} — photo ${i + 1}`}
-                loading={i === 0 ? "eager" : "lazy"}
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-              />
-            </button>
-          ))}
-        </div>
-        <div className="mt-3 flex items-center justify-end">
-          <button
-            onClick={() => setLightbox(0)}
-            className="rounded-sm border border-[var(--color-deep)] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
-          >
-            Show all {p.images.length} photos
-          </button>
-        </div>
+        <PropertyGallery images={p.images} alts={p.imageAlts} propertyAlt={p.alt} />
       </section>
 
       {/* BODY */}
@@ -482,29 +432,6 @@ function ListingPage() {
           Call
         </a>
       </div>
-
-      {/* LIGHTBOX */}
-      {lightbox !== null && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95" role="dialog" aria-modal="true">
-          <button onClick={close} className="absolute right-5 top-5 text-white" aria-label="Close gallery">
-            <X className="size-7" />
-          </button>
-          <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20" aria-label="Previous photo">
-            <ChevronLeft className="size-6" />
-          </button>
-          <img
-            src={p.images[lightbox]}
-            alt={p.imageAlts[lightbox] ?? `${p.alt} — photo ${lightbox + 1}`}
-            className="max-h-[88vh] max-w-[92vw] object-contain"
-          />
-          <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20" aria-label="Next photo">
-            <ChevronRight className="size-6" />
-          </button>
-          <p className="absolute bottom-5 left-1/2 -translate-x-1/2 text-xs uppercase tracking-[0.25em] text-white/70">
-            {lightbox + 1} / {p.images.length}
-          </p>
-        </div>
-      )}
 
       <BookDirectFooter />
     </Layout>
