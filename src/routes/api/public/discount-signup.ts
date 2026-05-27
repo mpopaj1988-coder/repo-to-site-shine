@@ -115,9 +115,10 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         // __MAILERLITE_API_KEY__ is replaced at build time by vite.config.ts define(),
         // so it's baked into the Worker bundle without needing a runtime env var.
         try {
-          const mlApiKey = process.env.MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
+          const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
+          if (!mlApiKey) console.error('MailerLite API key missing — subscriber not added')
           if (mlApiKey) {
-            await fetch('https://connect.mailerlite.com/api/subscribers', {
+            const mlRes = await fetch('https://connect.mailerlite.com/api/subscribers', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` },
               body: JSON.stringify({
@@ -128,6 +129,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                 fields: { discount_code: discountCode },
               }),
             })
+            if (!mlRes.ok) console.error('MailerLite error', mlRes.status, await mlRes.text())
           }
         } catch (err) {
           console.error('mailerlite sync failed', err)
