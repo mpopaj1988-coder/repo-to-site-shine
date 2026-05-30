@@ -79,18 +79,18 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
 
   // ===================== LARGO =====================
   largo: [
-    { file: "01.jpg", alt: "Heated pool with cascading waterfall in resort-style backyard at Largo vacation home" },
-    { file: "02.jpg", alt: "Lit gazebo and Adirondack fire pit circle at twilight at Largo pool rental" },
-    { file: "08.jpg", alt: "Heated pool with pink flamingo float at dusk at Largo family home" },
-    { file: "06.jpg", alt: "Lit gazebo with bistro dining and string lights at Largo rental near Indian Rocks Beach" },
-    { file: "03.jpg", alt: "Covered outdoor living room with sectional, dining and pool view at Largo home" },
-    { file: "12.jpg", alt: "Covered patio with blue-cushioned seating and pool view at Largo vacation rental" },
-    { file: "04.jpg", alt: "Spacious covered lanai with sofa and TV at Largo 3-bedroom pool home" },
-    { file: "07.jpg", alt: "Quartz-island chef kitchen with double oven at Largo vacation rental" },
-    { file: "05.jpg", alt: "Open-plan dining with seating for eight at Largo group rental" },
-    { file: "09.jpg", alt: "Elegant dining table set for charcuterie at Largo vacation home" },
-    { file: "14.jpg", alt: "Bunk room with bunks and trundle for kids at Largo family rental" },
-    { file: "10.jpg", alt: "Bright kitchen and breakfast bar at Largo family vacation home" },
+    { file: "02.jpg", alt: "Fire pit with red Adirondack chairs, lit gazebo and glowing pool at twilight at Largo rental" },
+    { file: "10.jpg", alt: "Pink flamingo float in glowing pool at dusk with palm tree at Largo vacation home" },
+    { file: "01.jpg", alt: "Heated pool with cascading waterfall feature and tropical palms at Largo vacation home" },
+    { file: "06.jpg", alt: "Gazebo breakfast table with string lights, croissants and fresh juice at Largo rental" },
+    { file: "03.jpg", alt: "Covered lanai with coastal sectional and pool view through sliding door at Largo home" },
+    { file: "07.jpg", alt: "Chef kitchen island with croissant breakfast spread and quartz counters at Largo rental" },
+    { file: "09.jpg", alt: "Open dining and living area with charcuterie, wine and coastal art at Largo vacation home" },
+    { file: "08.jpg", alt: "Candlelit dining table with wine, flowers and cozy living room at Largo family rental" },
+    { file: "04.jpg", alt: "Open living room with large sectional sofas and smart TV at Largo 3-bedroom home" },
+    { file: "14.jpg", alt: "King bedroom with navy velvet headboard and gold frame at Largo vacation rental" },
+    { file: "12.jpg", alt: "Designer kitchen with gray cabinetry, quartz island and rattan stools at Largo home" },
+    { file: "05.jpg", alt: "Covered outdoor patio with blue lounge seating and pool access at Largo rental" },
   ],
 
   // ===================== IRB-A =====================
