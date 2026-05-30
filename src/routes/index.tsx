@@ -7,6 +7,7 @@ import { RealReviews } from "@/components/site/RealReviews";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { getPublishedPosts } from "@/lib/blog";
 import { track } from "@/lib/analytics";
+import heroBeach from "@/assets/hero-beach.jpg";
 import heroLargo from "@/assets/hero-largo.jpg";
 import heroIrb from "@/assets/hero-irb.jpg";
 import heroStpete from "@/assets/hero-stpete.jpg";
@@ -75,6 +76,7 @@ export const Route = createFileRoute("/")({
 });
 
 const heroSlides = [
+  { img: heroBeach, label: "Indian Rocks Beach, FL", caption: "Gulf Sunsets · Steps from the Sand" },
   { img: heroIrb, label: "Indian Rocks Beach, FL", caption: "Steps from the Gulf · Hot Tub" },
   { img: heroStpete, label: "St. Petersburg, FL", caption: "Downtown Retreat · Hot Tub Garden" },
   { img: heroLargo, label: "St. Petersburg, FL", caption: "Luxury 2BR Apartment · Downtown" },
