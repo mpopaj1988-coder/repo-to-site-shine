@@ -8,7 +8,6 @@
 // Idempotent: post_checkout_log (UNIQUE on reservation_id) prevents re-sends.
 
 const HOSPITABLE_BASE = "https://public.api.hospitable.com/v2";
-const SITE_BASE = "https://www.seaandcityrentals.com";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -74,13 +73,12 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   return res.ok;
 }
 
-function checkoutMessage(firstName: string, propertyTitle: string, propertySlug: string): string {
-  const directLink = `${SITE_BASE}/listings/${propertySlug}`;
+function checkoutMessage(firstName: string, propertyTitle: string, airbnbUrl: string): string {
   return (
     `Hi ${firstName}! 🌊 Thank you so much for staying with us — it was truly a pleasure hosting you at ${propertyTitle}!\n\n` +
     `I've already left you a 5-star review, and it would mean a lot if you could take a moment to leave one for us too. ` +
     `Reviews give us visibility on the booking platform and help us keep welcoming wonderful guests like you! 🙏\n\n` +
-    `If you ever want to come back, you can also book directly at ${directLink} — direct guests always get our personal attention and best available rates.\n\n` +
+    `If you'd ever like to come back, here's the listing: ${airbnbUrl}\n\n` +
     `Hope to see you again soon!\n\n` +
     `— Nella`
   );
@@ -89,7 +87,7 @@ function checkoutMessage(firstName: string, propertyTitle: string, propertySlug:
 // ── Main export ───────────────────────────────────────────────────────────────
 
 export async function processPostCheckoutMessages(
-  properties: Array<{ slug: string; hospitableId: string; title: string }>,
+  properties: Array<{ slug: string; hospitableId: string; title: string; airbnbUrl: string }>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabaseAdmin: any,
   options: { dryRun?: boolean } = {},
@@ -141,7 +139,7 @@ export async function processPostCheckoutMessages(
       if (!options.dryRun) {
         try {
           const firstName = reservation.guest?.first_name || "there";
-          const msg = checkoutMessage(firstName, property.title, property.slug);
+          const msg = checkoutMessage(firstName, property.title, property.airbnbUrl);
           result.sent = await sendMessage(reservation.id, msg, apiKey);
         } catch (err) {
           console.error(`[post-checkout] send error ${reservation.id}:`, err);

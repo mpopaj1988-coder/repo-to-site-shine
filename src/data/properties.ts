@@ -36,6 +36,7 @@ export type Category = "Beach" | "City" | "Large Groups";
 export type Property = {
   slug: string;
   hospitableId?: string;
+  airbnbUrl?: string;
   lat?: number;
   lng?: number;
   image: string;
@@ -64,6 +65,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "tampa",
     hospitableId: "0024b4b4-526d-4103-adf4-78665e48fe7d",
+    airbnbUrl: "https://www.airbnb.com/rooms/1583296551133303414",
     lat: 27.98832102, lng: -82.5822876,
     alt: "Tampa Florida waterfront luxury 6-bedroom home with heated pool and private dock",
     location: "Tampa, FL",
@@ -87,6 +89,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "largo",
     hospitableId: "eb384a9c-3877-4628-ae9b-f4f0d39ed132",
+    airbnbUrl: "https://www.airbnb.com/rooms/50323601",
     lat: 27.87888145, lng: -82.82595825,
     alt: "Largo Florida designer pool home with gazebo, fire pit and covered patio near Indian Rocks Beach",
     location: "Largo, FL",
@@ -109,6 +112,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "irb-b",
     hospitableId: "9aebd9d3-14e5-4dce-a80f-d8fb22c2f15a",
+    airbnbUrl: "https://www.airbnb.com/rooms/1205753692890892812",
     lat: 27.90795729, lng: -82.84534257,
     alt: "Indian Rocks Beach Florida 2-bedroom coastal vacation home with private hot tub",
     location: "Indian Rocks Beach, FL",
@@ -131,6 +135,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "clearwater",
     hospitableId: "ed98cca4-b91c-4dc0-9883-397a7dfb38b2",
+    airbnbUrl: "https://www.airbnb.com/rooms/43372143",
     lat: 27.97304916, lng: -82.78588867,
     alt: "Clearwater Florida 4-bedroom family pool home with fenced yard and fire pit",
     location: "Clearwater, FL",
@@ -154,6 +159,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "irb-a",
     hospitableId: "c95444d7-c292-48e8-a124-921f2322d1f6",
+    airbnbUrl: "https://www.airbnb.com/rooms/1299344547038307200",
     lat: 27.9079573, lng: -82.8453425,
     alt: "Indian Rocks Beach Florida vacation rental with deck at sunset, hot tub and Gulf views",
     location: "Indian Rocks Beach, FL",
@@ -176,6 +182,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "stpete-sunsoaked",
     hospitableId: "a47c8440-1ab4-4619-981d-cb2dfb682304",
+    airbnbUrl: "https://www.airbnb.com/rooms/1059505409560170081",
     lat: 27.78670054, lng: -82.6392708,
     alt: "St Petersburg Florida sun-soaked designer 2-bedroom condo near downtown",
     location: "St. Petersburg, FL",
@@ -198,6 +205,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "stpete-modern",
     hospitableId: "a6a553e4-e627-4431-a41a-36e62a267ba6",
+    airbnbUrl: "https://www.airbnb.com/rooms/1059509222873395071",
     lat: 27.78670054, lng: -82.6392708,
     alt: "St Petersburg Florida modern 1-bedroom designer retreat with private balcony",
     location: "St. Petersburg, FL",
@@ -220,6 +228,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "stpete-hottub",
     hospitableId: "a581de1a-6c11-46ea-b8ce-73183ad2dd4e",
+    airbnbUrl: "https://www.airbnb.com/rooms/1228914910120020931",
     lat: 27.78652257, lng: -82.63916485,
     alt: "St Petersburg Florida vacation rental with private outdoor hot tub and bamboo garden",
     location: "St. Petersburg, FL",
@@ -242,6 +251,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "stpete-patio",
     hospitableId: "865c1555-746e-4496-8b2c-20f45659d020",
+    airbnbUrl: "https://www.airbnb.com/rooms/1533433121539399451",
     lat: 27.7867277, lng: -82.6393307,
     alt: "St Petersburg Florida 1-bedroom rental with bold art, game room and open plan living",
     location: "St. Petersburg, FL",
