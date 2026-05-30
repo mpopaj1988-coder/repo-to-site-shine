@@ -31,8 +31,18 @@ export function EmailCaptureModal() {
     setMessage("");
     try {
       const normalizedEmail = email.trim().toLowerCase();
+
+      // Submit directly to MailerLite form endpoint — triggers automation properly
+      const formData = new FormData();
+      formData.append("fields[email]", normalizedEmail);
+      await fetch(
+        "https://assets.mailerlite.com/jsonp/2353166/forms/188851104776193043/subscribe",
+        { method: "POST", body: formData },
+      );
+
+      // Best-effort server call for Supabase lead logging
       const params = new URLSearchParams(window.location.search);
-      const res = await fetch("/api/public/discount-signup", {
+      fetch("/api/public/discount-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -43,8 +53,8 @@ export function EmailCaptureModal() {
           utm_campaign: params.get("utm_campaign"),
           user_agent: navigator.userAgent.slice(0, 250),
         }),
-      });
-      if (!res.ok) throw new Error("server error");
+      }).catch(() => {});
+
       setStatus("success");
       setMessage("Thanks! Check your inbox — we just sent your DIRECT10 code for 10% off any direct booking.");
       try {
