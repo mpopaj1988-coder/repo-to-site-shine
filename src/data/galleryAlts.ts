@@ -90,10 +90,22 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
   // ===================== IRB-A =====================
   "irb-a": [
     { file: "01.jpg", alt: "Private hot tub with neon The Perfect Place sign, champagne, candles and flower wall at Indian Rocks Beach rental" },
+    { file: "IMG_3214.jpeg", alt: "Open-plan dining and kitchen with blue toile chairs, lotus chandelier, marble backsplash and coastal living room at IRB beach house" },
+    { file: "IMG_3211.jpeg", alt: "Bright coastal living room with white rattan TV cabinet, beach art and fresh pink hydrangeas at Indian Rocks Beach rental" },
+    { file: "IMG_3205.jpeg", alt: "Dining area with gold lotus chandelier, blue toile chairs and white kitchen with marble backsplash at IRB vacation home" },
+    { file: "IMG_3219.jpeg", alt: "Entry view into white kitchen with brass pendants, stainless appliances and coastal living room at Indian Rocks Beach rental" },
+    { file: "AAF38287-D5E4-4FF6-9BA5-ADDD91281130.png", alt: "Primary bedroom with wood headboard, mirrored wardrobe and tropical window light at Indian Rocks Beach vacation home" },
+    { file: "C7C224BA-FC54-4A48-95D3-A4A5423BF343.png", alt: "Second bedroom with wood headboard, blue accent bedding and tropical natural light at IRB beach house" },
+    { file: "IMG_3207.jpeg", alt: "Luxury bathroom with navy blue tile walls, gold fixtures, marble vanity and glass walk-in shower at Indian Rocks Beach rental" },
+    { file: "IMG_3215.jpeg", alt: "Spa bathroom with white marble vanity, round mirror, gold sconce, glass shower and fresh flowers at IRB vacation home" },
+    { file: "D6E0639F-15A2-4D1F-B007-BB945C0F2190.png", alt: "LOVE wall with red rose letters, swing chair, hanging vines and lanterns at Indian Rocks Beach rental" },
+    { file: "IMG_3218.jpeg", alt: "Private hot tub with neon The Perfect Place sign surrounded by pink bougainvillea at Indian Rocks Beach rental" },
+    { file: "AD8DF012-611A-48A4-8465-CE12427AB071.png", alt: "Coastal living room with light blue sectional, white rattan media cabinet and beach art at IRB beach house" },
     { file: "04.jpg", alt: "Sunset over the boardwalk to Indian Rocks Beach with Please Leave Nothing But Footprints sign and string lights" },
-    { file: "11.jpg", alt: "Bright modern living room with cloud sectional, built-in TV wall, green drapes and balcony door at IRB beach house" },
-    { file: "06.jpg", alt: "White kitchen with marble island, brass pendants and coastal dining area at IRB beach house" },
-    { file: "12.jpg", alt: "Open living and dining with blue sofas and kitchen view at Indian Rocks Beach vacation home" },
+    { file: "06.jpg", alt: "White kitchen with marble counters, brass pendants and blue toile dining area at Indian Rocks Beach rental" },
+    { file: "11.jpg", alt: "Modern living room with oversized sectional, built-in TV wall and natural light at IRB beach house" },
+    { file: "12.jpg", alt: "Open living and dining area with coastal art and kitchen view at Indian Rocks Beach vacation home" },
+    { file: "F2CA30AB-7AC0-488C-A950-F6B0DF50CD03.png", alt: "Sunset deck with grill, cocktails, food and string lights at Indian Rocks Beach rental" },
   ],
 
   // ===================== IRB-B =====================
