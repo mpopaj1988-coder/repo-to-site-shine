@@ -128,13 +128,12 @@ async function fetchDayPrice(
   return typeof amt === "number" ? Math.round(amt / 100) : null;
 }
 
-// Hospitable messaging goes through the conversation attached to the reservation.
 async function sendMessage(
-  conversationId: string,
+  reservationId: string,
   body: string,
   apiKey: string,
 ): Promise<boolean> {
-  const url = `${HOSPITABLE_BASE}/conversations/${conversationId}/messages`;
+  const url = `${HOSPITABLE_BASE}/reservations/${reservationId}/messages`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
@@ -146,7 +145,7 @@ async function sendMessage(
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[orphan-upsell] sendMessage ${conversationId} ${res.status}:`, text.slice(0, 200));
+    console.error(`[orphan-upsell] sendMessage ${reservationId} ${res.status}:`, text.slice(0, 200));
   }
   return res.ok;
 }
@@ -301,7 +300,7 @@ export async function processOrphanDayUpsells(
           try {
             const name = outgoing.guest?.first_name || "there";
             const msg = outgoingMessage(name, orphanDate, regularPrice, discountedPrice);
-            result.outgoingSent = await sendMessage(outgoing.conversation_id, msg, apiKey);
+            result.outgoingSent = await sendMessage(outgoing.id, msg, apiKey);
           } catch (err) {
             console.error(`[orphan-upsell] outgoing send error ${outgoing.id}:`, err);
           }
@@ -312,7 +311,7 @@ export async function processOrphanDayUpsells(
           try {
             const name = incoming.guest?.first_name || "there";
             const msg = incomingMessage(name, orphanDate, regularPrice, discountedPrice);
-            result.incomingSent = await sendMessage(incoming.conversation_id, msg, apiKey);
+            result.incomingSent = await sendMessage(incoming.id, msg, apiKey);
           } catch (err) {
             console.error(`[orphan-upsell] incoming send error ${incoming.id}:`, err);
           }

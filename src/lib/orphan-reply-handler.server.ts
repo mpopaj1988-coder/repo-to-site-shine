@@ -40,7 +40,6 @@ interface PendingRow {
 
 interface ReservationDetail {
   id: string;
-  conversation_id: string;
   platform: string; // "airbnb" | "vrbo" | "direct" | "manual" | ...
   arrival_date: string;
   departure_date: string;
@@ -66,9 +65,9 @@ async function getReservation(id: string, apiKey: string): Promise<ReservationDe
   return json.data ?? null;
 }
 
-async function getMessages(conversationId: string, apiKey: string): Promise<HospitableMessage[]> {
+async function getMessages(reservationId: string, apiKey: string): Promise<HospitableMessage[]> {
   const res = await fetch(
-    `${HOSPITABLE_BASE}/conversations/${conversationId}/messages?per_page=50&sort=created_at`,
+    `${HOSPITABLE_BASE}/reservations/${reservationId}/messages?per_page=50`,
     { headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" } },
   );
   if (!res.ok) return [];
@@ -86,8 +85,8 @@ function hasYesReply(messages: HospitableMessage[], sentAt: string): boolean {
   );
 }
 
-async function sendMessage(conversationId: string, body: string, apiKey: string): Promise<boolean> {
-  const res = await fetch(`${HOSPITABLE_BASE}/conversations/${conversationId}/messages`, {
+async function sendMessage(reservationId: string, body: string, apiKey: string): Promise<boolean> {
+  const res = await fetch(`${HOSPITABLE_BASE}/reservations/${reservationId}/messages`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -243,7 +242,7 @@ export async function processUpsellReplies(
       if (row.outgoing_sent && !row.outgoing_alteration_handled) {
         const reservation = await getReservation(row.outgoing_reservation_id, apiKey);
         if (reservation) {
-          const messages = await getMessages(reservation.conversation_id, apiKey);
+          const messages = await getMessages(reservation.id, apiKey);
           const yesFound = hasYesReply(messages, row.created_at);
           result.outgoing.yesFound = yesFound;
 
@@ -260,7 +259,7 @@ export async function processUpsellReplies(
               apiKey,
             );
             await sendMessage(
-              reservation.conversation_id,
+              reservation.id,
               confirmationMessage(firstName, row.orphan_date, "outgoing"),
               apiKey,
             );
@@ -273,7 +272,7 @@ export async function processUpsellReplies(
       if (row.incoming_sent && !row.incoming_alteration_handled) {
         const reservation = await getReservation(row.incoming_reservation_id, apiKey);
         if (reservation) {
-          const messages = await getMessages(reservation.conversation_id, apiKey);
+          const messages = await getMessages(reservation.id, apiKey);
           const yesFound = hasYesReply(messages, row.created_at);
           result.incoming.yesFound = yesFound;
 
@@ -289,7 +288,7 @@ export async function processUpsellReplies(
               apiKey,
             );
             await sendMessage(
-              reservation.conversation_id,
+              reservation.id,
               confirmationMessage(firstName, row.orphan_date, "incoming"),
               apiKey,
             );
