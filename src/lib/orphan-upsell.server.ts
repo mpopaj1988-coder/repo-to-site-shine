@@ -185,7 +185,7 @@ function outgoingMessage(
     greeting(firstName, currentlyStaying, "🌊") +
     `We noticed the night right after your checkout — ${fmtDate(orphanDate)} — is still open. ` +
     `Would you like to extend by one more night?${priceNote(regularPrice, discountedPrice, "that extra night")}\n\n` +
-    `Reply **YES** if you'd like it, or simply ignore this message if not — no worries either way! 😊\n\n` +
+    `Reply **YES** if you'd like it — or if you'd prefer to keep your reservation exactly as is, no need to reply at all! 😊\n\n` +
     `— Nella`
   );
 }
@@ -200,7 +200,7 @@ function incomingMessage(
     `Hi ${firstName}! 🌴 We're so looking forward to welcoming you!\n\n` +
     `Great news — the night right before your arrival, ${fmtDate(orphanDate)}, is available. ` +
     `Would you like to check in a day early?${priceNote(regularPrice, discountedPrice, "that early night")}\n\n` +
-    `Reply **YES** if you'd like it, or simply ignore this message if not — no worries either way! 🏖️\n\n` +
+    `Reply **YES** if you'd like it — or if you'd prefer to keep your reservation exactly as is, no need to reply at all! 🏖️\n\n` +
     `— Nella`
   );
 }
@@ -228,7 +228,7 @@ function combinedMessage(
     `• **Check in a day early** — ${fmtDate(earlyDate)} is available${earlyPriceNote}\n` +
     `• **Stay an extra night** — ${fmtDate(lateDate)} is open after your checkout${latePriceNote}\n\n` +
     `Feel free to take one or both! Reply **YES (early)**, **YES (late)**, or **YES (both)** and we'll take care of the rest. ` +
-    `Or simply ignore this if the timing doesn't work — no worries either way! 🏖️\n\n` +
+    `Or if you'd prefer to keep your reservation exactly as is, no need to reply — your booking stays unchanged! 🏖️\n\n` +
     `— Nella`
   );
 }
