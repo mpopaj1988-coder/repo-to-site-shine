@@ -4,7 +4,7 @@
 // personalised offer to fill it at a 20% discount.
 
 const HOSPITABLE_BASE = "https://public.api.hospitable.com/v2";
-const DISCOUNT_PCT = 20;
+const DISCOUNT_PCT = 35;
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -161,14 +161,13 @@ function outgoingMessage(
   const dateLabel = fmtDate(orphanDate);
   const priceClause =
     regularPrice !== null && discountedPrice !== null
-      ? ` We can offer that extra night at $${discountedPrice} — a 20% discount off our regular rate of $${regularPrice}.`
+      ? ` We can offer that extra night at $${discountedPrice} — a 35% discount off our regular rate of $${regularPrice}.`
       : " We'd be happy to offer you a special discounted rate for that extra night.";
 
   return (
     `Hi ${firstName}! 🌊 Hope your stay is going wonderfully!\n\n` +
     `We noticed the night right after your checkout — ${dateLabel} — is still open. ` +
-    `Would you like to extend by one more night?${priceClause}\n\n` +
-    `Just reply **YES** and we'll send you an alteration request through the platform you booked on — accept it and you're all set! 😊\n\n` +
+    `Would you like to extend by one more night?${priceClause} If not, no worries at all — just ignore this message! 😊\n\n` +
     `— Sea & City Rentals`
   );
 }
@@ -182,14 +181,13 @@ function incomingMessage(
   const dateLabel = fmtDate(orphanDate);
   const priceClause =
     regularPrice !== null && discountedPrice !== null
-      ? ` We can offer that early night at $${discountedPrice} — a 20% discount off our regular rate of $${regularPrice}.`
+      ? ` We can offer that early night at $${discountedPrice} — a 35% discount off our regular rate of $${regularPrice}.`
       : " We'd be happy to offer you a special discounted rate for that night.";
 
   return (
     `Hi ${firstName}! 🌴 We're so looking forward to welcoming you!\n\n` +
     `Great news — the night right before your arrival, ${dateLabel}, is available. ` +
-    `Would you like to check in a day early?${priceClause}\n\n` +
-    `Just reply **YES** and we'll send you an alteration request through the platform you booked on — accept it and you're all set! 🏖️\n\n` +
+    `Would you like to check in a day early?${priceClause} If not, no worries at all — just ignore this message! 🏖️\n\n` +
     `— Sea & City Rentals`
   );
 }
