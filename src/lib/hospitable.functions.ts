@@ -208,17 +208,18 @@ async function fetchAvailability(id: string, apiKey: string): Promise<CalendarDa
     data?: {
       days?: Array<{
         date?: string;
-        availability?: { available?: boolean; min_nights?: number };
+        min_stay?: number;
+        status?: { available?: boolean };
         price?: { amount?: number; currency?: string };
       }>;
     };
   };
   return (json.data?.days ?? []).map((d) => ({
     date: (d.date ?? "").slice(0, 10),
-    available: d.availability?.available ?? false,
+    available: d.status?.available ?? false,
     price: typeof d.price?.amount === "number" ? d.price.amount / 100 : null,
     currency: d.price?.currency ?? "USD",
-    minNights: d.availability?.min_nights ?? null,
+    minNights: d.min_stay ?? null,
   }));
 }
 
