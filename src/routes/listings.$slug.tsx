@@ -37,6 +37,7 @@ export const Route = createFileRoute("/listings/$slug")({
     const title = `${p.title} — ${p.location} | Sea & City Rentals`;
     const desc = `${p.tagline} ${p.description}`.slice(0, 158);
     const url = `${SITE_URL}/listings/${p.slug}`;
+    const ogImage = p.image?.startsWith("http") ? p.image : `${SITE_URL}${p.image ?? ""}`;
     const validUntil = new Date();
     validUntil.setFullYear(validUntil.getFullYear() + 1);
     const priceValidUntil = validUntil.toISOString().slice(0, 10);
@@ -125,13 +126,12 @@ export const Route = createFileRoute("/listings/$slug")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        { property: "og:image", content: p.image },
+        { property: "og:image", content: ogImage },
         { property: "og:url", content: url },
-        { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: desc },
-        { name: "twitter:image", content: p.image },
+        { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
@@ -189,7 +189,15 @@ function ListingPage() {
     track("listing_view", { property: p.slug, location: p.location });
   }, [p.slug, p.location]);
 
-  const related = properties.filter((x) => x.slug !== p.slug).slice(0, 3);
+  const related = properties
+    .filter((x) => x.slug !== p.slug)
+    .sort((a, b) => {
+      const score = (x: typeof a) =>
+        (x.categories.some((c) => p.categories.includes(c)) ? 2 : 0) +
+        (x.location === p.location ? 1 : 0);
+      return score(b) - score(a);
+    })
+    .slice(0, 3);
 
   return (
     <Layout>
@@ -323,7 +331,7 @@ function ListingPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href={HOSPITABLE_INQUIRY_URL}
+                href={p.href || HOSPITABLE_INQUIRY_URL}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => track("inquiry_click", { surface: "listing_inquire_check", property: p.slug })}
@@ -333,7 +341,7 @@ function ListingPage() {
                 Check availability
               </a>
               <a
-                href={HOSPITABLE_INQUIRY_URL}
+                href={p.href || HOSPITABLE_INQUIRY_URL}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => track("inquiry_click", { surface: "listing_inquire_send", property: p.slug })}
@@ -372,9 +380,9 @@ function ListingPage() {
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={HOSPITABLE_INQUIRY_URL} calendar={availability} propertySlug={p.slug} />
+            <AvailabilityChecker bookingUrl={p.href || HOSPITABLE_INQUIRY_URL} calendar={availability} propertySlug={p.slug} />
             <a
-              href={HOSPITABLE_INQUIRY_URL}
+              href={p.href || HOSPITABLE_INQUIRY_URL}
               target="_blank"
               rel="noreferrer"
               onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
@@ -414,7 +422,7 @@ function ListingPage() {
       {/* MOBILE CTA BAR */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-border bg-white p-3 shadow-lg lg:hidden">
         <a
-          href={HOSPITABLE_INQUIRY_URL}
+          href={p.href || HOSPITABLE_INQUIRY_URL}
           target="_blank"
           rel="noreferrer"
           onClick={() => track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })}

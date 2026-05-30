@@ -12,7 +12,7 @@ export function EmailCaptureModal() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const seen = localStorage.getItem(STORAGE_KEY);
-    if (seen) return;
+    if (seen && Date.now() - parseInt(seen) < 30 * 24 * 60 * 60 * 1000) return;
     const t = setTimeout(() => setOpen(true), 12000);
     return () => clearTimeout(t);
   }, []);
@@ -56,7 +56,7 @@ export function EmailCaptureModal() {
       }).catch(() => {});
 
       setStatus("success");
-      setMessage("Thanks! Check your inbox — we just sent your DIRECT10 code for 10% off any direct booking.");
+      setMessage("Thanks! Check your inbox — your exclusive 10%-off code is on its way.");
       try {
         localStorage.setItem(STORAGE_KEY, String(Date.now()));
         track("email_signup", { method: "modal" });

@@ -92,3 +92,9 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 export function getAllPostSlugsForSitemap(): string[] {
   return ALL_POSTS.filter((p) => isPublished(p)).map((p) => p.slug);
 }
+
+export function getPublishedPostsForSitemap(): { slug: string; publishDate: string }[] {
+  return ALL_POSTS
+    .filter((p) => isPublished(p))
+    .map(({ slug, publishDate }) => ({ slug, publishDate }));
+}

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { BOOK_DIRECT_URL } from "@/data/properties";
+import { BOOK_DIRECT_URL, PHONE } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 const links = [
@@ -61,6 +61,12 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
               {l.label}
             </Link>
           ))}
+          <a
+            href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
+            className={`hidden xl:block ${linkClass}`}
+          >
+            {PHONE}
+          </a>
           <a
             href={BOOK_DIRECT_URL}
             target="_blank"

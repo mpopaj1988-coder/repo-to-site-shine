@@ -93,6 +93,10 @@ function Index() {
   const { pricingMap } = Route.useLoaderData();
   const [active, setActive] = useState<(typeof categories)[number]>("All");
   const [slide, setSlide] = useState(0);
+
+  const reviewedProps = properties.filter((x) => x.reviews > 0);
+  const totalReviews = reviewedProps.reduce((s, x) => s + x.reviews, 0);
+  const avgRating = (reviewedProps.reduce((s, x) => s + x.rating * x.reviews, 0) / totalReviews).toFixed(2);
   useEffect(() => {
     const id = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 5500);
     return () => clearInterval(id);
@@ -130,7 +134,13 @@ function Index() {
             Designer homes across Tampa, St. Petersburg, Clearwater and the Gulf beaches.
             Book direct with the host and save up to 15%.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
+          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/75 sm:mt-5">
+            <span className="text-[var(--color-gold)] tracking-widest">★★★★★</span>
+            <span className="font-medium text-white">{avgRating}</span>
+            <span className="text-white/40 mx-0.5">·</span>
+            <span>{totalReviews.toLocaleString()}+ verified guest stays</span>
+          </div>
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
             <Link
               to="/properties"
               className="w-full rounded-sm border border-white/40 bg-white/10 px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur transition hover:bg-white/20 sm:w-auto sm:text-xs sm:tracking-[0.25em]"
