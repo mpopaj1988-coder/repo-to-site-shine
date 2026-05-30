@@ -57,8 +57,8 @@ function PropertiesPage() {
       </section>
       <section className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {properties.map((p) => (
-            <PropertyCard key={p.slug} p={p} pricing={pricingMap[p.slug]} />
+          {properties.map((p, i) => (
+            <PropertyCard key={p.slug} p={p} pricing={pricingMap[p.slug]} priority={i < 3} />
           ))}
         </div>
         <div className="mt-12 text-center">

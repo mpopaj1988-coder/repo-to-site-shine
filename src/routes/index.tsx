@@ -225,8 +225,8 @@ function Index() {
         </div>
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((p) => (
-            <PropertyCard key={p.slug} p={p} pricing={pricingMap[p.slug]} />
+          {filtered.map((p, i) => (
+            <PropertyCard key={p.slug} p={p} pricing={pricingMap[p.slug]} priority={i < 3} />
           ))}
         </div>
       </section>

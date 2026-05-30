@@ -4,7 +4,7 @@ import type { Property } from "@/data/properties";
 import type { Pricing } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
-export function PropertyCard({ p, pricing }: { p: Property; pricing?: Pricing }) {
+export function PropertyCard({ p, pricing, priority = false }: { p: Property; pricing?: Pricing; priority?: boolean }) {
   return (
     <Link
       to="/listings/$slug"
@@ -16,8 +16,9 @@ export function PropertyCard({ p, pricing }: { p: Property; pricing?: Pricing })
         <img
           src={p.image}
           alt={p.imageAlts?.[0] ?? p.alt}
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
+          fetchPriority={priority ? "high" : "auto"}
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
         {p.badge && (

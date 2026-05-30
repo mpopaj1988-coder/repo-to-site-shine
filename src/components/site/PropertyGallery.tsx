@@ -71,7 +71,7 @@ function Thumbs({ images, active, onSelect }: { images: string[]; active: number
   return (
     <div
       ref={ref}
-      className="flex gap-1.5 overflow-x-auto pb-0.5"
+      className="flex gap-2 overflow-x-auto py-0.5"
       style={{ scrollbarWidth: "none" }}
     >
       {images.map((src, i) => (
@@ -80,11 +80,17 @@ function Thumbs({ images, active, onSelect }: { images: string[]; active: number
           onClick={() => onSelect(i)}
           aria-label={`Go to photo ${i + 1}`}
           className={cn(
-            "h-14 w-[72px] shrink-0 overflow-hidden rounded-[2px] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-gold)]",
-            i === active ? "ring-2 ring-[var(--color-gold)] opacity-100" : "opacity-55 hover:opacity-85",
+            "relative h-16 w-24 shrink-0 overflow-hidden rounded transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-gold)]",
+            i === active ? "opacity-100" : "opacity-50 hover:opacity-80",
           )}
         >
-          <img src={src} alt="" aria-hidden loading="lazy" className="h-full w-full object-cover" />
+          <img src={src} alt="" aria-hidden loading="lazy" decoding="async" className="h-full w-full object-cover" />
+          <div
+            className={cn(
+              "absolute inset-x-0 bottom-0 h-[2px] transition-opacity duration-200",
+              i === active ? "bg-[var(--color-gold)] opacity-100" : "opacity-0",
+            )}
+          />
         </button>
       ))}
     </div>
@@ -100,8 +106,9 @@ function NavBtn({ dir, onClick }: { dir: "prev" | "next"; onClick: (e: React.Mou
       aria-label={dir === "prev" ? "Previous photo" : "Next photo"}
       className={cn(
         "absolute top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
-        "bg-black/40 text-white backdrop-blur-[3px] transition-colors hover:bg-black/70",
+        "bg-black/40 text-white backdrop-blur-[3px] transition-all duration-200 hover:bg-black/70 hover:scale-110",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+        "md:opacity-0 md:group-hover:opacity-100",
         dir === "prev" ? "left-3" : "right-3",
       )}
     >
@@ -139,7 +146,7 @@ function InlineGallery({
   return (
     <div className="select-none">
       {/* Main frame */}
-      <div className="relative aspect-[16/9] overflow-hidden rounded-sm bg-[var(--color-deep)]">
+      <div className="group relative aspect-[16/9] overflow-hidden rounded-sm bg-[var(--color-deep)]">
         {/* Drag + tap surface — tap opens fullscreen */}
         <div
           ref={trackRef}
@@ -162,6 +169,8 @@ function InlineGallery({
               src={src}
               alt={alts[i] ?? `${propertyAlt} — photo ${i + 1}`}
               loading={i === 0 ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={i === 0 ? "high" : "auto"}
               draggable={false}
               style={{
                 transform: `translateX(calc(${offset * 100}% + ${pct}%))`,
@@ -222,7 +231,7 @@ function FullscreenModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex flex-col bg-black"
+      className="fixed inset-0 z-[100] flex flex-col bg-black animate-in fade-in duration-150"
       role="dialog"
       aria-modal="true"
       aria-label="Photo gallery fullscreen"
@@ -269,6 +278,7 @@ function FullscreenModal({
                 src={src}
                 alt={alts[i] ?? `${propertyAlt} — photo ${i + 1}`}
                 loading={i <= 1 ? "eager" : "lazy"}
+                decoding="async"
                 draggable={false}
                 className="max-h-full max-w-full object-contain"
               />
