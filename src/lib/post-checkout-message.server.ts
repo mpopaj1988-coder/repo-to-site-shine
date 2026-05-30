@@ -8,12 +8,14 @@
 // Idempotent: post_checkout_log (UNIQUE on reservation_id) prevents re-sends.
 
 const HOSPITABLE_BASE = "https://public.api.hospitable.com/v2";
+const SITE_BASE = "https://www.seaandcityrentals.com";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
 interface CheckedOutReservation {
   id: string;
   departure_date: string;
+  platform?: string;
   guest?: { first_name?: string };
 }
 
@@ -73,13 +75,22 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   return res.ok;
 }
 
-function checkoutMessage(firstName: string, propertyTitle: string, airbnbUrl: string): string {
+function airbnbCheckoutMessage(firstName: string, propertyTitle: string, airbnbUrl: string): string {
   return (
     `Hi ${firstName}! 🌊 Thank you so much for staying with us — it was truly a pleasure hosting you at ${propertyTitle}!\n\n` +
     `I've already left you a 5-star review, and it would mean a lot if you could take a moment to leave one for us too. ` +
     `Reviews help us get more visibility on the platform and keep welcoming wonderful guests like you! 🙏\n\n` +
     `Here's the listing if you'd ever like to return: ${airbnbUrl}\n\n` +
     `Hope to see you again soon!\n\n` +
+    `— Nella`
+  );
+}
+
+function directCheckoutMessage(firstName: string, propertyTitle: string, siteUrl: string): string {
+  return (
+    `Hi ${firstName}! 🌊 Thank you so much for staying with us — it was truly a pleasure hosting you at ${propertyTitle}!\n\n` +
+    `It means so much to host guests like you directly. If you ever want to come back, you can book right here: ${siteUrl}\n\n` +
+    `Direct guests always get our personal attention and best available rates. Hope to see you again soon!\n\n` +
     `— Nella`
   );
 }
@@ -108,6 +119,20 @@ export async function processPostCheckoutMessages(
     }
 
     for (const reservation of checkouts) {
+      const platform = reservation.platform ?? "unknown";
+
+      // Only message Airbnb and direct guests; skip booking.com, VRBO, etc.
+      if (platform !== "airbnb" && platform !== "direct" && platform !== "manual") {
+        results.push({
+          reservationId: reservation.id,
+          propertySlug: property.slug,
+          sent: false,
+          skipped: true,
+          skipReason: `platform_${platform}`,
+        });
+        continue;
+      }
+
       // Skip if already messaged.
       try {
         const { data: existing } = await supabaseAdmin
@@ -139,7 +164,10 @@ export async function processPostCheckoutMessages(
       if (!options.dryRun) {
         try {
           const firstName = reservation.guest?.first_name || "there";
-          const msg = checkoutMessage(firstName, property.title, property.airbnbUrl);
+          const isAirbnb = platform === "airbnb";
+          const msg = isAirbnb
+            ? airbnbCheckoutMessage(firstName, property.title, property.airbnbUrl)
+            : directCheckoutMessage(firstName, property.title, `${SITE_BASE}/listings/${property.slug}`);
           result.sent = await sendMessage(reservation.id, msg, apiKey);
         } catch (err) {
           console.error(`[post-checkout] send error ${reservation.id}:`, err);
