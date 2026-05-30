@@ -169,7 +169,7 @@ function outgoingMessage(
     `Hi ${firstName}! 🌊 Hope your stay is going wonderfully!\n\n` +
     `We noticed the night right after your checkout — ${dateLabel} — is still open. ` +
     `Would you like to extend by one more night?${priceClause}\n\n` +
-    `Just reply YES, I'd love to extend and we'll take care of everything right away. 😊\n\n` +
+    `Just reply **YES** and we'll send you an alteration request through the platform you booked on — accept it and you're all set! 😊\n\n` +
     `— Sea & City Rentals`
   );
 }
@@ -190,7 +190,7 @@ function incomingMessage(
     `Hi ${firstName}! 🌴 We're so looking forward to welcoming you!\n\n` +
     `Great news — the night right before your arrival, ${dateLabel}, is available. ` +
     `Would you like to check in a day early?${priceClause}\n\n` +
-    `Reply YES, I'd love to arrive early and we'll arrange it immediately. 🏖️\n\n` +
+    `Just reply **YES** and we'll send you an alteration request through the platform you booked on — accept it and you're all set! 🏖️\n\n` +
     `— Sea & City Rentals`
   );
 }
