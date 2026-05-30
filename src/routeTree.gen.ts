@@ -27,6 +27,7 @@ import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
+import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -122,6 +123,12 @@ const ApiPublicRefreshReviewsRoute = ApiPublicRefreshReviewsRouteImport.update({
   path: '/api/public/refresh-reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicOrphanDayUpsellRoute =
+  ApiPublicOrphanDayUpsellRouteImport.update({
+    id: '/api/public/orphan-day-upsell',
+    path: '/api/public/orphan-day-upsell',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   id: '/api/public/discount-signup',
   path: '/api/public/discount-signup',
@@ -164,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
+  '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -188,6 +196,7 @@ export interface FileRoutesByTo {
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
+  '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -213,6 +222,7 @@ export interface FileRoutesById {
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
+  '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -239,6 +249,7 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/listings/$slug'
     | '/api/public/discount-signup'
+    | '/api/public/orphan-day-upsell'
     | '/api/public/refresh-reviews'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/listings/$slug'
     | '/api/public/discount-signup'
+    | '/api/public/orphan-day-upsell'
     | '/api/public/refresh-reviews'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
@@ -287,6 +299,7 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/listings/$slug'
     | '/api/public/discount-signup'
+    | '/api/public/orphan-day-upsell'
     | '/api/public/refresh-reviews'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
@@ -309,6 +322,7 @@ export interface RootRouteChildren {
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   ListingsSlugRoute: typeof ListingsSlugRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
+  ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
@@ -444,6 +458,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicRefreshReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/orphan-day-upsell': {
+      id: '/api/public/orphan-day-upsell'
+      path: '/api/public/orphan-day-upsell'
+      fullPath: '/api/public/orphan-day-upsell'
+      preLoaderRoute: typeof ApiPublicOrphanDayUpsellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/discount-signup': {
       id: '/api/public/discount-signup'
       path: '/api/public/discount-signup'
@@ -513,6 +534,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   ListingsSlugRoute: ListingsSlugRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
+  ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
