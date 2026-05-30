@@ -8,9 +8,10 @@ import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { getPublishedPosts } from "@/lib/blog";
 import { track } from "@/lib/analytics";
 import heroBeach from "@/assets/hero-beach.jpg?format=webp&quality=85&as=url";
+import heroTampa from "@/assets/hero-tampa.jpg?format=webp&quality=85&as=url";
 import heroLargo from "@/assets/hero-largo.jpg?format=webp&quality=85&as=url";
 import heroStpete from "@/assets/hero-stpete.jpg?format=webp&quality=85&as=url";
-import sunset from "@/assets/sunset-beach.jpg?format=webp&quality=85&as=url";
+import nella from "@/assets/nella.jpg";
 import guideTampa from "@/assets/guide-tampa.jpg?format=webp&quality=85&as=url";
 import guideStpete from "@/assets/guide-stpete.jpg?format=webp&quality=85&as=url";
 import guideClearwater from "@/assets/guide-clearwater.jpg?format=webp&quality=85&as=url";
@@ -76,8 +77,9 @@ export const Route = createFileRoute("/")({
 
 const heroSlides = [
   { img: heroBeach, label: "Indian Rocks Beach, FL", caption: "Gulf Sunsets · Steps from the Sand" },
+  { img: heroTampa, label: "Tampa, FL", caption: "Waterfront Estate · Pool + Private Dock" },
   { img: heroStpete, label: "St. Petersburg, FL", caption: "Downtown Retreat · Hot Tub Garden" },
-  { img: heroLargo, label: "St. Petersburg, FL", caption: "Luxury 2BR Apartment · Downtown" },
+  { img: heroLargo, label: "Largo, FL", caption: "Resort Pool · 5 Min to the Beach" },
 ];
 
 const perks = [
@@ -293,9 +295,9 @@ function Index() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-24 lg:grid-cols-2 lg:px-10">
           <div className="relative">
             <img
-              src={sunset}
-              alt="Florida beach at sunset on the Gulf Coast"
-              className="aspect-[4/5] w-full rounded-md object-cover shadow-xl"
+              src={nella}
+              alt="Nella, founder of Sea & City Rentals"
+              className="aspect-[4/5] w-full rounded-md object-cover object-top shadow-xl"
               loading="lazy"
             />
             <div className="absolute -bottom-6 -right-6 hidden rounded-md bg-[var(--color-deep)] px-6 py-5 text-white shadow-lg md:block">

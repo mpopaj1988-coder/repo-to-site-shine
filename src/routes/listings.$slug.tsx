@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
-import { properties, BOOK_DIRECT_URL, HOSPITABLE_INQUIRY_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
+import { properties, BOOK_DIRECT_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
 import { guides } from "@/data/guides";
 import { Bath, BedDouble, Users, Star, MapPin, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
@@ -185,9 +185,6 @@ function guideForProperty(location: string) {
 
 function ListingPage() {
   const { property: p, pricing, reviews, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
-  const bookingUrl = p.hospitableId
-    ? `https://seaandcityrentals.hospitable.rentals/listings/${p.hospitableId}`
-    : HOSPITABLE_INQUIRY_URL;
   const [reviewPage, setReviewPage] = useState(0);
   const reviewsPerPage = 3;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -393,7 +390,7 @@ function ListingPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href={HOSPITABLE_INQUIRY_URL}
+                href={p.directBookingUrl}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => track("inquiry_click", { surface: "listing_inquire_check", property: p.slug })}
@@ -403,7 +400,7 @@ function ListingPage() {
                 Check availability
               </a>
               <a
-                href={HOSPITABLE_INQUIRY_URL}
+                href={p.directBookingUrl}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => track("inquiry_click", { surface: "listing_inquire_send", property: p.slug })}
@@ -421,19 +418,9 @@ function ListingPage() {
                 Call {PHONE}
               </a>
             </div>
-            {p.airbnbUrl && (
-              <p className="mt-5 text-xs text-muted-foreground">
-                Prefer Airbnb?{" "}
-                <a
-                  href={p.airbnbUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[var(--color-sea)] underline underline-offset-2 hover:opacity-80"
-                >
-                  View this listing on Airbnb →
-                </a>
-              </p>
-            )}
+            <p className="mt-5 text-xs text-muted-foreground">
+              ✓ Verified host — also listed on Airbnb &amp; VRBO
+            </p>
           </div>
         </div>
 
@@ -455,9 +442,9 @@ function ListingPage() {
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={bookingUrl} calendar={availability} propertySlug={p.slug} />
+            <AvailabilityChecker bookingUrl={p.directBookingUrl} calendar={availability} propertySlug={p.slug} />
             <a
-              href={bookingUrl}
+              href={p.directBookingUrl}
               target="_blank"
               rel="noreferrer"
               onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
@@ -480,18 +467,9 @@ function ListingPage() {
               <li className="flex items-start gap-2"><span>🔁</span> 10% off for returning guests</li>
               <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
             </ul>
-            {p.airbnbUrl && (
-              <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
-                <a
-                  href={p.airbnbUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[var(--color-sea)] underline underline-offset-2 hover:opacity-80"
-                >
-                  View on Airbnb
-                </a>
-              </p>
-            )}
+            <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
+              ✓ Verified host — also listed on Airbnb &amp; VRBO
+            </p>
           </div>
         </aside>
       </section>
@@ -509,7 +487,7 @@ function ListingPage() {
       {/* MOBILE CTA BAR */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-border bg-white p-3 shadow-lg lg:hidden">
         <a
-          href={bookingUrl}
+          href={p.directBookingUrl}
           target="_blank"
           rel="noreferrer"
           onClick={() => track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })}
