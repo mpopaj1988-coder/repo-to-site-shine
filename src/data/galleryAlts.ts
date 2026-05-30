@@ -131,45 +131,46 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
   // ===================== STPETE-HOTTUB =====================
   "stpete-hottub": [
     { file: "01.jpg", alt: "Private hot tub with red neon The Perfect Place sign, champagne bucket and bamboo garden at St. Pete bungalow" },
-    { file: "03.jpg", alt: "Twilight exterior of St. Pete vacation rental with palm trees and green uplighting" },
     { file: "04.jpg", alt: "Living room with gray sectional, teal accent cushions and smart TV at downtown St. Pete bungalow" },
-    { file: "06.jpg", alt: "King bedroom with blue duvet, landscape art and smart TV at St. Pete hot tub rental" },
     { file: "05.jpg", alt: "Updated white kitchen with granite counters and stainless appliances at St. Pete vacation rental" },
-    { file: "02.jpg", alt: "Bamboo-enclosed garden patio with polka-dot bistro table and chairs at St. Pete bungalow" },
+    { file: "03.jpg", alt: "Twilight exterior of St. Pete vacation rental with palm trees and green uplighting" },
+    { file: "06.jpg", alt: "King bedroom with blue duvet, landscape art and smart TV at St. Pete hot tub rental" },
     { file: "07.jpg", alt: "Marble walk-in shower with glass enclosure and modern vanity at St. Pete 1-bedroom rental" },
-    { file: "09.jpg", alt: "Crescent Lake park at sunset with bench and water reflections near St. Pete vacation rental" },
+    { file: "02.jpg", alt: "Bamboo-enclosed garden patio with polka-dot bistro table and chairs at St. Pete bungalow" },
     { file: "08.jpg", alt: "Kitchen and stacked washer-dryer laundry area at St. Pete bungalow rental" },
+    { file: "09.jpg", alt: "Crescent Lake park at sunset with bench and water reflections near St. Pete vacation rental" },
   ],
 
   // ===================== STPETE-MODERN =====================
   "stpete-modern": [
     { file: "03.jpg", alt: "Luxury living room with sage green walls, cloud sectional, built-in wood TV wall and mountain art at St. Pete modern retreat" },
-    { file: "05.jpg", alt: "High-end black and white kitchen with large island, gold bar stools and professional range hood at St. Pete rental" },
     { file: "04.jpg", alt: "Sage living room with cloud sectional, balcony door open to tree views and palm plant at St. Pete modern retreat" },
     { file: "08.jpg", alt: "King bedroom with peach accent wall, pink blossom art, balcony access and morning light at St. Pete retreat" },
+    { file: "05.jpg", alt: "High-end black and white kitchen with large island, gold bar stools and professional range hood at St. Pete rental" },
+    { file: "06.jpg", alt: "Designer bathroom with charcoal tile, wood-plank wall, vessel sink and walk-in shower at St. Pete retreat" },
     { file: "02.jpg", alt: "Private balcony with daybed bench, snake plant and yellow flowers overlooking tree canopy at St. Pete rental" },
     { file: "07.jpg", alt: "Galley kitchen with white marble counters, induction cooktop and Amalfi Coast art at St. Pete modern rental" },
-    { file: "06.jpg", alt: "Designer bathroom with charcoal tile, wood-plank wall, vessel sink and walk-in shower at St. Pete retreat" },
   ],
 
   // ===================== STPETE-PATIO =====================
   "stpete-patio": [
-    { file: "02.jpg", alt: "Twilight exterior of St. Pete bungalow with palm trees, arched doorway and green uplighting" },
     { file: "08.jpg", alt: "Living room with oversized abstract painting, blue accent chair and smart TV at St. Pete downtown rental" },
     { file: "01.jpg", alt: "Open living and dining with blue sofa, abstract art and kitchen view at St. Pete bungalow" },
-    { file: "03.jpg", alt: "Custom dartboard game room with scoreboards at St. Pete 1-bedroom vacation rental" },
-    { file: "04.jpg", alt: "Bright sitting nook with purple chaise, gallery wall and arched window at St. Pete rental" },
+    { file: "02.jpg", alt: "Twilight exterior of St. Pete bungalow with palm trees, arched doorway and green uplighting" },
     { file: "06.jpg", alt: "King bedroom with blue velvet headboard and burgundy bedding at St. Pete downtown rental" },
     { file: "07.jpg", alt: "Walk-in shower with glass enclosure and dark granite vanity at St. Pete bungalow" },
+    { file: "03.jpg", alt: "Custom dartboard game room with scoreboards at St. Pete 1-bedroom vacation rental" },
+    { file: "04.jpg", alt: "Bright sitting nook with purple chaise, gallery wall and arched window at St. Pete rental" },
+    { file: "05.jpg", alt: "Twilight exterior of St. Pete bungalow with palm trees and uplighting" },
   ],
 
   // ===================== STPETE-SUNSOAKED =====================
   "stpete-sunsoaked": [
     { file: "01.jpg", alt: "Luxury living room with cream sectional, sage drapes, gallery wall and balcony access at downtown St. Pete condo" },
     { file: "06.jpg", alt: "Spa bathroom with backlit LED mirror, dark tile, wood plank wall and rain shower at St. Pete condo" },
-    { file: "04.jpg", alt: "Modern living room with sage green accent walls, built-in shelving and St. Pete skyline art at downtown rental" },
-    { file: "05.jpg", alt: "King bedroom with white bedding, city skyline TV art and workspace desk at St. Pete sun-soaked condo" },
     { file: "08.jpg", alt: "Second king bedroom with wood accent wall, city skyline art, St. Pete travel vibes at downtown condo" },
+    { file: "05.jpg", alt: "King bedroom with white bedding, city skyline TV art and workspace desk at St. Pete sun-soaked condo" },
+    { file: "04.jpg", alt: "Modern living room with sage green accent walls, built-in shelving and St. Pete skyline art at downtown rental" },
     { file: "07.jpg", alt: "Built-in workspace with wood wall, city skyline TV and storage at St. Pete sun-soaked rental" },
     { file: "03.jpg", alt: "Private balcony with bistro seating and downtown St. Pete neighbourhood views" },
   ],
