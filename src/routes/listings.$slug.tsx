@@ -185,6 +185,9 @@ function guideForProperty(location: string) {
 
 function ListingPage() {
   const { property: p, pricing, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
+  const bookingUrl = p.hospitableId
+    ? `https://seaandcityrentals.hospitable.rentals/listings/${p.hospitableId}`
+    : HOSPITABLE_INQUIRY_URL;
   useEffect(() => {
     track("listing_view", { property: p.slug, location: p.location });
   }, [p.slug, p.location]);
@@ -385,9 +388,9 @@ function ListingPage() {
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={HOSPITABLE_INQUIRY_URL} calendar={availability} propertySlug={p.slug} />
+            <AvailabilityChecker bookingUrl={bookingUrl} calendar={availability} propertySlug={p.slug} />
             <a
-              href={HOSPITABLE_INQUIRY_URL}
+              href={bookingUrl}
               target="_blank"
               rel="noreferrer"
               onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
@@ -439,7 +442,7 @@ function ListingPage() {
       {/* MOBILE CTA BAR */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-border bg-white p-3 shadow-lg lg:hidden">
         <a
-          href={HOSPITABLE_INQUIRY_URL}
+          href={bookingUrl}
           target="_blank"
           rel="noreferrer"
           onClick={() => track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })}
