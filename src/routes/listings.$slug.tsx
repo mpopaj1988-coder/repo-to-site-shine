@@ -184,7 +184,7 @@ function guideForProperty(location: string) {
 }
 
 function ListingPage() {
-  const { property: p, pricing, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
+  const { property: p, pricing, reviews, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
   const bookingUrl = p.hospitableId
     ? `https://seaandcityrentals.hospitable.rentals/listings/${p.hospitableId}`
     : HOSPITABLE_INQUIRY_URL;
@@ -276,6 +276,43 @@ function ListingPage() {
               </li>
             ))}
           </ul>
+
+          {/* GUEST REVIEWS */}
+          {reviews.length > 0 && (
+            <div className="mt-12">
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">Guest reviews</h2>
+                {p.reviews > 0 && (
+                  <div className="flex items-center gap-1.5 text-sm">
+                    <Star className="size-4 fill-[var(--color-gold)] text-[var(--color-gold)]" />
+                    <span className="font-semibold">{p.rating}</span>
+                    <span className="text-muted-foreground">· {p.reviews} reviews on Airbnb</span>
+                  </div>
+                )}
+              </div>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {reviews.map((r) => (
+                  <div key={r.id} className="flex flex-col gap-3 rounded-md border border-border bg-card p-5">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex gap-0.5">
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <Star
+                            key={n}
+                            className={`size-3.5 ${n <= Math.round(r.rating) ? "fill-[var(--color-gold)] text-[var(--color-gold)]" : "fill-muted text-muted-foreground/30"}`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{r.date}</span>
+                    </div>
+                    {r.reviewer && (
+                      <p className="text-xs font-medium text-foreground">{r.reviewer}</p>
+                    )}
+                    <p className="text-sm leading-relaxed text-muted-foreground line-clamp-5">{r.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* NEIGHBORHOOD GUIDE CTA */}
           {(() => {
