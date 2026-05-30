@@ -13,6 +13,7 @@ const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
 const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
 const ML_GROUP_ID = '187986355712689414' // Website Leads
+const ML_AUTOMATION_ID = '187987610712409793' // Welcome — Website Lead
 // Chars chosen to avoid look-alikes (0/O, 1/I/l)
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 
@@ -169,7 +170,20 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                 fields: { discount_code: discountCode },
               }),
             })
-            if (!mlRes.ok) console.error('MailerLite error', mlRes.status, await mlRes.text())
+            if (!mlRes.ok) {
+              console.error('MailerLite error', mlRes.status, await mlRes.text())
+            } else {
+              // Explicitly trigger automation — bypasses double-opt-in / form-submission requirement
+              const mlData = await mlRes.json() as any
+              const subscriberId = mlData?.data?.id
+              if (subscriberId) {
+                const trigRes = await fetch(
+                  `https://connect.mailerlite.com/api/automations/${ML_AUTOMATION_ID}/subscribers/${subscriberId}`,
+                  { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` } },
+                )
+                if (!trigRes.ok) console.error('MailerLite automation trigger error', trigRes.status, await trigRes.text())
+              }
+            }
           }
         } catch (err) {
           console.error('mailerlite sync failed', err)
