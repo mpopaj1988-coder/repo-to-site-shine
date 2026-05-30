@@ -105,6 +105,7 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "11.jpg", alt: "Modern living room with oversized sectional, built-in TV wall and natural light at IRB beach house" },
     { file: "12.jpg", alt: "Open living and dining area with coastal art and kitchen view at Indian Rocks Beach vacation home" },
     { file: "F2CA30AB-7AC0-488C-A950-F6B0DF50CD03.png", alt: "Sunset deck with grill, cocktails, food and string lights at Indian Rocks Beach rental" },
+    { file: "E7270DEA-D439-47E4-AA79-37F96A90CA1A.png", alt: "Beach chairs and umbrella steps from Indian Rocks Beach Gulf shore vacation rental" },
   ],
 
   // ===================== IRB-B =====================
@@ -113,6 +114,7 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "D6E0639F-15A2-4D1F-B007-BB945C0F2190.png", alt: "LOVE wall with swing chair, string lights and floral letters at IRB beach house" },
     { file: "34E5FEBF-2DA2-4C93-B2B2-C01604D0E790.png", alt: "Bright white kitchen with teal dishwasher, marble counters and palm tree views at Indian Rocks Beach rental" },
     { file: "01.jpg", alt: "Sunny deck with rocking chairs, grill and tropical plants at Indian Rocks Beach 2-bedroom rental" },
+    { file: "D418CD98-830A-4162-98E1-5F36F1745A96.png", alt: "Sunset beach boardwalk with colorful footprints sign and string lights at Indian Rocks Beach" },
     { file: "E81C752F-60B6-4601-A9F6-294225D83DD2.png", alt: "Coastal living room with blue sectional, Beach House sign and smart TV at IRB vacation home" },
     { file: "B7604E1F-97BB-4EAA-9C6A-8463DC7C8722.png", alt: "Bright dining nook with round white table and gold chandelier at Indian Rocks Beach rental" },
     { file: "29-DSC_9367.jpg", alt: "Primary bedroom with wicker headboard, floral coastal bedding and mirrored wardrobe at IRB beach house" },
