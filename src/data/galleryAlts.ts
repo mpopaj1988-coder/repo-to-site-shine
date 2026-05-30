@@ -106,6 +106,8 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "11.jpg", alt: "Modern living room with oversized sectional, built-in TV wall and natural light at IRB beach house" },
     { file: "12.jpg", alt: "Open living and dining area with coastal art and kitchen view at Indian Rocks Beach vacation home" },
     { file: "F2CA30AB-7AC0-488C-A950-F6B0DF50CD03.png", alt: "Sunset deck with grill, cocktails, food and string lights at Indian Rocks Beach rental" },
+    { file: "E7270DEA-D439-47E4-AA79-37F96A90CA1A.png", alt: "Beach chairs and umbrella steps from Indian Rocks Beach Gulf shore vacation rental" },
+    { file: "IMG_3220.png", alt: "In-unit washer and dryer laundry area at Indian Rocks Beach vacation home" },
   ],
 
   // ===================== IRB-B =====================
