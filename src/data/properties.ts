@@ -65,7 +65,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     slug: "tampa",
     hospitableId: "4c48de03-be86-4dc4-99de-45df7cd16d29",
     lat: 27.98832102, lng: -82.5822876,
-    href: "https://seaandcityrentals.hospitable.rentals/",
+    href: "https://seaandcityrentals.hospitable.rentals/property/sleeps-15-dock-pool-waterfront-tampa-bay",
     alt: "Tampa Florida waterfront luxury 6-bedroom home with heated pool and private dock",
     location: "Tampa, FL",
     title: "Waterfront 6BR | Heated Pool + Dock | Sleeps 15",
