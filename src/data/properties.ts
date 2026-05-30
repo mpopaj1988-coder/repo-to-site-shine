@@ -1,6 +1,6 @@
 import { galleryManifest } from "./galleryAlts";
 
-const galleryModules = import.meta.glob("@/assets/properties/*/*.jpg", {
+const galleryModules = import.meta.glob("@/assets/properties/*/*.{jpg,png}", {
   eager: true,
   import: "default",
 }) as Record<string, string>;
