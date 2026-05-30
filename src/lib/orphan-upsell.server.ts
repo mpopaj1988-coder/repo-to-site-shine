@@ -197,7 +197,7 @@ function incomingMessage(
 // ── Main export ───────────────────────────────────────────────────────────────
 
 export async function processOrphanDayUpsells(
-  properties: Array<{ slug: string; hospitableId: string }>,
+  properties: Array<{ slug: string; hospitableId: string; minPrice: number }>,
   // Using `any` here to avoid importing supabase client types in a server file
   // that may be shared — callers pass supabaseAdmin.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -276,7 +276,10 @@ export async function processOrphanDayUpsells(
       try {
         regularPrice = await fetchDayPrice(property.hospitableId, orphanDate, apiKey);
         if (regularPrice !== null) {
-          discountedPrice = Math.round(regularPrice * (1 - DISCOUNT_PCT / 100));
+          discountedPrice = Math.max(
+            Math.round(regularPrice * (1 - DISCOUNT_PCT / 100)),
+            property.minPrice,
+          );
         }
       } catch (err) {
         console.error(`[orphan-upsell] price fetch error ${property.slug}/${orphanDate}:`, err);

@@ -37,7 +37,11 @@ async function handleUpsell(request: Request): Promise<Response> {
     const { properties } = await import("@/data/properties");
     const propertyList = properties
       .filter((p): p is typeof p & { hospitableId: string } => Boolean(p.hospitableId))
-      .map((p) => ({ slug: p.slug, hospitableId: p.hospitableId }));
+      .map((p) => ({
+        slug: p.slug,
+        hospitableId: p.hospitableId,
+        minPrice: p.categories.includes("City") ? 100 : 190,
+      }));
 
     const results = await processOrphanDayUpsells(propertyList, supabaseAdmin, { dryRun });
 
