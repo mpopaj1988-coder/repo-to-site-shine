@@ -7,13 +7,13 @@ import { RealReviews } from "@/components/site/RealReviews";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { getPublishedPosts } from "@/lib/blog";
 import { track } from "@/lib/analytics";
-import heroBeach from "@/assets/hero-beach.jpg";
-import heroLargo from "@/assets/hero-largo.jpg";
-import heroStpete from "@/assets/hero-stpete.jpg";
-import sunset from "@/assets/sunset-beach.jpg";
-import guideTampa from "@/assets/guide-tampa.jpg";
-import guideStpete from "@/assets/guide-stpete.jpg";
-import guideClearwater from "@/assets/guide-clearwater.jpg";
+import heroBeach from "@/assets/hero-beach.jpg?format=webp&quality=80&as=url";
+import heroLargo from "@/assets/hero-largo.jpg?format=webp&quality=80&as=url";
+import heroStpete from "@/assets/hero-stpete.jpg?format=webp&quality=80&as=url";
+import sunset from "@/assets/sunset-beach.jpg?format=webp&quality=80&as=url";
+import guideTampa from "@/assets/guide-tampa.jpg?format=webp&quality=80&as=url";
+import guideStpete from "@/assets/guide-stpete.jpg?format=webp&quality=80&as=url";
+import guideClearwater from "@/assets/guide-clearwater.jpg?format=webp&quality=80&as=url";
 
 export const Route = createFileRoute("/")({
   loader: async () => {

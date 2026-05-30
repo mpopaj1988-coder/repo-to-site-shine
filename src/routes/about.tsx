@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
-import sunset from "@/assets/sunset-beach.jpg";
+import sunset from "@/assets/sunset-beach.jpg?format=webp&quality=80&as=url";
 import { BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
