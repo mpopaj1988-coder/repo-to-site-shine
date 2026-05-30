@@ -29,6 +29,7 @@ import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/em
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
 import { Route as ApiPublicRebookingCampaignRouteImport } from './routes/api/public/rebooking-campaign'
 import { Route as ApiPublicProcessUpsellRepliesRouteImport } from './routes/api/public/process-upsell-replies'
+import { Route as ApiPublicPreArrivalMessageRouteImport } from './routes/api/public/pre-arrival-message'
 import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/public/post-checkout-message'
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
@@ -138,6 +139,12 @@ const ApiPublicProcessUpsellRepliesRoute =
     path: '/api/public/process-upsell-replies',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPreArrivalMessageRoute =
+  ApiPublicPreArrivalMessageRouteImport.update({
+    id: '/api/public/pre-arrival-message',
+    path: '/api/public/pre-arrival-message',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPostCheckoutMessageRoute =
   ApiPublicPostCheckoutMessageRouteImport.update({
     id: '/api/public/post-checkout-message',
@@ -194,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
+  '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
@@ -222,6 +230,7 @@ export interface FileRoutesByTo {
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
+  '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
@@ -251,6 +260,7 @@ export interface FileRoutesById {
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
+  '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
+    | '/api/public/pre-arrival-message'
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
+    | '/api/public/pre-arrival-message'
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
@@ -337,6 +349,7 @@ export interface FileRouteTypes {
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
+    | '/api/public/pre-arrival-message'
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
@@ -363,6 +376,7 @@ export interface RootRouteChildren {
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
   ApiPublicPostCheckoutMessageRoute: typeof ApiPublicPostCheckoutMessageRoute
+  ApiPublicPreArrivalMessageRoute: typeof ApiPublicPreArrivalMessageRoute
   ApiPublicProcessUpsellRepliesRoute: typeof ApiPublicProcessUpsellRepliesRoute
   ApiPublicRebookingCampaignRoute: typeof ApiPublicRebookingCampaignRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
@@ -514,6 +528,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicProcessUpsellRepliesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pre-arrival-message': {
+      id: '/api/public/pre-arrival-message'
+      path: '/api/public/pre-arrival-message'
+      fullPath: '/api/public/pre-arrival-message'
+      preLoaderRoute: typeof ApiPublicPreArrivalMessageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/post-checkout-message': {
       id: '/api/public/post-checkout-message'
       path: '/api/public/post-checkout-message'
@@ -599,6 +620,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
   ApiPublicPostCheckoutMessageRoute: ApiPublicPostCheckoutMessageRoute,
+  ApiPublicPreArrivalMessageRoute: ApiPublicPreArrivalMessageRoute,
   ApiPublicProcessUpsellRepliesRoute: ApiPublicProcessUpsellRepliesRoute,
   ApiPublicRebookingCampaignRoute: ApiPublicRebookingCampaignRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
