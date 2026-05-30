@@ -12,12 +12,12 @@ const SWIPE_THRESHOLD = 48;
 
 // ─── drag / swipe hook ───────────────────────────────────────────────────────
 
-function useSwipe(onPrev: () => void, onNext: () => void) {
-  const drag = useRef<{ startX: number; active: boolean } | null>(null);
+function useSwipe(onPrev: () => void, onNext: () => void, onTap?: () => void) {
+  const drag = useRef<{ startX: number; startY: number; active: boolean } | null>(null);
   const [delta, setDelta] = useState(0);
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    drag.current = { startX: e.clientX, active: true };
+    drag.current = { startX: e.clientX, startY: e.clientY, active: true };
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   }, []);
 
@@ -27,18 +27,20 @@ function useSwipe(onPrev: () => void, onNext: () => void) {
   }, []);
 
   const commit = useCallback(
-    (clientX: number) => {
+    (clientX: number, clientY: number) => {
       if (!drag.current) return;
-      const d = clientX - drag.current.startX;
+      const dx = clientX - drag.current.startX;
+      const dy = clientY - drag.current.startY;
       drag.current = null;
       setDelta(0);
-      if (d < -SWIPE_THRESHOLD) onNext();
-      else if (d > SWIPE_THRESHOLD) onPrev();
+      if (dx < -SWIPE_THRESHOLD) onNext();
+      else if (dx > SWIPE_THRESHOLD) onPrev();
+      else if (Math.abs(dx) < 8 && Math.abs(dy) < 8 && onTap) onTap();
     },
-    [onNext, onPrev],
+    [onNext, onPrev, onTap],
   );
 
-  const onPointerUp = useCallback((e: React.PointerEvent) => commit(e.clientX), [commit]);
+  const onPointerUp = useCallback((e: React.PointerEvent) => commit(e.clientX, e.clientY), [commit]);
   const onPointerCancel = useCallback(() => {
     drag.current = null;
     setDelta(0);
@@ -130,7 +132,7 @@ function InlineGallery({
   onExpand: () => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const { delta, isDragging, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } = useSwipe(prev, next);
+  const { delta, isDragging, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } = useSwipe(prev, next, onExpand);
 
   const pct = isDragging && trackRef.current ? (delta / trackRef.current.offsetWidth) * 100 : 0;
 
@@ -138,15 +140,16 @@ function InlineGallery({
     <div className="select-none">
       {/* Main frame */}
       <div className="relative aspect-[16/9] overflow-hidden rounded-sm bg-[var(--color-deep)]">
-        {/* Drag surface */}
+        {/* Drag + tap surface — tap opens fullscreen */}
         <div
           ref={trackRef}
-          className="absolute inset-0 z-10 cursor-grab touch-pan-y active:cursor-grabbing"
+          className="absolute inset-0 z-10 cursor-pointer touch-pan-y"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerCancel}
-          role="presentation"
+          role="button"
+          aria-label="View fullscreen"
         />
 
         {/* Slides — render index ±1 only */}
@@ -172,19 +175,15 @@ function InlineGallery({
         <NavBtn dir="prev" onClick={(e) => { e.stopPropagation(); prev(); }} />
         <NavBtn dir="next" onClick={(e) => { e.stopPropagation(); next(); }} />
 
-        {/* Counter */}
-        <div className="absolute bottom-3 right-4 z-20 rounded-full bg-black/50 px-2.5 py-[3px] text-[11px] font-medium tracking-wider text-white backdrop-blur-[2px]">
-          {idx + 1} / {images.length}
+        {/* Counter + tap hint */}
+        <div className="absolute bottom-3 right-4 z-20 flex items-center gap-2">
+          <span className="rounded-full bg-black/50 px-2.5 py-[3px] text-[11px] font-medium tracking-wider text-white backdrop-blur-[2px]">
+            {idx + 1} / {images.length}
+          </span>
+          <span className="rounded-full bg-black/50 p-1.5 text-white backdrop-blur-[2px]">
+            <Maximize2 className="size-3.5" />
+          </span>
         </div>
-
-        {/* Expand */}
-        <button
-          onClick={(e) => { e.stopPropagation(); onExpand(); }}
-          aria-label="View fullscreen"
-          className="absolute bottom-3 left-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-[2px] transition hover:bg-black/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-        >
-          <Maximize2 className="size-[15px]" />
-        </button>
       </div>
 
       {/* Thumbnails */}
