@@ -78,7 +78,7 @@ function checkoutMessage(firstName: string, propertyTitle: string, airbnbUrl: st
     `Hi ${firstName}! 🌊 Thank you so much for staying with us — it was truly a pleasure hosting you at ${propertyTitle}!\n\n` +
     `I've already left you a 5-star review, and it would mean a lot if you could take a moment to leave one for us too. ` +
     `Reviews help us get more visibility on the platform and keep welcoming wonderful guests like you! 🙏\n\n` +
-    `Here's the listing to leave your review: ${airbnbUrl}\n\n` +
+    `Here's the listing if you'd ever like to return: ${airbnbUrl}\n\n` +
     `Hope to see you again soon!\n\n` +
     `— Nella`
   );
