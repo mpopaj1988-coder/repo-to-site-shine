@@ -197,7 +197,7 @@ function confirmationMessage(
     `We're processing your request to ${action}. ` +
     `You'll receive an alteration request through your booking platform shortly — just accept it and you're all set!\n\n` +
     `If you have any questions in the meantime, don't hesitate to reach out.\n\n` +
-    `— Sea & City Rentals`
+    `— Nella`
   );
 }
 

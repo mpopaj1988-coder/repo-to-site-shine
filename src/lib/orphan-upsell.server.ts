@@ -169,7 +169,7 @@ function outgoingMessage(
     `We noticed the night right after your checkout — ${dateLabel} — is still open. ` +
     `Would you like to extend by one more night?${priceClause}\n\n` +
     `Reply **YES** if you'd like it, or simply ignore this message if not — no worries either way! 😊\n\n` +
-    `— Sea & City Rentals`
+    `— Nella`
   );
 }
 
@@ -190,7 +190,7 @@ function incomingMessage(
     `Great news — the night right before your arrival, ${dateLabel}, is available. ` +
     `Would you like to check in a day early?${priceClause}\n\n` +
     `Reply **YES** if you'd like it, or simply ignore this message if not — no worries either way! 🏖️\n\n` +
-    `— Sea & City Rentals`
+    `— Nella`
   );
 }
 
