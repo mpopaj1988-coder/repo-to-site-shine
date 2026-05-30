@@ -81,8 +81,12 @@ export function AvailabilityChecker({
   const reserveHref = useMemo(() => {
     if (!range?.from || !range?.to) return bookingUrl;
     const url = new URL(bookingUrl);
-    url.searchParams.set("check_in", ymd(range.from));
-    url.searchParams.set("check_out", ymd(range.to));
+    url.searchParams.set("checkin", ymd(range.from));
+    url.searchParams.set("checkout", ymd(range.to));
+    url.searchParams.set("adults", "2");
+    url.searchParams.set("children", "0");
+    url.searchParams.set("infants", "0");
+    url.searchParams.set("pets", "0");
     return url.toString();
   }, [range, bookingUrl]);
 
