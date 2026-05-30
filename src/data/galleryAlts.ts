@@ -12,13 +12,13 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "14.jpg", alt: "Pool loungers and umbrella beside the heated pool at Tampa waterfront rental" },
     { file: "53.jpg", alt: "Sparkling pool with paver deck, lounge chairs and palm trees at Tampa waterfront rental" },
     { file: "13.jpg", alt: "Covered patio with outdoor dining and grill overlooking the pool in Tampa" },
-    { file: "03.jpg", alt: "Private dock with green Adirondack rocking chairs and boat lift on Tampa Bay canal" },
+
     { file: "38.jpg", alt: "Tampa private dock at sunset with twilight sky over the canal" },
     { file: "22.jpg", alt: "Open chef kitchen with marble island and bar seating at Tampa 6-bedroom rental" },
     { file: "04.jpg", alt: "Renovated kitchen sink and quartz counters with tropical view at Tampa rental" },
     { file: "19.jpg", alt: "Spacious open-plan living room with curved green sectional and smart TV in Tampa rental" },
     { file: "05.jpg", alt: "Designer living room with green sofa and dining area at Tampa vacation home" },
-    { file: "17.jpg", alt: "Bright dining nook with French doors opening to the pool deck in Tampa" },
+
     { file: "18.jpg", alt: "Casual dining table with statement art and water views at Tampa rental" },
     { file: "29.jpg", alt: "Primary bedroom with king bed and curated coastal art at Tampa waterfront home" },
     { file: "47.jpg", alt: "Canopy four-poster king bedroom with rug and reading chairs at Tampa rental" },
@@ -31,15 +31,15 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "54.jpg", alt: "Spa primary bath with freestanding soaking tub, marble accents and wood-look tile floors at Tampa rental" },
     { file: "45.jpg", alt: "Marble walk-in shower and freestanding soaking tub at Tampa luxury rental" },
     { file: "55.jpg", alt: "Designer walk-in shower with white subway tile and hex mosaic floor at Tampa rental" },
-    { file: "27.jpg", alt: "Designer bath with floating vanity and glass walk-in shower in Tampa" },
+
     { file: "32.jpg", alt: "Modern guest bath with arched mirror and oversized walk-in shower in Tampa rental" },
     { file: "26.jpg", alt: "Powder room with green vanity and brushed nickel fixtures at Tampa rental" },
     { file: "33.jpg", alt: "Stylish guest bathroom interior at Tampa waterfront 6-bedroom home" },
     { file: "20.jpg", alt: "Wide hallway with art-filled walls leading to bedrooms at Tampa rental" },
-    { file: "16.jpg", alt: "Wraparound dock with bay views and seating at Tampa waterfront rental" },
+
     { file: "12.jpg", alt: "Side view of dock and seawall with intercoastal canal access in Tampa" },
     { file: "10.jpg", alt: "Aerial of Tampa pool home from canal showing yard, patio and dock" },
-    { file: "15.jpg", alt: "Pool deck with sun loungers, umbrella and tropical landscaping in Tampa" },
+
     { file: "34.jpg", alt: "Wide-angle aerial of Tampa canal-front rental with neighboring pools" },
     { file: "39.jpg", alt: "Cozy bedroom with dresser, smart TV and natural light at Tampa rental" },
     { file: "40.jpg", alt: "Queen bedroom with deep blue bedding and beach art at Tampa vacation home" },
