@@ -2,7 +2,7 @@ import { galleryManifest } from "./galleryAlts";
 
 const galleryModules = import.meta.glob("@/assets/properties/*/*.{jpg,jpeg,png}", {
   eager: true,
-  query: { format: "webp", quality: "80", as: "url" },
+  query: { format: "webp", quality: "85", as: "url" },
   import: "default",
 }) as Record<string, string>;
 
