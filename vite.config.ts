@@ -7,6 +7,7 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import path from "node:path";
 import { loadEnv } from "vite";
+import { imagetools } from "vite-imagetools";
 
 const serverEnv = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
 for (const [key, value] of Object.entries(serverEnv)) {
@@ -21,6 +22,7 @@ const _mlKey = process.env.VITE_MAILERLITE_API_KEY ?? serverEnv.VITE_MAILERLITE_
 export default defineConfig({
   tanstackStart: { server: { entry: "server" } },
   vite: {
+    plugins: [imagetools()],
     define: {
       __MAILERLITE_API_KEY__: JSON.stringify(_mlKey),
     },
