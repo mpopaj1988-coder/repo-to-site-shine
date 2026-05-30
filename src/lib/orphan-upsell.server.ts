@@ -1,7 +1,11 @@
 // Server-only: orphan day detection and Hospitable guest messaging.
 // An "orphan day" is exactly 1 vacant day between two consecutive accepted
 // reservations on the same property.  We send both adjacent guests a
-// personalised offer to fill it at a 20% discount.
+// personalised offer to fill it at a 35% discount.
+//
+// If the same guest has orphan days on BOTH sides of their stay (the night
+// before check-in AND the night after checkout are both open), they receive
+// ONE combined message instead of two separate ones.
 
 const HOSPITABLE_BASE = "https://public.api.hospitable.com/v2";
 const DISCOUNT_PCT = 35;
@@ -12,15 +16,11 @@ interface HospitableReservation {
   id: string;
   code: string;
   platform: string;
-  arrival_date: string;   // "YYYY-MM-DDThh:mm:ss±hh:mm"
-  departure_date: string; // same — guest departs (checks out) this day
+  arrival_date: string;
+  departure_date: string;
   nights: number;
   reservation_status: { current: { category: string } };
-  conversation_id: string;
-  guest?: {
-    first_name?: string;
-    last_name?: string;
-  };
+  guest?: { first_name?: string; last_name?: string };
 }
 
 export interface OrphanUpsellResult {
@@ -36,6 +36,16 @@ export interface OrphanUpsellResult {
   skipped?: boolean;
   skipReason?: string;
   error?: string;
+}
+
+interface PendingPair {
+  outgoing: HospitableReservation;
+  incoming: HospitableReservation;
+  orphanDate: string;
+  regularPrice: number | null;
+  discountedPrice: number | null;
+  outgoingAlreadySent: boolean;
+  incomingAlreadySent: boolean;
 }
 
 // ── Date helpers ─────────────────────────────────────────────────────────────
@@ -56,11 +66,15 @@ function addDays(dateStr: string, n: number): string {
 
 function fmtDate(dateStr: string): string {
   return toDate(dateStr).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
+    weekday: "long", month: "long", day: "numeric", timeZone: "UTC",
   });
+}
+
+function isCurrentlyStaying(res: HospitableReservation, today: string): boolean {
+  return (
+    today >= res.arrival_date.slice(0, 10) &&
+    today < res.departure_date.slice(0, 10)
+  );
 }
 
 // ── Hospitable API calls ──────────────────────────────────────────────────────
@@ -128,11 +142,7 @@ async function fetchDayPrice(
   return typeof amt === "number" ? Math.round(amt / 100) : null;
 }
 
-async function sendMessage(
-  reservationId: string,
-  body: string,
-  apiKey: string,
-): Promise<boolean> {
+async function sendMessage(reservationId: string, body: string, apiKey: string): Promise<boolean> {
   const url = `${HOSPITABLE_BASE}/reservations/${reservationId}/messages`;
   const res = await fetch(url, {
     method: "POST",
@@ -152,22 +162,29 @@ async function sendMessage(
 
 // ── Message copy ──────────────────────────────────────────────────────────────
 
+function greeting(firstName: string, currentlyStaying: boolean, emoji: string): string {
+  return currentlyStaying
+    ? `Hi ${firstName}! ${emoji} Hope your stay is going wonderfully!\n\n`
+    : `Hi ${firstName}! ${emoji} We're so looking forward to welcoming you!\n\n`;
+}
+
+function priceNote(regular: number | null, discounted: number | null, label: string): string {
+  return regular !== null && discounted !== null
+    ? ` We can offer ${label} at $${discounted} — a 35% discount off our regular rate of $${regular}.`
+    : ` We'd be happy to offer you a special discounted rate for ${label}.`;
+}
+
 function outgoingMessage(
   firstName: string,
   orphanDate: string,
   regularPrice: number | null,
   discountedPrice: number | null,
+  currentlyStaying: boolean,
 ): string {
-  const dateLabel = fmtDate(orphanDate);
-  const priceClause =
-    regularPrice !== null && discountedPrice !== null
-      ? ` We can offer that extra night at $${discountedPrice} — a 35% discount off our regular rate of $${regularPrice}.`
-      : " We'd be happy to offer you a special discounted rate for that extra night.";
-
   return (
-    `Hi ${firstName}! 🌊 Hope your stay is going wonderfully!\n\n` +
-    `We noticed the night right after your checkout — ${dateLabel} — is still open. ` +
-    `Would you like to extend by one more night?${priceClause}\n\n` +
+    greeting(firstName, currentlyStaying, "🌊") +
+    `We noticed the night right after your checkout — ${fmtDate(orphanDate)} — is still open. ` +
+    `Would you like to extend by one more night?${priceNote(regularPrice, discountedPrice, "that extra night")}\n\n` +
     `Reply **YES** if you'd like it, or simply ignore this message if not — no worries either way! 😊\n\n` +
     `— Nella`
   );
@@ -179,17 +196,39 @@ function incomingMessage(
   regularPrice: number | null,
   discountedPrice: number | null,
 ): string {
-  const dateLabel = fmtDate(orphanDate);
-  const priceClause =
-    regularPrice !== null && discountedPrice !== null
-      ? ` We can offer that early night at $${discountedPrice} — a 35% discount off our regular rate of $${regularPrice}.`
-      : " We'd be happy to offer you a special discounted rate for that night.";
-
   return (
     `Hi ${firstName}! 🌴 We're so looking forward to welcoming you!\n\n` +
-    `Great news — the night right before your arrival, ${dateLabel}, is available. ` +
-    `Would you like to check in a day early?${priceClause}\n\n` +
+    `Great news — the night right before your arrival, ${fmtDate(orphanDate)}, is available. ` +
+    `Would you like to check in a day early?${priceNote(regularPrice, discountedPrice, "that early night")}\n\n` +
     `Reply **YES** if you'd like it, or simply ignore this message if not — no worries either way! 🏖️\n\n` +
+    `— Nella`
+  );
+}
+
+function combinedMessage(
+  firstName: string,
+  earlyDate: string,
+  lateDate: string,
+  earlyRegular: number | null,
+  earlyDiscounted: number | null,
+  lateRegular: number | null,
+  lateDiscounted: number | null,
+  currentlyStaying: boolean,
+): string {
+  const earlyPriceNote = earlyRegular !== null && earlyDiscounted !== null
+    ? ` ($${earlyDiscounted} — 35% off our regular $${earlyRegular} rate)`
+    : "";
+  const latePriceNote = lateRegular !== null && lateDiscounted !== null
+    ? ` ($${lateDiscounted} — 35% off our regular $${lateRegular} rate)`
+    : "";
+
+  return (
+    greeting(firstName, currentlyStaying, "🌊") +
+    `We have a special offer — two nights are open right around your stay!\n\n` +
+    `• **Check in a day early** — ${fmtDate(earlyDate)} is available${earlyPriceNote}\n` +
+    `• **Stay an extra night** — ${fmtDate(lateDate)} is open after your checkout${latePriceNote}\n\n` +
+    `Feel free to take one or both! Reply **YES (early)**, **YES (late)**, or **YES (both)** and we'll take care of the rest. ` +
+    `Or simply ignore this if the timing doesn't work — no worries either way! 🏖️\n\n` +
     `— Nella`
   );
 }
@@ -198,8 +237,6 @@ function incomingMessage(
 
 export async function processOrphanDayUpsells(
   properties: Array<{ slug: string; hospitableId: string; minPrice: number }>,
-  // Using `any` here to avoid importing supabase client types in a server file
-  // that may be shared — callers pass supabaseAdmin.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabaseAdmin: any,
   options: { dryRun?: boolean } = {},
@@ -209,8 +246,7 @@ export async function processOrphanDayUpsells(
 
   const today = new Date().toISOString().slice(0, 10);
   const endDate = addDays(today, 365);
-
-  const results: OrphanUpsellResult[] = [];
+  const allResults: OrphanUpsellResult[] = [];
 
   for (const property of properties) {
     let reservations: HospitableReservation[];
@@ -221,10 +257,13 @@ export async function processOrphanDayUpsells(
       continue;
     }
 
-    // Sort ascending by check-in date so we can scan consecutive pairs.
     reservations.sort((a, b) =>
       a.arrival_date.slice(0, 10).localeCompare(b.arrival_date.slice(0, 10)),
     );
+
+    // ── Pass 1: detect orphan pairs, check DB, fetch prices ───────────────────
+
+    const pendingPairs: PendingPair[] = [];
 
     for (let i = 0; i < reservations.length - 1; i++) {
       const outgoing = reservations[i];
@@ -232,14 +271,10 @@ export async function processOrphanDayUpsells(
 
       const checkoutDate = outgoing.departure_date.slice(0, 10);
       const checkinDate = incoming.arrival_date.slice(0, 10);
-      const gap = diffDays(checkoutDate, checkinDate);
+      if (diffDays(checkoutDate, checkinDate) !== 2) continue;
 
-      // Exactly 2-day gap between departure and next arrival → 1 orphan night.
-      if (gap !== 2) continue;
+      const orphanDate = addDays(checkoutDate, 1);
 
-      const orphanDate = addDays(checkoutDate, 1); // the vacant night
-
-      // Skip if we already sent both messages for this gap.
       let existing: { outgoing_sent: boolean; incoming_sent: boolean } | null = null;
       try {
         const { data } = await supabaseAdmin
@@ -254,7 +289,7 @@ export async function processOrphanDayUpsells(
       }
 
       if (existing?.outgoing_sent && existing?.incoming_sent) {
-        results.push({
+        allResults.push({
           propertyId: property.hospitableId,
           propertySlug: property.slug,
           orphanDate,
@@ -270,7 +305,6 @@ export async function processOrphanDayUpsells(
         continue;
       }
 
-      // Fetch the rack rate for the orphan night to quote a discount.
       let regularPrice: number | null = null;
       let discountedPrice: number | null = null;
       try {
@@ -285,53 +319,152 @@ export async function processOrphanDayUpsells(
         console.error(`[orphan-upsell] price fetch error ${property.slug}/${orphanDate}:`, err);
       }
 
-      const result: OrphanUpsellResult = {
-        propertyId: property.hospitableId,
-        propertySlug: property.slug,
+      pendingPairs.push({
+        outgoing,
+        incoming,
         orphanDate,
-        outgoingReservationId: outgoing.id,
-        incomingReservationId: incoming.id,
         regularPrice,
         discountedPrice,
-        outgoingSent: existing?.outgoing_sent ?? false,
-        incomingSent: existing?.incoming_sent ?? false,
-      };
+        outgoingAlreadySent: existing?.outgoing_sent ?? false,
+        incomingAlreadySent: existing?.incoming_sent ?? false,
+      });
+    }
 
-      if (!options.dryRun) {
-        // Message the departing guest — offer to extend.
-        if (!existing?.outgoing_sent) {
+    if (pendingPairs.length === 0) continue;
+
+    // ── Pass 2: build send plan — detect combined-message guests ──────────────
+
+    // Maps: reservationId → the pair where it still needs a message
+    const needsAsOutgoing = new Map<string, PendingPair>();
+    const needsAsIncoming = new Map<string, PendingPair>();
+    for (const pair of pendingPairs) {
+      if (!pair.outgoingAlreadySent) needsAsOutgoing.set(pair.outgoing.id, pair);
+      if (!pair.incomingAlreadySent) needsAsIncoming.set(pair.incoming.id, pair);
+    }
+
+    // Mutable result objects keyed by orphanDate so cross-pair updates work
+    const pairResults = new Map<string, OrphanUpsellResult>();
+    for (const pair of pendingPairs) {
+      pairResults.set(pair.orphanDate, {
+        propertyId: property.hospitableId,
+        propertySlug: property.slug,
+        orphanDate: pair.orphanDate,
+        outgoingReservationId: pair.outgoing.id,
+        incomingReservationId: pair.incoming.id,
+        regularPrice: pair.regularPrice,
+        discountedPrice: pair.discountedPrice,
+        outgoingSent: pair.outgoingAlreadySent,
+        incomingSent: pair.incomingAlreadySent,
+      });
+    }
+
+    const messagedReservations = new Set<string>();
+
+    for (const pair of pendingPairs) {
+      const result = pairResults.get(pair.orphanDate)!;
+
+      // ── Outgoing guest (checking out before orphan day) ────────────────────
+      if (!pair.outgoingAlreadySent && !messagedReservations.has(pair.outgoing.id)) {
+        if (!options.dryRun) {
           try {
-            const name = outgoing.guest?.first_name || "there";
-            const msg = outgoingMessage(name, orphanDate, regularPrice, discountedPrice);
-            result.outgoingSent = await sendMessage(outgoing.id, msg, apiKey);
+            const name = pair.outgoing.guest?.first_name || "there";
+            const staying = isCurrentlyStaying(pair.outgoing, today);
+            const incomingPairForSameGuest = needsAsIncoming.get(pair.outgoing.id);
+
+            let sent: boolean;
+            if (incomingPairForSameGuest) {
+              // This guest also has an early check-in orphan → combine both into one message
+              sent = await sendMessage(
+                pair.outgoing.id,
+                combinedMessage(
+                  name,
+                  incomingPairForSameGuest.orphanDate, // earlier orphan = night before their arrival
+                  pair.orphanDate,                     // later orphan = night after their checkout
+                  incomingPairForSameGuest.regularPrice,
+                  incomingPairForSameGuest.discountedPrice,
+                  pair.regularPrice,
+                  pair.discountedPrice,
+                  staying,
+                ),
+                apiKey,
+              );
+              result.outgoingSent = sent;
+              const otherResult = pairResults.get(incomingPairForSameGuest.orphanDate);
+              if (otherResult) otherResult.incomingSent = sent;
+            } else {
+              sent = await sendMessage(
+                pair.outgoing.id,
+                outgoingMessage(name, pair.orphanDate, pair.regularPrice, pair.discountedPrice, staying),
+                apiKey,
+              );
+              result.outgoingSent = sent;
+            }
           } catch (err) {
-            console.error(`[orphan-upsell] outgoing send error ${outgoing.id}:`, err);
+            console.error(`[orphan-upsell] outgoing send error ${pair.outgoing.id}:`, err);
           }
         }
+        messagedReservations.add(pair.outgoing.id);
+      }
 
-        // Message the arriving guest — offer early check-in.
-        if (!existing?.incoming_sent) {
+      // ── Incoming guest (checking in after orphan day) ──────────────────────
+      if (!pair.incomingAlreadySent && !messagedReservations.has(pair.incoming.id)) {
+        if (!options.dryRun) {
           try {
-            const name = incoming.guest?.first_name || "there";
-            const msg = incomingMessage(name, orphanDate, regularPrice, discountedPrice);
-            result.incomingSent = await sendMessage(incoming.id, msg, apiKey);
+            const name = pair.incoming.guest?.first_name || "there";
+            const outgoingPairForSameGuest = needsAsOutgoing.get(pair.incoming.id);
+
+            let sent: boolean;
+            if (outgoingPairForSameGuest) {
+              // This guest also has a late checkout orphan → combine both into one message
+              const staying = isCurrentlyStaying(pair.incoming, today);
+              sent = await sendMessage(
+                pair.incoming.id,
+                combinedMessage(
+                  name,
+                  pair.orphanDate,                      // earlier orphan = night before their arrival
+                  outgoingPairForSameGuest.orphanDate,  // later orphan = night after their checkout
+                  pair.regularPrice,
+                  pair.discountedPrice,
+                  outgoingPairForSameGuest.regularPrice,
+                  outgoingPairForSameGuest.discountedPrice,
+                  staying,
+                ),
+                apiKey,
+              );
+              result.incomingSent = sent;
+              const otherResult = pairResults.get(outgoingPairForSameGuest.orphanDate);
+              if (otherResult) otherResult.outgoingSent = sent;
+            } else {
+              sent = await sendMessage(
+                pair.incoming.id,
+                incomingMessage(name, pair.orphanDate, pair.regularPrice, pair.discountedPrice),
+                apiKey,
+              );
+              result.incomingSent = sent;
+            }
           } catch (err) {
-            console.error(`[orphan-upsell] incoming send error ${incoming.id}:`, err);
+            console.error(`[orphan-upsell] incoming send error ${pair.incoming.id}:`, err);
           }
         }
+        messagedReservations.add(pair.incoming.id);
+      }
+    }
 
-        // Persist result so we never double-send.
+    // ── Persist all pairs ─────────────────────────────────────────────────────
+    if (!options.dryRun) {
+      for (const [orphanDate, result] of pairResults) {
+        const pair = pendingPairs.find((p) => p.orphanDate === orphanDate)!;
         try {
           await supabaseAdmin.from("orphan_upsell_log").upsert(
             {
               property_hospitable_id: property.hospitableId,
               orphan_date: orphanDate,
-              outgoing_reservation_id: outgoing.id,
-              incoming_reservation_id: incoming.id,
+              outgoing_reservation_id: pair.outgoing.id,
+              incoming_reservation_id: pair.incoming.id,
               outgoing_sent: result.outgoingSent,
               incoming_sent: result.incomingSent,
-              orphan_day_price_usd: regularPrice,
-              discounted_price_usd: discountedPrice,
+              orphan_day_price_usd: pair.regularPrice,
+              discounted_price_usd: pair.discountedPrice,
             },
             { onConflict: "property_hospitable_id,orphan_date" },
           );
@@ -339,10 +472,10 @@ export async function processOrphanDayUpsells(
           console.error(`[orphan-upsell] DB upsert error ${property.slug}/${orphanDate}:`, err);
         }
       }
-
-      results.push(result);
     }
+
+    allResults.push(...pairResults.values());
   }
 
-  return results;
+  return allResults;
 }
