@@ -228,7 +228,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "stpete-hottub",
     hospitableId: "a581de1a-6c11-46ea-b8ce-73183ad2dd4e",
-    airbnbUrl: "https://www.airbnb.com/rooms/1228914910120020931",
+    airbnbUrl: "https://www.airbnb.com/rooms/1648677049685478716",
     lat: 27.78652257, lng: -82.63916485,
     alt: "St Petersburg Florida vacation rental with private outdoor hot tub and bamboo garden",
     location: "St. Petersburg, FL",
