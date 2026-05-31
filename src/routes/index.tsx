@@ -119,8 +119,8 @@ function Index() {
             Tampa Bay, Florida
           </p>
           <h1 className="mt-5 font-display text-[2.5rem] font-medium leading-[1.05] tracking-tight sm:mt-6 sm:text-6xl lg:text-7xl">
-            Florida vacation rentals,<br className="hidden sm:block" />
-            <span className="text-white/95"> hosted with care.</span>
+            Florida Vacation Rentals,<br className="hidden sm:block" />
+            <span className="text-white/95"> Hosted With Care.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-balance text-[15px] leading-relaxed text-white/85 sm:mt-7 sm:text-lg">
             Designer homes across Tampa, St. Petersburg, Clearwater and the Gulf beaches.
