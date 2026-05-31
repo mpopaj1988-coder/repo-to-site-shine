@@ -386,16 +386,18 @@ function ListingPage() {
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
             <AvailabilityChecker bookingUrl={HOSPITABLE_INQUIRY_URL} calendar={availability} propertySlug={p.slug} />
-            <a
-              href={HOSPITABLE_INQUIRY_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
-              data-testid="listing-sticky-check"
-              className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
-            >
-              Check availability
-            </a>
+            {!availability.length && (
+              <a
+                href={HOSPITABLE_INQUIRY_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
+                data-testid="listing-sticky-check"
+                className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
+              >
+                Check availability
+              </a>
+            )}
             <a
               href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
               onClick={() => track("phone_click", { surface: "listing_sticky_call", property: p.slug })}
