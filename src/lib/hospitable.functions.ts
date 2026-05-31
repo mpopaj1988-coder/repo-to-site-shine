@@ -1,5 +1,45 @@
 import { createServerFn } from "@tanstack/react-start";
 import { setResponseHeader } from "@tanstack/react-start/server";
+import { createClient } from "@supabase/supabase-js";
+
+const SUPABASE_URL = "https://ywstqonfcfjfqfuwscya.supabase.co";
+
+async function overlayDirectBookings(
+  id: string,
+  calendar: CalendarDay[],
+): Promise<CalendarDay[]> {
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceKey) return calendar;
+
+  try {
+    const sb = createClient(SUPABASE_URL, serviceKey);
+    const today = new Date().toISOString().slice(0, 10);
+    const { data: bookings } = await sb
+      .from("direct_bookings")
+      .select("check_in, check_out")
+      .eq("hospitable_property_id", id)
+      .in("status", ["confirmed", "pending"])
+      .gte("check_out", today);
+
+    if (!bookings?.length) return calendar;
+
+    const blocked = new Set<string>();
+    for (const b of bookings) {
+      const cursor = new Date(b.check_in as string);
+      const end = new Date(b.check_out as string);
+      while (cursor < end) {
+        blocked.add(cursor.toISOString().slice(0, 10));
+        cursor.setDate(cursor.getDate() + 1);
+      }
+    }
+
+    return calendar.map((day) =>
+      blocked.has(day.date) ? { ...day, available: false } : day,
+    );
+  } catch {
+    return calendar;
+  }
+}
 
 export type Pricing = {
   min: number;
@@ -248,7 +288,7 @@ export const getListingAvailability = createServerFn({ method: "GET" })
     }
     const cached = availCache.get(id);
     if (cached) {
-      if (cached.fresh > now) return cached.value;
+      if (cached.fresh > now) return overlayDirectBookings(id, cached.value);
       if (cached.stale > now) {
         if (apiKey && !cached.refreshing) {
           cached.refreshing = true;
@@ -256,14 +296,14 @@ export const getListingAvailability = createServerFn({ method: "GET" })
             .then((v) => storeAvail(id, v, v.length > 0))
             .catch(() => storeAvail(id, cached.value, false));
         }
-        return cached.value;
+        return overlayDirectBookings(id, cached.value);
       }
     }
     if (!apiKey) return [];
     try {
       const value = await fetchAvailability(id, apiKey);
       storeAvail(id, value, value.length > 0);
-      return value;
+      return overlayDirectBookings(id, value);
     } catch {
       storeAvail(id, [], false);
       return [];
