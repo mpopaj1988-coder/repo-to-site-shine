@@ -153,8 +153,8 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     badge: "Most Reviewed",
     href: "https://seaandcityrentals.hospitable.rentals/",
     directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/47118bd2-8b40-5d57-a2e2-9dca8557177f",
-    tagline: "Our most-reviewed home — 279 stays and counting.",
-    longDescription: "Our most-reviewed Clearwater vacation rental — and it earns it. A beautifully styled 4-bedroom, 2-bath family home that sleeps 14, just nine minutes from Clearwater Beach and twenty from Tampa airport. The fenced backyard centers on a heated pool ringed with string lights, a stone fire pit with teal Adirondack chairs and outdoor dining for eight. Inside, four uniquely designed bedrooms — including a kid-favorite bunk room — surround a stainless chef's kitchen and a wide open living space built for board games, group dinners and movie nights. With 279 five-star stays on the books, it's the home repeat guests rebook a year out.",
+    tagline: "Our most-reviewed home — hundreds of stays and counting.",
+    longDescription: "Our most-reviewed Clearwater vacation rental — and it earns it. A beautifully styled 4-bedroom, 2-bath family home that sleeps 14, just nine minutes from Clearwater Beach and twenty from Tampa airport. The fenced backyard centers on a heated pool ringed with string lights, a stone fire pit with teal Adirondack chairs and outdoor dining for eight. Inside, four uniquely designed bedrooms — including a kid-favorite bunk room — surround a stainless chef's kitchen and a wide open living space built for board games, group dinners and movie nights. With hundreds of five-star stays on the books, it's the home repeat guests rebook a year out.",
     amenities: ["Heated pool","Stone fire pit","Large fenced yard","Outdoor dining for 8","Stainless kitchen","Smart TVs throughout","Fast Wi-Fi","Washer & dryer","Central A/C","Free parking"],
     highlights: [
       { icon: "🏊", title: "Heated pool", body: "Glowing pool with string lights and lounge." },
