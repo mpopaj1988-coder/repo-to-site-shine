@@ -53,26 +53,28 @@ async function handleRefresh() {
       perProperty[p.slug] = 0;
       continue;
     }
-    const rows = reviews.map((r: any) => ({
-      hospitable_review_id: String(r.id ?? r.uuid ?? `${p.hospitableId}-${r.created_at}`),
-      property_hospitable_id: p.hospitableId,
-      property_slug: p.slug,
-      guest_name:
-        r.guest_name ||
-        r.reviewer?.first_name ||
-        r.guest?.first_name ||
-        "Guest",
-      rating:
-        typeof r.rating === "number"
-          ? r.rating
-          : typeof r.overall_rating === "number"
-          ? r.overall_rating
-          : null,
-      text: r.public_review || r.private_review || r.comment || r.text || "",
-      review_date: (r.review_date || r.created_at || r.submitted_at || "").slice(0, 10) || null,
-      raw: r,
-      fetched_at: new Date().toISOString(),
-    }));
+    const rows = reviews
+      .map((r: any) => ({
+        hospitable_review_id: String(r.id ?? r.uuid ?? `${p.hospitableId}-${r.created_at}`),
+        property_hospitable_id: p.hospitableId,
+        property_slug: p.slug,
+        guest_name:
+          r.guest_name ||
+          r.reviewer?.first_name ||
+          r.guest?.first_name ||
+          "Guest",
+        rating:
+          typeof r.rating === "number"
+            ? r.rating
+            : typeof r.overall_rating === "number"
+            ? r.overall_rating
+            : null,
+        text: r.public_review || r.private_review || r.comment || r.text || "",
+        review_date: (r.review_date || r.created_at || r.submitted_at || "").slice(0, 10) || null,
+        raw: r,
+        fetched_at: new Date().toISOString(),
+      }))
+      .filter((row: any) => row.rating !== null && row.rating >= 4);
 
     const { error } = await supabaseAdmin
       .from("hospitable_reviews_cache")

@@ -77,4 +77,21 @@ export default {
       return brandedErrorResponse();
     }
   },
+
+  async scheduled(_event: unknown, env: unknown, ctx: { waitUntil: (p: Promise<unknown>) => void }) {
+    ctx.waitUntil(
+      (async () => {
+        try {
+          const handler = await getServerEntry();
+          const req = new Request("https://seaandcityrentals.com/api/public/refresh-reviews", {
+            method: "POST",
+          });
+          const res = await handler.fetch(req, env, ctx);
+          console.log("Scheduled review refresh:", res.status, await res.text());
+        } catch (err) {
+          console.error("Scheduled review refresh failed:", err);
+        }
+      })(),
+    );
+  },
 };
