@@ -39,25 +39,33 @@ export function AvailabilityChecker({
   const [showModal, setShowModal] = useState(false);
 
   // Build lookup structures for availability and pricing
-  const { unavailableSet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
+  const { unavailableSet, blockStartSet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
     useMemo(() => {
       const unavail = new Set<string>();
+      const blockStart = new Set<string>(); // first day of each unavailable block = valid checkout date
       const priceMap: Record<string, number> = {};
       let cur = "USD";
       let earliest: Date | undefined;
       let firstAvail: Date | undefined;
+      let prevAvail = true;
       for (const d of calendar) {
         if (!d.date) continue;
         if (!earliest) earliest = parseYmd(d.date);
-        if (!d.available) unavail.add(d.date);
-        else if (!firstAvail) firstAvail = parseYmd(d.date);
+        if (!d.available) {
+          unavail.add(d.date);
+          if (prevAvail) blockStart.add(d.date); // same-day turnover: guests can check out on this date
+        } else if (!firstAvail) {
+          firstAvail = parseYmd(d.date);
+        }
         if (typeof d.price === "number") priceMap[d.date] = d.price;
         cur = d.currency;
+        prevAvail = d.available;
       }
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       return {
         unavailableSet: unavail,
+        blockStartSet: blockStart,
         priceByDate: priceMap,
         currency: cur,
         minDate: earliest ?? today,
@@ -165,7 +173,13 @@ export function AvailabilityChecker({
                 mode="range"
                 selected={range}
                 onSelect={setRange}
-                disabled={(date) => date < minDate || unavailableSet.has(ymd(date))}
+                disabled={(date) => {
+                  if (date < minDate) return true;
+                  const key = ymd(date);
+                  if (!unavailableSet.has(key)) return false;
+                  // Allow block-start dates as checkout (same-day turnover).
+                  return !blockStartSet.has(key);
+                }}
                 startMonth={minDate}
                 defaultMonth={firstAvailableDate ?? minDate}
                 numberOfMonths={1}
