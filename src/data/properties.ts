@@ -79,7 +79,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     categories: ["Large Groups"],
     badge: "Guest Favorite",
     href: "https://seaandcityrentals.hospitable.rentals/",
-    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/2f0af99d-80ac-502b-9208-a38d81729b6c",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/",
     tagline: "Waterfront luxury for unforgettable group escapes.",
     longDescription: "Escape to one of Tampa's most photographed waterfront vacation rentals — a 6-bedroom, 4-bath estate built for large families, milestone trips and reunions of up to 15 guests. Wake up in one of two oversized master suites, brew coffee on a sun-drenched lanai, then step from your private dock straight into the bay. Afternoons drift between the heated pool, the outdoor kitchen and the fire pit; evenings end with sunset cocktails over open water. Inside, a chef's kitchen, multiple living areas and resort-grade beds make group travel effortless. Five minutes to dining, twenty to Tampa International — the rare home where everyone gets their own space without ever leaving the property.",
     amenities: ["Heated pool","Private dock","Outdoor kitchen","Fire pit","Two master suites","Smart TVs throughout","Fast Wi-Fi","Washer & dryer","Central A/C","Free parking"],
