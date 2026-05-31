@@ -8,7 +8,7 @@
 // ONE combined message instead of two separate ones.
 
 const HOSPITABLE_BASE = "https://public.api.hospitable.com/v2";
-const DISCOUNT_PCT = 35;
+const DISCOUNT_PCT = 20;
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -42,8 +42,9 @@ interface PendingPair {
   outgoing: HospitableReservation;
   incoming: HospitableReservation;
   orphanDate: string;
-  regularPrice: number | null;
-  discountedPrice: number | null;
+  hospitablePrice: number | null;  // raw price from Hospitable before platform adjustment
+  regularPrice: number | null;     // Airbnb-adjusted price (for result reporting)
+  discountedPrice: number | null;  // Airbnb-adjusted discounted price (for result reporting)
   outgoingAlreadySent: boolean;
   incomingAlreadySent: boolean;
 }
@@ -80,6 +81,21 @@ function isCurrentlyStaying(res: HospitableReservation, today: string): boolean 
 function isExcludedMonth(dateStr: string): boolean {
   const month = toDate(dateStr).getUTCMonth() + 1;
   return month === 3 || month === 4; // March and April
+}
+
+function pricesForPlatform(
+  hospitablePrice: number | null,
+  platform: string,
+  minPrice: number,
+): { regularPrice: number | null; discountedPrice: number | null } {
+  if (hospitablePrice === null) return { regularPrice: null, discountedPrice: null };
+  const isDirect = platform === "direct" || platform === "manual";
+  const regularPrice = isDirect ? hospitablePrice : Math.round(hospitablePrice * 1.15);
+  const discountedPrice = Math.max(
+    Math.round(regularPrice * (1 - DISCOUNT_PCT / 100)),
+    minPrice,
+  );
+  return { regularPrice, discountedPrice };
 }
 
 // ── Hospitable API calls ──────────────────────────────────────────────────────
@@ -175,7 +191,7 @@ function greeting(firstName: string, currentlyStaying: boolean, emoji: string): 
 
 function priceNote(regular: number | null, discounted: number | null, label: string): string {
   return regular !== null && discounted !== null
-    ? ` We can offer ${label} at $${discounted} — a 35% discount off our regular rate of $${regular}.`
+    ? ` We can offer ${label} at $${discounted} — a 20% discount off our regular rate of $${regular}.`
     : ` We'd be happy to offer you a special discounted rate for ${label}.`;
 }
 
@@ -221,10 +237,10 @@ function combinedMessage(
   currentlyStaying: boolean,
 ): string {
   const earlyPriceNote = earlyRegular !== null && earlyDiscounted !== null
-    ? ` ($${earlyDiscounted} — 35% off our regular $${earlyRegular} rate)`
+    ? ` ($${earlyDiscounted} — 20% off our regular $${earlyRegular} rate)`
     : "";
   const latePriceNote = lateRegular !== null && lateDiscounted !== null
-    ? ` ($${lateDiscounted} — 35% off our regular $${lateRegular} rate)`
+    ? ` ($${lateDiscounted} — 20% off our regular $${lateRegular} rate)`
     : "";
 
   return (
@@ -312,26 +328,25 @@ export async function processOrphanDayUpsells(
         continue;
       }
 
-      let regularPrice: number | null = null;
-      let discountedPrice: number | null = null;
+      let hospitablePrice: number | null = null;
       try {
-        const hospitablePrice = await fetchDayPrice(property.hospitableId, orphanDate, apiKey);
-        if (hospitablePrice !== null) {
-          // Hospitable price is ~15% below Airbnb — adjust to show guests the correct rate
-          regularPrice = Math.round(hospitablePrice * 1.15);
-          discountedPrice = Math.max(
-            Math.round(regularPrice * (1 - DISCOUNT_PCT / 100)),
-            property.minPrice,
-          );
-        }
+        hospitablePrice = await fetchDayPrice(property.hospitableId, orphanDate, apiKey);
       } catch (err) {
         console.error(`[orphan-upsell] price fetch error ${property.slug}/${orphanDate}:`, err);
       }
+
+      // Derive Airbnb-adjusted prices for result reporting (outgoing guest is typically Airbnb)
+      const { regularPrice, discountedPrice } = pricesForPlatform(
+        hospitablePrice,
+        outgoing.platform,
+        property.minPrice,
+      );
 
       pendingPairs.push({
         outgoing,
         incoming,
         orphanDate,
+        hospitablePrice,
         regularPrice,
         discountedPrice,
         outgoingAlreadySent: existing?.outgoing_sent ?? false,
@@ -383,16 +398,18 @@ export async function processOrphanDayUpsells(
             let sent: boolean;
             if (incomingPairForSameGuest) {
               // This guest also has an early check-in orphan → combine both into one message
+              const earlyPrices = pricesForPlatform(incomingPairForSameGuest.hospitablePrice, pair.outgoing.platform, property.minPrice);
+              const latePrices = pricesForPlatform(pair.hospitablePrice, pair.outgoing.platform, property.minPrice);
               sent = await sendMessage(
                 pair.outgoing.id,
                 combinedMessage(
                   name,
-                  incomingPairForSameGuest.orphanDate, // earlier orphan = night before their arrival
-                  pair.orphanDate,                     // later orphan = night after their checkout
-                  incomingPairForSameGuest.regularPrice,
-                  incomingPairForSameGuest.discountedPrice,
-                  pair.regularPrice,
-                  pair.discountedPrice,
+                  incomingPairForSameGuest.orphanDate,
+                  pair.orphanDate,
+                  earlyPrices.regularPrice,
+                  earlyPrices.discountedPrice,
+                  latePrices.regularPrice,
+                  latePrices.discountedPrice,
                   staying,
                 ),
                 apiKey,
@@ -401,9 +418,10 @@ export async function processOrphanDayUpsells(
               const otherResult = pairResults.get(incomingPairForSameGuest.orphanDate);
               if (otherResult) otherResult.incomingSent = sent;
             } else {
+              const { regularPrice: rp, discountedPrice: dp } = pricesForPlatform(pair.hospitablePrice, pair.outgoing.platform, property.minPrice);
               sent = await sendMessage(
                 pair.outgoing.id,
-                outgoingMessage(name, pair.orphanDate, pair.regularPrice, pair.discountedPrice, staying),
+                outgoingMessage(name, pair.orphanDate, rp, dp, staying),
                 apiKey,
               );
               result.outgoingSent = sent;
@@ -426,16 +444,18 @@ export async function processOrphanDayUpsells(
             if (outgoingPairForSameGuest) {
               // This guest also has a late checkout orphan → combine both into one message
               const staying = isCurrentlyStaying(pair.incoming, today);
+              const earlyPrices = pricesForPlatform(pair.hospitablePrice, pair.incoming.platform, property.minPrice);
+              const latePrices = pricesForPlatform(outgoingPairForSameGuest.hospitablePrice, pair.incoming.platform, property.minPrice);
               sent = await sendMessage(
                 pair.incoming.id,
                 combinedMessage(
                   name,
-                  pair.orphanDate,                      // earlier orphan = night before their arrival
-                  outgoingPairForSameGuest.orphanDate,  // later orphan = night after their checkout
-                  pair.regularPrice,
-                  pair.discountedPrice,
-                  outgoingPairForSameGuest.regularPrice,
-                  outgoingPairForSameGuest.discountedPrice,
+                  pair.orphanDate,
+                  outgoingPairForSameGuest.orphanDate,
+                  earlyPrices.regularPrice,
+                  earlyPrices.discountedPrice,
+                  latePrices.regularPrice,
+                  latePrices.discountedPrice,
                   staying,
                 ),
                 apiKey,
@@ -444,9 +464,10 @@ export async function processOrphanDayUpsells(
               const otherResult = pairResults.get(outgoingPairForSameGuest.orphanDate);
               if (otherResult) otherResult.outgoingSent = sent;
             } else {
+              const { regularPrice: rp, discountedPrice: dp } = pricesForPlatform(pair.hospitablePrice, pair.incoming.platform, property.minPrice);
               sent = await sendMessage(
                 pair.incoming.id,
-                incomingMessage(name, pair.orphanDate, pair.regularPrice, pair.discountedPrice),
+                incomingMessage(name, pair.orphanDate, rp, dp),
                 apiKey,
               );
               result.incomingSent = sent;
