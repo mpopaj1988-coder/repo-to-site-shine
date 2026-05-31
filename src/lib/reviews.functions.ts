@@ -5,6 +5,7 @@ export const getReviews = createServerFn({ method: "GET" }).handler(async () => 
   const { data, error } = await supabaseAdmin
     .from("hospitable_reviews_cache")
     .select("hospitable_review_id, property_slug, guest_name, rating, text, review_date")
+    .gte("rating", 4)
     .order("review_date", { ascending: false })
     .limit(50);
 

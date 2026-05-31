@@ -130,7 +130,7 @@ async function fetchReviews(id: string, apiKey: string): Promise<ReviewItem[]> {
     }>;
   };
   return (json.data ?? [])
-    .filter((r) => r.public?.review && (r.public?.rating ?? 0) > 0)
+    .filter((r) => r.public?.review && (r.public?.rating ?? 0) >= 4)
     .slice(0, 30)
     .map((r) => ({
       id: r.id,
