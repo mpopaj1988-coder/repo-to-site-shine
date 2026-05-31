@@ -103,34 +103,63 @@ export function AvailabilityChecker({
       <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">
         Check availability
       </p>
-      <button
-        type="button"
-        data-testid="availability-toggle"
-        onClick={() => {
-          setShowCalendar((s) => {
-            if (!s) track("availability_opened", { property: propertySlug });
-            return !s;
-          });
-        }}
-        className="mt-3 grid w-full grid-cols-2 gap-2 rounded-sm border border-border bg-background p-2 text-left transition hover:border-[var(--color-deep)]"
-      >
-        <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Check-in
-          </p>
-          <p className="mt-0.5 text-sm font-semibold text-foreground">
-            {fromLabel ?? "Add date"}
-          </p>
+      <div className="mt-3 grid w-full grid-cols-2 gap-2">
+        <div className="relative">
+          <button
+            type="button"
+            data-testid="availability-toggle"
+            onClick={() => {
+              setShowCalendar((s) => {
+                if (!s) track("availability_opened", { property: propertySlug });
+                return !s;
+              });
+            }}
+            className="w-full rounded-sm border border-border bg-background p-2 text-left transition hover:border-[var(--color-deep)]"
+          >
+            <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Check-in</p>
+              <p className="mt-0.5 text-sm font-semibold text-foreground">{fromLabel ?? "Add date"}</p>
+            </div>
+          </button>
+          {range?.from && (
+            <button
+              type="button"
+              aria-label="Clear check-in"
+              onClick={() => setRange((r) => r ? { ...r, from: undefined } : undefined)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground"
+            >
+              ×
+            </button>
+          )}
         </div>
-        <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Check-out
-          </p>
-          <p className="mt-0.5 text-sm font-semibold text-foreground">
-            {toLabel ?? "Add date"}
-          </p>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => {
+              setShowCalendar((s) => {
+                if (!s) track("availability_opened", { property: propertySlug });
+                return !s;
+              });
+            }}
+            className="w-full rounded-sm border border-border bg-background p-2 text-left transition hover:border-[var(--color-deep)]"
+          >
+            <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Check-out</p>
+              <p className="mt-0.5 text-sm font-semibold text-foreground">{toLabel ?? "Add date"}</p>
+            </div>
+          </button>
+          {range?.to && (
+            <button
+              type="button"
+              aria-label="Clear check-out"
+              onClick={() => setRange((r) => r ? { ...r, to: undefined } : undefined)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground"
+            >
+              ×
+            </button>
+          )}
         </div>
-      </button>
+      </div>
 
       {showCalendar && (
         <div className="mt-3 rounded-sm border border-border bg-background p-2">
@@ -199,7 +228,7 @@ export function AvailabilityChecker({
         className={`mt-4 block rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
           canReserve
             ? "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
-            : "cursor-pointer bg-[var(--color-gold)] text-[var(--color-deep)] opacity-70"
+            : "cursor-pointer bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
         }`}
       >
         {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates to reserve"}
