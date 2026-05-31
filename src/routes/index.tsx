@@ -242,10 +242,10 @@ function Index() {
               { icon: "🔁", t: "Return Guest Perk", d: "Come back and get 10% off your next stay — automatically." },
               { icon: "✨", t: "Custom Requests", d: "Early check-in, special occasions, extended stays — just ask us." },
             ].map((b) => (
-              <div key={b.t} className="rounded-md border border-white/10 bg-white/5 p-6">
-                <span className="text-2xl" aria-hidden>{b.icon}</span>
-                <dt className="mt-3 font-display text-xl">{b.t}</dt>
-                <dd className="mt-2 text-sm text-white/70">{b.d}</dd>
+              <div key={b.t} className="rounded-md border border-white/10 bg-white/5 p-4">
+                <span className="text-xl" aria-hidden>{b.icon}</span>
+                <dt className="mt-2 font-display text-base">{b.t}</dt>
+                <dd className="mt-1 text-xs text-white/70">{b.d}</dd>
               </div>
             ))}
           </dl>
