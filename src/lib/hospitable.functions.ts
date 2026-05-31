@@ -157,10 +157,8 @@ export const getListingReviews = createServerFn({ method: "GET" })
     const now = Date.now();
     const apiKey = process.env.HOSPITABLE_API_KEY;
     try {
-      setResponseHeader(
-        "Cache-Control",
-        "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
-      );
+      // Keep reviews out of the CDN cache so low-star filter changes take effect immediately.
+      setResponseHeader("Cache-Control", "private, max-age=0");
     } catch {
       /* not in request context */
     }
