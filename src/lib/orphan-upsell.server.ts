@@ -485,6 +485,8 @@ export async function processOrphanDayUpsells(
       for (const [orphanDate, result] of pairResults) {
         const pair = pendingPairs.find((p) => p.orphanDate === orphanDate)!;
         try {
+          const outgoingPrices = pricesForPlatform(pair.hospitablePrice, pair.outgoing.platform, property.minPrice);
+          const incomingPrices = pricesForPlatform(pair.hospitablePrice, pair.incoming.platform, property.minPrice);
           await supabaseAdmin.from("orphan_upsell_log").upsert(
             {
               property_hospitable_id: property.hospitableId,
@@ -495,6 +497,8 @@ export async function processOrphanDayUpsells(
               incoming_sent: result.incomingSent,
               orphan_day_price_usd: pair.regularPrice,
               discounted_price_usd: pair.discountedPrice,
+              outgoing_discounted_price_usd: outgoingPrices.discountedPrice,
+              incoming_discounted_price_usd: incomingPrices.discountedPrice,
             },
             { onConflict: "property_hospitable_id,orphan_date" },
           );

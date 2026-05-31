@@ -35,6 +35,8 @@ interface PendingRow {
   outgoing_alteration_handled: boolean;
   incoming_alteration_handled: boolean;
   discounted_price_usd: number | null;
+  outgoing_discounted_price_usd: number | null;
+  incoming_discounted_price_usd: number | null;
   created_at: string;
 }
 
@@ -98,21 +100,54 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   return res.ok;
 }
 
-// Create a task for the host to send an alteration request.
+// Update the Hospitable calendar price for the orphan night to the offered discounted price.
+async function updateCalendarPrice(
+  propertyId: string,
+  orphanDate: string,
+  priceUsd: number,
+  apiKey: string,
+): Promise<boolean> {
+  const url = `${HOSPITABLE_BASE}/properties/${propertyId}/calendar`;
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      dates: [{ date: orphanDate, price: { amount: priceUsd * 100 } }],
+    }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    console.error(`[orphan-reply] updateCalendarPrice ${propertyId}/${orphanDate} ${res.status}:`, text.slice(0, 200));
+  }
+  return res.ok;
+}
+
+// Create a task for the host to send the alteration request.
+// By this point the calendar price has already been updated.
 async function createAlterationTask(
   reservationId: string,
   guestName: string,
   orphanDate: string,
   direction: "outgoing" | "incoming",
   discountedPrice: number | null,
+  calendarUpdated: boolean,
   apiKey: string,
 ): Promise<boolean> {
   const action = direction === "outgoing" ? "extend checkout by 1 night" : "move check-in 1 night earlier";
   const priceNote = discountedPrice ? ` at $${discountedPrice}` : "";
-  const title = `ACTION NEEDED: Send alteration request to ${guestName} for ${orphanDate}`;
+  const priceStatus = calendarUpdated
+    ? `✅ Calendar price for ${orphanDate} has been set to $${discountedPrice} in Hospitable.`
+    : `⚠️ Calendar price update failed — please set ${orphanDate} to $${discountedPrice ?? "the agreed rate"} manually before sending the alteration.`;
+
+  const title = `ACTION NEEDED: Send alteration to ${guestName} — ${orphanDate}`;
   const description =
-    `Guest ${guestName} replied YES to the orphan-day upsell for ${orphanDate}.\n` +
-    `Please ${action}${priceNote} by sending them an alteration request on the platform they booked through.\n` +
+    `Guest ${guestName} replied YES to the orphan-day upsell for ${orphanDate}.\n\n` +
+    `${priceStatus}\n\n` +
+    `Next step: go to the reservation on the booking platform and send an alteration request to ${action}${priceNote}.\n` +
     `Reservation ID: ${reservationId}`;
 
   const res = await fetch(`${HOSPITABLE_BASE}/tasks`, {
@@ -248,14 +283,26 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
-            // Try direct extension first; always create a task for the host.
+            const offeredPrice = row.outgoing_discounted_price_usd ?? row.discounted_price_usd;
+            // 1. Update calendar price so the alteration request shows the correct amount.
+            let calendarUpdated = false;
+            if (offeredPrice) {
+              calendarUpdated = await updateCalendarPrice(
+                row.property_hospitable_id,
+                row.orphan_date,
+                offeredPrice,
+                apiKey,
+              );
+            }
+            // 2. Try direct extension for manual reservations; always create a task for Airbnb etc.
             await extendDirectReservation(reservation, "outgoing", apiKey);
             await createAlterationTask(
               reservation.id,
               firstName,
               row.orphan_date,
               "outgoing",
-              row.discounted_price_usd,
+              offeredPrice,
+              calendarUpdated,
               apiKey,
             );
             await sendMessage(
@@ -278,13 +325,24 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
+            const offeredPrice = row.incoming_discounted_price_usd ?? row.discounted_price_usd;
+            let calendarUpdated = false;
+            if (offeredPrice) {
+              calendarUpdated = await updateCalendarPrice(
+                row.property_hospitable_id,
+                row.orphan_date,
+                offeredPrice,
+                apiKey,
+              );
+            }
             await extendDirectReservation(reservation, "incoming", apiKey);
             await createAlterationTask(
               reservation.id,
               firstName,
               row.orphan_date,
               "incoming",
-              row.discounted_price_usd,
+              offeredPrice,
+              calendarUpdated,
               apiKey,
             );
             await sendMessage(
