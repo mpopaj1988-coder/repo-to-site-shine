@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import type { CalendarDay } from "@/lib/hospitable.functions";
@@ -22,6 +22,16 @@ function nightsBetween(from: Date, to: Date): number {
   return Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)));
 }
 
+// Slow season: Aug–Jan, excluding Christmas week (Dec 20–31) and New Year week (Jan 1–7)
+function isSlowSeason(date: Date): boolean {
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  if (m >= 2 && m <= 7) return false;    // Feb–Jul: peak/shoulder
+  if (m === 12 && d >= 20) return false; // Christmas week
+  if (m === 1 && d <= 7) return false;   // New Year week
+  return true;
+}
+
 export function AvailabilityChecker({
   bookingUrl,
   calendar,
@@ -33,6 +43,8 @@ export function AvailabilityChecker({
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
+  // Tracks which rangeKey the user dismissed the upsell for, so it reappears on new date selections
+  const [dismissedForRange, setDismissedForRange] = useState("");
 
   // Build lookup structures for availability and pricing
   const { unavailableSet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
@@ -80,12 +92,50 @@ export function AvailabilityChecker({
     return { nights: n, total: Math.round(sum), hasUnavailable: bad };
   }, [range, unavailableSet, priceByDate]);
 
+  // ── 5th-night upsell ──────────────────────────────────────────────────────
+  // range.to is the checkout date; staying that night = the potential 5th night
+  const rangeKey = range?.from && range?.to ? `${ymd(range.from)}_${ymd(range.to)}` : "";
+  const upsellDismissed = rangeKey !== "" && dismissedForRange === rangeKey;
+
+  const fifthNightKey = range?.to ? ymd(range.to) : null;
+  const fifthNightBasePrice = fifthNightKey ? (priceByDate[fifthNightKey] ?? 0) : 0;
+  const fifthNightDiscountedPrice = Math.round(fifthNightBasePrice * 0.65);
+  const fifthNightSavings = Math.round(fifthNightBasePrice * 0.35);
+  const fifthNightAvailable = !!fifthNightKey && !unavailableSet.has(fifthNightKey);
+
+  const showUpsellModal = useMemo(() => {
+    if (nights !== 4 || upsellDismissed || !range?.from) return false;
+    if (!fifthNightAvailable) return false;
+    return isSlowSeason(range.from);
+  }, [nights, upsellDismissed, range?.from, fifthNightAvailable]);
+
+  useEffect(() => {
+    if (showUpsellModal) {
+      track("upsell_shown", { property: propertySlug, nights: 4 });
+    }
+  }, [showUpsellModal]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function acceptUpsell() {
+    if (!range?.to) return;
+    const newTo = new Date(range.to);
+    newTo.setDate(newTo.getDate() + 1);
+    setRange((r) => (r ? { ...r, to: newTo } : undefined));
+    setDismissedForRange(rangeKey);
+    track("upsell_accepted", {
+      property: propertySlug,
+      savings: fifthNightSavings,
+      check_in: range?.from ? ymd(range.from) : undefined,
+    });
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   const canReserve = range?.from && range?.to && nights > 0 && !hasUnavailable;
 
   const reserveHref = bookingUrl;
 
   const fromLabel = range?.from?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   const toLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const fifthNightLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   if (!calendar.length) {
     // No calendar data (API key missing) — render nothing; the existing fallback CTA covers it.
@@ -227,6 +277,64 @@ export function AvailabilityChecker({
       >
         {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates to reserve"}
       </a>
+
+      {/* 5th-night upsell modal — slow season only (Aug–Jan, ex Christmas/New Year) */}
+      {showUpsellModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => setDismissedForRange(rangeKey)}
+        >
+          <div
+            className="w-full max-w-sm rounded-lg bg-background p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">
+              Slow-season deal
+            </p>
+            <h3 className="mt-2 font-display text-2xl font-semibold text-[var(--color-deep)]">
+              Stay one more night?
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Extend to 5 nights and your{" "}
+              <span className="font-semibold text-foreground">{fifthNightLabel}</span> night is{" "}
+              <span className="font-semibold text-foreground">35% off</span>
+              {fifthNightBasePrice > 0 && (
+                <>
+                  {" "}— just{" "}
+                  <span className="font-semibold text-[var(--color-deep)]">
+                    ${fifthNightDiscountedPrice}
+                  </span>{" "}
+                  instead of ${fifthNightBasePrice}
+                </>
+              )}
+              .
+            </p>
+            {fifthNightSavings > 0 && (
+              <p className="mt-1 text-xs font-medium text-[var(--color-sea)]">
+                You save ${fifthNightSavings} {currency}
+              </p>
+            )}
+            <div className="mt-5 space-y-2">
+              <button
+                type="button"
+                onClick={acceptUpsell}
+                className="block w-full rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow transition hover:brightness-105"
+              >
+                {fifthNightSavings > 0
+                  ? `Add the 5th night · Save $${fifthNightSavings}`
+                  : "Add the 5th night · 35% off"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setDismissedForRange(rangeKey)}
+                className="block w-full py-2 text-center text-xs text-muted-foreground transition hover:text-foreground"
+              >
+                No thanks, keep 4 nights
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
