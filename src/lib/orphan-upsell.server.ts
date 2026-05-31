@@ -77,6 +77,11 @@ function isCurrentlyStaying(res: HospitableReservation, today: string): boolean 
   );
 }
 
+function isExcludedMonth(dateStr: string): boolean {
+  const month = toDate(dateStr).getUTCMonth() + 1;
+  return month === 3 || month === 4; // March and April
+}
+
 // ── Hospitable API calls ──────────────────────────────────────────────────────
 
 async function fetchAcceptedReservations(
@@ -275,6 +280,8 @@ export async function processOrphanDayUpsells(
 
       const orphanDate = addDays(checkoutDate, 1);
 
+      if (isExcludedMonth(orphanDate)) continue;
+
       let existing: { outgoing_sent: boolean; incoming_sent: boolean } | null = null;
       try {
         const { data } = await supabaseAdmin
@@ -308,8 +315,10 @@ export async function processOrphanDayUpsells(
       let regularPrice: number | null = null;
       let discountedPrice: number | null = null;
       try {
-        regularPrice = await fetchDayPrice(property.hospitableId, orphanDate, apiKey);
-        if (regularPrice !== null) {
+        const hospitablePrice = await fetchDayPrice(property.hospitableId, orphanDate, apiKey);
+        if (hospitablePrice !== null) {
+          // Hospitable price is ~15% below Airbnb — adjust to show guests the correct rate
+          regularPrice = Math.round(hospitablePrice * 1.15);
           discountedPrice = Math.max(
             Math.round(regularPrice * (1 - DISCOUNT_PCT / 100)),
             property.minPrice,
