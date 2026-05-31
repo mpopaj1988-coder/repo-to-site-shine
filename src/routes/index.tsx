@@ -79,7 +79,7 @@ const heroSlides = [
   { img: heroBeach, label: "Indian Rocks Beach, FL", caption: "Gulf Sunsets · Steps from the Sand" },
   { img: heroTampa, label: "Tampa, FL", caption: "Waterfront Estate · Pool + Private Dock" },
   { img: heroStpete, label: "St. Petersburg, FL", caption: "Downtown Retreat · Hot Tub Garden" },
-  { img: heroLargo, label: "Largo, FL", caption: "Resort Pool · 5 Min to the Beach" },
+  { img: heroLargo, label: "St. Petersburg, FL", caption: "Modern Apartment · Downtown Arts District" },
 ];
 
 
