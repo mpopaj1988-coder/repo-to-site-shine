@@ -269,12 +269,12 @@ function Index() {
 
       {/* ABOUT */}
       <section className="relative overflow-hidden bg-[var(--color-sand)]">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-24 lg:grid-cols-2 lg:px-10">
-          <div className="relative">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-[2fr_3fr] lg:px-10">
+          <div className="relative mx-auto w-full max-w-xs lg:max-w-none">
             <img
               src={nella}
               alt="Nella, founder of Sea & City Rentals"
-              className="aspect-[4/5] w-full rounded-md object-cover object-top shadow-xl"
+              className="aspect-[3/4] w-full rounded-md object-cover object-top shadow-xl"
               loading="lazy"
             />
             <div className="absolute -bottom-6 -right-6 hidden rounded-md bg-[var(--color-deep)] px-6 py-5 text-white shadow-lg md:block">
