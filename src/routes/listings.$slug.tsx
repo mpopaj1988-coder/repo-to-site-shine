@@ -381,47 +381,6 @@ function ListingPage() {
             );
           })()}
 
-          {/* INQUIRY */}
-          <div id="inquire" className="mt-14 rounded-md border border-border bg-[var(--color-sand)] p-8">
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[var(--color-sea)]">Ready to book?</p>
-            <h2 className="mt-3 font-display text-3xl font-medium tracking-tight">Check availability or send an inquiry</h2>
-            <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-              Book direct and skip Airbnb fees. Open the booking site to view live calendar, request specific dates, or message us with questions.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href={p.directBookingUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => track("inquiry_click", { surface: "listing_inquire_check", property: p.slug })}
-                data-testid="listing-inquire-check"
-                className="rounded-sm bg-[var(--color-gold)] px-7 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow-md hover:brightness-105"
-              >
-                Check availability
-              </a>
-              <a
-                href={p.directBookingUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => track("inquiry_click", { surface: "listing_inquire_send", property: p.slug })}
-                data-testid="listing-inquire-send"
-                className="rounded-sm border border-[var(--color-deep)] px-7 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
-              >
-                Send inquiry
-              </a>
-              <a
-                href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
-                onClick={() => track("phone_click", { surface: "listing_inquire_call", property: p.slug })}
-                data-testid="listing-inquire-call"
-                className="rounded-sm border border-border px-7 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-foreground hover:bg-white"
-              >
-                Call / Text {PHONE}
-              </a>
-            </div>
-            <p className="mt-5 text-xs text-muted-foreground">
-              ✓ Verified host — also listed on Airbnb &amp; VRBO
-            </p>
-          </div>
         </div>
 
         {/* STICKY BOOKING CARD */}
