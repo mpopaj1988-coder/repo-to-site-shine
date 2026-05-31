@@ -11,6 +11,7 @@ import { getListingPricing, getListingReviews, getListingAvailability, type Pric
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/listings/$slug")({
+  staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
     const p = properties.find((x) => x.slug === params.slug);
     if (!p) throw notFound();
@@ -18,14 +19,18 @@ export const Route = createFileRoute("/listings/$slug")({
     let reviews: ReviewItem[] = [];
     let availability: CalendarDay[] = [];
     if (p.hospitableId) {
-      const [pr, rv, av] = await Promise.all([
-        getListingPricing({ data: { id: p.hospitableId } }).catch(() => null),
-        getListingReviews({ data: { id: p.hospitableId } }).catch(() => [] as ReviewItem[]),
-        getListingAvailability({ data: { id: p.hospitableId } }).catch(() => [] as CalendarDay[]),
-      ]);
-      pricing = pr;
-      reviews = rv;
-      availability = av;
+      try {
+        const [pr, rv, av] = await Promise.all([
+          getListingPricing({ data: { id: p.hospitableId } }).catch(() => null),
+          getListingReviews({ data: { id: p.hospitableId } }).catch(() => [] as ReviewItem[]),
+          getListingAvailability({ data: { id: p.hospitableId } }).catch(() => [] as CalendarDay[]),
+        ]);
+        pricing = pr;
+        reviews = rv;
+        availability = av;
+      } catch {
+        // Hospitable API unavailable — render page with static data only
+      }
     }
     return { property: p, pricing, reviews, availability };
   },
