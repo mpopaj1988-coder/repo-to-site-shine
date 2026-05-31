@@ -56,6 +56,7 @@ export type Property = {
   categories: Category[];
   badge?: string;
   href: string;
+  directBookingUrl: string;
   tagline: string;
   longDescription: string;
   amenities: string[];
@@ -78,6 +79,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     categories: ["Large Groups"],
     badge: "Guest Favorite",
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/2f0af99d-80ac-502b-9208-a38d81729b6c",
     tagline: "Waterfront luxury for unforgettable group escapes.",
     longDescription: "Escape to one of Tampa's most photographed waterfront vacation rentals — a 6-bedroom, 4-bath estate built for large families, milestone trips and reunions of up to 15 guests. Wake up in one of two oversized master suites, brew coffee on a sun-drenched lanai, then step from your private dock straight into the bay. Afternoons drift between the heated pool, the outdoor kitchen and the fire pit; evenings end with sunset cocktails over open water. Inside, a chef's kitchen, multiple living areas and resort-grade beds make group travel effortless. Five minutes to dining, twenty to Tampa International — the rare home where everyone gets their own space without ever leaving the property.",
     amenities: ["Heated pool","Private dock","Outdoor kitchen","Fire pit","Two master suites","Smart TVs throughout","Fast Wi-Fi","Washer & dryer","Central A/C","Free parking"],
@@ -101,6 +103,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     rating: 4.96, reviews: 184,
     categories: ["Beach", "Large Groups"],
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/f4aa7002-c774-5f9f-bda5-07da36ac4224",
     tagline: "Resort-style backyard, five minutes from the Gulf.",
     longDescription: "A designer Largo pool estate that lives larger than its three bedrooms — sleeping 11 across one king, three queens and a bunk room dialed in for kids. The backyard is the headline: heated pool with cascading waterfall, lit gazebo dining for 4, fire pit circle wrapped in Adirondack chairs, and an outdoor patio with couch and BBQ for long, easy nights. Inside, an open-plan great room flows into a renovated quartz-island kitchen with double oven, while three spa-style bathrooms keep mornings drama-free. Five minutes to Indian Rocks Beach and the Gulf, twenty to Clearwater — your group's home base for sun-drenched Florida days and resort-quality nights at home.",
     amenities: ["Heated pool with waterfall","Lit gazebo + dining for 4","Fire pit","Outdoor patio + couch","BBQ grill","Three spa-style baths","Quartz chef kitchen","Smart TVs","Fast Wi-Fi","Washer & dryer"],
@@ -124,6 +127,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     rating: 4.96, reviews: 79,
     categories: ["Beach"],
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/d6509a01-5557-50cd-b5bd-2e9db649f1c3",
     tagline: "Beach house bliss — steps from the Gulf.",
     longDescription: "The Indian Rocks Beach hideaway you picture when you daydream about Florida — a 2-bedroom coastal cottage where you can leave your shoes at the door and walk to the white sand in under a minute. A private hot tub bubbles under string lights on a sunny deck stocked with rocking chairs, a gas grill and palm-shaded views. Two bedrooms — each with two beds — plus a queen sofa bed comfortably sleep six, while marble counters, designer baths and premium linens elevate every quiet morning. Walkable dining and ice cream are at your door; sunset over the Gulf is your nightly tradition.",
     amenities: ["Private hot tub","Sunny deck + grill","Steps to the beach","Beach essentials provided","Marble kitchen","Two designer baths","Premium linens","Fast Wi-Fi","Washer & dryer","Central A/C"],
@@ -148,6 +152,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     categories: ["Beach", "Large Groups"],
     badge: "Most Reviewed",
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/47118bd2-8b40-5d57-a2e2-9dca8557177f",
     tagline: "Our most-reviewed home — 279 stays and counting.",
     longDescription: "Our most-reviewed Clearwater vacation rental — and it earns it. A beautifully styled 4-bedroom, 2-bath family home that sleeps 14, just nine minutes from Clearwater Beach and twenty from Tampa airport. The fenced backyard centers on a heated pool ringed with string lights, a stone fire pit with teal Adirondack chairs and outdoor dining for eight. Inside, four uniquely designed bedrooms — including a kid-favorite bunk room — surround a stainless chef's kitchen and a wide open living space built for board games, group dinners and movie nights. With 279 five-star stays on the books, it's the home repeat guests rebook a year out.",
     amenities: ["Heated pool","Stone fire pit","Large fenced yard","Outdoor dining for 8","Stainless kitchen","Smart TVs throughout","Fast Wi-Fi","Washer & dryer","Central A/C","Free parking"],
@@ -171,6 +176,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     rating: 4.88, reviews: 67,
     categories: ["Beach"],
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/845626c9-0ff3-5e54-b949-500d0d23ae1f",
     tagline: "The perfect place on the beach.",
     longDescription: "The IRB beach house your feed has been waiting for — a 2-bedroom Gulf-side retreat designed for groups of six who want sand under their toes by minute two. A fully enclosed private hot tub glows under string lights and a custom neon sign; the deck holds a gas grill, lounge seating and uninterrupted sunset views. Two bedrooms each pack two beds plus a queen sofa bed, so cousins, couples and best friends all have a place to land. Inside: a designer kitchen, premium linens, smart TVs and a LOVE wall that's launched a thousand vacation photos. Beach essentials, chairs and umbrellas included.",
     amenities: ["Private hot tub","Deck + grill","Steps to the Gulf","Beach essentials provided","Designer kitchen","Premium linens","Fast Wi-Fi","Smart TV","Washer & dryer","Central A/C"],
@@ -194,6 +200,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     rating: 4.9, reviews: 78,
     categories: ["City"],
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/119e8731-1dec-5f42-ad4d-c62951cb0b37",
     tagline: "Stylish downtown condo, walk to Central Ave.",
     longDescription: "A sun-soaked 2-bedroom designer condo in the heart of downtown St. Petersburg — and one of the easiest yes-trips you'll book all year. Floor-to-ceiling light pours across white oak, soft linen and curated mid-century pieces, while two plush king beds and a queen sofa bed comfortably sleep six. Roll out of bed and walk to Central Avenue's coffee bars, breweries and chef-driven restaurants, jog the path around Crescent Lake or Uber five minutes to the St. Pete Pier and waterfront museums. An updated kitchen, premium linens, smart TV and fast Wi-Fi cover every base, whether you're planning a girls' weekend, a foodie escape or a remote-work refresh.",
     amenities: ["Two king beds + sofa bed","Designer interiors","Walk to Central Ave","Walk to Crescent Lake","Updated kitchen","Premium linens","Smart TV","Fast Wi-Fi","Washer & dryer","Central A/C"],
@@ -217,6 +224,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     rating: 4.86, reviews: 90,
     categories: ["City"],
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/91ba6ef0-48c1-5fa2-a98c-20b9079cdec9",
     tagline: "Editorial luxury minutes from the waterfront.",
     longDescription: "A magazine-shoot of a 1-bedroom retreat tucked into one of St. Petersburg's most-loved neighborhoods — sage green walls, curated art, soft linen bedding and warm-wood accents make this the kind of stay couples extend by a night. A king bed anchors the bedroom, a spa-style bath invites long soaks, and the chef's kitchen is fully outfitted for slow espresso mornings and wine-and-charcuterie evenings. Step onto your private balcony for coffee under the palms, then walk or drive minutes to the St. Pete Pier, Crescent Lake, Central Avenue dining and the waterfront museums. Designed for two — anniversaries, babymoons, working creatives — and quietly perfect for every one of those.",
     amenities: ["King bed","Private balcony","Chef kitchen","Spa bath","Designer interiors","Smart TV","Fast Wi-Fi","Washer & dryer","Central A/C","Free parking"],
@@ -240,6 +248,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     rating: 4.67, reviews: 9,
     categories: ["City"],
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/6c832fe5-90a4-51eb-b382-13bb35b2c139",
     tagline: "Private hot tub and bamboo garden in the city.",
     longDescription: "A hidden-garden bungalow in the heart of St. Petersburg — picture a private outdoor hot tub bubbling beneath mature bamboo, a sun-warmed patio with BBQ, and just enough birdsong to forget you're three blocks from Central Avenue. Inside, a king bed and queen sofa bed sleep four across a thoughtfully renovated 1-bedroom layout with updated kitchen, smart TV, fast Wi-Fi and crisp white linens. Walk to downtown St. Pete restaurants, jog around Crescent Lake or drive twenty minutes to the Gulf beaches. The kind of small home that makes guests rebook the same week next year.",
     amenities: ["Private outdoor hot tub","Bamboo garden","BBQ","King bed + sofa bed","Updated kitchen","Walk to downtown","Smart TV","Fast Wi-Fi","Washer & dryer","Central A/C"],
@@ -264,6 +273,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     categories: ["City"],
     badge: "New Listing",
     href: "https://seaandcityrentals.hospitable.rentals/",
+    directBookingUrl: "https://seaandcityrentals.hospitable.rentals/listings/d60f44e9-181c-5c24-b9ca-ebf65a8d776e",
     tagline: "Bold art, game room, downtown charm.",
     longDescription: "A character-packed St. Pete bungalow that turns a 1-bedroom footprint into a six-guest playground — built for friend groups, bachelorettes and creative weekends downtown. Oversized abstract paintings climb the walls of an open-plan living room that flows into a custom dartboard game room and an updated kitchen ready for late dinners and morning mimosas. A king bed, queen sofa bed and futon comfortably sleep six, with smart TVs, fast Wi-Fi and crisp linens throughout. Walk to St. Pete's nightlife, Central Avenue restaurants and craft cocktail bars in minutes — Uber to the Pier or the Gulf in under twenty.",
     amenities: ["Game room with dartboard","Statement art throughout","Open plan living","King + sofa bed + futon","Updated kitchen","Walk to downtown","Smart TV","Fast Wi-Fi","Washer & dryer","Central A/C"],
