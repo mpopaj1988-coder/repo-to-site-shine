@@ -351,19 +351,6 @@ function ListingPage() {
                 Call {PHONE}
               </a>
             </div>
-            {p.airbnbUrl && (
-              <p className="mt-5 text-xs text-muted-foreground">
-                Prefer Airbnb?{" "}
-                <a
-                  href={p.airbnbUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[var(--color-sea)] underline underline-offset-2 hover:opacity-80"
-                >
-                  View this listing on Airbnb →
-                </a>
-              </p>
-            )}
           </div>
         </div>
 
@@ -412,18 +399,6 @@ function ListingPage() {
               <li className="flex items-start gap-2"><span>🔁</span> 10% off for returning guests</li>
               <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
             </ul>
-            {p.airbnbUrl && (
-              <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
-                <a
-                  href={p.airbnbUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[var(--color-sea)] underline underline-offset-2 hover:opacity-80"
-                >
-                  View on Airbnb
-                </a>
-              </p>
-            )}
           </div>
         </aside>
       </section>
