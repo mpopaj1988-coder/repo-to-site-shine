@@ -415,7 +415,7 @@ function ListingPage() {
                 data-testid="listing-inquire-call"
                 className="rounded-sm border border-border px-7 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-foreground hover:bg-white"
               >
-                Call {PHONE}
+                Call / Text {PHONE}
               </a>
             </div>
             <p className="mt-5 text-xs text-muted-foreground">
@@ -461,7 +461,7 @@ function ListingPage() {
               data-testid="listing-sticky-call"
               className="mt-3 block rounded-sm border border-[var(--color-deep)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
             >
-              Call {PHONE}
+              Call / Text {PHONE}
             </a>
             <ul className="mt-6 space-y-3 border-t border-border pt-5 text-sm text-muted-foreground">
               <li className="flex items-start gap-2"><span>💰</span> Save up to 15% vs. Airbnb</li>

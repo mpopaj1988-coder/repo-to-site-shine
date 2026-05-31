@@ -199,7 +199,7 @@ export function AvailabilityChecker({
         className={`mt-4 block rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
           canReserve
             ? "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
-            : "bg-[var(--color-gold)] text-[var(--color-deep)] opacity-70 hover:opacity-90"
+            : "cursor-not-allowed bg-[var(--color-gold)] text-[var(--color-deep)]"
         }`}
       >
         {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates to reserve"}
