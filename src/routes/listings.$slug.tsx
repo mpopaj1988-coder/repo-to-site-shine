@@ -1,11 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
 import { properties, BOOK_DIRECT_URL, HOSPITABLE_INQUIRY_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
 import { guides } from "@/data/guides";
-import { Bath, BedDouble, Users, Star, MapPin, BookOpen } from "lucide-react";
+import { Bath, BedDouble, Users, Star, MapPin, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { getListingPricing, getListingReviews, getListingAvailability, type Pricing, type ReviewItem, type CalendarDay } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
@@ -188,6 +188,11 @@ function ListingPage() {
   const bookingUrl = p.hospitableId
     ? `https://seaandcityrentals.hospitable.rentals/listings/${p.hospitableId}`
     : HOSPITABLE_INQUIRY_URL;
+  const [reviewPage, setReviewPage] = useState(0);
+  const reviewsPerPage = 3;
+  const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+  const visibleReviews = reviews.slice(reviewPage * reviewsPerPage, reviewPage * reviewsPerPage + reviewsPerPage);
+
   useEffect(() => {
     track("listing_view", { property: p.slug, location: p.location });
   }, [p.slug, p.location]);
@@ -280,18 +285,43 @@ function ListingPage() {
           {/* GUEST REVIEWS */}
           {reviews.length > 0 && (
             <div className="mt-12">
-              <div className="flex flex-wrap items-center gap-3">
-                <h2 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">Guest reviews</h2>
-                {p.reviews > 0 && (
-                  <div className="flex items-center gap-1.5 text-sm">
-                    <Star className="size-4 fill-[var(--color-gold)] text-[var(--color-gold)]" />
-                    <span className="font-semibold">{p.rating}</span>
-                    <span className="text-muted-foreground">· {p.reviews} reviews on Airbnb</span>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  <h2 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">Guest reviews</h2>
+                  {p.reviews > 0 && (
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <Star className="size-4 fill-[var(--color-gold)] text-[var(--color-gold)]" />
+                      <span className="font-semibold">{p.rating}</span>
+                      <span className="text-muted-foreground">· {p.reviews} reviews on Airbnb</span>
+                    </div>
+                  )}
+                </div>
+                {totalPages > 1 && (
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setReviewPage((prev) => Math.max(0, prev - 1))}
+                      disabled={reviewPage === 0}
+                      aria-label="Previous reviews"
+                      className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:bg-muted disabled:opacity-30"
+                    >
+                      <ChevronLeft className="size-4" />
+                    </button>
+                    <span className="min-w-[3rem] text-center text-xs text-muted-foreground">
+                      {reviewPage + 1} / {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setReviewPage((prev) => Math.min(totalPages - 1, prev + 1))}
+                      disabled={reviewPage === totalPages - 1}
+                      aria-label="Next reviews"
+                      className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:bg-muted disabled:opacity-30"
+                    >
+                      <ChevronRight className="size-4" />
+                    </button>
                   </div>
                 )}
               </div>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {reviews.map((r) => (
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                {visibleReviews.map((r) => (
                   <div key={r.id} className="flex flex-col gap-3 rounded-md border border-border bg-card p-5">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex gap-0.5">
