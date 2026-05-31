@@ -192,11 +192,7 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "AD8DF012-611A-48A4-8465-CE12427AB071.png", alt: "Coastal living room with light blue sectional, white rattan media cabinet and beach art at IRB beach house" },
     // 16. DETAIL: white kitchen with brass pendants
     { file: "06.jpg", alt: "White kitchen with marble counters, brass pendants and blue toile dining area at Indian Rocks Beach rental" },
-    // 17. DETAIL: modern living room with TV wall
-    { file: "11.jpg", alt: "Modern living room with oversized sectional, built-in TV wall and natural light at IRB beach house" },
-    // 18. DETAIL: open living and dining angle
-    { file: "12.jpg", alt: "Open living and dining area with coastal art and kitchen view at Indian Rocks Beach vacation home" },
-    // 19. UTILITY: in-unit washer and dryer
+    // 17. UTILITY: in-unit washer and dryer
     { file: "IMG_3220.png", alt: "In-unit washer and dryer laundry area at Indian Rocks Beach vacation home" },
   ],
 
