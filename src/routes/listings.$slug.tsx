@@ -418,6 +418,9 @@ function ListingPage() {
                 Call {PHONE}
               </a>
             </div>
+            <p className="mt-5 text-xs text-muted-foreground">
+              ✓ Verified host — also listed on Airbnb &amp; VRBO
+            </p>
           </div>
         </div>
 
@@ -466,6 +469,9 @@ function ListingPage() {
               <li className="flex items-start gap-2"><span>🔁</span> 10% off for returning guests</li>
               <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
             </ul>
+            <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
+              ✓ Verified host — also listed on Airbnb &amp; VRBO
+            </p>
           </div>
         </aside>
       </section>
