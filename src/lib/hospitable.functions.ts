@@ -232,8 +232,8 @@ export const getListingReviews = createServerFn({ method: "GET" })
 
 type AvailEntry = { value: CalendarDay[]; fresh: number; stale: number; refreshing?: boolean };
 const availCache = new Map<string, AvailEntry>();
-const AVAIL_FRESH_MS = 15 * 60 * 1000; // 15 min fresh (more dynamic than pricing)
-const AVAIL_STALE_MS = 6 * 60 * 60 * 1000; // 6h stale
+const AVAIL_FRESH_MS = 5 * 60 * 1000; // 5 min fresh
+const AVAIL_STALE_MS = 30 * 60 * 1000; // 30 min stale max
 
 async function fetchAvailability(id: string, apiKey: string): Promise<CalendarDay[]> {
   const start = new Date();
@@ -279,10 +279,8 @@ export const getListingAvailability = createServerFn({ method: "GET" })
     const now = Date.now();
     const apiKey = process.env.HOSPITABLE_API_KEY;
     try {
-      setResponseHeader(
-        "Cache-Control",
-        "public, max-age=900, s-maxage=900, stale-while-revalidate=21600",
-      );
+      // Availability must never be served stale from CDN — changes too often.
+      setResponseHeader("Cache-Control", "private, no-store");
     } catch {
       /* not in request context */
     }

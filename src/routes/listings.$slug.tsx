@@ -11,7 +11,7 @@ import { getListingPricing, getListingReviews, getListingAvailability, type Pric
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/listings/$slug")({
-  staleTime: 5 * 60 * 1000,
+  staleTime: 0,
   loader: async ({ params }) => {
     const p = properties.find((x) => x.slug === params.slug);
     if (!p) throw notFound();

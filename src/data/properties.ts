@@ -115,7 +115,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "irb-b",
-    hospitableId: "9aebd9d3-14e5-4dce-a80f-d8fb22c2f15a",
+    hospitableId: "c95444d7-c292-48e8-a124-921f2322d1f6",
     airbnbUrl: "https://www.airbnb.com/rooms/1205753692890892812",
     lat: 27.90795729, lng: -82.84534257,
     alt: "Indian Rocks Beach Florida 2-bedroom coastal vacation home with private hot tub",
@@ -164,7 +164,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "irb-a",
-    hospitableId: "c95444d7-c292-48e8-a124-921f2322d1f6",
+    hospitableId: "9aebd9d3-14e5-4dce-a80f-d8fb22c2f15a",
     airbnbUrl: "https://www.airbnb.com/rooms/1299344547038307200",
     lat: 27.9079573, lng: -82.8453425,
     alt: "Indian Rocks Beach Florida vacation rental with deck at sunset, hot tub and Gulf views",
