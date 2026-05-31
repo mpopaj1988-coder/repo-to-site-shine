@@ -83,8 +83,8 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
 
   // ===================== CLEARWATER =====================
   clearwater: [
-    // 1. HERO — pool at twilight, string lights, dining, dramatic sky
-    { file: "02.jpg", alt: "Heated pool glowing at twilight with string lights, outdoor dining and lounge chairs at Clearwater family rental" },
+    // 1. HERO — daytime pool, bright and inviting, reliable render
+    { file: "01.jpg", alt: "Sparkling pool with striped lounge chairs and blue sky at Clearwater 4-bedroom pool home" },
     // 2. DECISION: master bedroom with dramatic floral accent wall — most distinctive room, pull up for CTR
     { file: "04.jpg", alt: "Master bedroom with dramatic floral accent wall, tufted headboard, mirrored nightstands and crystal chandelier at Clearwater rental" },
     // 3. OUTDOOR: daytime pool, bright and inviting
@@ -115,8 +115,8 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "25.jpg", alt: "Blue accent wall bedroom with workspace desk and white dresser at Clearwater family home" },
     // 16. DETAIL: gallery wall and kitchen view
     { file: "14.jpg", alt: "Open living area with gallery wall and kitchen view at Clearwater vacation home" },
-    // 17. OUTDOOR: pool with striped lounge chairs and blue sky
-    { file: "01.jpg", alt: "Sparkling pool with striped lounge chairs and blue sky at Clearwater 4-bedroom pool home" },
+    // 17. OUTDOOR: pool at twilight with string lights and dining
+    { file: "02.jpg", alt: "Heated pool glowing at twilight with string lights, outdoor dining and lounge chairs at Clearwater family rental" },
     // 18. OUTDOOR: pool at dusk with teal umbrella
     { file: "07.jpg", alt: "Pool and patio at dusk with lounge seating, dining and teal umbrella at Clearwater rental" },
     // 19. OUTDOOR: daytime pool with palm tree and OJ on lounge
