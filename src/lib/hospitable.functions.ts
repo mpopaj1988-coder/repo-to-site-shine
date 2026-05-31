@@ -21,6 +21,7 @@ export type ReviewItem = {
   rating: number;
   text: string;
   date: string;
+  reviewer?: string;
 };
 
 type Entry = { value: Pricing; fresh: number; stale: number; refreshing?: boolean };
@@ -116,7 +117,7 @@ export const getListingPricing = createServerFn({ method: "GET" })
   });
 
 async function fetchReviews(id: string, apiKey: string): Promise<ReviewItem[]> {
-  const url = `https://public.api.hospitable.com/v2/properties/${id}/reviews?per_page=10`;
+  const url = `https://public.api.hospitable.com/v2/properties/${id}/reviews?per_page=50&sort=reviewed_at&direction=desc`;
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" },
   });
@@ -125,17 +126,18 @@ async function fetchReviews(id: string, apiKey: string): Promise<ReviewItem[]> {
     data?: Array<{
       id: string;
       reviewed_at?: string;
-      public?: { rating?: number; review?: string };
+      public?: { rating?: number; review?: string; reviewer?: string };
     }>;
   };
   return (json.data ?? [])
     .filter((r) => r.public?.review && (r.public?.rating ?? 0) > 0)
-    .slice(0, 5)
+    .slice(0, 30)
     .map((r) => ({
       id: r.id,
       rating: r.public!.rating!,
       text: r.public!.review!,
       date: (r.reviewed_at ?? "").slice(0, 10),
+      reviewer: r.public?.reviewer,
     }));
 }
 
@@ -208,17 +210,18 @@ async function fetchAvailability(id: string, apiKey: string): Promise<CalendarDa
     data?: {
       days?: Array<{
         date?: string;
-        availability?: { available?: boolean; min_nights?: number };
+        min_stay?: number;
+        status?: { available?: boolean };
         price?: { amount?: number; currency?: string };
       }>;
     };
   };
   return (json.data?.days ?? []).map((d) => ({
     date: (d.date ?? "").slice(0, 10),
-    available: d.availability?.available ?? false,
+    available: d.status?.available ?? false,
     price: typeof d.price?.amount === "number" ? d.price.amount / 100 : null,
     currency: d.price?.currency ?? "USD",
-    minNights: d.availability?.min_nights ?? null,
+    minNights: d.min_stay ?? null,
   }));
 }
 

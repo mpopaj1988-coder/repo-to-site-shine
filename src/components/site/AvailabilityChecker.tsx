@@ -34,24 +34,26 @@ export function AvailabilityChecker({
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
 
-  // Build map of unavailable date strings for quick lookup
-  const { unavailableDates, priceByDate, currency, minDate } = useMemo(() => {
-    const unavailable: Date[] = [];
+  // Build lookup structures for availability and pricing
+  const { unavailableSet, priceByDate, currency, minDate } = useMemo(() => {
+    const unavail = new Set<string>();
     const priceMap: Record<string, number> = {};
     let cur = "USD";
     let earliest: Date | undefined;
     for (const d of calendar) {
       if (!d.date) continue;
       if (!earliest) earliest = parseYmd(d.date);
-      if (!d.available) unavailable.push(parseYmd(d.date));
+      if (!d.available) unavail.add(d.date);
       if (typeof d.price === "number") priceMap[d.date] = d.price;
       cur = d.currency;
     }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     return {
-      unavailableDates: unavailable,
+      unavailableSet: unavail,
       priceByDate: priceMap,
       currency: cur,
-      minDate: earliest ?? new Date(),
+      minDate: earliest ?? today,
     };
   }, [calendar]);
 
@@ -65,16 +67,13 @@ export function AvailabilityChecker({
     const cursor = new Date(range.from);
     for (let i = 0; i < n; i++) {
       const key = ymd(cursor);
+      if (unavailableSet.has(key)) bad = true;
       const dayPrice = priceByDate[key];
-      const isUnavailable = unavailableDates.some(
-        (u) => ymd(u) === key,
-      );
-      if (isUnavailable) bad = true;
       if (typeof dayPrice === "number") sum += dayPrice;
       cursor.setDate(cursor.getDate() + 1);
     }
     return { nights: n, total: Math.round(sum), hasUnavailable: bad };
-  }, [range, unavailableDates, priceByDate]);
+  }, [range, unavailableSet, priceByDate]);
 
   const canReserve = range?.from && range?.to && nights > 0 && !hasUnavailable;
 
@@ -134,7 +133,9 @@ export function AvailabilityChecker({
             mode="range"
             selected={range}
             onSelect={setRange}
-            disabled={[{ before: minDate }, ...unavailableDates.map((d) => ({ from: d, to: d }))]}
+            disabled={(date) => date < minDate || unavailableSet.has(ymd(date))}
+            startMonth={minDate}
+            defaultMonth={minDate}
             numberOfMonths={1}
             data-testid="availability-calendar"
           />

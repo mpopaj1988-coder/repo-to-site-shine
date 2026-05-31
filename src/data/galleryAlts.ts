@@ -81,7 +81,6 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "08.jpg", alt: "Candlelit dining table with wine, flowers and cozy living room at Largo family rental" },
     { file: "04.jpg", alt: "Open living room with large sectional sofas and smart TV at Largo 3-bedroom home" },
     { file: "14.jpg", alt: "King bedroom with navy velvet headboard and gold frame at Largo vacation rental" },
-    { file: "IMG_3851.png", alt: "Twin queen bedroom with dark green velvet headboards and blush bedding at Largo rental" },
     { file: "IMG_3856.jpeg", alt: "Coastal bunk and twin room with nautical art, striped rug and beach decor at Largo home" },
     { file: "12.jpg", alt: "Designer kitchen with gray cabinetry, quartz island and rattan stools at Largo home" },
     { file: "05.jpg", alt: "Covered outdoor patio with blue lounge seating and pool access at Largo rental" },
@@ -107,7 +106,6 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
     { file: "12.jpg", alt: "Open living and dining area with coastal art and kitchen view at Indian Rocks Beach vacation home" },
     { file: "F2CA30AB-7AC0-488C-A950-F6B0DF50CD03.png", alt: "Sunset deck with grill, cocktails, food and string lights at Indian Rocks Beach rental" },
     { file: "E7270DEA-D439-47E4-AA79-37F96A90CA1A.png", alt: "Beach chairs and umbrella steps from Indian Rocks Beach Gulf shore vacation rental" },
-    { file: "IMG_3220.png", alt: "In-unit washer and dryer laundry area at Indian Rocks Beach vacation home" },
   ],
 
   // ===================== IRB-B =====================

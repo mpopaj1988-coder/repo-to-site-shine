@@ -1,6 +1,6 @@
-import guideTampa from "@/assets/guide-tampa.jpg";
-import guideStpete from "@/assets/guide-stpete.jpg";
-import guideClearwater from "@/assets/guide-clearwater.jpg";
+import guideTampa from "@/assets/guide-tampa.jpg?format=webp&quality=85&as=url";
+import guideStpete from "@/assets/guide-stpete.jpg?format=webp&quality=85&as=url";
+import guideClearwater from "@/assets/guide-clearwater.jpg?format=webp&quality=85&as=url";
 
 export type GuideItem = {
   type: string;
