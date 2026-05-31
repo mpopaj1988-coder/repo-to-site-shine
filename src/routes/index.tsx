@@ -82,12 +82,6 @@ const heroSlides = [
   { img: heroLargo, label: "Largo, FL", caption: "Resort Pool · 5 Min to the Beach" },
 ];
 
-const perks = [
-  { icon: "💰", title: "Save up to 15%", body: "No Airbnb service fees" },
-  { icon: "💬", title: "Direct Communication", body: "Talk to us, not a platform" },
-  { icon: "🔁", title: "Returning Guest Discount", body: "10% off your next stay" },
-  { icon: "🤝", title: "Flexible Options", body: "Custom requests welcome" },
-];
 
 const categories: Array<"All" | Category> = ["All", "Beach", "City", "Large Groups"];
 
@@ -171,23 +165,6 @@ function Index() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* PERKS BAR */}
-      <section className="border-y border-border bg-[var(--color-sand)]">
-        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
-          {perks.map((p) => (
-            <div key={p.title} className="flex items-start gap-4">
-              <span className="text-2xl" aria-hidden>
-                {p.icon}
-              </span>
-              <div>
-                <p className="font-semibold text-foreground">{p.title}</p>
-                <p className="text-sm text-muted-foreground">{p.body}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
