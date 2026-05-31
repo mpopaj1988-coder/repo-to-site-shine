@@ -66,7 +66,7 @@ export type Property = {
 const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "tampa",
-    hospitableId: "0024b4b4-526d-4103-adf4-78665e48fe7d",
+    hospitableId: "4c48de03-be86-4dc4-99de-45df7cd16d29",
     airbnbUrl: "https://www.airbnb.com/rooms/1583296551133303414",
     lat: 27.98832102, lng: -82.5822876,
     alt: "Tampa Florida waterfront luxury 6-bedroom home with heated pool and private dock",
