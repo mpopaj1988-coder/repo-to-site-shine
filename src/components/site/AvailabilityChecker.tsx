@@ -47,7 +47,7 @@ export function AvailabilityChecker({
   const [dismissedForRange, setDismissedForRange] = useState("");
 
   // Build lookup structures for availability and pricing
-  const { unavailableSet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
+  const { unavailableSet, checkoutOnlySet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
     useMemo(() => {
       const unavail = new Set<string>();
       const priceMap: Record<string, number> = {};
@@ -62,10 +62,20 @@ export function AvailabilityChecker({
         if (typeof d.price === "number") priceMap[d.date] = d.price;
         cur = d.currency;
       }
+      // Dates that are the first day of an unavailable block are another guest's
+      // check-in day. Allow these as checkout dates (same-day turnaround is standard)
+      // but not as check-in dates.
+      const checkoutOnly = new Set<string>();
+      for (const date of unavail) {
+        const prev = new Date(parseYmd(date));
+        prev.setDate(prev.getDate() - 1);
+        if (!unavail.has(ymd(prev))) checkoutOnly.add(date);
+      }
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       return {
         unavailableSet: unavail,
+        checkoutOnlySet: checkoutOnly,
         priceByDate: priceMap,
         currency: cur,
         minDate: earliest ?? today,
@@ -212,7 +222,13 @@ export function AvailabilityChecker({
               mode="range"
               selected={range}
               onSelect={setRange}
-              disabled={(date) => date < minDate || unavailableSet.has(ymd(date))}
+              disabled={(date) => {
+                const key = ymd(date);
+                if (date < minDate) return true;
+                // Allow another guest's check-in date as a checkout date (same-day turnaround).
+                if (checkoutOnlySet.has(key)) return !range?.from || date <= range.from;
+                return unavailableSet.has(key);
+              }}
               startMonth={minDate}
               defaultMonth={firstAvailableDate ?? minDate}
               numberOfMonths={1}
