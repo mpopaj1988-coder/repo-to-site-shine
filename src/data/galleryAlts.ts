@@ -298,19 +298,19 @@ export const galleryManifest: Record<string, GalleryEntry[]> = {
 
   // ===================== STPETE-SUNSOAKED =====================
   "stpete-sunsoaked": [
-    // 1. HERO — luxury living room with cream sectional, sage drapes, gallery wall
+    // 1. HERO — luxury living room: first impression, shows full scale of the space
     { file: "01.jpg", alt: "Luxury living room with cream sectional, sage drapes, gallery wall and balcony access at downtown St. Pete condo" },
-    // 2. LIFESTYLE: private balcony with bistro seating — moved up from last position
-    { file: "03.jpg", alt: "Private balcony with bistro seating and downtown St. Pete neighbourhood views" },
-    // 3. DECISION: primary king bedroom with skyline art
+    // 2. DECISION: primary king bedroom — sleep quality is the #1 booking decision
     { file: "05.jpg", alt: "King bedroom with white bedding, city skyline TV art and workspace desk at St. Pete sun-soaked condo" },
-    // 4. DECISION: second king bedroom with wood accent wall
+    // 3. DECISION: second king bedroom — two kings is the key differentiator for couples/groups
     { file: "08.jpg", alt: "Second king bedroom with wood accent wall, city skyline art, St. Pete travel vibes at downtown condo" },
-    // 5. DECISION: living room with sage green accent walls and built-in shelving
-    { file: "04.jpg", alt: "Modern living room with sage green accent walls, built-in shelving and St. Pete skyline art at downtown rental" },
-    // 6. DECISION: spa bathroom with backlit LED mirror and rain shower
+    // 4. DECISION: spa bathroom — premium bath converts luxury seekers
     { file: "06.jpg", alt: "Spa bathroom with backlit LED mirror, dark tile, wood plank wall and rain shower at St. Pete condo" },
-    // 7. DETAIL: built-in workspace
+    // 5. LIFESTYLE: balcony — the "sunsoaked" promise, aspirational close
+    { file: "03.jpg", alt: "Private balcony with bistro seating and downtown St. Pete neighbourhood views" },
+    // 6. SUPPORTING: second living room angle with sage green accent wall
+    { file: "04.jpg", alt: "Modern living room with sage green accent walls, built-in shelving and St. Pete skyline art at downtown rental" },
+    // 7. DETAIL: built-in workspace for remote workers
     { file: "07.jpg", alt: "Built-in workspace with wood wall, city skyline TV and storage at St. Pete sun-soaked rental" },
   ],
 };
