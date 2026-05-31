@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 import { template as welcomeDiscount } from './welcome-discount'
+import { template as bookingConfirmation } from './booking-confirmation'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -20,4 +21,5 @@ export interface TemplateEntry {
  */
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'welcome-discount': welcomeDiscount,
+  'booking-confirmation': bookingConfirmation,
 }

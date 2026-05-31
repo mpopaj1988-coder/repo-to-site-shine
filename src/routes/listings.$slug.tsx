@@ -406,7 +406,7 @@ function ListingPage() {
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={p.directBookingUrl} calendar={availability} propertySlug={p.slug} />
+            <AvailabilityChecker calendar={availability} propertySlug={p.slug} propertyName={p.title} hospitableId={p.hospitableId} />
             {!availability.length && (
               <a
                 href={p.directBookingUrl}
