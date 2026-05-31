@@ -100,41 +100,18 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   return res.ok;
 }
 
-// Update the orphan night's price in the Hospitable calendar.
-// priceUsd must be the Hospitable-level price (before Airbnb's automatic 15% markup).
-async function updateCalendarPrice(
-  propertyId: string,
-  date: string,
-  priceUsd: number,
-  apiKey: string,
-): Promise<boolean> {
-  const res = await fetch(`${HOSPITABLE_BASE}/properties/${propertyId}/calendar`, {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      days: [{ date, price: { amount: priceUsd * 100 } }],
-    }),
-  });
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] updateCalendarPrice ${propertyId} ${date} ${res.status}:`, text.slice(0, 200));
-  }
-  return res.ok;
-}
-
-// Create a fallback task if the automatic alteration fails.
-async function createFallbackTask(
+// Create a Hospitable task telling the host to send the alteration request.
+async function createAlterationTask(
   reservationId: string,
   guestName: string,
   orphanDate: string,
   direction: "outgoing" | "incoming",
   apiKey: string,
 ): Promise<void> {
-  const action = direction === "outgoing" ? "extend checkout by 1 night" : "move check-in 1 night earlier";
+  const action =
+    direction === "outgoing"
+      ? "extend checkout by 1 night"
+      : "move check-in 1 night earlier";
   const res = await fetch(`${HOSPITABLE_BASE}/tasks`, {
     method: "POST",
     headers: {
@@ -143,10 +120,12 @@ async function createFallbackTask(
       Accept: "application/json",
     },
     body: JSON.stringify({
-      title: `ACTION NEEDED: Alteration failed for ${guestName} — ${orphanDate}`,
+      title: `Send alteration to ${guestName} — ${orphanDate}`,
       description:
-        `Automatic alteration for ${guestName} on ${orphanDate} failed. ` +
-        `Please manually ${action} in Hospitable.\nReservation ID: ${reservationId}`,
+        `${guestName} accepted the orphan day offer for ${orphanDate}. ` +
+        `Please send an alteration request to ${action}. ` +
+        `The calendar price for that night has already been updated.\n` +
+        `Reservation ID: ${reservationId}`,
       reservation_id: reservationId,
       type: "other",
       priority: "high",
@@ -154,50 +133,8 @@ async function createFallbackTask(
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] createFallbackTask ${reservationId} ${res.status}:`, text.slice(0, 200));
+    console.error(`[orphan-reply] createAlterationTask ${reservationId} ${res.status}:`, text.slice(0, 200));
   }
-}
-
-// Attempt to extend/move a reservation via the Hospitable API.
-// Works for all platform types (Airbnb, direct, manual, etc.).
-async function extendReservation(
-  reservation: ReservationDetail,
-  direction: "outgoing" | "incoming",
-  apiKey: string,
-): Promise<boolean> {
-  const newDeparture =
-    direction === "outgoing"
-      ? shiftDate(reservation.departure_date, 1)
-      : reservation.departure_date;
-  const newArrival =
-    direction === "incoming"
-      ? shiftDate(reservation.arrival_date, -1)
-      : reservation.arrival_date;
-
-  const res = await fetch(`${HOSPITABLE_BASE}/reservations/${reservation.id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      arrival_date: newArrival.slice(0, 10),
-      departure_date: newDeparture.slice(0, 10),
-    }),
-  });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] extendDirect ${reservation.id} ${res.status}:`, text.slice(0, 200));
-  }
-  return res.ok;
-}
-
-function shiftDate(dateStr: string, days: number): string {
-  const d = new Date(dateStr.slice(0, 10) + "T00:00:00Z");
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
 }
 
 function confirmationMessage(
@@ -265,18 +202,13 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
-            // Set the calendar to the discounted Hospitable-level price.
-            // Airbnb auto-adds 15%, so we divide back to get the Hospitable base.
             const guestPrice = row.outgoing_discounted_price_usd ?? row.discounted_price_usd;
             if (guestPrice) {
               const isDirect = reservation.platform === "direct" || reservation.platform === "manual";
               const hospitablePrice = isDirect ? guestPrice : Math.round(guestPrice / 1.15);
               await updateCalendarPrice(row.property_hospitable_id, row.orphan_date, hospitablePrice, apiKey);
             }
-            const extended = await extendReservation(reservation, "outgoing", apiKey);
-            if (!extended) {
-              await createFallbackTask(reservation.id, firstName, row.orphan_date, "outgoing", apiKey);
-            }
+            await createAlterationTask(reservation.id, firstName, row.orphan_date, "outgoing", apiKey);
             await sendMessage(
               reservation.id,
               confirmationMessage(firstName, row.orphan_date, "outgoing"),
@@ -303,10 +235,7 @@ export async function processUpsellReplies(
               const hospitablePrice = isDirect ? guestPrice : Math.round(guestPrice / 1.15);
               await updateCalendarPrice(row.property_hospitable_id, row.orphan_date, hospitablePrice, apiKey);
             }
-            const extended = await extendReservation(reservation, "incoming", apiKey);
-            if (!extended) {
-              await createFallbackTask(reservation.id, firstName, row.orphan_date, "incoming", apiKey);
-            }
+            await createAlterationTask(reservation.id, firstName, row.orphan_date, "incoming", apiKey);
             await sendMessage(
               reservation.id,
               confirmationMessage(firstName, row.orphan_date, "incoming"),
