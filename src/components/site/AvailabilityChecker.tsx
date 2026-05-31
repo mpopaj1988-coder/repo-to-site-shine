@@ -35,27 +35,32 @@ export function AvailabilityChecker({
   const [showCalendar, setShowCalendar] = useState(false);
 
   // Build lookup structures for availability and pricing
-  const { unavailableSet, priceByDate, currency, minDate } = useMemo(() => {
-    const unavail = new Set<string>();
-    const priceMap: Record<string, number> = {};
-    let cur = "USD";
-    let earliest: Date | undefined;
-    for (const d of calendar) {
-      if (!d.date) continue;
-      if (!earliest) earliest = parseYmd(d.date);
-      if (!d.available) unavail.add(d.date);
-      if (typeof d.price === "number") priceMap[d.date] = d.price;
-      cur = d.currency;
-    }
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return {
-      unavailableSet: unavail,
-      priceByDate: priceMap,
-      currency: cur,
-      minDate: earliest ?? today,
-    };
-  }, [calendar]);
+  const { unavailableSet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
+    useMemo(() => {
+      const unavail = new Set<string>();
+      const priceMap: Record<string, number> = {};
+      let cur = "USD";
+      let earliest: Date | undefined;
+      let firstAvail: Date | undefined;
+      for (const d of calendar) {
+        if (!d.date) continue;
+        if (!earliest) earliest = parseYmd(d.date);
+        if (!d.available) unavail.add(d.date);
+        else if (!firstAvail) firstAvail = parseYmd(d.date);
+        if (typeof d.price === "number") priceMap[d.date] = d.price;
+        cur = d.currency;
+      }
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return {
+        unavailableSet: unavail,
+        priceByDate: priceMap,
+        currency: cur,
+        minDate: earliest ?? today,
+        firstAvailableDate: firstAvail,
+        hasAnyAvailable: !!firstAvail,
+      };
+    }, [calendar]);
 
   // Validate selected range against unavailability; sum price across nights.
   const { nights, total, hasUnavailable } = useMemo(() => {
@@ -129,16 +134,23 @@ export function AvailabilityChecker({
 
       {showCalendar && (
         <div className="mt-3 rounded-sm border border-border bg-background p-2">
-          <Calendar
-            mode="range"
-            selected={range}
-            onSelect={setRange}
-            disabled={(date) => date < minDate || unavailableSet.has(ymd(date))}
-            startMonth={minDate}
-            defaultMonth={minDate}
-            numberOfMonths={1}
-            data-testid="availability-calendar"
-          />
+          {hasAnyAvailable ? (
+            <Calendar
+              mode="range"
+              selected={range}
+              onSelect={setRange}
+              disabled={(date) => date < minDate || unavailableSet.has(ymd(date))}
+              startMonth={minDate}
+              defaultMonth={firstAvailableDate ?? minDate}
+              numberOfMonths={1}
+              data-testid="availability-calendar"
+            />
+          ) : (
+            <div className="px-4 py-6 text-center text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">No online availability right now</p>
+              <p className="mt-1">Contact us directly — we often have dates open that aren't shown here.</p>
+            </div>
+          )}
         </div>
       )}
 
@@ -187,10 +199,10 @@ export function AvailabilityChecker({
         className={`mt-4 block rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
           canReserve
             ? "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
-            : "cursor-not-allowed bg-[var(--color-gold)]/50 text-[var(--color-deep)]/60"
+            : "bg-[var(--color-gold)] text-[var(--color-deep)] opacity-70 hover:opacity-90"
         }`}
       >
-        {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Pick dates to reserve"}
+        {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates to reserve"}
       </a>
     </div>
   );

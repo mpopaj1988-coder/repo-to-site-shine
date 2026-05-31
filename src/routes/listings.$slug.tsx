@@ -418,9 +418,6 @@ function ListingPage() {
                 Call {PHONE}
               </a>
             </div>
-            <p className="mt-5 text-xs text-muted-foreground">
-              ✓ Verified host — also listed on Airbnb &amp; VRBO
-            </p>
           </div>
         </div>
 
@@ -443,16 +440,18 @@ function ListingPage() {
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
             <AvailabilityChecker bookingUrl={p.directBookingUrl} calendar={availability} propertySlug={p.slug} />
-            <a
-              href={p.directBookingUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
-              data-testid="listing-sticky-check"
-              className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
-            >
-              Check availability
-            </a>
+            {!availability.length && (
+              <a
+                href={p.directBookingUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
+                data-testid="listing-sticky-check"
+                className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
+              >
+                Check availability
+              </a>
+            )}
             <a
               href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
               onClick={() => track("phone_click", { surface: "listing_sticky_call", property: p.slug })}
@@ -467,9 +466,6 @@ function ListingPage() {
               <li className="flex items-start gap-2"><span>🔁</span> 10% off for returning guests</li>
               <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
             </ul>
-            <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
-              ✓ Verified host — also listed on Airbnb &amp; VRBO
-            </p>
           </div>
         </aside>
       </section>
