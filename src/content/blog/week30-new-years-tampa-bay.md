@@ -4,6 +4,7 @@ description: "Fireworks over the bay, downtown countdowns, beach bonfires, and q
 publishDate: "2026-11-27"
 author: "Sea & City Rentals"
 ---
+
 New Year's Eve on the Gulf Coast is what you make of it. There are big organized events, beach gatherings, dinner-and-fireworks combos, and the very valid option of a quiet rental with the people you actually like. Here's the lay of the land.
 
 ## The Big Public Events
@@ -24,9 +25,9 @@ Downtown Tampa puts on fireworks over the Hillsborough River, with the Riverwalk
 
 If you want a dinner-and-fireworks plan, book in October. By December the desirable spots — anything with a water view in St. Pete, Tampa, or Clearwater — are completely booked. Specifically:
 
-* The Edison and Datz in Tampa
-* Locale Market and Birch & Vine in St. Pete
-* Salt Rock Grill and Marina Cantina on the beaches
+- The Edison and Datz in Tampa
+- Locale Market and Birch & Vine in St. Pete
+- Salt Rock Grill and Marina Cantina on the beaches
 
 ## The Rental Approach
 

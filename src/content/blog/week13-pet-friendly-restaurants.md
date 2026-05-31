@@ -4,6 +4,7 @@ description: "Tampa Bay is genuinely one of the more dog-welcoming metro areas i
 publishDate: "2026-07-31"
 author: "Sea & City Rentals"
 ---
+
 The best vacation rentals allow dogs. The best trips allow dogs everywhere. Tampa Bay is genuinely one of the more dog-welcoming metro areas in Florida, with a solid lineup of restaurants, bars, and waterfront spots that don't just tolerate your dog — they actually seem happy to see them.
 
 Starting your trip right: [Sea & City Rentals pet-friendly properties](https://seaandcityrentals.com) put you close to all of the spots below. Let us know about your dog when you book.
@@ -44,8 +45,8 @@ The original Indian Rocks location has covered outdoor seating where dogs are we
 
 ## Tips for Dining Out with Your Dog
 
-* Call ahead even when a place is listed as dog-friendly — policies change and patio capacity varies
-* Bring a portable water bowl — not every restaurant will think to offer one
-* Avoid peak weekend lunch hours if your dog is reactive to crowds and noise
-* Keep your dog on a short leash and close to your chair
-* Tip well when you bring a dog — managing dog-adjacent tables takes extra effort
+- Call ahead even when a place is listed as dog-friendly — policies change and patio capacity varies
+- Bring a portable water bowl — not every restaurant will think to offer one
+- Avoid peak weekend lunch hours if your dog is reactive to crowds and noise
+- Keep your dog on a short leash and close to your chair
+- Tip well when you bring a dog — managing dog-adjacent tables takes extra effort

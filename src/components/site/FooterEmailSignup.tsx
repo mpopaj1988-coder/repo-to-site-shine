@@ -75,9 +75,7 @@ export function FooterEmailSignup() {
           >
             {status === "loading" ? "Sending..." : "Get 10% off"}
           </button>
-          {status === "error" && (
-            <p className="text-xs text-red-300">{message}</p>
-          )}
+          {status === "error" && <p className="text-xs text-red-300">{message}</p>}
         </form>
       )}
     </div>

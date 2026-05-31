@@ -4,6 +4,7 @@ description: "Indian Rocks Beach is quieter, more residential, and just as beaut
 publishDate: "2026-06-19"
 author: "Sea & City Rentals"
 ---
+
 Clearwater Beach gets the magazine covers and the Instagram posts. Indian Rocks Beach gets the people who've been to Clearwater, loved it, and then asked: what if the beach were just as beautiful but nobody was blocking my view?
 
 ## The Beach

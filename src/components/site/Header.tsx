@@ -25,9 +25,7 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
   const logoClass = isLight
     ? "font-display text-2xl tracking-wide text-[var(--color-deep)]"
     : "font-display text-2xl tracking-wide text-white drop-shadow-md";
-  const ampClass = isLight
-    ? "italic text-[var(--color-gold)]"
-    : "italic text-[var(--color-sea)]";
+  const ampClass = isLight ? "italic text-[var(--color-gold)]" : "italic text-[var(--color-sea)]";
   const subClass = isLight
     ? "ml-1 text-sm font-sans uppercase tracking-[0.3em] text-[var(--color-deep)]/60"
     : "ml-1 text-sm font-sans uppercase tracking-[0.3em] text-white/70";
@@ -52,12 +50,7 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
 
         <div className="hidden items-center gap-7 lg:flex">
           {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={linkClass}
-              activeProps={linkActive}
-            >
+            <Link key={l.to} to={l.to} className={linkClass} activeProps={linkActive}>
               {l.label}
             </Link>
           ))}

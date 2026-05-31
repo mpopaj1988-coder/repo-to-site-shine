@@ -77,8 +77,7 @@ function isPublished(p: BlogPostMeta, now = new Date()): boolean {
 }
 
 export function getPublishedPosts(): BlogPostMeta[] {
-  return ALL_POSTS
-    .filter((p) => isPublished(p))
+  return ALL_POSTS.filter((p) => isPublished(p))
     .sort((a, b) => b.publishDate.localeCompare(a.publishDate))
     .map(({ html: _html, ...meta }) => meta);
 }

@@ -27,15 +27,33 @@ export function Footer() {
           </a>
         </div>
         <nav aria-label="Footer navigation">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
-            Explore
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">Explore</p>
           <ul className="mt-5 space-y-3 text-sm text-white/85">
-            <li><Link to="/properties" className="hover:text-[var(--color-sea)]">All Properties</Link></li>
-            <li><Link to="/about" className="hover:text-[var(--color-sea)]">About</Link></li>
-            <li><Link to="/explore" className="hover:text-[var(--color-sea)]">Neighborhood Guides</Link></li>
-            <li><Link to="/reviews" className="hover:text-[var(--color-sea)]">Reviews</Link></li>
-            <li><Link to="/contact" className="hover:text-[var(--color-sea)]">Contact</Link></li>
+            <li>
+              <Link to="/properties" className="hover:text-[var(--color-sea)]">
+                All Properties
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="hover:text-[var(--color-sea)]">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/explore" className="hover:text-[var(--color-sea)]">
+                Neighborhood Guides
+              </Link>
+            </li>
+            <li>
+              <Link to="/reviews" className="hover:text-[var(--color-sea)]">
+                Reviews
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-[var(--color-sea)]">
+                Contact
+              </Link>
+            </li>
           </ul>
         </nav>
         <div>

@@ -4,6 +4,7 @@ description: "Crowds thin, rates drop, and the water stays warm. Here's why Octo
 publishDate: "2026-09-25"
 author: "Sea & City Rentals"
 ---
+
 Summer gets all the marketing, but locals will quietly tell you the same thing: fall is the best time to visit the Gulf Coast. The crowds thin out the week schools go back, the humidity finally breaks, and the Gulf is still bath-warm well into November.
 
 ## The Weather Actually Cooperates
@@ -16,11 +17,11 @@ Shoulder season pricing on Gulf Coast rentals can run 25–40% below summer peak
 
 ## What to Actually Do
 
-* Beach days without the crowds — Caladesi, Fort De Soto, and Honeymoon Island feel like private islands midweek
-* Kayaking and paddleboarding in calm, clear water
-* Outdoor dining season is back — patios across St. Pete and Dunedin reopen in earnest
-* Sunset cruises with comfortable temperatures, not heat exhaustion
-* The Pinellas Trail is genuinely pleasant to bike again
+- Beach days without the crowds — Caladesi, Fort De Soto, and Honeymoon Island feel like private islands midweek
+- Kayaking and paddleboarding in calm, clear water
+- Outdoor dining season is back — patios across St. Pete and Dunedin reopen in earnest
+- Sunset cruises with comfortable temperatures, not heat exhaustion
+- The Pinellas Trail is genuinely pleasant to bike again
 
 ## One Caveat: Hurricane Season
 

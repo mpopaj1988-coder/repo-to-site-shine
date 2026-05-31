@@ -4,6 +4,7 @@ description: "Trade the kitchen marathon for a beach walk and a vacation rental 
 publishDate: "2026-11-06"
 author: "Sea & City Rentals"
 ---
+
 At some point, every multi-generational family realizes that hosting Thanksgiving at home is a job, not a holiday. Renting a Gulf Coast house for the week and gathering everyone there is the unlock. The weather is perfect, the prep is split, and nobody has to fly home stressed.
 
 ## Why It Works
@@ -16,17 +17,17 @@ November on the Gulf Coast is genuinely beautiful — mid-70s, low humidity, no 
 
 The grocery situation around the holidays:
 
-* **Pre-order the turkey from Publix or Whole Foods** — at least 10 days out, preferably more. Both will hold a fresh turkey for pickup
-* **Fresh Market and Whole Foods do full prepared Thanksgiving meals** — turkey, sides, pie, ready to reheat. Order by mid-November
-* **Wine and beer** — Total Wine has the best selection in the region; multiple Pinellas locations
-* **Specialty items** — get them out of the way at Fresh Market early; standard grocery stores get picked over the day before
+- **Pre-order the turkey from Publix or Whole Foods** — at least 10 days out, preferably more. Both will hold a fresh turkey for pickup
+- **Fresh Market and Whole Foods do full prepared Thanksgiving meals** — turkey, sides, pie, ready to reheat. Order by mid-November
+- **Wine and beer** — Total Wine has the best selection in the region; multiple Pinellas locations
+- **Specialty items** — get them out of the way at Fresh Market early; standard grocery stores get picked over the day before
 
 ## What to Do Besides Eat
 
-* **Thanksgiving morning beach walk** — every family that tries it makes it a tradition
-* **Turkey Trots** — most Gulf Coast cities have one; Clearwater's is large and well-run
-* **Black Friday on the water** — sunset cruises, charter fishing, paddleboarding — anything that's not a parking lot
-* **Football on a screened porch** — the entire point of renting a Florida house in November
+- **Thanksgiving morning beach walk** — every family that tries it makes it a tradition
+- **Turkey Trots** — most Gulf Coast cities have one; Clearwater's is large and well-run
+- **Black Friday on the water** — sunset cruises, charter fishing, paddleboarding — anything that's not a parking lot
+- **Football on a screened porch** — the entire point of renting a Florida house in November
 
 ## Booking Window
 

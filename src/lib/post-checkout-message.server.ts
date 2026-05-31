@@ -70,12 +70,19 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[post-checkout] sendMessage ${reservationId} ${res.status}:`, text.slice(0, 200));
+    console.error(
+      `[post-checkout] sendMessage ${reservationId} ${res.status}:`,
+      text.slice(0, 200),
+    );
   }
   return res.ok;
 }
 
-function airbnbCheckoutMessage(firstName: string, propertyTitle: string, airbnbUrl: string): string {
+function airbnbCheckoutMessage(
+  firstName: string,
+  propertyTitle: string,
+  airbnbUrl: string,
+): string {
   return (
     `Hi ${firstName}! 🌊 Thank you so much for staying with us — it was truly a pleasure hosting you at ${propertyTitle}!\n\n` +
     `I've already left you a 5-star review, and it would mean a lot if you could take a moment to leave one for us too. ` +
@@ -167,7 +174,11 @@ export async function processPostCheckoutMessages(
           const isAirbnb = platform === "airbnb";
           const msg = isAirbnb
             ? airbnbCheckoutMessage(firstName, property.title, property.airbnbUrl)
-            : directCheckoutMessage(firstName, property.title, `${SITE_BASE}/listings/${property.slug}`);
+            : directCheckoutMessage(
+                firstName,
+                property.title,
+                `${SITE_BASE}/listings/${property.slug}`,
+              );
           result.sent = await sendMessage(reservation.id, msg, apiKey);
         } catch (err) {
           console.error(`[post-checkout] send error ${reservation.id}:`, err);

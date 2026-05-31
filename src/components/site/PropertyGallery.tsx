@@ -40,13 +40,23 @@ function useSwipe(onPrev: () => void, onNext: () => void, onTap?: () => void) {
     [onNext, onPrev, onTap],
   );
 
-  const onPointerUp = useCallback((e: React.PointerEvent) => commit(e.clientX, e.clientY), [commit]);
+  const onPointerUp = useCallback(
+    (e: React.PointerEvent) => commit(e.clientX, e.clientY),
+    [commit],
+  );
   const onPointerCancel = useCallback(() => {
     drag.current = null;
     setDelta(0);
   }, []);
 
-  return { delta, isDragging: !!drag.current, onPointerDown, onPointerMove, onPointerUp, onPointerCancel };
+  return {
+    delta,
+    isDragging: !!drag.current,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onPointerCancel,
+  };
 }
 
 // ─── nav state ───────────────────────────────────────────────────────────────
@@ -61,7 +71,15 @@ function useNav(count: number) {
 
 // ─── thumbnail strip ─────────────────────────────────────────────────────────
 
-function Thumbs({ images, active, onSelect }: { images: string[]; active: number; onSelect: (i: number) => void }) {
+function Thumbs({
+  images,
+  active,
+  onSelect,
+}: {
+  images: string[];
+  active: number;
+  onSelect: (i: number) => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current?.children[active] as HTMLElement | undefined;
@@ -69,11 +87,7 @@ function Thumbs({ images, active, onSelect }: { images: string[]; active: number
   }, [active]);
 
   return (
-    <div
-      ref={ref}
-      className="flex gap-2 overflow-x-auto py-0.5"
-      style={{ scrollbarWidth: "none" }}
-    >
+    <div ref={ref} className="flex gap-2 overflow-x-auto py-0.5" style={{ scrollbarWidth: "none" }}>
       {images.map((src, i) => (
         <button
           key={i}
@@ -84,7 +98,14 @@ function Thumbs({ images, active, onSelect }: { images: string[]; active: number
             i === active ? "opacity-100" : "opacity-50 hover:opacity-80",
           )}
         >
-          <img src={src} alt="" aria-hidden loading="lazy" decoding="async" className="h-full w-full object-cover" />
+          <img
+            src={src}
+            alt=""
+            aria-hidden
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
           <div
             className={cn(
               "absolute inset-x-0 bottom-0 h-[2px] transition-opacity duration-200",
@@ -99,7 +120,13 @@ function Thumbs({ images, active, onSelect }: { images: string[]; active: number
 
 // ─── nav buttons ─────────────────────────────────────────────────────────────
 
-function NavBtn({ dir, onClick }: { dir: "prev" | "next"; onClick: (e: React.MouseEvent) => void }) {
+function NavBtn({
+  dir,
+  onClick,
+}: {
+  dir: "prev" | "next";
+  onClick: (e: React.MouseEvent) => void;
+}) {
   return (
     <button
       onClick={onClick}
@@ -139,7 +166,8 @@ function InlineGallery({
   onExpand: () => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const { delta, isDragging, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } = useSwipe(prev, next, onExpand);
+  const { delta, isDragging, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } =
+    useSwipe(prev, next, onExpand);
 
   const pct = isDragging && trackRef.current ? (delta / trackRef.current.offsetWidth) * 100 : 0;
 
@@ -174,15 +202,29 @@ function InlineGallery({
               draggable={false}
               style={{
                 transform: `translateX(calc(${offset * 100}% + ${pct}%))`,
-                transition: isDragging ? "none" : "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)",
+                transition: isDragging
+                  ? "none"
+                  : "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)",
               }}
               className="absolute inset-0 h-full w-full object-cover"
             />
           );
         })}
 
-        <NavBtn dir="prev" onClick={(e) => { e.stopPropagation(); prev(); }} />
-        <NavBtn dir="next" onClick={(e) => { e.stopPropagation(); next(); }} />
+        <NavBtn
+          dir="prev"
+          onClick={(e) => {
+            e.stopPropagation();
+            prev();
+          }}
+        />
+        <NavBtn
+          dir="next"
+          onClick={(e) => {
+            e.stopPropagation();
+            next();
+          }}
+        />
 
         {/* Counter + tap hint */}
         <div className="absolute bottom-3 right-4 z-20 flex items-center gap-2">
@@ -225,7 +267,8 @@ function FullscreenModal({
   onClose: () => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const { delta, isDragging, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } = useSwipe(prev, next);
+  const { delta, isDragging, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } =
+    useSwipe(prev, next);
 
   const pct = isDragging && trackRef.current ? (delta / trackRef.current.offsetWidth) * 100 : 0;
 
@@ -270,7 +313,9 @@ function FullscreenModal({
               key={src}
               style={{
                 transform: `translateX(calc(${offset * 100}% + ${pct}%))`,
-                transition: isDragging ? "none" : "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)",
+                transition: isDragging
+                  ? "none"
+                  : "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)",
               }}
               className="absolute inset-0 flex items-center justify-center"
             >
@@ -286,8 +331,20 @@ function FullscreenModal({
           );
         })}
 
-        <NavBtn dir="prev" onClick={(e) => { e.stopPropagation(); prev(); }} />
-        <NavBtn dir="next" onClick={(e) => { e.stopPropagation(); next(); }} />
+        <NavBtn
+          dir="prev"
+          onClick={(e) => {
+            e.stopPropagation();
+            prev();
+          }}
+        />
+        <NavBtn
+          dir="next"
+          onClick={(e) => {
+            e.stopPropagation();
+            next();
+          }}
+        />
       </div>
 
       {/* Thumbnails */}

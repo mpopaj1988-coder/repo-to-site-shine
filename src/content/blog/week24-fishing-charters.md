@@ -4,6 +4,7 @@ description: "Inshore vs. offshore, half-day vs. full-day, what to bring and wha
 publishDate: "2026-10-16"
 author: "Sea & City Rentals"
 ---
+
 The Gulf Coast has some of the best year-round fishing in the country, and you don't need to own a boat or know what you're doing — charter captains will put you on fish. Here's how to actually book one without wasting money or ending up on the wrong trip.
 
 ## Inshore vs. Offshore — Pick the Right Trip
@@ -20,17 +21,17 @@ Half-day inshore (4 hours) runs $400–600 for up to 4 people and is plenty for 
 
 ## What's Usually Included
 
-* Rods, reels, tackle, bait
-* Florida fishing license (the boat's license covers you)
-* Fish cleaning at the dock
-* Coolers and ice
+- Rods, reels, tackle, bait
+- Florida fishing license (the boat's license covers you)
+- Fish cleaning at the dock
+- Coolers and ice
 
 ## What You Bring
 
-* Sunscreen (reef-safe), polarized sunglasses, hat
-* Closed-toe shoes or sandals with backstraps
-* Snacks and drinks (most boats allow coolers)
-* A small tip for the mate — 15–20% of the charter rate is standard
+- Sunscreen (reef-safe), polarized sunglasses, hat
+- Closed-toe shoes or sandals with backstraps
+- Snacks and drinks (most boats allow coolers)
+- A small tip for the mate — 15–20% of the charter rate is standard
 
 ## Where to Launch From
 

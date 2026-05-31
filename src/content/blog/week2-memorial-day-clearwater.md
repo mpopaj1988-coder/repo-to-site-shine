@@ -4,6 +4,7 @@ description: "The honest rundown on Memorial Day at Clearwater Beach — what to
 publishDate: "2026-05-15"
 author: "Sea & City Rentals"
 ---
+
 Memorial Day weekend is the unofficial starting gun of summer on the Gulf Coast — and Clearwater Beach fires it louder than almost anywhere in Florida. Here is the honest rundown of what to expect and how to make the most of it.
 
 ## It's Busy — Plan Accordingly
@@ -20,10 +21,10 @@ If crowds aren't your thing, head north to Caladesi Island State Park (accessibl
 
 ## What to Pack
 
-* Reef-safe sunscreen — Florida law and basic decency
-* A cooler with drinks and snacks — beach concessions get crowded fast
-* Cash for parking if you're driving to public lots
-* A beach umbrella — shade is worth its weight in gold by 1pm
-* Reservations for dinner — make them before you leave home
+- Reef-safe sunscreen — Florida law and basic decency
+- A cooler with drinks and snacks — beach concessions get crowded fast
+- Cash for parking if you're driving to public lots
+- A beach umbrella — shade is worth its weight in gold by 1pm
+- Reservations for dinner — make them before you leave home
 
 Memorial Day rentals on the Gulf Coast book out weeks in advance. [Check direct availability at seaandcityrentals.com](https://seaandcityrentals.com) — no Airbnb fees, real host support.

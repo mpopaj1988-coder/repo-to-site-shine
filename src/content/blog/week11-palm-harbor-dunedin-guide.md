@@ -4,6 +4,7 @@ description: "Palm Harbor and Dunedin sit just north of Clearwater and offer som
 publishDate: "2026-07-17"
 author: "Sea & City Rentals"
 ---
+
 Most Gulf Coast visitors spend their entire trip between Clearwater Beach and St. Pete, which means they miss two of the best towns in the entire region. Palm Harbor and Dunedin sit just north of Clearwater, and they offer something the beach corridor doesn't: actual, living, breathing Florida town character.
 
 ## Dunedin: The Star of the Show
@@ -28,10 +29,10 @@ Staying with [Sea & City Rentals](https://seaandcityrentals.com) in Palm Harbor 
 
 ## Eating in Dunedin
 
-* Kelly's — the local institution for fresh seafood and a waterfront view. The grouper is consistently excellent.
-* Sea Sea Riders — solid lunch spot with a covered patio and reliably good fish sandwiches.
-* Bon Appétit — upscale waterfront dining for a special occasion dinner.
-* Casa Tina — authentic Mexican in a colorful space, a Dunedin staple for years.
+- Kelly's — the local institution for fresh seafood and a waterfront view. The grouper is consistently excellent.
+- Sea Sea Riders — solid lunch spot with a covered patio and reliably good fish sandwiches.
+- Bon Appétit — upscale waterfront dining for a special occasion dinner.
+- Casa Tina — authentic Mexican in a colorful space, a Dunedin staple for years.
 
 ## Palm Harbor: The Quieter Side
 

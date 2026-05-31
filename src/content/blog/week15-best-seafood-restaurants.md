@@ -4,6 +4,7 @@ description: "The grouper is fresh, the stone crab claws are cracked that mornin
 publishDate: "2026-08-14"
 author: "Sea & City Rentals"
 ---
+
 You're on the Gulf Coast. The water is right there. The grouper is fresh, the stone crab claws are cracked that morning, and the shrimp have never seen a freezer. Eating mediocre seafood here would be a choice, and we're not going to let that happen to you.
 
 ## The Classics (Don't Overthink It)

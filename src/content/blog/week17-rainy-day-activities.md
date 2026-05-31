@@ -4,6 +4,7 @@ description: "The afternoon storm has rolled in and the beach is temporarily off
 publishDate: "2026-08-28"
 author: "Sea & City Rentals"
 ---
+
 The afternoon storm has rolled in, the beach is temporarily off the table, and someone in your group is about to say 'so what do we do now?' Here's the answer. Tampa Bay has a genuinely solid lineup of indoor and covered activities that make rainy afternoons feel like part of the plan rather than a disruption to it.
 
 Rainy afternoons are temporary — storms typically clear in 60–90 minutes. [Book a property with a covered lanai at seaandcityrentals.com](https://seaandcityrentals.com) and watch the storm from there with a cold drink before heading back to the beach.

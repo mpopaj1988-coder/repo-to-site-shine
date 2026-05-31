@@ -4,6 +4,7 @@ description: "Fourth of July on the Gulf Coast is the real deal — fireworks ov
 publishDate: "2026-07-03"
 author: "Sea & City Rentals"
 ---
+
 Fourth of July on the Gulf Coast is the real deal. Fireworks over the water, patriotic beach crowds, watercraft parades on the Intracoastal, and the kind of warm summer night that makes you glad to be wherever you are.
 
 ## Where the Fireworks Are
@@ -28,7 +29,7 @@ If you have access to a boat or can rent one, watching the Fourth of July firewo
 
 ## Practical Tips for the Holiday
 
-* Parking is a nightmare — stay in a vacation rental close to the beach and walk
-* Make dinner reservations at least a week ahead
-* Bring a blanket and stake out your fireworks spot at least an hour before showtime
-* Expect traffic on Gulf Blvd after the fireworks — plan to walk back and wait it out
+- Parking is a nightmare — stay in a vacation rental close to the beach and walk
+- Make dinner reservations at least a week ahead
+- Bring a blanket and stake out your fireworks spot at least an hour before showtime
+- Expect traffic on Gulf Blvd after the fireworks — plan to walk back and wait it out

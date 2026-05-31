@@ -4,6 +4,7 @@ description: "A walkable downtown, an obsession with craft beer, the Pinellas Tr
 publishDate: "2026-10-02"
 author: "Sea & City Rentals"
 ---
+
 Dunedin punches well above its weight. A small Gulf Coast town with Scottish heritage, a downtown you can actually walk, an outsized craft beer scene, and direct access to two of the best state parks in Florida. If you've never made it a stop on a Gulf Coast trip, fix that.
 
 ## Downtown Dunedin
@@ -16,10 +17,10 @@ The downtown is compact, low-rise, and has resisted the strip-mall sprawl that f
 
 Dunedin has more breweries per capita than nearly any town in Florida. Highlights:
 
-* **Dunedin Brewery** — the oldest microbrewery in Florida, classic taproom, live music several nights a week
-* **Caledonia Brewing** — Scottish-themed, leans into the heritage, solid traditional styles done well
-* **Soggy Bottom Brewing** — newer, neighborhood feel, rotating taps
-* **HOB Brewing** — small-batch, experimental, worth the stop
+- **Dunedin Brewery** — the oldest microbrewery in Florida, classic taproom, live music several nights a week
+- **Caledonia Brewing** — Scottish-themed, leans into the heritage, solid traditional styles done well
+- **Soggy Bottom Brewing** — newer, neighborhood feel, rotating taps
+- **HOB Brewing** — small-batch, experimental, worth the stop
 
 ## Honeymoon Island & Caladesi
 

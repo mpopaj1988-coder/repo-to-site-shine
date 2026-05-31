@@ -61,7 +61,8 @@ function MapPage() {
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
         <PropertyMap pricingMap={pricingMap} />
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          Tip: tap any pin to preview the property — click through to see photos, amenities and book direct.
+          Tip: tap any pin to preview the property — click through to see photos, amenities and book
+          direct.
         </p>
       </section>
     </Layout>

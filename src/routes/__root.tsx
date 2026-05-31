@@ -84,7 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#152238" },
       { property: "og:site_name", content: "Sea & City Rentals" },
       { property: "og:type", content: "website" },
-      { property: "og:title", content: "Sea & City Rentals — Florida Vacation Rentals in Tampa, St. Pete & the Beaches" },
+      {
+        property: "og:title",
+        content: "Sea & City Rentals — Florida Vacation Rentals in Tampa, St. Pete & the Beaches",
+      },
       {
         property: "og:description",
         content:
@@ -94,7 +97,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Sea & City Rentals — Florida Vacation Rentals in Tampa, St. Pete & the Beaches" },
+      {
+        name: "twitter:title",
+        content: "Sea & City Rentals — Florida Vacation Rentals in Tampa, St. Pete & the Beaches",
+      },
       {
         name: "twitter:description",
         content:
@@ -120,7 +126,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               url: `${SITE_URL}/`,
               logo: `${SITE_URL}/og.jpg`,
               telephone: PHONE,
-              areaServed: ["Tampa, FL", "St. Petersburg, FL", "Clearwater, FL", "Largo, FL", "Indian Rocks Beach, FL"],
+              areaServed: [
+                "Tampa, FL",
+                "St. Petersburg, FL",
+                "Clearwater, FL",
+                "Largo, FL",
+                "Indian Rocks Beach, FL",
+              ],
             },
             {
               "@type": "WebSite",

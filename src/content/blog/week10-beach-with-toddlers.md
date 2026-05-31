@@ -4,6 +4,7 @@ description: "Beach trips with toddlers, done right, are some of the best family
 publishDate: "2026-07-10"
 author: "Sea & City Rentals"
 ---
+
 Nobody tells you how much stuff a toddler needs at the beach. Or how they'll spend 20 minutes getting sandy and then immediately want to go back inside. But beach trips with toddlers, done right, are genuinely some of the best family memories you'll make.
 
 ## Choose the Right Beach
@@ -18,13 +19,13 @@ A vacation rental with a full kitchen makes the toddler trip dramatically easier
 
 ## The Gear List (Actually Useful Version)
 
-* Pop-up beach tent/UPF canopy — the most important item; toddler skin and Florida sun are not friends
-* Swim diapers plus regular diapers — you'll go through more than you think
-* Reef-safe SPF 50+ sunscreen, applied before you leave the rental
-* Small bucket and shovels — sand play buys you 45 uninterrupted minutes
-* Portable clip-on fan — clip to the canopy for shade and breeze
-* Frozen water bottles — they keep the cooler cold, then become cold drinks
-* Extra outfit — sand gets everywhere and wet sandy clothes on a toddler becomes everyone's problem
+- Pop-up beach tent/UPF canopy — the most important item; toddler skin and Florida sun are not friends
+- Swim diapers plus regular diapers — you'll go through more than you think
+- Reef-safe SPF 50+ sunscreen, applied before you leave the rental
+- Small bucket and shovels — sand play buys you 45 uninterrupted minutes
+- Portable clip-on fan — clip to the canopy for shade and breeze
+- Frozen water bottles — they keep the cooler cold, then become cold drinks
+- Extra outfit — sand gets everywhere and wet sandy clothes on a toddler becomes everyone's problem
 
 ## Feeding Them at the Beach
 

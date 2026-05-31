@@ -4,6 +4,7 @@ description: "The full playbook for a family trip to Clearwater Beach — marine
 publishDate: "2026-06-05"
 author: "Sea & City Rentals"
 ---
+
 Clearwater Beach is one of those rare family vacation spots that actually delivers on its promise. The beach is stunning, yes — but what keeps families coming back year after year is everything else: the marine life, the sunsets, the activities that give kids something to talk about when school starts again.
 
 ## Clearwater Marine Aquarium
@@ -30,7 +31,7 @@ On a scorching July afternoon when everyone's had enough sand, Splash Harbour Wa
 
 ## Tips for Families Visiting Clearwater Beach
 
-* Plan beach time for early morning (9–11am) or late afternoon (4–6pm) — midday Florida sun is brutal for little ones
-* Pack a cooler — beachside concessions are expensive and the lines are long
-* Many restaurants have kids menus and will accommodate early dinner — go at 5pm and skip the wait
-* Vacation rentals with a private pool are a lifesaver when afternoon storms roll in
+- Plan beach time for early morning (9–11am) or late afternoon (4–6pm) — midday Florida sun is brutal for little ones
+- Pack a cooler — beachside concessions are expensive and the lines are long
+- Many restaurants have kids menus and will accommodate early dinner — go at 5pm and skip the wait
+- Vacation rentals with a private pool are a lifesaver when afternoon storms roll in

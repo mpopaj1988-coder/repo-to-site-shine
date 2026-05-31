@@ -25,11 +25,17 @@ function AboutPage() {
   return (
     <Layout>
       <section className="relative h-[55vh] min-h-[420px] w-full overflow-hidden">
-        <img src={sunset} alt="Florida Gulf Coast beach at sunset" className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={sunset}
+          alt="Florida Gulf Coast beach at sunset"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 to-black/65" />
         <div className="relative z-10 flex h-full items-center justify-center px-6 text-center text-white">
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.45em] text-[var(--color-gold)]">About Us</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.45em] text-[var(--color-gold)]">
+              About Us
+            </p>
             <h1 className="mt-5 font-display text-4xl font-medium leading-tight tracking-tight sm:text-6xl">
               Hosted with heart
             </h1>
@@ -42,20 +48,23 @@ function AboutPage() {
           setting for someone&apos;s best memories.”
         </blockquote>
         <p className="mt-8 text-lg text-muted-foreground">
-          I&apos;m Nella, founder of Sea &amp; City Rentals, and I personally manage all nine of
-          our properties across Tampa Bay. What started as a passion for creating welcoming spaces
-          has grown into a portfolio spanning St. Pete, Clearwater, Indian Rocks Beach, Tampa,
-          Largo, and Palm Harbor.
+          I&apos;m Nella, founder of Sea &amp; City Rentals, and I personally manage all nine of our
+          properties across Tampa Bay. What started as a passion for creating welcoming spaces has
+          grown into a portfolio spanning St. Pete, Clearwater, Indian Rocks Beach, Tampa, Largo,
+          and Palm Harbor.
         </p>
         <p className="mt-5 text-lg text-muted-foreground">
           I love hosting because every guest who walks through our doors gets the same attention to
-          detail and care I&apos;d want for my own family — whether it&apos;s a beachfront escape,
-          a cozy retreat, or a home base for exploring the Gulf Coast. For me, hosting isn&apos;t
-          just about providing a rental; it&apos;s about creating the perfect setting for
-          someone&apos;s best memories.
+          detail and care I&apos;d want for my own family — whether it&apos;s a beachfront escape, a
+          cozy retreat, or a home base for exploring the Gulf Coast. For me, hosting isn&apos;t just
+          about providing a rental; it&apos;s about creating the perfect setting for someone&apos;s
+          best memories.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link to="/properties" className="rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white">
+          <Link
+            to="/properties"
+            className="rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
+          >
             View Properties
           </Link>
           <a

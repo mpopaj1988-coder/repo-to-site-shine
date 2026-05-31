@@ -58,17 +58,13 @@ async function handleRefresh() {
         hospitable_review_id: String(r.id ?? r.uuid ?? `${p.hospitableId}-${r.created_at}`),
         property_hospitable_id: p.hospitableId,
         property_slug: p.slug,
-        guest_name:
-          r.guest_name ||
-          r.reviewer?.first_name ||
-          r.guest?.first_name ||
-          "Guest",
+        guest_name: r.guest_name || r.reviewer?.first_name || r.guest?.first_name || "Guest",
         rating:
           typeof r.rating === "number"
             ? r.rating
             : typeof r.overall_rating === "number"
-            ? r.overall_rating
-            : null,
+              ? r.overall_rating
+              : null,
         text: r.public_review || r.private_review || r.comment || r.text || "",
         review_date: (r.review_date || r.created_at || r.submitted_at || "").slice(0, 10) || null,
         raw: r,
@@ -87,8 +83,7 @@ async function handleRefresh() {
     }
   }
 
-  return new Response(
-    JSON.stringify({ ok: true, totalUpserted, perProperty }),
-    { headers: { "Content-Type": "application/json" } },
-  );
+  return new Response(JSON.stringify({ ok: true, totalUpserted, perProperty }), {
+    headers: { "Content-Type": "application/json" },
+  });
 }

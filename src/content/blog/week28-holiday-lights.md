@@ -4,6 +4,7 @@ description: "From Largo Central Park's holiday light walk to St. Pete's Enchant
 publishDate: "2026-11-13"
 author: "Sea & City Rentals"
 ---
+
 December on the Gulf Coast is its own thing — palm trees with lights, Christmas boat parades on the Intracoastal, and outdoor festivals that would be impossible up north. Here's what's actually worth working into a December trip.
 
 ## Holiday Lights at Largo Central Park
@@ -18,10 +19,10 @@ The largest holiday light maze in the world sets up at Tropicana Field in St. Pe
 
 Several happen across the bay through December:
 
-* **St. Pete Beach Christmas Boat Parade** — runs along the Intracoastal, best viewing from waterfront restaurants
-* **Madeira Beach Holiday Boat Parade** — at John's Pass, easily walkable
-* **Tarpon Springs Boat Parade** — smaller, more local feel, usually first weekend of December
-* **Clearwater Beach** — combines with Pier 60 holiday programming
+- **St. Pete Beach Christmas Boat Parade** — runs along the Intracoastal, best viewing from waterfront restaurants
+- **Madeira Beach Holiday Boat Parade** — at John's Pass, easily walkable
+- **Tarpon Springs Boat Parade** — smaller, more local feel, usually first weekend of December
+- **Clearwater Beach** — combines with Pier 60 holiday programming
 
 ## Snowfest at Curtis Hixon Waterfront Park
 

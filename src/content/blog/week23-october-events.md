@@ -4,6 +4,7 @@ description: "October on the Gulf Coast brings festivals, food events, and Hallo
 publishDate: "2026-10-09"
 author: "Sea & City Rentals"
 ---
+
 October is when the Gulf Coast event calendar wakes back up after summer. Cooler weather brings festivals outdoors, Halloween turns Ybor City into one of the better street parties in the South, and the food and drink calendar fills in fast.
 
 ## Clearwater Jazz Holiday

@@ -4,6 +4,7 @@ description: "The hotel vs. vacation rental debate is rarely as simple as sticke
 publishDate: "2026-07-24"
 author: "Sea & City Rentals"
 ---
+
 The hotel vs. vacation rental debate comes up on almost every trip planning conversation, and the answer is almost never as simple as 'one is cheaper.' It depends on your group size, your length of stay, how you actually vacation, and what you count as a cost.
 
 ## The Sticker Price Comparison
@@ -28,14 +29,14 @@ For couples, a hotel can genuinely be cheaper. For families or groups, the math 
 
 ## When Hotels Actually Win
 
-* Solo travelers or couples who eat out every meal anyway
-* Short 1–2 night trips where you're barely at the property
-* Business travel with corporate rates and loyalty points
-* Last-minute bookings where availability is limited
+- Solo travelers or couples who eat out every meal anyway
+- Short 1–2 night trips where you're barely at the property
+- Business travel with corporate rates and loyalty points
+- Last-minute bookings where availability is limited
 
 ## When Rentals Win (Most Gulf Coast Trips)
 
-* Families with kids who need kitchen access, space, and laundry
-* Groups of 4+ where the per-person cost drops significantly
-* Stays of 4+ nights where the kitchen savings compound
-* Travelers who want a real home base, not just somewhere to sleep
+- Families with kids who need kitchen access, space, and laundry
+- Groups of 4+ where the per-person cost drops significantly
+- Stays of 4+ nights where the kitchen savings compound
+- Travelers who want a real home base, not just somewhere to sleep

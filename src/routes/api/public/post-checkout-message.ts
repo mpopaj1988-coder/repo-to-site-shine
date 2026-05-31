@@ -36,7 +36,12 @@ async function handleCheckout(request: Request): Promise<Response> {
         (p): p is typeof p & { hospitableId: string; airbnbUrl: string } =>
           Boolean(p.hospitableId) && Boolean(p.airbnbUrl),
       )
-      .map((p) => ({ slug: p.slug, hospitableId: p.hospitableId, title: p.title, airbnbUrl: p.airbnbUrl }));
+      .map((p) => ({
+        slug: p.slug,
+        hospitableId: p.hospitableId,
+        title: p.title,
+        airbnbUrl: p.airbnbUrl,
+      }));
 
     const results = await processPostCheckoutMessages(propertyList, supabaseAdmin, { dryRun });
 

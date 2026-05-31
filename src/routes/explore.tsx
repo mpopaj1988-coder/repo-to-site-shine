@@ -8,9 +8,16 @@ export const Route = createFileRoute("/explore")({
   head: () => ({
     meta: [
       { title: "Explore Tampa Bay — Neighborhood Guides | Sea & City Rentals" },
-      { name: "description", content: "Local guides to Tampa, St. Petersburg and Clearwater Beach — where to eat, what to do and how to get around, written by your Sea & City Rentals hosts." },
+      {
+        name: "description",
+        content:
+          "Local guides to Tampa, St. Petersburg and Clearwater Beach — where to eat, what to do and how to get around, written by your Sea & City Rentals hosts.",
+      },
       { property: "og:title", content: "Explore Tampa Bay — Sea & City Rentals" },
-      { property: "og:description", content: "Neighborhood guides for Tampa, St. Pete and Clearwater Beach." },
+      {
+        property: "og:description",
+        content: "Neighborhood guides for Tampa, St. Pete and Clearwater Beach.",
+      },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/explore` }],
   }),
@@ -26,14 +33,10 @@ const GUIDE_TO_LOCATIONS: Record<string, string[]> = {
 
 function topStayForGuide(slug: string): Property | null {
   const locs = GUIDE_TO_LOCATIONS[slug] ?? [];
-  const matches = properties.filter((p) =>
-    locs.includes(p.location.split(",")[0].trim()),
-  );
+  const matches = properties.filter((p) => locs.includes(p.location.split(",")[0].trim()));
   if (matches.length === 0) return null;
   // Most-reviewed first; ties broken by rating.
-  return [...matches].sort(
-    (a, b) => b.reviews - a.reviews || b.rating - a.rating,
-  )[0];
+  return [...matches].sort((a, b) => b.reviews - a.reviews || b.rating - a.rating)[0];
 }
 
 function ExplorePage() {
@@ -52,8 +55,8 @@ function ExplorePage() {
             Neighborhood guides
           </h1>
           <p className="mt-4 max-w-xl text-white/75">
-            Local picks, drive times and the spots we send our own friends — straight from the
-            hosts who live here.
+            Local picks, drive times and the spots we send our own friends — straight from the hosts
+            who live here.
           </p>
         </div>
       </section>

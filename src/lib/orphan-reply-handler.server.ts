@@ -68,10 +68,9 @@ async function getReservation(id: string, apiKey: string): Promise<ReservationDe
 }
 
 async function getMessages(reservationId: string, apiKey: string): Promise<HospitableMessage[]> {
-  const res = await fetch(
-    `${HOSPITABLE_BASE}/reservations/${reservationId}/messages?per_page=50`,
-    { headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" } },
-  );
+  const res = await fetch(`${HOSPITABLE_BASE}/reservations/${reservationId}/messages?per_page=50`, {
+    headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" },
+  });
   if (!res.ok) return [];
   const json = (await res.json()) as { data?: HospitableMessage[] };
   return json.data ?? [];
@@ -80,10 +79,7 @@ async function getMessages(reservationId: string, apiKey: string): Promise<Hospi
 // Returns true if any guest message after `sentAt` contains "yes".
 function hasYesReply(messages: HospitableMessage[], sentAt: string): boolean {
   return messages.some(
-    (m) =>
-      m.sender_type === "guest" &&
-      m.created_at > sentAt &&
-      YES_RE.test(m.body),
+    (m) => m.sender_type === "guest" && m.created_at > sentAt && YES_RE.test(m.body),
   );
 }
 
@@ -108,7 +104,8 @@ async function createFallbackTask(
   direction: "outgoing" | "incoming",
   apiKey: string,
 ): Promise<void> {
-  const action = direction === "outgoing" ? "extend checkout by 1 night" : "move check-in 1 night earlier";
+  const action =
+    direction === "outgoing" ? "extend checkout by 1 night" : "move check-in 1 night earlier";
   const res = await fetch(`${HOSPITABLE_BASE}/tasks`, {
     method: "POST",
     headers: {
@@ -128,7 +125,10 @@ async function createFallbackTask(
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] createFallbackTask ${reservationId} ${res.status}:`, text.slice(0, 200));
+    console.error(
+      `[orphan-reply] createFallbackTask ${reservationId} ${res.status}:`,
+      text.slice(0, 200),
+    );
   }
 }
 
@@ -144,9 +144,7 @@ async function extendReservation(
       ? shiftDate(reservation.departure_date, 1)
       : reservation.departure_date;
   const newArrival =
-    direction === "incoming"
-      ? shiftDate(reservation.arrival_date, -1)
-      : reservation.arrival_date;
+    direction === "incoming" ? shiftDate(reservation.arrival_date, -1) : reservation.arrival_date;
 
   const res = await fetch(`${HOSPITABLE_BASE}/reservations/${reservation.id}`, {
     method: "PUT",
@@ -163,7 +161,10 @@ async function extendReservation(
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] extendDirect ${reservation.id} ${res.status}:`, text.slice(0, 200));
+    console.error(
+      `[orphan-reply] extendDirect ${reservation.id} ${res.status}:`,
+      text.slice(0, 200),
+    );
   }
   return res.ok;
 }
@@ -208,7 +209,7 @@ export async function processUpsellReplies(
     .select("*")
     .or(
       "and(outgoing_sent.eq.true,outgoing_alteration_handled.eq.false)," +
-      "and(incoming_sent.eq.true,incoming_alteration_handled.eq.false)",
+        "and(incoming_sent.eq.true,incoming_alteration_handled.eq.false)",
     )
     .order("orphan_date", { ascending: true });
 
@@ -241,7 +242,13 @@ export async function processUpsellReplies(
             const firstName = reservation.guest?.first_name || "there";
             const extended = await extendReservation(reservation, "outgoing", apiKey);
             if (!extended) {
-              await createFallbackTask(reservation.id, firstName, row.orphan_date, "outgoing", apiKey);
+              await createFallbackTask(
+                reservation.id,
+                firstName,
+                row.orphan_date,
+                "outgoing",
+                apiKey,
+              );
             }
             await sendMessage(
               reservation.id,
@@ -265,7 +272,13 @@ export async function processUpsellReplies(
             const firstName = reservation.guest?.first_name || "there";
             const extended = await extendReservation(reservation, "incoming", apiKey);
             if (!extended) {
-              await createFallbackTask(reservation.id, firstName, row.orphan_date, "incoming", apiKey);
+              await createFallbackTask(
+                reservation.id,
+                firstName,
+                row.orphan_date,
+                "incoming",
+                apiKey,
+              );
             }
             await sendMessage(
               reservation.id,
@@ -286,10 +299,7 @@ export async function processUpsellReplies(
         if (result.incoming.handled) updates.incoming_alteration_handled = true;
 
         if (Object.keys(updates).length > 0) {
-          await supabaseAdmin
-            .from("orphan_upsell_log")
-            .update(updates)
-            .eq("id", row.id);
+          await supabaseAdmin.from("orphan_upsell_log").update(updates).eq("id", row.id);
         }
       }
     } catch (err) {

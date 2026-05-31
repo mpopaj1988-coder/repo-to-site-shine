@@ -4,6 +4,7 @@ description: "The best dog-friendly beaches, parks, and hangouts around Tampa Ba
 publishDate: "2026-05-29"
 author: "Sea & City Rentals"
 ---
+
 Let's be honest: leaving your dog behind when you go on vacation is the worst part of going on vacation. The good news? The Tampa Bay area is genuinely one of the best places in Florida to travel with your dog — and yes, that includes the beach.
 
 Traveling with a dog? [Sea & City Rentals has pet-friendly properties](https://seaandcityrentals.com) across Clearwater, Indian Rocks Beach, St. Pete, and more. Just let us know you're bringing a pup.
@@ -30,8 +31,8 @@ A quieter option with lake access, picnic shelters, and a relaxed atmosphere tha
 
 ## Tips for a Great Dog Beach Trip
 
-* Bring fresh water — dogs dehydrate fast in Florida heat, and saltwater makes it worse
-* Pack a portable bowl and a shade tent if your dog isn't used to direct sun
-* Rinse your dog off after saltwater — it dries out their coat and can irritate skin
-* Check local leash laws before you go — rules vary by beach and time of day
-* Bring a towel (for them — you'll share yours anyway)
+- Bring fresh water — dogs dehydrate fast in Florida heat, and saltwater makes it worse
+- Pack a portable bowl and a shade tent if your dog isn't used to direct sun
+- Rinse your dog off after saltwater — it dries out their coat and can irritate skin
+- Check local leash laws before you go — rules vary by beach and time of day
+- Bring a towel (for them — you'll share yours anyway)

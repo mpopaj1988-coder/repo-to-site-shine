@@ -25,13 +25,19 @@ export const Route = createFileRoute("/blog")({
         { property: "og:image:secure_url", content: image },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
-        { property: "og:image:alt", content: "Sea & City Rentals — Florida vacation rental travel guides" },
+        {
+          property: "og:image:alt",
+          content: "Sea & City Rentals — Florida vacation rental travel guides",
+        },
         // Twitter Card
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
         { name: "twitter:image", content: image },
-        { name: "twitter:image:alt", content: "Sea & City Rentals — Florida vacation rental travel guides" },
+        {
+          name: "twitter:image:alt",
+          content: "Sea & City Rentals — Florida vacation rental travel guides",
+        },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
@@ -93,9 +99,7 @@ function BlogIndex() {
                   <h2 className="mt-2 text-2xl font-semibold text-foreground group-hover:text-primary">
                     {p.title}
                   </h2>
-                  {p.description && (
-                    <p className="mt-2 text-muted-foreground">{p.description}</p>
-                  )}
+                  {p.description && <p className="mt-2 text-muted-foreground">{p.description}</p>}
                   <span className="mt-3 inline-block text-sm font-medium text-primary">
                     Read more →
                   </span>

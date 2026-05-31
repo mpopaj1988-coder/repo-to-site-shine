@@ -185,9 +185,7 @@ function GuidePage() {
                     <h3 className="mt-2 font-display text-xl font-medium text-foreground">
                       {it.name}
                     </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      {it.desc}
-                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{it.desc}</p>
                     {it.detail ? (
                       <p className="mt-4 text-xs font-medium text-[var(--color-deep)]">
                         {it.detail}
@@ -219,10 +217,7 @@ function GuidePage() {
           </h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {g.driveTimes.map((d) => (
-              <li
-                key={d.label}
-                className="rounded-md border border-white/10 bg-white/5 p-4"
-              >
+              <li key={d.label} className="rounded-md border border-white/10 bg-white/5 p-4">
                 <p className="font-display text-3xl text-[var(--color-gold)]">{d.minutes}</p>
                 <p className="text-[10px] uppercase tracking-[0.25em] text-white/65">min drive</p>
                 <p className="mt-2 text-sm text-white/85">{d.label}</p>
@@ -256,7 +251,9 @@ function GuidePage() {
               <div
                 key={p.slug}
                 data-testid={`guide-${g.slug}-nearby-${p.slug}`}
-                onClick={() => track("nearby_property_click", { surface: `guide_${g.slug}`, property: p.slug })}
+                onClick={() =>
+                  track("nearby_property_click", { surface: `guide_${g.slug}`, property: p.slug })
+                }
               >
                 <PropertyCard p={p} />
               </div>

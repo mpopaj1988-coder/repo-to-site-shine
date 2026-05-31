@@ -67,7 +67,13 @@ export const Route = createFileRoute("/")({
             "Beautifully furnished Florida vacation rentals in Tampa Bay, St. Petersburg and the Gulf Beaches.",
           url: "https://www.seaandcityrentals.com/",
           mainEntityOfPage: "https://www.seaandcityrentals.com/",
-          areaServed: ["Tampa, FL", "St. Petersburg, FL", "Clearwater, FL", "Largo, FL", "Indian Rocks Beach, FL"],
+          areaServed: [
+            "Tampa, FL",
+            "St. Petersburg, FL",
+            "Clearwater, FL",
+            "Largo, FL",
+            "Indian Rocks Beach, FL",
+          ],
         }),
       },
     ],
@@ -76,12 +82,19 @@ export const Route = createFileRoute("/")({
 });
 
 const heroSlides = [
-  { img: heroBeach, label: "Indian Rocks Beach, FL", caption: "Gulf Sunsets · Steps from the Sand" },
+  {
+    img: heroBeach,
+    label: "Indian Rocks Beach, FL",
+    caption: "Gulf Sunsets · Steps from the Sand",
+  },
   { img: heroTampa, label: "Tampa, FL", caption: "Waterfront Estate · Pool + Private Dock" },
   { img: heroStpete, label: "St. Petersburg, FL", caption: "Downtown Retreat · Hot Tub Garden" },
-  { img: heroLargo, label: "St. Petersburg, FL", caption: "Modern Apartment · Downtown Arts District" },
+  {
+    img: heroLargo,
+    label: "St. Petersburg, FL",
+    caption: "Modern Apartment · Downtown Arts District",
+  },
 ];
-
 
 const categories: Array<"All" | Category> = ["All", "Beach", "City", "Large Groups"];
 
@@ -119,12 +132,13 @@ function Index() {
             Tampa Bay, Florida
           </p>
           <h1 className="mt-5 font-display text-[2.5rem] font-medium leading-[1.05] tracking-tight sm:mt-6 sm:text-6xl lg:text-7xl">
-            Florida Vacation Rentals,<br className="hidden sm:block" />
+            Florida Vacation Rentals,
+            <br className="hidden sm:block" />
             <span className="text-white/95"> Hosted With Care.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-balance text-[15px] leading-relaxed text-white/85 sm:mt-7 sm:text-lg">
-            Designer homes across Tampa, St. Petersburg, Clearwater and the Gulf beaches.
-            Book direct with the host and save up to 15%.
+            Designer homes across Tampa, St. Petersburg, Clearwater and the Gulf beaches. Book
+            direct with the host and save up to 15%.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
             <Link
@@ -237,13 +251,31 @@ function Index() {
           </div>
           <dl className="grid gap-6 sm:grid-cols-2">
             {[
-              { icon: "💰", t: "Save up to 15%", d: "No platform service fees added at checkout. What you see is what you pay." },
-              { icon: "💬", t: "Direct Line to Us", d: "Text or call us directly. No bots, no delays — real people who care." },
-              { icon: "🔁", t: "Return Guest Perk", d: "Come back and get 10% off your next stay — automatically." },
-              { icon: "✨", t: "Custom Requests", d: "Early check-in, special occasions, extended stays — just ask us." },
+              {
+                icon: "💰",
+                t: "Save up to 15%",
+                d: "No platform service fees added at checkout. What you see is what you pay.",
+              },
+              {
+                icon: "💬",
+                t: "Direct Line to Us",
+                d: "Text or call us directly. No bots, no delays — real people who care.",
+              },
+              {
+                icon: "🔁",
+                t: "Return Guest Perk",
+                d: "Come back and get 10% off your next stay — automatically.",
+              },
+              {
+                icon: "✨",
+                t: "Custom Requests",
+                d: "Early check-in, special occasions, extended stays — just ask us.",
+              },
             ].map((b) => (
               <div key={b.t} className="rounded-md border border-white/10 bg-white/5 p-4">
-                <span className="text-xl" aria-hidden>{b.icon}</span>
+                <span className="text-xl" aria-hidden>
+                  {b.icon}
+                </span>
                 <dt className="mt-2 font-display text-base">{b.t}</dt>
                 <dd className="mt-1 text-xs text-white/70">{b.d}</dd>
               </div>
@@ -294,9 +326,9 @@ function Index() {
               perfect setting for someone&apos;s best memories.”
             </blockquote>
             <p className="mt-6 text-muted-foreground">
-              I&apos;m Nella, founder of Sea &amp; City Rentals, and I personally manage all nine
-              of our properties across Tampa Bay — from St. Pete and Clearwater to Indian Rocks
-              Beach, Tampa, Largo, and Palm Harbor.
+              I&apos;m Nella, founder of Sea &amp; City Rentals, and I personally manage all nine of
+              our properties across Tampa Bay — from St. Pete and Clearwater to Indian Rocks Beach,
+              Tampa, Largo, and Palm Harbor.
             </p>
             <p className="mt-4 text-muted-foreground">
               Every guest who walks through our doors gets the same attention to detail and care
@@ -389,9 +421,24 @@ function Index() {
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
-            { img: guideTampa, name: "Tampa", slug: "tampa", alt: "Tampa Florida waterfront downtown skyline" },
-            { img: guideStpete, name: "St. Petersburg", slug: "st-petersburg", alt: "St. Petersburg Florida pier and waterfront" },
-            { img: guideClearwater, name: "Clearwater Beach", slug: "clearwater-beach", alt: "Clearwater Beach Florida white sand and Gulf water with Pier 60" },
+            {
+              img: guideTampa,
+              name: "Tampa",
+              slug: "tampa",
+              alt: "Tampa Florida waterfront downtown skyline",
+            },
+            {
+              img: guideStpete,
+              name: "St. Petersburg",
+              slug: "st-petersburg",
+              alt: "St. Petersburg Florida pier and waterfront",
+            },
+            {
+              img: guideClearwater,
+              name: "Clearwater Beach",
+              slug: "clearwater-beach",
+              alt: "Clearwater Beach Florida white sand and Gulf water with Pier 60",
+            },
           ].map((g) => (
             <Link
               key={g.name}

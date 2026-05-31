@@ -30,7 +30,10 @@ export const Route = createFileRoute("/properties")({
           "Browse all 9 Sea & City Rentals properties across Tampa, St. Petersburg, Clearwater, Largo and Indian Rocks Beach. Book direct to skip Airbnb fees.",
       },
       { property: "og:title", content: "Our Properties — Sea & City Rentals" },
-      { property: "og:description", content: "Hand-picked Florida vacation rentals — book direct & save." },
+      {
+        property: "og:description",
+        content: "Hand-picked Florida vacation rentals — book direct & save.",
+      },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/properties` }],
   }),
@@ -46,9 +49,7 @@ function PropertiesPage() {
           <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-[var(--color-gold)]">
             Our Properties
           </p>
-          <h1 className="mt-4 font-display text-5xl leading-tight sm:text-6xl">
-            All 9 rentals
-          </h1>
+          <h1 className="mt-4 font-display text-5xl leading-tight sm:text-6xl">All 9 rentals</h1>
           <p className="mt-4 max-w-xl text-white/75">
             From waterfront pool homes to beachside hot-tub condos and downtown St. Pete retreats —
             find the right space for your trip.

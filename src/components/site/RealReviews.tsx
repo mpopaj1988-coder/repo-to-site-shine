@@ -17,8 +17,7 @@ const fallback: Review[] = [
     property_slug: null,
     guest_name: "Jessica M.",
     rating: 5,
-    text:
-      "Absolutely stunning property. Nella was incredibly responsive and the home was exactly as pictured — actually better. We'll be back every year.",
+    text: "Absolutely stunning property. Nella was incredibly responsive and the home was exactly as pictured — actually better. We'll be back every year.",
     review_date: null,
   },
   {
@@ -26,8 +25,7 @@ const fallback: Review[] = [
     property_slug: null,
     guest_name: "The Rodriguez Family",
     rating: 5,
-    text:
-      "The best vacation rental we've ever stayed in. So close to the beach, beautifully decorated, and the communication was seamless from start to finish.",
+    text: "The best vacation rental we've ever stayed in. So close to the beach, beautifully decorated, and the communication was seamless from start to finish.",
     review_date: null,
   },
   {
@@ -35,13 +33,18 @@ const fallback: Review[] = [
     property_slug: null,
     guest_name: "Mark & Dana T.",
     rating: 5,
-    text:
-      "Stayed in St. Pete and fell in love with the condo. Designer touches everywhere, great location, and the host goes above and beyond. Five stars isn't enough.",
+    text: "Stayed in St. Pete and fell in love with the condo. Designer touches everywhere, great location, and the host goes above and beyond. Five stars isn't enough.",
     review_date: null,
   },
 ];
 
-export function RealReviews({ limit = 6, propertySlug }: { limit?: number; propertySlug?: string }) {
+export function RealReviews({
+  limit = 6,
+  propertySlug,
+}: {
+  limit?: number;
+  propertySlug?: string;
+}) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loaded, setLoaded] = useState(false);
 

@@ -4,7 +4,15 @@ import type { Property } from "@/data/properties";
 import type { Pricing } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
-export function PropertyCard({ p, pricing, priority = false }: { p: Property; pricing?: Pricing; priority?: boolean }) {
+export function PropertyCard({
+  p,
+  pricing,
+  priority = false,
+}: {
+  p: Property;
+  pricing?: Pricing;
+  priority?: boolean;
+}) {
   return (
     <Link
       to="/listings/$slug"
@@ -37,9 +45,15 @@ export function PropertyCard({ p, pricing, priority = false }: { p: Property; pr
         <h3 className="mt-2 font-display text-xl leading-snug text-foreground">{p.title}</h3>
         <p className="mt-2 text-sm text-muted-foreground">{p.description}</p>
         <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1"><BedDouble className="size-3.5" /> {p.bedrooms} BR</span>
-          <span className="flex items-center gap-1"><Bath className="size-3.5" /> {p.bathrooms} BA</span>
-          <span className="flex items-center gap-1"><Users className="size-3.5" /> Sleeps {p.sleeps}</span>
+          <span className="flex items-center gap-1">
+            <BedDouble className="size-3.5" /> {p.bedrooms} BR
+          </span>
+          <span className="flex items-center gap-1">
+            <Bath className="size-3.5" /> {p.bathrooms} BA
+          </span>
+          <span className="flex items-center gap-1">
+            <Users className="size-3.5" /> Sleeps {p.sleeps}
+          </span>
           <span className="flex items-center gap-1">✦ {p.feature}</span>
         </div>
         {p.reviews > 0 ? (

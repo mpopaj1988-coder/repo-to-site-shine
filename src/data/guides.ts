@@ -38,10 +38,12 @@ export const guides: Guide[] = [
     slug: "tampa",
     city: "Tampa",
     state: "FL",
-    tagline: "Florida's bold city — waterfront dining, electric nightlife, world-class sports, and a thriving food scene.",
+    tagline:
+      "Florida's bold city — waterfront dining, electric nightlife, world-class sports, and a thriving food scene.",
     hero: guideTampa,
     heroAlt: "Tampa Florida waterfront downtown skyline at golden hour",
-    intro: "Florida's bold city — waterfront dining, electric nightlife, world-class sports, and a thriving food scene",
+    intro:
+      "Florida's bold city — waterfront dining, electric nightlife, world-class sports, and a thriving food scene",
     knownFor: [
       "Tampa Riverwalk",
       "Ybor City historic district",
@@ -288,10 +290,12 @@ export const guides: Guide[] = [
     slug: "st-petersburg",
     city: "St. Petersburg",
     state: "FL",
-    tagline: "The Sunshine City — arts, beaches, world-class food, and some of the best sunsets in America.",
+    tagline:
+      "The Sunshine City — arts, beaches, world-class food, and some of the best sunsets in America.",
     hero: guideStpete,
     heroAlt: "St. Petersburg Florida pier and waterfront at sunset",
-    intro: "The Sunshine City — arts, beaches, world-class food, and some of the best sunsets in America",
+    intro:
+      "The Sunshine City — arts, beaches, world-class food, and some of the best sunsets in America",
     knownFor: [
       "The St. Pete Pier (1,800-ft destination pier)",
       "Salvador Dalí Museum",
@@ -538,10 +542,12 @@ export const guides: Guide[] = [
     slug: "clearwater-beach",
     city: "Clearwater Beach",
     state: "FL",
-    tagline: "America's best beaches, world-famous sunsets, fresh seafood, and the ultimate Gulf-coast escape.",
+    tagline:
+      "America's best beaches, world-famous sunsets, fresh seafood, and the ultimate Gulf-coast escape.",
     hero: guideClearwater,
     heroAlt: "Aerial view of Clearwater Beach Florida with Pier 60, white sand and Gulf hotels",
-    intro: "America's best beaches, world-famous sunsets, fresh seafood, and the ultimate Gulf Coast lifestyle",
+    intro:
+      "America's best beaches, world-famous sunsets, fresh seafood, and the ultimate Gulf Coast lifestyle",
     knownFor: [
       "Pier 60 (sunset festival, fishing pier)",
       "Sugar-white sand & shallow Gulf",

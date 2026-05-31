@@ -4,6 +4,7 @@ description: "Tarpon Springs is more than the sponge docks — though those are 
 publishDate: "2026-10-30"
 author: "Sea & City Rentals"
 ---
+
 Tarpon Springs is unlike anywhere else in Florida. The largest concentration of Greek-Americans in the country settled here in the early 1900s to harvest sponges, and the town still runs on that heritage. The sponge docks are a working tourist district, the food is genuinely Greek, and there's more to do than the typical day-tripper realizes.
 
 ## The Sponge Docks
@@ -12,17 +13,17 @@ The Dodecanese Boulevard sponge docks are the obvious starting point. Working sp
 
 ## Where to Eat
 
-* **Hellas Restaurant & Bakery** — the institution, since 1970, classic Greek diner energy with a bakery counter that's worth the visit alone
-* **Mykonos** — smaller, family-run, more traditional preparations
-* **Mr. Souvlaki** — quick counter-service Greek done right
-* **Rusty Bellies Waterfront Grill** — fresh Gulf seafood, waterfront seating, less Greek but a local favorite
+- **Hellas Restaurant & Bakery** — the institution, since 1970, classic Greek diner energy with a bakery counter that's worth the visit alone
+- **Mykonos** — smaller, family-run, more traditional preparations
+- **Mr. Souvlaki** — quick counter-service Greek done right
+- **Rusty Bellies Waterfront Grill** — fresh Gulf seafood, waterfront seating, less Greek but a local favorite
 
 ## Beyond the Docks
 
-* **Spring Bayou** — the historic neighborhood around the bayou is beautiful for a walk, with old Greek Revival homes and the cathedral
-* **St. Nicholas Greek Orthodox Cathedral** — gorgeous Byzantine architecture, free to visit outside of services
-* **Sunset Beach (Howard Park)** — a quiet, pretty Gulf beach a few minutes from downtown
-* **Anclote Key Preserve** — boat-only access to a barrier island with a historic lighthouse
+- **Spring Bayou** — the historic neighborhood around the bayou is beautiful for a walk, with old Greek Revival homes and the cathedral
+- **St. Nicholas Greek Orthodox Cathedral** — gorgeous Byzantine architecture, free to visit outside of services
+- **Sunset Beach (Howard Park)** — a quiet, pretty Gulf beach a few minutes from downtown
+- **Anclote Key Preserve** — boat-only access to a barrier island with a historic lighthouse
 
 ## The Greek Festival
 

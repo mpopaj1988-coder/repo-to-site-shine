@@ -61,7 +61,7 @@ interface PastReservation {
 
 interface OpenStretch {
   start: string; // YYYY-MM-DD
-  end: string;   // YYYY-MM-DD (inclusive last night)
+  end: string; // YYYY-MM-DD (inclusive last night)
   nights: number;
 }
 
@@ -91,13 +91,18 @@ function addDays(dateStr: string, n: number): string {
 
 function fmtDate(dateStr: string): string {
   return new Date(dateStr.slice(0, 10) + "T00:00:00Z").toLocaleDateString("en-US", {
-    weekday: "long", month: "long", day: "numeric", timeZone: "UTC",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
   });
 }
 
 function fmtMonthYear(dateStr: string): string {
   return new Date(dateStr.slice(0, 10) + "T00:00:00Z").toLocaleDateString("en-US", {
-    month: "long", year: "numeric", timeZone: "UTC",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
   });
 }
 

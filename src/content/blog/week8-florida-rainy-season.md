@@ -4,6 +4,7 @@ description: "Florida's rainy season follows a predictable pattern that savvy tr
 publishDate: "2026-06-26"
 author: "Sea & City Rentals"
 ---
+
 Every summer, travelers look at the weather forecast for the Gulf Coast and see a row of thunderstorm icons and start to panic. We understand. But here is the thing: Florida's rainy season is not what most people think it is, and it shouldn't be a reason to change your plans.
 
 ## The Pattern (And It Really Is a Pattern)
@@ -34,7 +35,7 @@ Gulf water temperatures in summer are 85–87°F. This is bath water. Families w
 
 ## What to Pack for Rainy Season
 
-* A lightweight packable rain jacket — the storm catches you sometimes
-* Water shoes for beach and kayaking
-* A dry bag if you're doing water activities with your phone
-* An indoor activity backup plan: the aquarium, a museum, a long lunch
+- A lightweight packable rain jacket — the storm catches you sometimes
+- Water shoes for beach and kayaking
+- A dry bag if you're doing water activities with your phone
+- An indoor activity backup plan: the aquarium, a museum, a long lunch

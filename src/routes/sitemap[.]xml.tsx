@@ -8,7 +8,15 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: () => {
-        const staticPaths = ["/", "/properties", "/about", "/contact", "/explore", "/reviews", "/blog"];
+        const staticPaths = [
+          "/",
+          "/properties",
+          "/about",
+          "/contact",
+          "/explore",
+          "/reviews",
+          "/blog",
+        ];
         const today = new Date().toISOString().split("T")[0];
         const urls = [
           ...staticPaths.map(

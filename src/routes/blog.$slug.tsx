@@ -38,8 +38,20 @@ export const Route = createFileRoute("/blog/$slug")({
         { name: "twitter:image", content: post.cover || `${SITE_URL}/og.jpg` },
         { name: "twitter:image:alt", content: post.title },
         { name: "twitter:label1", content: "Published" },
-        { name: "twitter:data1", content: new Date(post.publishDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) },
-        ...(post.author ? [{ name: "twitter:label2", content: "Written by" }, { name: "twitter:data2", content: post.author }] : []),
+        {
+          name: "twitter:data1",
+          content: new Date(post.publishDate).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        },
+        ...(post.author
+          ? [
+              { name: "twitter:label2", content: "Written by" },
+              { name: "twitter:data2", content: post.author },
+            ]
+          : []),
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
