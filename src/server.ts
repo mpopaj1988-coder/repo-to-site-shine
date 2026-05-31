@@ -12,7 +12,7 @@ let serverEntryPromise: Promise<ServerEntry> | undefined;
 async function getServerEntry(): Promise<ServerEntry> {
   if (!serverEntryPromise) {
     serverEntryPromise = import("@tanstack/react-start/server-entry").then(
-      (m) => ((m as { default?: ServerEntry }).default ?? (m as unknown as ServerEntry)),
+      (m) => (m as { default?: ServerEntry }).default ?? (m as unknown as ServerEntry),
     );
   }
   return serverEntryPromise;
@@ -78,18 +78,43 @@ export default {
     }
   },
 
-  async scheduled(_event: unknown, env: unknown, ctx: { waitUntil: (p: Promise<unknown>) => void }) {
+  async scheduled(
+    event: { cron?: string },
+    env: unknown,
+    ctx: { waitUntil: (p: Promise<unknown>) => void },
+  ) {
     ctx.waitUntil(
       (async () => {
+        const handler = await getServerEntry();
+
+        // Collect balance payments — runs on every scheduled trigger (daily + bi-monthly)
         try {
-          const handler = await getServerEntry();
-          const req = new Request("https://seaandcityrentals.com/api/public/refresh-reviews", {
-            method: "POST",
-          });
-          const res = await handler.fetch(req, env, ctx);
-          console.log("Scheduled review refresh:", res.status, await res.text());
+          const balanceReq = new Request(
+            "https://seaandcityrentals.com/lovable/cron/collect-balances",
+            {
+              method: "POST",
+            },
+          );
+          const balanceRes = await handler.fetch(balanceReq, env, ctx);
+          console.log("Scheduled balance collection:", balanceRes.status, await balanceRes.text());
         } catch (err) {
-          console.error("Scheduled review refresh failed:", err);
+          console.error("Scheduled balance collection failed:", err);
+        }
+
+        // Review refresh — only on the 1st and 15th cron
+        if (!event.cron || event.cron === "0 9 1,15 * *") {
+          try {
+            const reviewReq = new Request(
+              "https://seaandcityrentals.com/api/public/refresh-reviews",
+              {
+                method: "POST",
+              },
+            );
+            const reviewRes = await handler.fetch(reviewReq, env, ctx);
+            console.log("Scheduled review refresh:", reviewRes.status, await reviewRes.text());
+          } catch (err) {
+            console.error("Scheduled review refresh failed:", err);
+          }
         }
       })(),
     );

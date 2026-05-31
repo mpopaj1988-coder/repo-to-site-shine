@@ -3,6 +3,7 @@ import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import type { CalendarDay } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
+import { Minus, Plus } from "lucide-react";
 
 function ymd(d: Date): string {
   const y = d.getFullYear();
@@ -26,9 +27,9 @@ function nightsBetween(from: Date, to: Date): number {
 function isSlowSeason(date: Date): boolean {
   const m = date.getMonth() + 1;
   const d = date.getDate();
-  if (m >= 2 && m <= 7) return false;    // Feb–Jul: peak/shoulder
+  if (m >= 2 && m <= 7) return false; // Feb–Jul: peak/shoulder
   if (m === 12 && d >= 20) return false; // Christmas week
-  if (m === 1 && d <= 7) return false;   // New Year week
+  if (m === 1 && d <= 7) return false; // New Year week
   return true;
 }
 
@@ -36,13 +37,22 @@ export function AvailabilityChecker({
   bookingUrl,
   calendar,
   propertySlug,
+  propertyTitle,
+  hospitableId,
+  maxGuests = 16,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
   propertySlug?: string;
+  propertyTitle?: string;
+  hospitableId?: string;
+  maxGuests?: number;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
+  const [guests, setGuests] = useState(1);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   // Tracks which rangeKey the user dismissed the upsell for, so it reappears on new date selections
   const [dismissedForRange, setDismissedForRange] = useState("");
 
@@ -131,11 +141,55 @@ export function AvailabilityChecker({
 
   const canReserve = range?.from && range?.to && nights > 0 && !hasUnavailable;
 
+  async function handleReserve() {
+    if (!canReserve || !range?.from || !range?.to) return;
+    setCheckoutError(null);
+    setIsRedirecting(true);
+    track("reserve_click", {
+      property: propertySlug,
+      nights,
+      total,
+      currency,
+      check_in: ymd(range.from),
+      check_out: ymd(range.to),
+    });
+    try {
+      const res = await fetch("/api/public/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          property_slug: propertySlug ?? "",
+          hospitable_property_id: hospitableId ?? "",
+          property_title: propertyTitle ?? propertySlug ?? "",
+          check_in: ymd(range.from),
+          check_out: ymd(range.to),
+          nights,
+          guests,
+          total_dollars: total,
+          currency,
+        }),
+      });
+      const json = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok || !json.url) {
+        setCheckoutError(json.error ?? "Something went wrong. Please try again.");
+        setIsRedirecting(false);
+        return;
+      }
+      window.location.href = json.url;
+    } catch {
+      setCheckoutError("Network error. Please try again.");
+      setIsRedirecting(false);
+    }
+  }
+
   const reserveHref = bookingUrl;
 
   const fromLabel = range?.from?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   const toLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  const fifthNightLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const fifthNightLabel = range?.to?.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 
   if (!calendar.length) {
     // No calendar data (API key missing) — render nothing; the existing fallback CTA covers it.
@@ -161,15 +215,19 @@ export function AvailabilityChecker({
             className="w-full rounded-sm border border-border bg-background p-2 text-left transition hover:border-[var(--color-deep)]"
           >
             <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Check-in</p>
-              <p className="mt-0.5 text-sm font-semibold text-foreground">{fromLabel ?? "Add date"}</p>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Check-in
+              </p>
+              <p className="mt-0.5 text-sm font-semibold text-foreground">
+                {fromLabel ?? "Add date"}
+              </p>
             </div>
           </button>
           {range?.from && (
             <button
               type="button"
               aria-label="Clear check-in"
-              onClick={() => setRange((r) => r ? { ...r, from: undefined } : undefined)}
+              onClick={() => setRange((r) => (r ? { ...r, from: undefined } : undefined))}
               className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground"
             >
               ×
@@ -188,15 +246,19 @@ export function AvailabilityChecker({
             className="w-full rounded-sm border border-border bg-background p-2 text-left transition hover:border-[var(--color-deep)]"
           >
             <div className="rounded-sm bg-[var(--color-sand)] px-3 py-2">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Check-out</p>
-              <p className="mt-0.5 text-sm font-semibold text-foreground">{toLabel ?? "Add date"}</p>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Check-out
+              </p>
+              <p className="mt-0.5 text-sm font-semibold text-foreground">
+                {toLabel ?? "Add date"}
+              </p>
             </div>
           </button>
           {range?.to && (
             <button
               type="button"
               aria-label="Clear check-out"
-              onClick={() => setRange((r) => r ? { ...r, to: undefined } : undefined)}
+              onClick={() => setRange((r) => (r ? { ...r, to: undefined } : undefined))}
               className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground"
             >
               ×
@@ -221,25 +283,60 @@ export function AvailabilityChecker({
           ) : (
             <div className="px-4 py-6 text-center text-sm text-muted-foreground">
               <p className="font-medium text-foreground">No online availability right now</p>
-              <p className="mt-1">Contact us directly — we often have dates open that aren't shown here.</p>
+              <p className="mt-1">
+                Contact us directly — we often have dates open that aren't shown here.
+              </p>
             </div>
           )}
         </div>
       )}
 
+      {/* Guests stepper */}
+      <div className="mt-3 flex items-center justify-between rounded-sm border border-border bg-background px-4 py-2">
+        <span className="text-xs font-semibold text-foreground">Guests</span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-label="Remove guest"
+            onClick={() => setGuests((g) => Math.max(1, g - 1))}
+            disabled={guests <= 1}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-muted-foreground hover:border-[var(--color-deep)] hover:text-[var(--color-deep)] disabled:opacity-30"
+          >
+            <Minus className="h-3 w-3" />
+          </button>
+          <span className="w-5 text-center text-sm font-semibold">{guests}</span>
+          <button
+            type="button"
+            aria-label="Add guest"
+            onClick={() => setGuests((g) => Math.min(maxGuests, g + 1))}
+            disabled={guests >= maxGuests}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-muted-foreground hover:border-[var(--color-deep)] hover:text-[var(--color-deep)] disabled:opacity-30"
+          >
+            <Plus className="h-3 w-3" />
+          </button>
+        </div>
+      </div>
+
       {nights > 0 && (
         <div
           data-testid="availability-summary"
-          className="mt-4 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
+          className="mt-3 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
         >
           <div className="flex items-center justify-between text-muted-foreground">
-            <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+            <span>
+              {nights} {nights === 1 ? "night" : "nights"}
+            </span>
             {total > 0 && (
               <span className="font-semibold text-[var(--color-deep)]">
                 ${total} {currency}
               </span>
             )}
           </div>
+          {total > 0 && (
+            <p className="text-xs text-muted-foreground">
+              Reserve with ${Math.round(total * 0.3)} deposit · balance due 30 days before check-in
+            </p>
+          )}
           {hasUnavailable && (
             <p className="text-xs text-red-600">
               Some dates in this range aren't available. Try different dates.
@@ -248,35 +345,27 @@ export function AvailabilityChecker({
         </div>
       )}
 
-      <a
-        href={reserveHref}
-        target="_blank"
-        rel="noreferrer"
+      {checkoutError && <p className="mt-2 text-xs text-red-600">{checkoutError}</p>}
+
+      <button
+        type="button"
         data-testid="availability-reserve-btn"
-        aria-disabled={!canReserve}
-        onClick={(e) => {
+        disabled={isRedirecting}
+        onClick={() => {
           if (!canReserve) {
-            e.preventDefault();
             setShowCalendar(true);
             return;
           }
-          track("reserve_click", {
-            property: propertySlug,
-            nights,
-            total,
-            currency,
-            check_in: range?.from ? ymd(range.from) : undefined,
-            check_out: range?.to ? ymd(range.to) : undefined,
-          });
+          handleReserve();
         }}
-        className={`mt-4 block rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
-          canReserve
-            ? "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
-            : "cursor-pointer bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
-        }`}
+        className="mt-4 block w-full rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow transition hover:brightness-105 disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates to reserve"}
-      </a>
+        {isRedirecting
+          ? "Redirecting to checkout…"
+          : canReserve
+            ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
+            : "Select dates to reserve"}
+      </button>
 
       {/* 5th-night upsell modal — slow season only (Aug–Jan, ex Christmas/New Year) */}
       {showUpsellModal && (
@@ -300,7 +389,8 @@ export function AvailabilityChecker({
               <span className="font-semibold text-foreground">35% off</span>
               {fifthNightBasePrice > 0 && (
                 <>
-                  {" "}— just{" "}
+                  {" "}
+                  — just{" "}
                   <span className="font-semibold text-[var(--color-deep)]">
                     ${fifthNightDiscountedPrice}
                   </span>{" "}

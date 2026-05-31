@@ -5,9 +5,25 @@ import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
 import { properties, BOOK_DIRECT_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
 import { guides } from "@/data/guides";
-import { Bath, BedDouble, Users, Star, MapPin, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Bath,
+  BedDouble,
+  Users,
+  Star,
+  MapPin,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
-import { getListingPricing, getListingReviews, getListingAvailability, type Pricing, type ReviewItem, type CalendarDay } from "@/lib/hospitable.functions";
+import {
+  getListingPricing,
+  getListingReviews,
+  getListingAvailability,
+  type Pricing,
+  type ReviewItem,
+  type CalendarDay,
+} from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/listings/$slug")({
@@ -52,8 +68,16 @@ export const Route = createFileRoute("/listings/$slug")({
       name: p.title,
       description: p.longDescription,
       image: p.images,
-      address: { "@type": "PostalAddress", addressLocality: p.location.split(",")[0].trim(), addressRegion: "FL", addressCountry: "US" },
-      geo: p.lat && p.lng ? { "@type": "GeoCoordinates", latitude: p.lat, longitude: p.lng } : undefined,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: p.location.split(",")[0].trim(),
+        addressRegion: "FL",
+        addressCountry: "US",
+      },
+      geo:
+        p.lat && p.lng
+          ? { "@type": "GeoCoordinates", latitude: p.lat, longitude: p.lng }
+          : undefined,
       telephone: PHONE,
       url,
       mainEntityOfPage: url,
@@ -74,17 +98,24 @@ export const Route = createFileRoute("/listings/$slug")({
       },
       numberOfRooms: p.bedrooms,
       occupancy: { "@type": "QuantitativeValue", maxValue: p.sleeps },
-      amenityFeature: p.amenities.map((a) => ({ "@type": "LocationFeatureSpecification", name: a })),
-      aggregateRating: p.reviews > 0 ? { "@type": "AggregateRating", ratingValue: p.rating, reviewCount: p.reviews } : undefined,
-      review: reviews.length > 0
-        ? reviews.map((r) => ({
-            "@type": "Review",
-            reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5 },
-            author: { "@type": "Person", name: "Verified guest" },
-            datePublished: r.date,
-            reviewBody: r.text.length > 500 ? r.text.slice(0, 497) + "…" : r.text,
-          }))
-        : undefined,
+      amenityFeature: p.amenities.map((a) => ({
+        "@type": "LocationFeatureSpecification",
+        name: a,
+      })),
+      aggregateRating:
+        p.reviews > 0
+          ? { "@type": "AggregateRating", ratingValue: p.rating, reviewCount: p.reviews }
+          : undefined,
+      review:
+        reviews.length > 0
+          ? reviews.map((r) => ({
+              "@type": "Review",
+              reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5 },
+              author: { "@type": "Person", name: "Verified guest" },
+              datePublished: r.date,
+              reviewBody: r.text.length > 500 ? r.text.slice(0, 497) + "…" : r.text,
+            }))
+          : undefined,
     };
     if (pricing) {
       ld.priceRange = `$${pricing.min}-$${pricing.max}`;
@@ -155,7 +186,9 @@ export const Route = createFileRoute("/listings/$slug")({
     <Layout>
       <div className="mx-auto max-w-3xl px-6 py-40 text-center">
         <h1 className="font-display text-4xl">Listing not found</h1>
-        <Link to="/properties" className="mt-6 inline-block text-[var(--color-sea)] underline">View all properties</Link>
+        <Link to="/properties" className="mt-6 inline-block text-[var(--color-sea)] underline">
+          View all properties
+        </Link>
       </div>
     </Layout>
   ),
@@ -174,10 +207,10 @@ export const Route = createFileRoute("/listings/$slug")({
 // Largo / Indian Rocks Beach / Clearwater all roll up to the Clearwater Beach guide;
 // St. Petersburg -> st-petersburg; Tampa -> tampa.
 const LOCATION_TO_GUIDE: Record<string, string> = {
-  "Tampa": "tampa",
+  Tampa: "tampa",
   "St. Petersburg": "st-petersburg",
-  "Clearwater": "clearwater-beach",
-  "Largo": "clearwater-beach",
+  Clearwater: "clearwater-beach",
+  Largo: "clearwater-beach",
   "Indian Rocks Beach": "clearwater-beach",
 };
 
@@ -189,11 +222,24 @@ function guideForProperty(location: string) {
 }
 
 function ListingPage() {
-  const { property: p, pricing, reviews, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
+  const {
+    property: p,
+    pricing,
+    reviews,
+    availability,
+  } = Route.useLoaderData() as {
+    property: Property;
+    pricing: Pricing;
+    reviews: ReviewItem[];
+    availability: CalendarDay[];
+  };
   const [reviewPage, setReviewPage] = useState(0);
   const reviewsPerPage = 3;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
-  const visibleReviews = reviews.slice(reviewPage * reviewsPerPage, reviewPage * reviewsPerPage + reviewsPerPage);
+  const visibleReviews = reviews.slice(
+    reviewPage * reviewsPerPage,
+    reviewPage * reviewsPerPage + reviewsPerPage,
+  );
 
   useEffect(() => {
     track("listing_view", { property: p.slug, location: p.location });
@@ -206,7 +252,10 @@ function ListingPage() {
       {/* HEADER GAP */}
       <div className="bg-[var(--color-deep)] pb-6 pt-32 text-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <Link to="/properties" className="text-[11px] uppercase tracking-[0.3em] text-white/70 hover:text-white">
+          <Link
+            to="/properties"
+            className="text-[11px] uppercase tracking-[0.3em] text-white/70 hover:text-white"
+          >
             ← All properties
           </Link>
           <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
@@ -254,27 +303,43 @@ function ListingPage() {
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-[1fr_380px] lg:px-10">
         <div>
           <div className="flex flex-wrap gap-x-8 gap-y-3 border-b border-border pb-6 text-sm text-foreground">
-            <span className="flex items-center gap-2"><BedDouble className="size-4 text-[var(--color-sea)]" /> {p.bedrooms} {p.bedrooms === 1 ? "Bedroom" : "Bedrooms"}</span>
-            <span className="flex items-center gap-2"><Bath className="size-4 text-[var(--color-sea)]" /> {p.bathrooms} {p.bathrooms === 1 ? "Bath" : "Baths"}</span>
-            <span className="flex items-center gap-2"><Users className="size-4 text-[var(--color-sea)]" /> Sleeps {p.sleeps}</span>
+            <span className="flex items-center gap-2">
+              <BedDouble className="size-4 text-[var(--color-sea)]" /> {p.bedrooms}{" "}
+              {p.bedrooms === 1 ? "Bedroom" : "Bedrooms"}
+            </span>
+            <span className="flex items-center gap-2">
+              <Bath className="size-4 text-[var(--color-sea)]" /> {p.bathrooms}{" "}
+              {p.bathrooms === 1 ? "Bath" : "Baths"}
+            </span>
+            <span className="flex items-center gap-2">
+              <Users className="size-4 text-[var(--color-sea)]" /> Sleeps {p.sleeps}
+            </span>
             <span className="flex items-center gap-2">✦ {p.feature}</span>
           </div>
 
-          <h2 className="mt-10 font-display text-2xl font-medium tracking-tight sm:text-3xl">About this property</h2>
+          <h2 className="mt-10 font-display text-2xl font-medium tracking-tight sm:text-3xl">
+            About this property
+          </h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">{p.longDescription}</p>
 
-          <h2 className="mt-12 font-display text-2xl font-medium tracking-tight sm:text-3xl">What makes it special</h2>
+          <h2 className="mt-12 font-display text-2xl font-medium tracking-tight sm:text-3xl">
+            What makes it special
+          </h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-3">
             {p.highlights.map((h) => (
               <div key={h.title} className="rounded-md border border-border bg-card p-5">
-                <span className="text-2xl" aria-hidden>{h.icon}</span>
+                <span className="text-2xl" aria-hidden>
+                  {h.icon}
+                </span>
                 <p className="mt-3 font-display text-lg">{h.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{h.body}</p>
               </div>
             ))}
           </div>
 
-          <h2 className="mt-12 font-display text-2xl font-medium tracking-tight sm:text-3xl">Amenities</h2>
+          <h2 className="mt-12 font-display text-2xl font-medium tracking-tight sm:text-3xl">
+            Amenities
+          </h2>
           <ul className="mt-5 grid gap-2 sm:grid-cols-2">
             {p.amenities.map((a) => (
               <li key={a} className="flex items-start gap-2 text-sm text-foreground">
@@ -289,7 +354,9 @@ function ListingPage() {
             <div className="mt-12">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-3">
-                  <h2 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">Guest reviews</h2>
+                  <h2 className="font-display text-2xl font-medium tracking-tight sm:text-3xl">
+                    Guest reviews
+                  </h2>
                   {p.reviews > 0 && (
                     <div className="flex items-center gap-1.5 text-sm">
                       <Star className="size-4 fill-[var(--color-gold)] text-[var(--color-gold)]" />
@@ -324,7 +391,10 @@ function ListingPage() {
               </div>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {visibleReviews.map((r) => (
-                  <div key={r.id} className="flex flex-col gap-3 rounded-md border border-border bg-card p-5">
+                  <div
+                    key={r.id}
+                    className="flex flex-col gap-3 rounded-md border border-border bg-card p-5"
+                  >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex gap-0.5">
                         {[1, 2, 3, 4, 5].map((n) => (
@@ -339,7 +409,9 @@ function ListingPage() {
                     {r.reviewer && (
                       <p className="text-xs font-medium text-foreground">{r.reviewer}</p>
                     )}
-                    <p className="text-sm leading-relaxed text-muted-foreground line-clamp-5">{r.text}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground line-clamp-5">
+                      {r.text}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -369,13 +441,15 @@ function ListingPage() {
                     Read our {guide.city} local guide
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {guide.tagline} The spots we send our own friends — restaurants,
-                    beaches, nightlife, fitness and things to do near this stay.
+                    {guide.tagline} The spots we send our own friends — restaurants, beaches,
+                    nightlife, fitness and things to do near this stay.
                   </p>
                   <Link
                     to="/explore/$slug"
                     params={{ slug: guide.slug }}
-                    onClick={() => track("guide_click", { surface: `listing_${p.slug}`, guide: guide.slug })}
+                    onClick={() =>
+                      track("guide_click", { surface: `listing_${p.slug}`, guide: guide.slug })
+                    }
                     data-testid={`listing-${p.slug}-guide-link`}
                     className="mt-4 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] underline-offset-4 hover:underline"
                   >
@@ -385,18 +459,21 @@ function ListingPage() {
               </div>
             );
           })()}
-
         </div>
 
         {/* STICKY BOOKING CARD */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-md border border-border bg-card p-6 shadow-md">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">Book direct & save</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">
+              Book direct & save
+            </p>
             {pricing ? (
               <>
                 <p className="mt-2 font-display text-3xl text-[var(--color-deep)]">
                   ${pricing.min}
-                  <span className="ml-1 text-sm font-sans font-normal text-muted-foreground">/ night</span>
+                  <span className="ml-1 text-sm font-sans font-normal text-muted-foreground">
+                    / night
+                  </span>
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Avg ${pricing.avg} · range ${pricing.min}–${pricing.max} ({pricing.currency})
@@ -405,14 +482,25 @@ function ListingPage() {
             ) : (
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
-            <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={p.directBookingUrl} calendar={availability} propertySlug={p.slug} />
+            <p className="mt-2 text-sm text-muted-foreground">
+              Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.
+            </p>
+            <AvailabilityChecker
+              bookingUrl={p.directBookingUrl}
+              calendar={availability}
+              propertySlug={p.slug}
+              propertyTitle={p.title}
+              hospitableId={p.hospitableId}
+              maxGuests={p.sleeps}
+            />
             {!availability.length && (
               <a
                 href={p.directBookingUrl}
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
+                onClick={() =>
+                  track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })
+                }
                 data-testid="listing-sticky-check"
                 className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
               >
@@ -421,17 +509,27 @@ function ListingPage() {
             )}
             <a
               href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
-              onClick={() => track("phone_click", { surface: "listing_sticky_call", property: p.slug })}
+              onClick={() =>
+                track("phone_click", { surface: "listing_sticky_call", property: p.slug })
+              }
               data-testid="listing-sticky-call"
               className="mt-3 block rounded-sm border border-[var(--color-deep)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
             >
               Call / Text {PHONE}
             </a>
             <ul className="mt-6 space-y-3 border-t border-border pt-5 text-sm text-muted-foreground">
-              <li className="flex items-start gap-2"><span>💰</span> Save up to 15% vs. Airbnb</li>
-              <li className="flex items-start gap-2"><span>💬</span> Direct line to your host</li>
-              <li className="flex items-start gap-2"><span>🔁</span> 10% off for returning guests</li>
-              <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
+              <li className="flex items-start gap-2">
+                <span>💰</span> Save up to 15% vs. Airbnb
+              </li>
+              <li className="flex items-start gap-2">
+                <span>💬</span> Direct line to your host
+              </li>
+              <li className="flex items-start gap-2">
+                <span>🔁</span> 10% off for returning guests
+              </li>
+              <li className="flex items-start gap-2">
+                <span>✨</span> Custom requests welcome
+              </li>
             </ul>
             <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
               ✓ Verified host — also listed on Airbnb &amp; VRBO
@@ -445,7 +543,9 @@ function ListingPage() {
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
           <h2 className="font-display text-3xl font-medium tracking-tight">You might also love</h2>
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((r) => <PropertyCard key={r.slug} p={r} />)}
+            {related.map((r) => (
+              <PropertyCard key={r.slug} p={r} />
+            ))}
           </div>
         </div>
       </section>
@@ -456,7 +556,9 @@ function ListingPage() {
           href={p.directBookingUrl}
           target="_blank"
           rel="noreferrer"
-          onClick={() => track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })}
+          onClick={() =>
+            track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })
+          }
           data-testid="listing-mobile-check"
           className="flex-1 rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)]"
         >
