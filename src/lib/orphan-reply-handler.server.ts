@@ -100,6 +100,32 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   return res.ok;
 }
 
+// Update the orphan night's price in the Hospitable calendar.
+// priceUsd must be the Hospitable-level price (before Airbnb's automatic 15% markup).
+async function updateCalendarPrice(
+  propertyId: string,
+  date: string,
+  priceUsd: number,
+  apiKey: string,
+): Promise<boolean> {
+  const res = await fetch(`${HOSPITABLE_BASE}/properties/${propertyId}/calendar`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      days: [{ date, price: { amount: priceUsd * 100 } }],
+    }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    console.error(`[orphan-reply] updateCalendarPrice ${propertyId} ${date} ${res.status}:`, text.slice(0, 200));
+  }
+  return res.ok;
+}
+
 // Create a fallback task if the automatic alteration fails.
 async function createFallbackTask(
   reservationId: string,
@@ -239,6 +265,14 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
+            // Set the calendar to the discounted Hospitable-level price.
+            // Airbnb auto-adds 15%, so we divide back to get the Hospitable base.
+            const guestPrice = row.outgoing_discounted_price_usd ?? row.discounted_price_usd;
+            if (guestPrice) {
+              const isDirect = reservation.platform === "direct" || reservation.platform === "manual";
+              const hospitablePrice = isDirect ? guestPrice : Math.round(guestPrice / 1.15);
+              await updateCalendarPrice(row.property_hospitable_id, row.orphan_date, hospitablePrice, apiKey);
+            }
             const extended = await extendReservation(reservation, "outgoing", apiKey);
             if (!extended) {
               await createFallbackTask(reservation.id, firstName, row.orphan_date, "outgoing", apiKey);
@@ -263,6 +297,12 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
+            const guestPrice = row.incoming_discounted_price_usd ?? row.discounted_price_usd;
+            if (guestPrice) {
+              const isDirect = reservation.platform === "direct" || reservation.platform === "manual";
+              const hospitablePrice = isDirect ? guestPrice : Math.round(guestPrice / 1.15);
+              await updateCalendarPrice(row.property_hospitable_id, row.orphan_date, hospitablePrice, apiKey);
+            }
             const extended = await extendReservation(reservation, "incoming", apiKey);
             if (!extended) {
               await createFallbackTask(reservation.id, firstName, row.orphan_date, "incoming", apiKey);
