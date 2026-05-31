@@ -82,13 +82,7 @@ export function AvailabilityChecker({
 
   const canReserve = range?.from && range?.to && nights > 0 && !hasUnavailable;
 
-  const reserveHref = useMemo(() => {
-    if (!range?.from || !range?.to) return bookingUrl;
-    const url = new URL(bookingUrl);
-    url.searchParams.set("check_in", ymd(range.from));
-    url.searchParams.set("check_out", ymd(range.to));
-    return url.toString();
-  }, [range, bookingUrl]);
+  const reserveHref = bookingUrl;
 
   const fromLabel = range?.from?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   const toLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
