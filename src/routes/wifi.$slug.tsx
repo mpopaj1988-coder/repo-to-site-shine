@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { properties, BOOK_DIRECT_URL } from "@/data/properties";
+import { properties } from "@/data/properties";
 
 const SITE_URL = "https://seaandcityrentals.com";
 
@@ -21,6 +21,8 @@ const VALID_SLUGS = [
   "stpete-patio",
 ];
 
+type Tip = { name: string; note: string };
+
 type Guide = {
   propertyName: string;
   wifiNetwork: string;
@@ -33,6 +35,10 @@ type Guide = {
   emergencyContact: string;
   notes: string[];
   guideSlug: string | null;
+  restaurants: Tip[];
+  activities: Tip[];
+  nightlife: Tip[];
+  beaches: Tip[];
 };
 
 export const Route = createFileRoute("/wifi/$slug")({
@@ -159,6 +165,33 @@ function WifiPage() {
                 </div>
               )}
 
+              {/* Local guide sections */}
+              {(guide.restaurants.length > 0 || guide.activities.length > 0 || guide.nightlife.length > 0 || guide.beaches.length > 0) && (
+                <div style={{ marginTop: "8px" }}>
+                  <p style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#C9A84C", margin: "0 0 12px", fontFamily: "system-ui, sans-serif", textAlign: "center" }}>
+                    Local Guide
+                  </p>
+                  {[
+                    { label: "🍽️ Restaurants", items: guide.restaurants },
+                    { label: "🎯 Things To Do", items: guide.activities },
+                    { label: "🍹 Nightlife", items: guide.nightlife },
+                    { label: "🏖️ Beaches", items: guide.beaches },
+                  ].filter(s => s.items.length > 0).map((section) => (
+                    <div key={section.label} style={{ marginBottom: "16px" }}>
+                      <p style={{ fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", margin: "0 0 8px", fontFamily: "system-ui, sans-serif" }}>{section.label}</p>
+                      {section.items.map((item) => (
+                        <div key={item.name} style={{ marginBottom: "8px" }}>
+                          <p style={{ fontSize: "14px", fontWeight: 600, color: "#1A3A4A", margin: "0 0 2px", fontFamily: "system-ui, sans-serif" }}>{item.name}</p>
+                          <p style={{ fontSize: "13px", color: "#666", margin: 0, fontFamily: "system-ui, sans-serif", lineHeight: 1.4 }}>{item.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div style={{ borderTop: "1px solid #eee", margin: "16px 0" }} />
+
               {/* Emergency contact */}
               <p style={{ fontSize: "13px", color: "#888", textAlign: "center", margin: "12px 0 2px", fontFamily: "system-ui, sans-serif" }}>
                 Need help? Call or text anytime:
@@ -191,7 +224,7 @@ function WifiPage() {
                   Book directly next time and save up to 15% — no Airbnb fees.
                 </p>
                 <a
-                  href={BOOK_DIRECT_URL}
+                  href={`${SITE_URL}/listings/${slug}`}
                   target="_blank"
                   rel="noreferrer"
                   style={{ display: "block", backgroundColor: "#C9A84C", color: "#1A3A4A", padding: "12px", borderRadius: "8px", textDecoration: "none", fontSize: "13px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "center", fontFamily: "system-ui, sans-serif" }}

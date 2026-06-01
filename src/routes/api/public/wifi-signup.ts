@@ -105,6 +105,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
               emergencyContact: config.emergencyContact,
               notes: config.notes,
               guideSlug: config.guideSlug,
+              listingSlug: slug,
             };
 
             const element = React.createElement(template.component, templateData);
@@ -222,6 +223,10 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
             emergencyContact: config.emergencyContact,
             notes: config.notes,
             guideSlug: config.guideSlug ?? null,
+            restaurants: config.restaurants ?? [],
+            activities: config.activities ?? [],
+            nightlife: config.nightlife ?? [],
+            beaches: config.beaches ?? [],
           },
         });
       },

@@ -18,6 +18,7 @@ interface WifiInfoProps {
   emergencyContact?: string;
   notes?: string[];
   guideSlug?: string;
+  listingSlug?: string;
 }
 
 const WifiInfoEmail = ({
@@ -32,8 +33,10 @@ const WifiInfoEmail = ({
   emergencyContact = "248-766-2957",
   notes = [],
   guideSlug,
+  listingSlug,
 }: WifiInfoProps) => {
   const guideUrl = guideSlug ? `${SITE_URL}/explore/${guideSlug}` : null;
+  const bookUrl = listingSlug ? `${SITE_URL}/listings/${listingSlug}` : `${SITE_URL}/properties`;
 
   return (
     <Html lang="en" dir="ltr">
@@ -127,7 +130,7 @@ const WifiInfoEmail = ({
                 Book directly with us next time and save up to 15% — no Airbnb fees, same great home.
               </Text>
               <Section style={{ textAlign: "center", margin: "16px 0 0" }}>
-                <Button style={button} href="https://seaandcityrentals.hospitable.rentals/">
+                <Button style={button} href={bookUrl}>
                   Book Direct &amp; Save 15%
                 </Button>
               </Section>
