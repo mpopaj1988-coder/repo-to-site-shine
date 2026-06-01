@@ -28,6 +28,7 @@ import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
+import { Route as DevEmailPreviewTemplateRouteImport } from './routes/dev/email-preview.$template'
 import { Route as ApiPublicWifiSignupRouteImport } from './routes/api/public/wifi-signup'
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
 import { Route as ApiPublicRebookingCampaignRouteImport } from './routes/api/public/rebooking-campaign'
@@ -135,6 +136,11 @@ const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   path: '/lovable/email/suppression',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevEmailPreviewTemplateRoute = DevEmailPreviewTemplateRouteImport.update({
+  id: '/dev/email-preview/$template',
+  path: '/dev/email-preview/$template',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicWifiSignupRoute = ApiPublicWifiSignupRouteImport.update({
   id: '/api/public/wifi-signup',
   path: '/api/public/wifi-signup',
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -258,6 +265,7 @@ export interface FileRoutesByTo {
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -325,6 +334,7 @@ export interface FileRouteTypes {
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
     | '/api/public/wifi-signup'
+    | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -357,6 +367,7 @@ export interface FileRouteTypes {
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
     | '/api/public/wifi-signup'
+    | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
     | '/api/public/wifi-signup'
+    | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -419,6 +431,7 @@ export interface RootRouteChildren {
   ApiPublicRebookingCampaignRoute: typeof ApiPublicRebookingCampaignRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
   ApiPublicWifiSignupRoute: typeof ApiPublicWifiSignupRoute
+  DevEmailPreviewTemplateRoute: typeof DevEmailPreviewTemplateRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -560,6 +573,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailSuppressionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dev/email-preview/$template': {
+      id: '/dev/email-preview/$template'
+      path: '/dev/email-preview/$template'
+      fullPath: '/dev/email-preview/$template'
+      preLoaderRoute: typeof DevEmailPreviewTemplateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/wifi-signup': {
       id: '/api/public/wifi-signup'
       path: '/api/public/wifi-signup'
@@ -687,6 +707,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicRebookingCampaignRoute: ApiPublicRebookingCampaignRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
   ApiPublicWifiSignupRoute: ApiPublicWifiSignupRoute,
+  DevEmailPreviewTemplateRoute: DevEmailPreviewTemplateRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
