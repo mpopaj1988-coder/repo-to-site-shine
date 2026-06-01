@@ -324,13 +324,19 @@ export async function processRebookingCampaign(
         if (!options.dryRun) {
           try {
             const firstName = past.guest?.first_name || "there";
-            // Use first available night's price as the reference rate.
-            // Airbnb automatically adds 15% on top of the Hospitable price, so
-            // quote the Airbnb-facing rate and take 10% off that.
-            const firstDay = calendarDays.find((d) => toISO(d.date) === stretch.start);
-            const hospitableNightly = firstDay?.price?.amount
-              ? Math.round(firstDay.price.amount / 100)
-              : null;
+            // Average the Hospitable nightly price across every night in the stretch.
+            // Airbnb automatically adds 15% on top, so quote that rate with 10% off.
+            const stretchDays = calendarDays.filter(
+              (d) => toISO(d.date) >= stretch.start && toISO(d.date) <= stretch.end,
+            );
+            const priceSum = stretchDays.reduce(
+              (sum, d) => sum + (d.price?.amount ?? 0),
+              0,
+            );
+            const hospitableNightly =
+              stretchDays.length > 0 && priceSum > 0
+                ? Math.round(priceSum / stretchDays.length / 100)
+                : null;
             const isDirect = ["direct", "manual", "website"].includes(
               past.platform?.toLowerCase() ?? "",
             );
