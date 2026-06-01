@@ -292,8 +292,8 @@ export const properties: Property[] = data.map((p) => {
   return { ...p, image: images[0] ?? "", images, imageAlts };
 });
 
-export const BOOK_DIRECT_URL = "https://seaandcityrentals.hospitable.rentals/";
-export const HOSPITABLE_INQUIRY_URL = "https://seaandcityrentals.hospitable.rentals/";
+export const BOOK_DIRECT_URL = "/properties";
+export const HOSPITABLE_INQUIRY_URL = "/properties";
 export const PHONE = "248-766-2957";
 export const BLOG_URL = "https://www.seaandcityrentals.com/blog";
 export const SITE_URL = "https://www.seaandcityrentals.com";

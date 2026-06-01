@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
-import { BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
+import { SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/contact")({
@@ -31,22 +31,18 @@ function ContactPage() {
           <div className="rounded-md border border-border bg-card p-8">
             <h2 className="font-display text-2xl">Book direct</h2>
             <p className="mt-3 text-sm text-muted-foreground">Skip the platform fees and unlock the returning-guest discount.</p>
-            <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              to="/properties"
               onClick={() => track("book_direct_click", { surface: "contact_book" })}
               data-testid="contact-book-direct"
               className="mt-6 inline-block rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
-            >Open booking →</a>
+            >Browse properties →</Link>
           </div>
           <div className="rounded-md border border-border bg-card p-8">
             <h2 className="font-display text-2xl">Have a question?</h2>
             <p className="mt-3 text-sm text-muted-foreground">Send a message through our booking site and we&apos;ll get right back to you — usually within the hour.</p>
             <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
+              href="mailto:mpopaj1988@gmail.com"
               onClick={() => track("inquiry_click", { surface: "contact_message" })}
               data-testid="contact-inquiry"
               className="mt-6 inline-block rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"

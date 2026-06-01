@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { guides, guideBySlug, type Guide } from "@/data/guides";
-import { SITE_URL, BOOK_DIRECT_URL, properties } from "@/data/properties";
+import { SITE_URL, properties } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 // Reverse mapping: guide slug -> property locations that should appear on it.
@@ -275,16 +275,14 @@ function GuidePage() {
           >
             View all properties
           </Link>
-          <a
-            href={BOOK_DIRECT_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/properties"
             onClick={() => track("book_direct_click", { surface: `guide_${g.slug}` })}
             data-testid={`guide-${g.slug}-book-direct`}
             className="rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
           >
             Book Direct
-          </a>
+          </Link>
         </div>
       </section>
 
