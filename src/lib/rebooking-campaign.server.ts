@@ -53,6 +53,7 @@ interface CalendarDay {
 
 interface PastReservation {
   id: string;
+  platform: string;
   arrival_date: string;
   departure_date: string;
   nights: number;
@@ -324,9 +325,17 @@ export async function processRebookingCampaign(
           try {
             const firstName = past.guest?.first_name || "there";
             // Use first available night's price as the reference rate.
+            // Airbnb automatically adds 15% on top of the Hospitable price, so
+            // quote the Airbnb-facing rate and take 10% off that.
             const firstDay = calendarDays.find((d) => toISO(d.date) === stretch.start);
-            const regularNightly = firstDay?.price?.amount
+            const hospitableNightly = firstDay?.price?.amount
               ? Math.round(firstDay.price.amount / 100)
+              : null;
+            const isDirect = ["direct", "manual", "website"].includes(
+              past.platform?.toLowerCase() ?? "",
+            );
+            const regularNightly = hospitableNightly
+              ? Math.round(hospitableNightly * (isDirect ? 1 : 1.15))
               : null;
             const discountedNightly = regularNightly
               ? Math.round(regularNightly * (1 - REBOOKING_DISCOUNT_PCT / 100))
