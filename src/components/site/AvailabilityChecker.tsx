@@ -242,6 +242,10 @@ export function AvailabilityChecker({
         </div>
       )}
 
+      <p className="mt-3 text-[10px] text-muted-foreground">
+        🔒 100% refund if cancelled 5+ days before check-in · No refund within 5 days
+      </p>
+
       <button
         type="button"
         data-testid="availability-reserve-btn"

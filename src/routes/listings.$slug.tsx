@@ -447,7 +447,16 @@ function ListingPage() {
               <li className="flex items-start gap-2"><span>🔁</span> 10% off for returning guests</li>
               <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
             </ul>
-            <p className="mt-5 border-t border-border pt-4 text-center text-xs text-muted-foreground">
+            <div className="mt-5 border-t border-border pt-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--color-sea)]">
+                Cancellation Policy
+              </p>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                <span className="font-medium text-foreground">100% refund</span> if you cancel
+                5+ days before check-in. No refund within 5 days of arrival.
+              </p>
+            </div>
+            <p className="mt-4 border-t border-border pt-4 text-center text-xs text-muted-foreground">
               ✓ Verified host — also listed on Airbnb &amp; VRBO
             </p>
           </div>

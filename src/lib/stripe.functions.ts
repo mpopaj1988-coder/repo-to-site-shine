@@ -30,10 +30,12 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     cancel_url: listingUrl,
     customer_creation: "always",
     billing_address_collection: "required",
-    "payment_intent_data[metadata][property]": input.propertySlug,
-    "payment_intent_data[metadata][check_in]": input.checkIn,
-    "payment_intent_data[metadata][check_out]": input.checkOut,
-    "payment_intent_data[metadata][nights]": String(input.nights),
+    // Session-level metadata — available directly in the webhook event.
+    "metadata[property]": input.propertySlug,
+    "metadata[title]": input.propertyTitle,
+    "metadata[check_in]": input.checkIn,
+    "metadata[check_out]": input.checkOut,
+    "metadata[nights]": String(input.nights),
   });
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
