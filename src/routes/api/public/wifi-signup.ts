@@ -11,6 +11,9 @@ const SENDER_DOMAIN = "notify.seaandcityrentals.com";
 const FROM_DOMAIN = "seaandcityrentals.com";
 const SITE_NAME = "Sea & City Rentals";
 const SUPABASE_URL = "https://ywstqonfcfjfqfuwscya.supabase.co";
+const ML_WIFI_GROUP_ID = "189035051981211452"; // WiFi Guests
+
+declare const __MAILERLITE_API_KEY__: string;
 
 const WifiSignupSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
@@ -171,6 +174,38 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
         } catch (err) {
           console.error("wifi-signup email send failed", err);
           // Don't expose internal errors to client
+        }
+
+        // MailerLite — add to "WiFi Guests" group with property slug
+        try {
+          const mlApiKey =
+            process.env.MAILERLITE_API_KEY ||
+            process.env.VITE_MAILERLITE_API_KEY ||
+            __MAILERLITE_API_KEY__ ||
+            "";
+          if (!mlApiKey) {
+            console.error("MailerLite API key missing — wifi guest not added");
+          } else {
+            const mlRes = await fetch("https://connect.mailerlite.com/api/subscribers", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${mlApiKey}`,
+              },
+              body: JSON.stringify({
+                email,
+                groups: [ML_WIFI_GROUP_ID],
+                resubscribe: true,
+                status: "active",
+                fields: { property_slug: slug, property_name: config.propertyName },
+              }),
+            });
+            if (!mlRes.ok) {
+              console.error("MailerLite wifi-guest error", mlRes.status, await mlRes.text());
+            }
+          }
+        } catch (err) {
+          console.error("mailerlite wifi-guest sync failed", err);
         }
 
         return Response.json({ ok: true });
