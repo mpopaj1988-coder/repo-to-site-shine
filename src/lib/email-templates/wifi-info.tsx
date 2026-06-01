@@ -10,6 +10,7 @@ interface WifiInfoProps {
   propertyName?: string;
   wifiNetwork?: string;
   wifiPassword?: string;
+  doorCode?: string;
   checkInTime?: string;
   checkoutTime?: string;
   parking?: string;
@@ -23,6 +24,7 @@ const WifiInfoEmail = ({
   propertyName = "Your Sea & City Property",
   wifiNetwork = "SeaCity_WiFi",
   wifiPassword = "password123",
+  doorCode,
   checkInTime = "4:00 PM",
   checkoutTime = "10:00 AM",
   parking,
@@ -54,6 +56,14 @@ const WifiInfoEmail = ({
               <Text style={wifiLabel} dangerouslySetInnerHTML={{ __html: "🔐 PASSWORD" }} />
               <Text style={wifiPasswordStyle}>{wifiPassword}</Text>
             </Section>
+
+            {/* DOOR CODE */}
+            {doorCode && (
+              <Section style={doorBox}>
+                <Text style={wifiLabel}>🔑 DOOR CODE</Text>
+                <Text style={doorCodeStyle}>{doorCode}</Text>
+              </Section>
+            )}
 
             {/* STAY DETAILS */}
             <Heading style={h2}>Your Stay</Heading>
@@ -102,21 +112,26 @@ const WifiInfoEmail = ({
               Call or text your host anytime: <strong>{emergencyContact}</strong>
             </Text>
 
-            {/* GUIDE CTA */}
-            {guideUrl && (
-              <>
-                <Hr style={hr} />
-                <Text style={text}>
-                  Want restaurant recommendations, beach tips, and things to do nearby?
-                  We've put together a local guide just for you.
-                </Text>
-                <Section style={{ textAlign: "center", margin: "20px 0" }}>
-                  <Button style={button} href={guideUrl}>
-                    View Local Guide
-                  </Button>
-                </Section>
-              </>
-            )}
+            {/* GUIDE + BOOK DIRECT CTAS */}
+            <Hr style={hr} />
+            <Section style={{ textAlign: "center", margin: "4px 0 20px" }}>
+              {guideUrl && (
+                <Button style={buttonSecondary} href={guideUrl}>
+                  Local Guide — Restaurants &amp; Tips
+                </Button>
+              )}
+            </Section>
+            <Section style={bookDirectBox}>
+              <Text style={bookDirectLabel}>COMING BACK?</Text>
+              <Text style={bookDirectText}>
+                Book directly with us next time and save up to 15% — no Airbnb fees, same great home.
+              </Text>
+              <Section style={{ textAlign: "center", margin: "16px 0 0" }}>
+                <Button style={button} href="https://seaandcityrentals.hospitable.rentals/">
+                  Book Direct &amp; Save 15%
+                </Button>
+              </Section>
+            </Section>
 
             <Hr style={hr} />
             <Text style={footer}>
@@ -242,6 +257,54 @@ const button = {
   fontFamily: "Arial, sans-serif",
   letterSpacing: "0.05em",
   display: "inline-block",
+};
+const doorBox = {
+  backgroundColor: "#F0F4F6",
+  borderLeft: "3px solid #C9A84C",
+  borderRadius: "4px",
+  padding: "16px 20px",
+  textAlign: "center" as const,
+  margin: "0 0 24px",
+};
+const doorCodeStyle = {
+  fontSize: "22px",
+  fontWeight: "bold" as const,
+  color: "#1A3A4A",
+  margin: "4px 0 0",
+  letterSpacing: "0.15em",
+  fontFamily: "Arial, sans-serif",
+};
+const buttonSecondary = {
+  backgroundColor: "transparent",
+  color: "#1A3A4A",
+  padding: "12px 24px",
+  borderRadius: "4px",
+  textDecoration: "none",
+  fontSize: "13px",
+  fontFamily: "Arial, sans-serif",
+  border: "1.5px solid #1A3A4A",
+  display: "inline-block",
+};
+const bookDirectBox = {
+  backgroundColor: "#1A3A4A",
+  borderRadius: "8px",
+  padding: "20px 24px",
+  textAlign: "center" as const,
+};
+const bookDirectLabel = {
+  fontSize: "10px",
+  letterSpacing: "0.3em",
+  textTransform: "uppercase" as const,
+  color: "#C9A84C",
+  margin: "0 0 8px",
+  fontFamily: "Arial, sans-serif",
+};
+const bookDirectText = {
+  fontSize: "14px",
+  color: "rgba(255,255,255,0.85)",
+  lineHeight: "1.6",
+  margin: "0",
+  fontFamily: "Arial, sans-serif",
 };
 const hr = { borderColor: "#e5e5e5", margin: "24px 0 16px" };
 const footer = { fontSize: "13px", color: "#999999", margin: "0" };

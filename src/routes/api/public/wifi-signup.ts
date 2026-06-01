@@ -92,6 +92,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
             const template = TEMPLATES["wifi-info"];
             const templateData = {
               propertyName: config.propertyName,
+              doorCode: config.doorCode,
               wifiNetwork: config.wifiNetwork,
               wifiPassword: config.wifiPassword,
               checkInTime: config.checkInTime,

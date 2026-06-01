@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { SITE_URL, properties } from "@/data/properties";
+import { properties, BOOK_DIRECT_URL } from "@/data/properties";
 
-// Map slug -> property title for display (runs on server too)
 function propertyTitle(slug: string) {
   const p = properties.find((x) => x.slug === slug);
   return p?.title ?? "Your Stay";
@@ -94,20 +93,51 @@ function WifiPage() {
         {/* Card body */}
         <div style={{ padding: "28px" }}>
           {status === "success" ? (
-            <div style={{ textAlign: "center", padding: "12px 0" }}>
+            <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: "48px", marginBottom: "16px" }}>✅</div>
               <h2 style={{ fontSize: "20px", color: "#1A3A4A", margin: "0 0 10px", fontFamily: "Georgia, serif", fontWeight: 400 }}>
                 Check your inbox!
               </h2>
-              <p style={{ fontSize: "14px", color: "#666", margin: "0 0 8px", fontFamily: "system-ui, sans-serif", lineHeight: 1.6 }}>
+              <p style={{ fontSize: "14px", color: "#666", margin: "0 0 6px", fontFamily: "system-ui, sans-serif", lineHeight: 1.6 }}>
                 Your WiFi password and house guide have been sent to:
               </p>
-              <p style={{ fontSize: "14px", fontWeight: 600, color: "#1A3A4A", margin: "0", fontFamily: "system-ui, sans-serif" }}>
+              <p style={{ fontSize: "14px", fontWeight: 600, color: "#1A3A4A", margin: "0 0 6px", fontFamily: "system-ui, sans-serif" }}>
                 {email}
               </p>
-              <p style={{ fontSize: "13px", color: "#999", margin: "16px 0 0", fontFamily: "system-ui, sans-serif" }}>
+              <p style={{ fontSize: "13px", color: "#aaa", margin: "0 0 24px", fontFamily: "system-ui, sans-serif" }}>
                 Don't see it? Check your spam folder.
               </p>
+
+              {/* Book Direct CTA */}
+              <div style={{ backgroundColor: "#F8F5EE", borderRadius: "10px", padding: "18px", marginTop: "4px" }}>
+                <p style={{ fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#C9A84C", margin: "0 0 6px", fontFamily: "system-ui, sans-serif" }}>
+                  Loved your stay?
+                </p>
+                <p style={{ fontSize: "14px", color: "#444", margin: "0 0 14px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>
+                  Book directly with us next time and save up to 15% — no Airbnb fees.
+                </p>
+                <a
+                  href={BOOK_DIRECT_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: "block",
+                    backgroundColor: "#1A3A4A",
+                    color: "#ffffff",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    textDecoration: "none",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    fontFamily: "system-ui, sans-serif",
+                  }}
+                >
+                  Book Direct &amp; Save 15% →
+                </a>
+              </div>
             </div>
           ) : (
             <>
@@ -118,8 +148,8 @@ function WifiPage() {
                 </p>
                 {[
                   { icon: "📶", text: "WiFi network & password" },
+                  { icon: "🔑", text: "Door code" },
                   { icon: "🏠", text: "Check-out time & house notes" },
-                  { icon: "🚗", text: "Parking & trash info" },
                   { icon: "📍", text: "Local restaurant & activity guide" },
                 ].map((item) => (
                   <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "7px" }}>
@@ -178,7 +208,6 @@ function WifiPage() {
                     textTransform: "uppercase",
                     cursor: status === "loading" ? "default" : "pointer",
                     fontFamily: "system-ui, sans-serif",
-                    transition: "background-color 0.15s",
                   }}
                 >
                   {status === "loading" ? "Sending…" : "Get WiFi Info →"}
@@ -188,6 +217,28 @@ function WifiPage() {
                   No spam — just your WiFi code and house guide.
                 </p>
               </form>
+
+              {/* Book Direct secondary link */}
+              <div style={{ borderTop: "1px solid #eee", marginTop: "22px", paddingTop: "18px", textAlign: "center" }}>
+                <p style={{ fontSize: "12px", color: "#999", margin: "0 0 10px", fontFamily: "system-ui, sans-serif" }}>
+                  Skip Airbnb fees on your next stay
+                </p>
+                <a
+                  href={BOOK_DIRECT_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    color: "#C9A84C",
+                    textDecoration: "none",
+                    fontFamily: "system-ui, sans-serif",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Book Direct &amp; Save 15% →
+                </a>
+              </div>
             </>
           )}
         </div>
