@@ -267,6 +267,26 @@ function Index() {
         </div>
       </section>
 
+      {/* EMAIL CAPTURE */}
+      <section className="bg-[var(--color-deep)]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+          <div className="mx-auto max-w-xl text-center">
+            <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-[var(--color-gold)]">
+              Members-only perk
+            </p>
+            <h2 className="mt-4 font-display text-4xl font-medium leading-tight tracking-tight text-white sm:text-5xl">
+              Get 10% off your first direct booking
+            </h2>
+            <p className="mt-4 text-sm text-white/70">
+              Join our list for exclusive rates, last-minute deals, and Tampa Bay travel tips — no Airbnb markup, ever.
+            </p>
+          </div>
+          <div className="mx-auto mt-8 max-w-sm">
+            <HomeEmailCapture />
+          </div>
+        </div>
+      </section>
+
       {/* ABOUT */}
       <section className="relative overflow-hidden bg-[var(--color-sand)]">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-[2fr_3fr] lg:px-10">
@@ -421,5 +441,70 @@ function Index() {
         </div>
       </section>
     </Layout>
+  );
+}
+
+function HomeEmailCapture() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      const formData = new FormData();
+      formData.append("fields[email]", normalizedEmail);
+      await fetch(
+        "https://assets.mailerlite.com/jsonp/2353166/forms/188851104776193043/subscribe",
+        { method: "POST", body: formData },
+      );
+      const params = new URLSearchParams(window.location.search);
+      fetch("/api/public/discount-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          source: "home_inline",
+          utm_source: params.get("utm_source"),
+          utm_medium: params.get("utm_medium"),
+          utm_campaign: params.get("utm_campaign"),
+          user_agent: navigator.userAgent.slice(0, 250),
+        }),
+      }).catch(() => {});
+      track("email_signup", { method: "home_inline" });
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <p className="text-center text-sm text-[var(--color-gold)]">
+        Done! Check your inbox — your DIRECT10 code is on its way.
+      </p>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-2 sm:flex-row">
+      <input
+        type="email"
+        required
+        placeholder="your@email.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="flex-1 rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-[var(--color-gold)] focus:outline-none"
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)] transition hover:brightness-105 disabled:opacity-60 whitespace-nowrap"
+      >
+        {status === "loading" ? "Sending…" : "Get 10% off"}
+      </button>
+    </form>
   );
 }

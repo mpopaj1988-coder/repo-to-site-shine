@@ -13,8 +13,24 @@ export function EmailCaptureModal() {
     if (typeof window === "undefined") return;
     const seen = localStorage.getItem(STORAGE_KEY);
     if (seen) return;
+
+    // Timed trigger — show after 12s
     const t = setTimeout(() => setOpen(true), 12000);
-    return () => clearTimeout(t);
+
+    // Exit-intent trigger — fires when cursor leaves toward browser chrome
+    let fired = false;
+    function onMouseLeave(e: MouseEvent) {
+      if (fired || e.clientY > 10) return;
+      fired = true;
+      clearTimeout(t);
+      setOpen(true);
+    }
+    document.addEventListener("mouseleave", onMouseLeave);
+
+    return () => {
+      clearTimeout(t);
+      document.removeEventListener("mouseleave", onMouseLeave);
+    };
   }, []);
 
   function dismiss() {
