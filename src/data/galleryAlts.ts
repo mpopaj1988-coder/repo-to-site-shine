@@ -6,79 +6,15 @@ export type GalleryEntry = { file: string; alt: string };
 
 export const galleryManifest: Record<string, GalleryEntry[]> = {
   // ===================== TAMPA =====================
-  // NOTE: Alt texts were audited by visual inspection — many prior descriptions
-  // were assigned to the wrong files. All corrected below.
   tampa: [
-    // 1. HERO — pool at twilight, emotional anchor, most click-worthy
-    { file: "14773F44-0C3A-4B77-9D78-1B21DDFA61DE.png", alt: "Tampa waterfront rental heated pool at twilight with lounge chairs, wine and dramatic sunset sky" },
-    // 2. OUTDOOR LIFESTYLE — covered lanai with string lights, sectional, pink bougainvillea, pool view
-    { file: "38.jpg", alt: "Covered outdoor living room with string lights, sectional sofa, pink bougainvillea and heated pool view at Tampa waterfront rental" },
-    // 3. WATERFRONT USP — private dock at sunset, Adirondack chairs, canal reflections
-    { file: "42.jpg", alt: "Tampa private dock at sunset with teal Adirondack chairs, lanterns and canal twilight views" },
-    // 4. DECISION: master suite — four-poster king with leather chairs and palm views
-    { file: "E11916F4-2048-40F7-BA24-80C7ACCDD393.png", alt: "Four-poster king master suite with leather chairs, geometric rug and palm tree views at Tampa rental" },
-    // 5. EMOTIONAL: spa soaking tub with candles open to four-poster bedroom
-    { file: "41.jpg", alt: "Spa primary suite soaking tub with candles, wine and book tray opening to four-poster master bedroom at Tampa rental" },
-    // 6. DECISION: dining + kitchen with marble island, bar stools, pool through French doors
-    { file: "36.jpg", alt: "Open kitchen and dining area with marble island, bar stools and pool views through French doors at Tampa rental" },
-    // 7. DECISION: living room with curved green sectional
-    { file: "19.jpg", alt: "Spacious open-plan living room with curved green sectional and smart TV in Tampa rental" },
-    // 8. DECISION: twin queen bedroom with green velvet headboards and canal views
-    { file: "4299ED75-DE64-4415-A3E6-1C74B8BF78D7.png", alt: "Twin queen bedroom with dark green velvet headboards and pool canal views at Tampa waterfront home" },
-    // 9. SCALE: aerial showing full property with pool, dock, canal
-    { file: "09.jpg", alt: "Aerial backyard view of Tampa rental with pool, dock and canal" },
-    // 10. DECISION: chef kitchen with marble island and three bar stools
-    { file: "20.jpg", alt: "Open chef kitchen with marble island, three bar stools and stainless appliances at Tampa 6-bedroom rental" },
-    // 11. OUTDOOR: pool with paver deck and palms, daytime
-    { file: "53.jpg", alt: "Sparkling pool with paver deck, lounge chairs and palm trees at Tampa waterfront rental" },
-    // 12. OUTDOOR: pool loungers with umbrella and wine
-    { file: "14.jpg", alt: "Pool loungers and umbrella beside the heated pool at Tampa waterfront rental" },
-    // 13. DECISION: primary bath with freestanding soaking tub and marble tile
-    { file: "54.jpg", alt: "Primary bath with freestanding soaking tub, marble accents and wood-look tile floors at Tampa rental" },
-    // 14. DECISION: master bath with soaking tub, white subway tile, hex mosaic floor
-    { file: "55.jpg", alt: "Designer master bath with freestanding tub, white subway tile walls and hex mosaic floor at Tampa rental" },
-    // 15. DECISION: king bedroom with blue velvet bedding and wood slat accent wall
-    { file: "44.jpg", alt: "King bedroom with blue velvet bedding, wood slat accent wall and natural light at Tampa vacation home" },
-    // 16. DECISION: pink queen bedroom with sunset views and ceiling fan
-    { file: "52.jpg", alt: "Pink upholstered queen bedroom with sunset view and ceiling fan at Tampa waterfront rental" },
-    // 17. DECISION: bunk room with full-size bunk, desk, canal views (key for large groups)
-    { file: "30.jpg", alt: "Bunk bed room with full-size bunk, study desk and canal views at Tampa waterfront rental" },
-    // 18. OUTDOOR: pool daytime, blue sky, wine on tray
-    { file: "3010EF30-59E8-45E4-A635-58D933FF1504.png", alt: "Heated pool with lounge chairs and wine under a vivid blue Florida sky at Tampa waterfront rental" },
-    // 19. ATMOSPHERIC: three illuminated palms reflected in pool at night
-    { file: "hero-tampa.jpg", alt: "Three illuminated palm trees reflected in the pool at night at Tampa waterfront rental" },
-    // 20. DETAIL: spa bath with double arch mirrors, floating wood vanity, walk-in shower
-    { file: "37.jpg", alt: "Spa bathroom with double arch mirrors, floating wood vanity and glass walk-in shower at Tampa rental" },
-    // 21. DETAIL: guest bath with blue tile surround and dark wood vanity
-    { file: "47.jpg", alt: "Guest bathroom with blue tile surround, dark wood vanity and combo shower-tub at Tampa rental" },
-    // 22. DETAIL: guest bath with sage green cabinetry and tile walk-in shower
-    { file: "46.jpg", alt: "Guest bath with sage green cabinetry, white countertop and tile walk-in shower at Tampa rental" },
-    // 23. DETAIL: dining area with sculptural barrel chairs, art, and pool view
-    { file: "23.jpg", alt: "Dining area with sculptural barrel chairs, statement art and backyard pool view at Tampa rental" },
-    // 24. DETAIL: living and dining from kitchen angle
-    { file: "18.jpg", alt: "Open-plan living and dining viewed from kitchen with green sectional and statement art at Tampa rental" },
-    // 25. DETAIL: kitchen with island, flowers, dining table visible
-    { file: "22.jpg", alt: "Kitchen and dining area with marble island, fresh flowers and views to living room at Tampa rental" },
-    // 26. DETAIL: bright open kitchen and living area from rear
-    { file: "48.jpg", alt: "Bright open kitchen and living area with marble island, flowers and garden views at Tampa rental" },
-    // 27. DETAIL: king bedroom suite with en-suite bath and kitchen views
-    { file: "26.jpg", alt: "King bedroom suite with en-suite bath access and open kitchen views at Tampa waterfront rental" },
-    // 28. DETAIL: queen bedroom with white bedding and landscape art
-    { file: "40.jpg", alt: "Bright queen bedroom with white bedding, landscape art and en-suite access at Tampa vacation home" },
-    // 29. DETAIL: twin queen green velvet from alternate angle
-    { file: "39.jpg", alt: "Twin queen bedroom with green velvet headboards, canal views and ceiling fan at Tampa waterfront rental" },
-    // 30. DETAIL: twin queen green velvet, third angle
-    { file: "45.jpg", alt: "Twin queen bedroom with green velvet headboards, water views and smart TV at Tampa waterfront home" },
-    // 31. DETAIL: curved green sectional living room alt angle
-    { file: "25.jpg", alt: "Curved green sectional living room with leather accent chairs and designer lighting at Tampa rental" },
-    // 32. DETAIL: kitchen sink with marble backsplash and bougainvillea window view
-    { file: "04.jpg", alt: "Renovated kitchen sink and quartz counters with tropical view at Tampa rental" },
-    // 33. UTILITY: workspace with desk, smart TV, palm tree views
-    { file: "43.jpg", alt: "Workspace area with desk, smart TV and palm tree window views at Tampa vacation home" },
-    // 34. CONTEXT: street view at twilight
-    { file: "06.jpg", alt: "Tampa vacation home street view at twilight with pink sky and palm trees" },
-    // 35. CONTEXT: aerial from canal showing dock and yard
-    { file: "10.jpg", alt: "Aerial of Tampa pool home from canal showing yard, patio and private dock" },
+    // 1. HERO — illuminated palms reflected in pool at night, most dramatic shot
+    { file: "IMG_7271.png", alt: "Three illuminated palm trees reflected in the heated pool at night at Tampa waterfront vacation rental" },
+    // 2. EXTERIOR — property at sunset with pink sky, circular driveway and palms
+    { file: "IMG_7270.png", alt: "Tampa vacation home exterior at sunset with pink and purple sky, circular driveway and palm trees" },
+    // 3. OUTDOOR LIFESTYLE — freeform pool with paver deck, blue lounge chairs and tropical landscaping
+    { file: "IMG_7268.png", alt: "Heated freeform pool with paver deck, blue lounge chairs and lush tropical landscaping at Tampa rental" },
+    // 4. FEATURE — dedicated workspace with desk, smart TV and palm tree window views
+    { file: "IMG_7269.png", alt: "Dedicated workspace with modern desk, wall-mounted smart TV and palm tree views at Tampa vacation rental" },
   ],
 
   // ===================== CLEARWATER =====================
