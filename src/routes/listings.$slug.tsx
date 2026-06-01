@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
-import { properties, BOOK_DIRECT_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
+import { properties, PHONE, SITE_URL, type Property } from "@/data/properties";
 import { guides } from "@/data/guides";
 import { Bath, BedDouble, Users, Star, MapPin, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
@@ -407,18 +407,6 @@ function ListingPage() {
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
             <AvailabilityChecker calendar={availability} propertySlug={p.slug} propertyName={p.title} hospitableId={p.hospitableId} />
-            {!availability.length && (
-              <a
-                href={p.directBookingUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
-                data-testid="listing-sticky-check"
-                className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
-              >
-                Check availability
-              </a>
-            )}
             <a
               href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
               onClick={() => track("phone_click", { surface: "listing_sticky_call", property: p.slug })}
@@ -453,9 +441,7 @@ function ListingPage() {
       {/* MOBILE CTA BAR */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-border bg-white p-3 shadow-lg lg:hidden">
         <a
-          href={p.directBookingUrl}
-          target="_blank"
-          rel="noreferrer"
+          href="#availability-checker"
           onClick={() => track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })}
           data-testid="listing-mobile-check"
           className="flex-1 rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)]"
@@ -480,16 +466,14 @@ function ListingPage() {
 function BookDirectFooter() {
   return (
     <div className="bg-[var(--color-deep)] py-12 text-center text-white lg:hidden">
-      <a
-        href={BOOK_DIRECT_URL}
-        target="_blank"
-        rel="noreferrer"
+      <Link
+        to="/properties"
         onClick={() => track("book_direct_click", { surface: "listing_footer_mobile" })}
         data-testid="listing-footer-book-direct"
         className="text-xs uppercase tracking-[0.3em] text-[var(--color-gold)] underline-offset-4 hover:underline"
       >
         See all 9 properties →
-      </a>
+      </Link>
     </div>
   );
 }

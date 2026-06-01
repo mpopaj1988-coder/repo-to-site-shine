@@ -98,13 +98,25 @@ export function AvailabilityChecker({
   const toLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   if (!calendar.length) {
-    // No calendar data (API key missing) — render nothing; the existing fallback CTA covers it.
-    return null;
+    return (
+      <div id="availability-checker" data-testid="availability-checker" className="mt-5 border-t border-border pt-5">
+        <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">Check availability</p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Contact us directly to check dates — we respond fast.
+        </p>
+        <a
+          href="tel:12487662957"
+          className="mt-4 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
+        >
+          Call / Text to Book
+        </a>
+      </div>
+    );
   }
 
   return (
     <>
-      <div data-testid="availability-checker" className="mt-5 border-t border-border pt-5">
+      <div id="availability-checker" data-testid="availability-checker" className="mt-5 border-t border-border pt-5">
         <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">
           Check availability
         </p>
