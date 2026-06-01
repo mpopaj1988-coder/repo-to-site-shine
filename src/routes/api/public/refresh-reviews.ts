@@ -55,22 +55,20 @@ async function handleRefresh() {
     }
     const rows = reviews
       .map((r: any) => ({
-        hospitable_review_id: String(r.id ?? r.uuid ?? `${p.hospitableId}-${r.created_at}`),
+        hospitable_review_id: String(r.id ?? r.uuid ?? `${p.hospitableId}-${r.reviewed_at}`),
         property_hospitable_id: p.hospitableId,
         property_slug: p.slug,
-        guest_name:
-          r.guest_name ||
-          r.reviewer?.first_name ||
-          r.guest?.first_name ||
-          "Guest",
+        guest_name: r.public?.reviewer || r.guest_name || r.reviewer?.first_name || r.guest?.first_name || "Guest",
         rating:
-          typeof r.rating === "number"
+          typeof r.public?.rating === "number"
+            ? r.public.rating
+            : typeof r.rating === "number"
             ? r.rating
             : typeof r.overall_rating === "number"
             ? r.overall_rating
             : null,
-        text: r.public_review || r.private_review || r.comment || r.text || "",
-        review_date: (r.review_date || r.created_at || r.submitted_at || "").slice(0, 10) || null,
+        text: r.public?.review || r.public_review || r.comment || r.text || "",
+        review_date: (r.reviewed_at || r.review_date || r.created_at || r.submitted_at || "").slice(0, 10) || null,
         raw: r,
         fetched_at: new Date().toISOString(),
       }))
@@ -86,6 +84,10 @@ async function handleRefresh() {
       perProperty[p.slug] = rows.length;
     }
   }
+
+  // Purge any pre-existing rows with rating below 4 (or null) left from before the filter was added.
+  await supabaseAdmin.from("hospitable_reviews_cache").delete().lt("rating", 4);
+  await supabaseAdmin.from("hospitable_reviews_cache").delete().is("rating", null);
 
   return new Response(
     JSON.stringify({ ok: true, totalUpserted, perProperty }),
