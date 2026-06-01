@@ -208,7 +208,22 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
           console.error("mailerlite wifi-guest sync failed", err);
         }
 
-        return Response.json({ ok: true });
+        return Response.json({
+          ok: true,
+          guide: {
+            propertyName: config.propertyName,
+            wifiNetwork: config.wifiNetwork,
+            wifiPassword: config.wifiPassword,
+            doorCode: config.doorCode ?? null,
+            checkInTime: config.checkInTime,
+            checkoutTime: config.checkoutTime,
+            parking: config.parking ?? null,
+            trash: config.trash ?? null,
+            emergencyContact: config.emergencyContact,
+            notes: config.notes,
+            guideSlug: config.guideSlug ?? null,
+          },
+        });
       },
     },
   },
