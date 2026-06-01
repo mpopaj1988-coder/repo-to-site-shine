@@ -372,6 +372,7 @@ export async function processRebookingCampaign(
                 available_start_date: stretch.start,
                 available_end_date: stretch.end,
                 sent: result.sent,
+                quoted_discounted_price_usd: discountedNightly,
               },
               { onConflict: "property_hospitable_id,guest_reservation_id,available_start_date" },
             );
