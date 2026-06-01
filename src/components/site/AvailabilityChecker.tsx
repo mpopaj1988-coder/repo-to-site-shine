@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import type { CalendarDay } from "@/lib/hospitable.functions";
+import { createBookingCheckout } from "@/lib/stripe.functions";
 import { track } from "@/lib/analytics";
 
 function ymd(d: Date): string {
@@ -26,13 +27,16 @@ export function AvailabilityChecker({
   bookingUrl,
   calendar,
   propertySlug,
+  propertyTitle,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
   propertySlug?: string;
+  propertyTitle?: string;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   // Build lookup structures for availability and pricing
   const { unavailableSet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
@@ -82,7 +86,47 @@ export function AvailabilityChecker({
 
   const canReserve = range?.from && range?.to && nights > 0 && !hasUnavailable;
 
-  const reserveHref = bookingUrl;
+  async function handleReserve() {
+    if (!canReserve) {
+      setShowCalendar(true);
+      return;
+    }
+
+    track("reserve_click", {
+      property: propertySlug,
+      nights,
+      total,
+      currency,
+      check_in: range?.from ? ymd(range.from) : undefined,
+      check_out: range?.to ? ymd(range.to) : undefined,
+    });
+
+    // No per-night pricing available → fall back to Hospitable booking URL
+    if (!total || total <= 0) {
+      window.open(bookingUrl, "_blank", "noreferrer");
+      return;
+    }
+
+    setRedirecting(true);
+    try {
+      const result = await createBookingCheckout({
+        data: {
+          propertySlug: propertySlug ?? "",
+          propertyTitle: propertyTitle ?? propertySlug ?? "Vacation Rental",
+          checkIn: ymd(range!.from!),
+          checkOut: ymd(range!.to!),
+          nights,
+          total,
+          currency,
+        },
+      });
+      window.location.href = result.url;
+    } catch {
+      // Stripe unavailable — fall back to Hospitable
+      window.open(bookingUrl, "_blank", "noreferrer");
+      setRedirecting(false);
+    }
+  }
 
   const fromLabel = range?.from?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   const toLabel = range?.to?.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -198,35 +242,23 @@ export function AvailabilityChecker({
         </div>
       )}
 
-      <a
-        href={reserveHref}
-        target="_blank"
-        rel="noreferrer"
+      <button
+        type="button"
         data-testid="availability-reserve-btn"
-        aria-disabled={!canReserve}
-        onClick={(e) => {
-          if (!canReserve) {
-            e.preventDefault();
-            setShowCalendar(true);
-            return;
-          }
-          track("reserve_click", {
-            property: propertySlug,
-            nights,
-            total,
-            currency,
-            check_in: range?.from ? ymd(range.from) : undefined,
-            check_out: range?.to ? ymd(range.to) : undefined,
-          });
-        }}
-        className={`mt-4 block rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
-          canReserve
-            ? "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
-            : "cursor-pointer bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
+        disabled={redirecting}
+        onClick={handleReserve}
+        className={`mt-4 w-full rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
+          redirecting
+            ? "cursor-wait bg-[var(--color-gold)]/70 text-[var(--color-deep)]"
+            : "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
         }`}
       >
-        {canReserve ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}` : "Select dates to reserve"}
-      </a>
+        {redirecting
+          ? "Redirecting to checkout…"
+          : canReserve
+            ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
+            : "Select dates to reserve"}
+      </button>
     </div>
   );
 }

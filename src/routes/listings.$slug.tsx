@@ -11,6 +11,9 @@ import { getListingPricing, getListingReviews, getListingAvailability, type Pric
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/listings/$slug")({
+  validateSearch: (search: Record<string, string>) => ({
+    booking: search.booking === "success" ? ("success" as const) : undefined,
+  }),
   staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
     const p = properties.find((x) => x.slug === params.slug);
@@ -190,6 +193,7 @@ function guideForProperty(location: string) {
 
 function ListingPage() {
   const { property: p, pricing, reviews, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
+  const { booking } = Route.useSearch();
   const [reviewPage, setReviewPage] = useState(0);
   const reviewsPerPage = 3;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -203,6 +207,11 @@ function ListingPage() {
 
   return (
     <Layout>
+      {booking === "success" && (
+        <div className="sticky top-0 z-40 bg-emerald-600 px-6 py-3 text-center text-sm font-medium text-white shadow">
+          🎉 Payment received — we'll confirm your dates and send details to your email shortly.
+        </div>
+      )}
       {/* HEADER GAP */}
       <div className="bg-[var(--color-deep)] pb-6 pt-32 text-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -406,7 +415,12 @@ function ListingPage() {
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
             <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning-guest discount applied automatically.</p>
-            <AvailabilityChecker bookingUrl={p.directBookingUrl} calendar={availability} propertySlug={p.slug} />
+            <AvailabilityChecker
+              bookingUrl={p.directBookingUrl}
+              calendar={availability}
+              propertySlug={p.slug}
+              propertyTitle={p.title}
+            />
             {!availability.length && (
               <a
                 href={p.directBookingUrl}
