@@ -93,28 +93,14 @@ async function getAverageNightlyPrice(
   return Math.round(prices.reduce((s, p) => s + p, 0) / prices.length / 100);
 }
 
-async function sendMessage(reservationId: string, body: string, apiKey: string): Promise<boolean> {
-  const res = await fetch(`${HOSPITABLE_BASE}/reservations/${reservationId}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ body }),
-  });
-  return res.ok;
-}
-
-async function createTask(
+async function createDraftTask(
   reservationId: string,
   guestName: string,
   stretchStart: string,
   stretchEnd: string,
-  discountedPrice: number | null,
+  draftMessage: string,
   apiKey: string,
 ): Promise<void> {
-  const priceNote = discountedPrice ? ` at $${discountedPrice}/night` : "";
   const res = await fetch(`${HOSPITABLE_BASE}/tasks`, {
     method: "POST",
     headers: {
@@ -123,10 +109,13 @@ async function createTask(
       Accept: "application/json",
     },
     body: JSON.stringify({
-      title: `Send booking link to ${guestName} — ${stretchStart}`,
+      title: `Reply needed: ${guestName} said YES — ${stretchStart}`,
       description:
-        `${guestName} replied YES to the rebooking offer for ${stretchStart} – ${stretchEnd}${priceNote}. ` +
-        `Please send them a direct booking link with the 10% returning-guest discount applied.\n` +
+        `${guestName} replied YES to the rebooking offer for ${stretchStart}–${stretchEnd}.\n\n` +
+        `DRAFT REPLY (review and send manually):\n` +
+        `----------------------------------------\n` +
+        `${draftMessage}\n` +
+        `----------------------------------------\n\n` +
         `Reservation ID: ${reservationId}`,
       reservation_id: reservationId,
       type: "other",
@@ -135,7 +124,7 @@ async function createTask(
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[rebooking-reply] createTask ${reservationId} ${res.status}:`, text.slice(0, 200));
+    console.error(`[rebooking-reply] createDraftTask ${reservationId} ${res.status}:`, text.slice(0, 200));
   }
 }
 
@@ -233,25 +222,21 @@ export async function processRebookingReplies(
           ? Math.round(regularPrice * (1 - REBOOKING_DISCOUNT_PCT / 100))
           : null;
 
-        await sendMessage(
-          row.guest_reservation_id,
-          followUpMessage(
-            firstName,
-            row.available_start_date,
-            row.available_end_date,
-            regularPrice,
-            discountedPrice,
-            row.quoted_discounted_price_usd,
-          ),
-          apiKey,
+        const draftMsg = followUpMessage(
+          firstName,
+          row.available_start_date,
+          row.available_end_date,
+          regularPrice,
+          discountedPrice,
+          row.quoted_discounted_price_usd,
         );
 
-        await createTask(
+        await createDraftTask(
           row.guest_reservation_id,
           firstName,
           row.available_start_date,
           row.available_end_date,
-          discountedPrice,
+          draftMsg,
           apiKey,
         );
 
