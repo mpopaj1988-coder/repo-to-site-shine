@@ -27,7 +27,6 @@ type Guide = {
   propertyName: string;
   wifiNetwork: string;
   wifiPassword: string;
-  doorCode: string | null;
   checkInTime: string;
   checkoutTime: string;
   parking: string | null;
@@ -118,14 +117,6 @@ function WifiPage() {
                 <p style={{ fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#C9A84C", margin: "0 0 4px", fontFamily: "system-ui, sans-serif" }}>🔐 Password</p>
                 <p style={{ fontSize: "24px", fontWeight: 700, color: "#C9A84C", margin: 0, fontFamily: "system-ui, sans-serif", letterSpacing: "0.1em" }}>{guide.wifiPassword}</p>
               </div>
-
-              {/* Door code */}
-              {guide.doorCode && (
-                <div style={{ backgroundColor: "#F0F4F6", borderLeft: "3px solid #C9A84C", borderRadius: "6px", padding: "14px 18px", textAlign: "center", marginBottom: "16px" }}>
-                  <p style={{ fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#888", margin: "0 0 4px", fontFamily: "system-ui, sans-serif" }}>🔑 Door Code</p>
-                  <p style={{ fontSize: "20px", fontWeight: 700, color: "#1A3A4A", margin: 0, fontFamily: "system-ui, sans-serif", letterSpacing: "0.12em" }}>{guide.doorCode}</p>
-                </div>
-              )}
 
               {/* Check-in / check-out */}
               <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>

@@ -6,7 +6,6 @@ export type PropertyHouseInfo = {
   wifiPassword: string;
   checkInTime: string;
   checkoutTime: string;
-  doorCode?: string;
   parking?: string;
   trash?: string;
   address?: string;
@@ -84,7 +83,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "vacation1",
     checkInTime: "4:00 PM",
     checkoutTime: "10:00 AM",
-    doorCode: "8722 (smart lock — code sent ~30 min before arrival)",
     parking: "Park in the driveway or garage — room for multiple cars.",
     address: "Tampa, FL",
     emergencyContact: "248-766-2957",
@@ -129,7 +127,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "Vacation2",
     checkInTime: "4:00 PM",
     checkoutTime: "10:00 AM",
-    doorCode: "1188 (Yale keypad — press the Yale button to lock)",
     parking: "Park in the driveway — fits several cars.",
     trash: "Trash pickup: Thursdays. Bins on the side of the house — host handles curbside.",
     address: "Largo, FL",
@@ -176,7 +173,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "happyspace961",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
-    doorCode: "1957 (door auto-locks when closed)",
     parking: "Two spots in front of Unit A (left door). Overflow: by the carport near the hot tub.",
     address: "Indian Rocks Beach, FL",
     emergencyContact: "248-766-2957",
@@ -200,7 +196,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "vacation1",
     checkInTime: "4:00 PM",
     checkoutTime: "10:00 AM",
-    doorCode: "1988",
     parking: "Free parking in the driveway and garage — up to 4 vehicles. No street parking.",
     trash: "Garbage bins on the side of the house — host handles pickup.",
     address: "Clearwater, FL",
@@ -247,7 +242,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "SpectrumSetup-CF",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
-    doorCode: "1220 (hold the top button 2–3 sec from outside to lock)",
     parking: "Two spots in front of Unit B (right side).",
     address: "Indian Rocks Beach, FL",
     emergencyContact: "248-766-2957",
@@ -271,7 +265,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "marbletheory468",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
-    doorCode: "Garage: 6613 · Unit door #1: 4345 · Side entrance: 6612",
     parking: "One designated spot (right side) inside the garage. Free street parking by the lake for extra cars.",
     address: "434 15th Ave N, St. Petersburg, FL",
     emergencyContact: "248-766-2957",
@@ -296,7 +289,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "marbletheory468",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
-    doorCode: "Garage/side entrance: 6612 · Unit door #2: 1188 (pull door first if it sticks)",
     parking: "One designated garage spot. Close garage from outside: press Enter on the keypad.",
     address: "434 15th Ave N, St. Petersburg, FL",
     emergencyContact: "248-766-2957",
@@ -320,7 +312,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "cleanbunny221",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
-    doorCode: "5656 (front door and back gate)",
     parking: "Spot marked 'A' in the back alley between 14th and 15th Ave. Free street parking nearby.",
     address: "434 15th Ave N, Unit A, St. Petersburg, FL",
     emergencyContact: "248-766-2957",
@@ -344,7 +335,6 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     wifiPassword: "cleanbunny221",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
-    doorCode: "2704",
     parking: "Spot marked 'B' in the back alley between 14th and 15th Ave. Two compact cars can fit back-to-back.",
     address: "434 15th Ave N, Unit B, St. Petersburg, FL",
     emergencyContact: "248-766-2957",

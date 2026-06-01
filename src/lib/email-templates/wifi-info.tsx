@@ -10,7 +10,6 @@ interface WifiInfoProps {
   propertyName?: string;
   wifiNetwork?: string;
   wifiPassword?: string;
-  doorCode?: string;
   checkInTime?: string;
   checkoutTime?: string;
   parking?: string;
@@ -25,7 +24,6 @@ const WifiInfoEmail = ({
   propertyName = "Your Sea & City Property",
   wifiNetwork = "SeaCity_WiFi",
   wifiPassword = "password123",
-  doorCode,
   checkInTime = "4:00 PM",
   checkoutTime = "10:00 AM",
   parking,
@@ -59,14 +57,6 @@ const WifiInfoEmail = ({
               <Text style={wifiLabel} dangerouslySetInnerHTML={{ __html: "🔐 PASSWORD" }} />
               <Text style={wifiPasswordStyle}>{wifiPassword}</Text>
             </Section>
-
-            {/* DOOR CODE */}
-            {doorCode && (
-              <Section style={doorBox}>
-                <Text style={wifiLabel}>🔑 DOOR CODE</Text>
-                <Text style={doorCodeStyle}>{doorCode}</Text>
-              </Section>
-            )}
 
             {/* STAY DETAILS */}
             <Heading style={h2}>Your Stay</Heading>
@@ -260,22 +250,6 @@ const button = {
   fontFamily: "Arial, sans-serif",
   letterSpacing: "0.05em",
   display: "inline-block",
-};
-const doorBox = {
-  backgroundColor: "#F0F4F6",
-  borderLeft: "3px solid #C9A84C",
-  borderRadius: "4px",
-  padding: "16px 20px",
-  textAlign: "center" as const,
-  margin: "0 0 24px",
-};
-const doorCodeStyle = {
-  fontSize: "22px",
-  fontWeight: "bold" as const,
-  color: "#1A3A4A",
-  margin: "4px 0 0",
-  letterSpacing: "0.15em",
-  fontFamily: "Arial, sans-serif",
 };
 const buttonSecondary = {
   backgroundColor: "transparent",
