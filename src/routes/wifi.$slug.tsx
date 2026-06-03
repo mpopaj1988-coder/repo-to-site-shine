@@ -22,6 +22,7 @@ const VALID_SLUGS = [
 ];
 
 type Tip = { name: string; note: string };
+type HouseNote = string | { text: string; image: string };
 
 type Guide = {
   propertyName: string;
@@ -32,7 +33,7 @@ type Guide = {
   parking: string | null;
   trash: string | null;
   emergencyContact: string;
-  notes: string[];
+  notes: HouseNote[];
   guideSlug: string | null;
   restaurants: Tip[];
   activities: Tip[];
@@ -151,9 +152,16 @@ function WifiPage() {
               {guide.notes.length > 0 && (
                 <div style={{ backgroundColor: "#F8F5EE", borderRadius: "8px", padding: "16px 18px", margin: "16px 0" }}>
                   <p style={{ fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#C9A84C", margin: "0 0 10px", fontFamily: "system-ui, sans-serif" }}>House Notes</p>
-                  {guide.notes.map((note, i) => (
-                    <p key={i} style={{ fontSize: "14px", color: "#444", margin: "0 0 6px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note}</p>
-                  ))}
+                  {guide.notes.map((note, i) =>
+                    typeof note === "string" ? (
+                      <p key={i} style={{ fontSize: "14px", color: "#444", margin: "0 0 6px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note}</p>
+                    ) : (
+                      <div key={i} style={{ marginBottom: "10px" }}>
+                        <p style={{ fontSize: "14px", color: "#444", margin: "0 0 8px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note.text}</p>
+                        <img src={note.image} alt="Reference photo" style={{ width: "100%", borderRadius: "8px", display: "block" }} />
+                      </div>
+                    )
+                  )}
                 </div>
               )}
 
