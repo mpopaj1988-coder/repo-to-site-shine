@@ -47,6 +47,9 @@ export function AvailabilityChecker({
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  const [showCodeModal, setShowCodeModal] = useState(false);
+  const [codeEmail, setCodeEmail] = useState("");
+  const [codeStatus, setCodeStatus] = useState<"idle" | "loading" | "done" | "not_found" | "error">("idle");
   // Tracks which rangeKey the user dismissed the upsell for, so it reappears on new date selections
   const [dismissedForRange, setDismissedForRange] = useState("");
 
@@ -332,10 +335,110 @@ export function AvailabilityChecker({
 
       <p className="mt-2 text-center text-[11px] text-muted-foreground">
         Returning guest?{" "}
-        <a href="/contact" className="font-medium text-[var(--color-deep)] underline-offset-2 hover:underline">
+        <button
+          type="button"
+          onClick={() => { setShowCodeModal(true); setCodeStatus("idle"); setCodeEmail(""); }}
+          className="font-medium text-[var(--color-deep)] underline-offset-2 hover:underline"
+        >
           Get your 10% off code →
-        </a>
+        </button>
       </p>
+
+      {showCodeModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => setShowCodeModal(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-lg bg-background p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">Returning guest</p>
+            <h3 className="mt-2 font-display text-2xl font-semibold text-[var(--color-deep)]">Get your 10% off code</h3>
+
+            {codeStatus === "done" ? (
+              <>
+                <p className="mt-4 text-sm font-medium text-emerald-700">
+                  Sent! Check your inbox for your <span className="font-bold">RETURN10</span> code, then enter it at checkout.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowCodeModal(false)}
+                  className="mt-5 block w-full rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] transition hover:brightness-105"
+                >
+                  Back to booking
+                </button>
+              </>
+            ) : codeStatus === "not_found" ? (
+              <>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  We don't have a previous booking on file for that email.
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  If you booked via Airbnb or VRBO, email us at{" "}
+                  <a href="mailto:vacation@seaandcityrentals.com" className="font-medium text-foreground underline-offset-2 hover:underline">
+                    vacation@seaandcityrentals.com
+                  </a>{" "}
+                  and we'll sort it out.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setCodeStatus("idle")}
+                  className="mt-4 text-xs text-[var(--color-deep)] underline-offset-2 hover:underline"
+                >
+                  ← Try a different email
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="mt-3 text-sm text-muted-foreground">Enter your email and we'll send the code straight to your inbox.</p>
+                <form
+                  className="mt-4 flex flex-col gap-3"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setCodeStatus("loading");
+                    try {
+                      const res = await fetch("/api/public/returning-guest-code", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: codeEmail }),
+                      });
+                      if (res.ok) {
+                        const data = await res.json() as { ok?: boolean; notFound?: boolean };
+                        setCodeStatus(data.notFound ? "not_found" : "done");
+                      } else {
+                        setCodeStatus("error");
+                      }
+                    } catch {
+                      setCodeStatus("error");
+                    }
+                  }}
+                >
+                  <input
+                    type="email"
+                    required
+                    value={codeEmail}
+                    onChange={(e) => setCodeEmail(e.target.value)}
+                    placeholder="Your email address"
+                    className="w-full rounded-sm border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-[var(--color-deep)]"
+                  />
+                  <button
+                    type="submit"
+                    disabled={codeStatus === "loading"}
+                    className="rounded-sm bg-[var(--color-gold)] py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] transition hover:brightness-105 disabled:opacity-60"
+                  >
+                    {codeStatus === "loading" ? "Checking…" : "Send me my code"}
+                  </button>
+                  {codeStatus === "error" && (
+                    <p className="text-xs text-red-600">Something went wrong — please try again.</p>
+                  )}
+                  <p className="text-[11px] text-muted-foreground">By submitting you agree to receive property updates and promotions. Unsubscribe anytime.</p>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* 5th-night upsell modal — slow season only (Aug–Jan, ex Christmas/New Year) */}
       {showUpsellModal && (
