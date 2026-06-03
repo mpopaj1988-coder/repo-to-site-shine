@@ -6,6 +6,7 @@ import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/properties")({
+  staleTime: 5 * 60 * 1000,
   loader: async () => {
     const pricingMap: Record<string, Pricing> = {};
     await Promise.all(
