@@ -295,5 +295,6 @@ export const properties: Property[] = data.map((p) => {
 export const BOOK_DIRECT_URL = "https://seaandcityrentals.hospitable.rentals/";
 export const HOSPITABLE_INQUIRY_URL = "https://seaandcityrentals.hospitable.rentals/";
 export const PHONE = "248-766-2957";
+export const CONTACT_EMAIL = "vacation@seaandcityrentals.com";
 export const BLOG_URL = "https://www.seaandcityrentals.com/blog";
 export const SITE_URL = "https://www.seaandcityrentals.com";

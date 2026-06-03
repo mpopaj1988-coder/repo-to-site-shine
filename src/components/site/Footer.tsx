@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BOOK_DIRECT_URL } from "@/data/properties";
+import { BOOK_DIRECT_URL, CONTACT_EMAIL, PHONE } from "@/data/properties";
 import { track } from "@/lib/analytics";
 import { FooterEmailSignup } from "./FooterEmailSignup";
 
@@ -48,6 +48,13 @@ export function Footer() {
             <li>Clearwater, FL</li>
             <li>Largo, FL</li>
             <li>Indian Rocks Beach, FL</li>
+          </ul>
+          <p className="mt-8 text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
+            Contact
+          </p>
+          <ul className="mt-5 space-y-2 text-sm text-white/85">
+            <li><a href={`tel:${PHONE.replace(/[^0-9]/g, "")}`} className="hover:text-[var(--color-sea)]">{PHONE}</a></li>
+            <li><a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[var(--color-sea)]">{CONTACT_EMAIL}</a></li>
           </ul>
         </div>
         <FooterEmailSignup />
