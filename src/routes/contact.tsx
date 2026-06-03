@@ -19,7 +19,7 @@ export const Route = createFileRoute("/contact")({
 
 function ReturningGuestForm() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "not_found" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,8 +31,13 @@ function ReturningGuestForm() {
         body: JSON.stringify({ email }),
       });
       if (res.ok) {
-        track("returning_guest_code_requested", {});
-        setStatus("done");
+        const data = await res.json() as { ok?: boolean; notFound?: boolean };
+        if (data.notFound) {
+          setStatus("not_found");
+        } else {
+          track("returning_guest_code_requested", {});
+          setStatus("done");
+        }
       } else {
         setStatus("error");
       }
@@ -46,6 +51,15 @@ function ReturningGuestForm() {
       <p className="mt-4 text-sm font-medium text-emerald-700">
         Sent! Check your inbox for your RETURN10 code.
       </p>
+    );
+  }
+
+  if (status === "not_found") {
+    return (
+      <div className="mt-4 rounded-sm border border-border bg-muted/40 p-4 text-sm text-muted-foreground">
+        <p>We don't have a previous booking on file for that email.</p>
+        <p className="mt-1">If you booked through Airbnb or VRBO, <a href="mailto:vacation@seaandcityrentals.com" className="font-medium text-foreground underline-offset-2 hover:underline">email us directly</a> and we'll sort it out.</p>
+      </div>
     );
   }
 
