@@ -440,6 +440,7 @@ export function AvailabilityChecker({
         </div>
       )}
 
+
       {/* 5th-night upsell modal — slow season only (Aug–Jan, ex Christmas/New Year) */}
       {showUpsellModal && (
         <div
