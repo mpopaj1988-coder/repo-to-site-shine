@@ -3,6 +3,9 @@ import { template as welcomeDiscount } from './welcome-discount'
 import { template as bookingConfirmation } from './booking-confirmation'
 import { template as bookingCancellation } from './booking-cancellation'
 import { template as wifiInfo } from './wifi-info'
+import { template as marketingWhyBookDirect } from './marketing-why-book-direct'
+import { template as marketingPropertyShowcase } from './marketing-property-showcase'
+import { template as marketingLastMinute } from './marketing-last-minute'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -18,4 +21,7 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'booking-confirmation': bookingConfirmation,
   'booking-cancellation': bookingCancellation,
   'wifi-info': wifiInfo,
+  'marketing-why-book-direct': marketingWhyBookDirect,
+  'marketing-property-showcase': marketingPropertyShowcase,
+  'marketing-last-minute': marketingLastMinute,
 }
