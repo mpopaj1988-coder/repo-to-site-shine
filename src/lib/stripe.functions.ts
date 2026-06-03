@@ -30,6 +30,7 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     cancel_url: listingUrl,
     customer_creation: "always",
     billing_address_collection: "required",
+    allow_promotion_codes: "true",
     // Session-level metadata — available directly in the webhook event.
     "metadata[property]": input.propertySlug,
     "metadata[title]": input.propertyTitle,
