@@ -330,6 +330,13 @@ export function AvailabilityChecker({
             : "Select dates to reserve"}
       </button>
 
+      <p className="mt-2 text-center text-[11px] text-muted-foreground">
+        Returning guest?{" "}
+        <a href="/contact" className="font-medium text-[var(--color-deep)] underline-offset-2 hover:underline">
+          Get your 10% off code →
+        </a>
+      </p>
+
       {/* 5th-night upsell modal — slow season only (Aug–Jan, ex Christmas/New Year) */}
       {showUpsellModal && (
         <div
