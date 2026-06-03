@@ -292,9 +292,12 @@ export async function processOrphanDayUpsells(
 
       const checkoutDate = outgoing.departure_date.slice(0, 10);
       const checkinDate = incoming.arrival_date.slice(0, 10);
-      if (diffDays(checkoutDate, checkinDate) !== 2) continue;
+      const gap = diffDays(checkoutDate, checkinDate);
+      if (gap !== 1 && gap !== 2) continue;
 
-      const orphanDate = addDays(checkoutDate, 1);
+      // gap=2: orphan is the day after checkout (true middle night)
+      // gap=1: orphan is the checkout day itself (same-day turnaround scenario)
+      const orphanDate = gap === 1 ? checkoutDate : addDays(checkoutDate, 1);
 
       if (isExcludedMonth(orphanDate)) continue;
 
