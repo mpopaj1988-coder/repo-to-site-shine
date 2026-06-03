@@ -284,6 +284,22 @@ export async function processOrphanDayUpsells(
 
     // ── Pass 1: detect orphan pairs, check DB, fetch prices ───────────────────
 
+    // Pre-load all reservation IDs already messaged for this property so we
+    // never send a second orphan upsell to the same guest across different pairs.
+    const alreadyMessagedIds = new Set<string>();
+    try {
+      const { data: sentLogs } = await supabaseAdmin
+        .from("orphan_upsell_log")
+        .select("outgoing_reservation_id, incoming_reservation_id, outgoing_sent, incoming_sent")
+        .eq("property_hospitable_id", property.hospitableId);
+      for (const log of sentLogs ?? []) {
+        if (log.outgoing_sent) alreadyMessagedIds.add(log.outgoing_reservation_id);
+        if (log.incoming_sent) alreadyMessagedIds.add(log.incoming_reservation_id);
+      }
+    } catch (err) {
+      console.error(`[orphan-upsell] sent-IDs fetch error ${property.slug}:`, err);
+    }
+
     const pendingPairs: PendingPair[] = [];
 
     for (let i = 0; i < reservations.length - 1; i++) {
@@ -314,7 +330,9 @@ export async function processOrphanDayUpsells(
         console.error(`[orphan-upsell] DB read error ${property.slug}/${orphanDate}:`, err);
       }
 
-      if (existing?.outgoing_sent && existing?.incoming_sent) {
+      const outgoingDone = (existing?.outgoing_sent ?? false) || alreadyMessagedIds.has(outgoing.id);
+      const incomingDone = (existing?.incoming_sent ?? false) || alreadyMessagedIds.has(incoming.id);
+      if (outgoingDone && incomingDone) {
         allResults.push({
           propertyId: property.hospitableId,
           propertySlug: property.slug,
@@ -352,8 +370,8 @@ export async function processOrphanDayUpsells(
         hospitablePrice,
         regularPrice,
         discountedPrice,
-        outgoingAlreadySent: existing?.outgoing_sent ?? false,
-        incomingAlreadySent: existing?.incoming_sent ?? false,
+        outgoingAlreadySent: (existing?.outgoing_sent ?? false) || alreadyMessagedIds.has(outgoing.id),
+        incomingAlreadySent: (existing?.incoming_sent ?? false) || alreadyMessagedIds.has(incoming.id),
       });
     }
 
