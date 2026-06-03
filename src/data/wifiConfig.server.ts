@@ -308,7 +308,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
 
   "stpete-hottub": {
     propertyName: "Private Hot Tub Bungalow (Apt A)",
-    wifiNetwork: "See label on router",
+    wifiNetwork: "Spectrum 83",
     wifiPassword: "cleanbunny221",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
@@ -316,13 +316,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     address: "434 15th Ave N, Unit A, St. Petersburg, FL",
     emergencyContact: "248-766-2957",
     guideSlug: "st-petersburg",
-    notes: [
-      "Hot tub is in the private fenced backyard. Contact host to request setup (fee applies).",
-      "BBQ grill and outdoor seating are yours in the patio.",
-      "Central Ave dining and nightlife is a 3-block walk.",
-      "Enter via front gate (15th Ave) or back gate (alley between 14th and 15th).",
-      "Quiet hours: 10 PM – 7 AM.",
-    ],
+    notes: [],
     restaurants: ST_PETE_RESTAURANTS,
     activities: ST_PETE_ACTIVITIES,
     nightlife: ST_PETE_NIGHTLIFE,
