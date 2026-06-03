@@ -17,6 +17,7 @@ import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CancelBookingRouteImport } from './routes/cancel-booking'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,7 +30,9 @@ import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as DevEmailPreviewTemplateRouteImport } from './routes/dev/email-preview.$template'
+import { Route as ApiWebhooksStripeRouteImport } from './routes/api/webhooks/stripe'
 import { Route as ApiPublicWifiSignupRouteImport } from './routes/api/public/wifi-signup'
+import { Route as ApiPublicReturningGuestCodeRouteImport } from './routes/api/public/returning-guest-code'
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
 import { Route as ApiPublicRebookingCampaignRouteImport } from './routes/api/public/rebooking-campaign'
 import { Route as ApiPublicProcessUpsellRepliesRouteImport } from './routes/api/public/process-upsell-replies'
@@ -38,6 +41,7 @@ import { Route as ApiPublicPreArrivalMessageRouteImport } from './routes/api/pub
 import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/public/post-checkout-message'
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
+import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -80,6 +84,11 @@ const ExploreRoute = ExploreRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CancelBookingRoute = CancelBookingRouteImport.update({
+  id: '/cancel-booking',
+  path: '/cancel-booking',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -142,11 +151,22 @@ const DevEmailPreviewTemplateRoute = DevEmailPreviewTemplateRouteImport.update({
   path: '/dev/email-preview/$template',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiWebhooksStripeRoute = ApiWebhooksStripeRouteImport.update({
+  id: '/api/webhooks/stripe',
+  path: '/api/webhooks/stripe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicWifiSignupRoute = ApiPublicWifiSignupRouteImport.update({
   id: '/api/public/wifi-signup',
   path: '/api/public/wifi-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicReturningGuestCodeRoute =
+  ApiPublicReturningGuestCodeRouteImport.update({
+    id: '/api/public/returning-guest-code',
+    path: '/api/public/returning-guest-code',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicRefreshReviewsRoute = ApiPublicRefreshReviewsRouteImport.update({
   id: '/api/public/refresh-reviews',
   path: '/api/public/refresh-reviews',
@@ -193,6 +213,12 @@ const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   path: '/api/public/discount-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInternalMarketingDripRoute =
+  ApiInternalMarketingDripRouteImport.update({
+    id: '/api/internal/marketing-drip',
+    path: '/api/internal/marketing-drip',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -216,6 +242,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/cancel-booking': typeof CancelBookingRoute
   '/contact': typeof ContactRoute
   '/explore': typeof ExploreRouteWithChildren
   '/map': typeof MapRoute
@@ -231,6 +258,7 @@ export interface FileRoutesByFullPath {
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
@@ -239,7 +267,9 @@ export interface FileRoutesByFullPath {
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/public/returning-guest-code': typeof ApiPublicReturningGuestCodeRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
   '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -250,6 +280,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/cancel-booking': typeof CancelBookingRoute
   '/contact': typeof ContactRoute
   '/explore': typeof ExploreRouteWithChildren
   '/map': typeof MapRoute
@@ -265,6 +296,7 @@ export interface FileRoutesByTo {
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
@@ -273,7 +305,9 @@ export interface FileRoutesByTo {
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/public/returning-guest-code': typeof ApiPublicReturningGuestCodeRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
   '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -285,6 +319,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/cancel-booking': typeof CancelBookingRoute
   '/contact': typeof ContactRoute
   '/explore': typeof ExploreRouteWithChildren
   '/map': typeof MapRoute
@@ -300,6 +335,7 @@ export interface FileRoutesById {
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
@@ -308,7 +344,9 @@ export interface FileRoutesById {
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/public/returning-guest-code': typeof ApiPublicReturningGuestCodeRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
   '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -321,6 +359,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/cancel-booking'
     | '/contact'
     | '/explore'
     | '/map'
@@ -336,6 +375,7 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/api/internal/marketing-drip'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
@@ -344,7 +384,9 @@ export interface FileRouteTypes {
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
+    | '/api/public/returning-guest-code'
     | '/api/public/wifi-signup'
+    | '/api/webhooks/stripe'
     | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
@@ -355,6 +397,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/cancel-booking'
     | '/contact'
     | '/explore'
     | '/map'
@@ -370,6 +413,7 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/api/internal/marketing-drip'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
@@ -378,7 +422,9 @@ export interface FileRouteTypes {
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
+    | '/api/public/returning-guest-code'
     | '/api/public/wifi-signup'
+    | '/api/webhooks/stripe'
     | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
@@ -389,6 +435,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/cancel-booking'
     | '/contact'
     | '/explore'
     | '/map'
@@ -404,6 +451,7 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/api/internal/marketing-drip'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
@@ -412,7 +460,9 @@ export interface FileRouteTypes {
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
+    | '/api/public/returning-guest-code'
     | '/api/public/wifi-signup'
+    | '/api/webhooks/stripe'
     | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
@@ -424,6 +474,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BlogRoute: typeof BlogRouteWithChildren
+  CancelBookingRoute: typeof CancelBookingRoute
   ContactRoute: typeof ContactRoute
   ExploreRoute: typeof ExploreRouteWithChildren
   MapRoute: typeof MapRoute
@@ -436,6 +487,7 @@ export interface RootRouteChildren {
   ListingsSlugRoute: typeof ListingsSlugRoute
   PlaqueSlugRoute: typeof PlaqueSlugRoute
   WifiSlugRoute: typeof WifiSlugRoute
+  ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
   ApiPublicPostCheckoutMessageRoute: typeof ApiPublicPostCheckoutMessageRoute
@@ -444,7 +496,9 @@ export interface RootRouteChildren {
   ApiPublicProcessUpsellRepliesRoute: typeof ApiPublicProcessUpsellRepliesRoute
   ApiPublicRebookingCampaignRoute: typeof ApiPublicRebookingCampaignRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
+  ApiPublicReturningGuestCodeRoute: typeof ApiPublicReturningGuestCodeRoute
   ApiPublicWifiSignupRoute: typeof ApiPublicWifiSignupRoute
+  ApiWebhooksStripeRoute: typeof ApiWebhooksStripeRoute
   DevEmailPreviewTemplateRoute: typeof DevEmailPreviewTemplateRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
@@ -508,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cancel-booking': {
+      id: '/cancel-booking'
+      path: '/cancel-booking'
+      fullPath: '/cancel-booking'
+      preLoaderRoute: typeof CancelBookingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -594,11 +655,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevEmailPreviewTemplateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/webhooks/stripe': {
+      id: '/api/webhooks/stripe'
+      path: '/api/webhooks/stripe'
+      fullPath: '/api/webhooks/stripe'
+      preLoaderRoute: typeof ApiWebhooksStripeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/wifi-signup': {
       id: '/api/public/wifi-signup'
       path: '/api/public/wifi-signup'
       fullPath: '/api/public/wifi-signup'
       preLoaderRoute: typeof ApiPublicWifiSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/returning-guest-code': {
+      id: '/api/public/returning-guest-code'
+      path: '/api/public/returning-guest-code'
+      fullPath: '/api/public/returning-guest-code'
+      preLoaderRoute: typeof ApiPublicReturningGuestCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/refresh-reviews': {
@@ -657,6 +732,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDiscountSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/marketing-drip': {
+      id: '/api/internal/marketing-drip'
+      path: '/api/internal/marketing-drip'
+      fullPath: '/api/internal/marketing-drip'
+      preLoaderRoute: typeof ApiInternalMarketingDripRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -708,6 +790,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BlogRoute: BlogRouteWithChildren,
+  CancelBookingRoute: CancelBookingRoute,
   ContactRoute: ContactRoute,
   ExploreRoute: ExploreRouteWithChildren,
   MapRoute: MapRoute,
@@ -720,6 +803,7 @@ const rootRouteChildren: RootRouteChildren = {
   ListingsSlugRoute: ListingsSlugRoute,
   PlaqueSlugRoute: PlaqueSlugRoute,
   WifiSlugRoute: WifiSlugRoute,
+  ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
   ApiPublicPostCheckoutMessageRoute: ApiPublicPostCheckoutMessageRoute,
@@ -728,7 +812,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicProcessUpsellRepliesRoute: ApiPublicProcessUpsellRepliesRoute,
   ApiPublicRebookingCampaignRoute: ApiPublicRebookingCampaignRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
+  ApiPublicReturningGuestCodeRoute: ApiPublicReturningGuestCodeRoute,
   ApiPublicWifiSignupRoute: ApiPublicWifiSignupRoute,
+  ApiWebhooksStripeRoute: ApiWebhooksStripeRoute,
   DevEmailPreviewTemplateRoute: DevEmailPreviewTemplateRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
