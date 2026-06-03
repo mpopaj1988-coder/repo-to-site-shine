@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { BOOK_DIRECT_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 const links = [
@@ -61,16 +60,14 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
               {l.label}
             </Link>
           ))}
-          <a
-            href={BOOK_DIRECT_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/properties"
             onClick={() => track("book_direct_click", { surface: "header_desktop" })}
             data-testid="header-book-direct-desktop"
             className="rounded-sm bg-[var(--color-gold)] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)] shadow-md transition hover:brightness-105"
           >
             Book Direct
-          </a>
+          </Link>
         </div>
 
         <button
@@ -102,16 +99,14 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
                 {l.label}
               </Link>
             ))}
-            <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("book_direct_click", { surface: "header_mobile" })}
+            <Link
+              to="/properties"
+              onClick={() => { setOpen(false); track("book_direct_click", { surface: "header_mobile" }); }}
               data-testid="header-book-direct-mobile"
               className="mt-4 rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
             >
               Book Direct
-            </a>
+            </Link>
           </div>
         </div>
       )}
