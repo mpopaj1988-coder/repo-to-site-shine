@@ -68,7 +68,7 @@ function WifiPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!email.trim() || !consent) return;
     setStatus("loading");
     setErrorMsg("");
 
@@ -279,7 +279,7 @@ function WifiPage() {
                 <button
                   type="submit"
                   disabled={status === "loading" || !email.trim() || !consent}
-                  style={{ width: "100%", padding: "14px", backgroundColor: status === "loading" ? "#7a9aaa" : "#1A3A4A", color: "#ffffff", border: "none", borderRadius: "8px", fontSize: "14px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", cursor: status === "loading" ? "default" : "pointer", fontFamily: "system-ui, sans-serif" }}
+                  style={{ width: "100%", padding: "14px", backgroundColor: (status === "loading" || !email.trim() || !consent) ? "#b0bec5" : "#1A3A4A", color: "#ffffff", border: "none", borderRadius: "8px", fontSize: "14px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", cursor: (status === "loading" || !email.trim() || !consent) ? "default" : "pointer", fontFamily: "system-ui, sans-serif" }}
                 >
                   {status === "loading" ? "Loading…" : "Get WiFi & Guide →"}
                 </button>
