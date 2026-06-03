@@ -81,15 +81,32 @@ export default {
   async scheduled(_event: unknown, env: unknown, ctx: { waitUntil: (p: Promise<unknown>) => void }) {
     ctx.waitUntil(
       (async () => {
+        const handler = await getServerEntry();
+
+        // Refresh Hospitable reviews into Supabase cache.
         try {
-          const handler = await getServerEntry();
-          const req = new Request("https://seaandcityrentals.com/api/public/refresh-reviews", {
-            method: "POST",
-          });
-          const res = await handler.fetch(req, env, ctx);
+          const res = await handler.fetch(
+            new Request("https://seaandcityrentals.com/api/public/refresh-reviews", { method: "POST" }),
+            env, ctx,
+          );
           console.log("Scheduled review refresh:", res.status, await res.text());
         } catch (err) {
           console.error("Scheduled review refresh failed:", err);
+        }
+
+        // Send marketing drip emails to eligible subscribers.
+        try {
+          const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+          const res = await handler.fetch(
+            new Request("https://seaandcityrentals.com/api/internal/marketing-drip", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${serviceKey}` },
+            }),
+            env, ctx,
+          );
+          console.log("Scheduled marketing drip:", res.status, await res.text());
+        } catch (err) {
+          console.error("Scheduled marketing drip failed:", err);
         }
       })(),
     );
