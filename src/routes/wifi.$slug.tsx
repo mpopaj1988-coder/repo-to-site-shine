@@ -61,6 +61,7 @@ export const Route = createFileRoute("/wifi/$slug")({
 function WifiPage() {
   const { slug, title } = Route.useLoaderData();
   const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [guide, setGuide] = useState<Guide | null>(null);
@@ -75,7 +76,7 @@ function WifiPage() {
       const res = await fetch("/api/public/wifi-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim().toLowerCase(), slug }),
+        body: JSON.stringify({ email: email.trim().toLowerCase(), slug, marketingConsent: consent }),
       });
       if (res.ok) {
         const data = (await res.json()) as { ok: boolean; guide: Guide };
@@ -233,8 +234,7 @@ function WifiPage() {
                 </p>
                 {[
                   { icon: "📶", text: "WiFi network & password" },
-                  { icon: "🔑", text: "Door code" },
-                  { icon: "🏠", text: "Check-out time & house notes" },
+                  { icon: "🏠", text: "Check-in/out times & house notes" },
                   { icon: "📍", text: "Local restaurants & activity guide" },
                 ].map((item) => (
                   <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "7px" }}>
@@ -264,6 +264,18 @@ function WifiPage() {
                   </p>
                 )}
 
+                <label style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "16px", cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    style={{ marginTop: "2px", width: "16px", height: "16px", accentColor: "#1A3A4A", flexShrink: 0, cursor: "pointer" }}
+                  />
+                  <span style={{ fontSize: "12px", color: "#666", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>
+                    I'd like to receive occasional tips, deals, and local recommendations from Sea &amp; City Rentals. You can unsubscribe anytime.
+                  </span>
+                </label>
+
                 <button
                   type="submit"
                   disabled={status === "loading" || !email.trim()}
@@ -273,7 +285,7 @@ function WifiPage() {
                 </button>
 
                 <p style={{ fontSize: "12px", color: "#aaa", textAlign: "center", margin: "14px 0 0", fontFamily: "system-ui, sans-serif" }}>
-                  No spam — just your WiFi code and house guide.
+                  Your guide is sent instantly — your email stays private.
                 </p>
               </form>
             </>

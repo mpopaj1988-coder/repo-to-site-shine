@@ -18,6 +18,7 @@ declare const __MAILERLITE_API_KEY__: string;
 const WifiSignupSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
   slug: z.string().min(1).max(100),
+  marketingConsent: z.boolean().optional().default(false),
 });
 
 function genToken(): string {
@@ -43,7 +44,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
         if (!parsed.success) {
           return Response.json({ error: "Invalid input" }, { status: 400 });
         }
-        const { email, slug } = parsed.data;
+        const { email, slug, marketingConsent } = parsed.data;
 
         const config = WIFI_CONFIG[slug];
         if (!config) {
@@ -176,8 +177,8 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
           // Don't expose internal errors to client
         }
 
-        // MailerLite — add to "WiFi Guests" group with property slug
-        try {
+        // MailerLite — only add if guest gave marketing consent
+        if (marketingConsent) try {
           const mlApiKey =
             process.env.MAILERLITE_API_KEY ||
             process.env.VITE_MAILERLITE_API_KEY ||
