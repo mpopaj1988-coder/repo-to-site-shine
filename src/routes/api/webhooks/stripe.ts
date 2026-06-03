@@ -84,7 +84,7 @@ function formatDate(iso: string): string {
 
 // ── Route ────────────────────────────────────────────────────────────────────
 
-export const Route = createFileRoute("/api/stripe/webhook")({
+export const Route = createFileRoute("/api/webhooks/stripe")({
   server: {
     handlers: {
       POST: async ({ request }) => {
