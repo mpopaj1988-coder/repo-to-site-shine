@@ -179,8 +179,9 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     guideSlug: "clearwater-beach",
     notes: [
       "Beach is a 5-minute walk — fully open.",
-      "Beach chairs, umbrella, and beach towels are in the common area.",
-      "Hot tub is private to Unit A. Neon sign button is in the closet by the tub.",
+      "Beach chairs and umbrella are in the common area.",
+      "Hot tub is private to Unit A. Lights around the hot tub can be turned on by the switch near the door on your right — follow the cord.",
+      "Garbage is on the left side downstairs — shared by both units.",
       "Keurig coffee maker provided — bring your own pods.",
       "Quiet hours: 10 PM – 7 AM. This is a duplex — please respect the neighbors.",
     ],
@@ -248,8 +249,9 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     guideSlug: "clearwater-beach",
     notes: [
       "Beach is a 5-minute walk.",
-      "Beach essentials: 4 chairs, umbrella, cooler, and wagon — return all before departure.",
+      "Beach chairs, umbrella, cooler, and wagon are available — please return before departure.",
       "Hot tub is in the shared area — request setup with host in advance (fee applies).",
+      "Garbage is on the left side downstairs — shared by both units.",
       "Keurig coffee maker provided — bring your own pods.",
       "Quiet hours: 10 PM – 7 AM.",
     ],
