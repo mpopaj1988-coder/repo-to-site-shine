@@ -278,7 +278,7 @@ function WifiPage() {
 
                 <button
                   type="submit"
-                  disabled={status === "loading" || !email.trim()}
+                  disabled={status === "loading" || !email.trim() || !consent}
                   style={{ width: "100%", padding: "14px", backgroundColor: status === "loading" ? "#7a9aaa" : "#1A3A4A", color: "#ffffff", border: "none", borderRadius: "8px", fontSize: "14px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", cursor: status === "loading" ? "default" : "pointer", fontFamily: "system-ui, sans-serif" }}
                 >
                   {status === "loading" ? "Loading…" : "Get WiFi & Guide →"}

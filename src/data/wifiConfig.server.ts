@@ -274,7 +274,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "Crescent Lake is 3 blocks away — great for morning walks.",
       "Second floor unit — approximately 20 steps from the ground entrance.",
       "Induction stovetop — place a pot or pan on the burner to activate it. Not responding? Check that the lock button is off.",
-      "Stovetop showing 'LO'? A fuse tripped. Step outside your door, open the electric panel on the left wall (may be behind a portrait), and flip the last switch OFF then back ON.",
+      "Stovetop showing 'LO'? A fuse tripped. Step outside your door, open the electric panel on the left wall (may be behind a portrait), and flip the last switch (main) OFF then back ON.",
       "Quiet hours: 10 PM – 7 AM.",
       "No chores needed — just be out by 11 AM.",
     ],
@@ -297,7 +297,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     notes: [
       "Downtown St. Pete and Central Ave are a short walk.",
       "Induction stovetop — place a pot or pan on the burner to activate it. Not responding? Check that the lock button is off.",
-      "Stovetop showing 'LO'? A fuse tripped. Step outside your door, open the electric panel on the left wall (may be behind a portrait), and flip the last switch OFF then back ON.",
+      "Stovetop showing 'LO'? A fuse tripped. Step outside your door, open the electric panel on the left wall (may be behind a portrait), and flip the last switch (main) OFF then back ON.",
       "Quiet hours: 10 PM – 7 AM.",
       "No chores needed — dishes in dishwasher, towels in dryer is fine.",
     ],
