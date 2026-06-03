@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, defer, Await, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
@@ -11,26 +11,26 @@ import heroBeach from "@/assets/hero-beach.jpg?format=webp&quality=85&as=url";
 import heroTampa from "@/assets/properties/tampa/3010EF30-59E8-45E4-A635-58D933FF1504.png?format=webp&quality=85&as=url";
 import heroLargo from "@/assets/hero-largo.jpg?format=webp&quality=85&as=url";
 import heroStpete from "@/assets/hero-stpete.jpg?format=webp&quality=85&as=url";
-import nella from "@/assets/nella.jpg";
+import nella from "@/assets/nella.jpg?format=webp&quality=85&as=url";
 import guideTampa from "@/assets/guide-tampa.jpg?format=webp&quality=85&as=url";
 import guideStpete from "@/assets/guide-stpete.jpg?format=webp&quality=85&as=url";
 import guideClearwater from "@/assets/guide-clearwater.jpg?format=webp&quality=85&as=url";
 
 export const Route = createFileRoute("/")({
-  loader: async () => {
-    const pricingMap: Record<string, Pricing> = {};
-    await Promise.all(
+  loader: () => {
+    const latestPosts = getPublishedPosts().slice(0, 3);
+    const pricingPromise = Promise.all(
       properties
         .filter((p) => p.hospitableId)
         .map(async (p) => {
           try {
-            pricingMap[p.slug] = await getListingPricing({ data: { id: p.hospitableId! } });
+            return [p.slug, await getListingPricing({ data: { id: p.hospitableId! } })] as const;
           } catch {
-            pricingMap[p.slug] = null;
+            return [p.slug, null as Pricing] as const;
           }
         }),
-    );
-    return { pricingMap };
+    ).then((entries) => Object.fromEntries(entries) as Record<string, Pricing>);
+    return { latestPosts, pricingMap: defer(pricingPromise) };
   },
   head: () => ({
     meta: [
@@ -86,7 +86,7 @@ const heroSlides = [
 const categories: Array<"All" | Category> = ["All", "Beach", "City", "Large Groups"];
 
 function Index() {
-  const { pricingMap } = Route.useLoaderData();
+  const { pricingMap, latestPosts } = Route.useLoaderData();
   const [active, setActive] = useState<(typeof categories)[number]>("All");
   const [slide, setSlide] = useState(0);
   useEffect(() => {
@@ -95,7 +95,6 @@ function Index() {
   }, []);
   const filtered =
     active === "All" ? properties : properties.filter((p) => p.categories.includes(active));
-  const latestPosts = getPublishedPosts().slice(0, 3);
 
   return (
     <Layout>
@@ -203,11 +202,24 @@ function Index() {
           ))}
         </div>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((p, i) => (
-            <PropertyCard key={p.slug} p={p} pricing={pricingMap[p.slug]} priority={i < 3} />
-          ))}
-        </div>
+        <Await
+          promise={pricingMap}
+          fallback={
+            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((p, i) => (
+                <PropertyCard key={p.slug} p={p} priority={i < 3} />
+              ))}
+            </div>
+          }
+        >
+          {(pricing) => (
+            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((p, i) => (
+                <PropertyCard key={p.slug} p={p} pricing={pricing[p.slug]} priority={i < 3} />
+              ))}
+            </div>
+          )}
+        </Await>
       </section>
 
       {/* WHY BOOK DIRECT */}
