@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Layout } from "@/components/site/Layout";
-import { PHONE, SITE_URL } from "@/data/properties";
+import { PHONE, CONTACT_EMAIL, SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/contact")({
@@ -88,13 +88,19 @@ function ContactPage() {
         <div className="grid gap-8 sm:grid-cols-2">
           <div className="rounded-md border border-border bg-card p-8">
             <h2 className="font-display text-2xl">Have a question?</h2>
-            <p className="mt-3 text-sm text-muted-foreground">Call or text us directly — usually back within the hour.</p>
+            <p className="mt-3 text-sm text-muted-foreground">Reach us by phone or email — usually back within the hour.</p>
             <a
               href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
               onClick={() => track("phone_click", { surface: "contact_page" })}
               className="mt-6 inline-block rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
             >
               Call / Text {PHONE}
+            </a>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="mt-3 inline-block rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
+            >
+              {CONTACT_EMAIL}
             </a>
           </div>
 
