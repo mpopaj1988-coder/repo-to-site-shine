@@ -2,7 +2,7 @@ import { createFileRoute, defer, Await, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
-import { properties, BOOK_DIRECT_URL, type Category } from "@/data/properties";
+import { properties, type Category } from "@/data/properties";
 import { RealReviews } from "@/components/site/RealReviews";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { getPublishedPosts } from "@/lib/blog";
@@ -132,16 +132,14 @@ function Index() {
             >
               View Properties
             </Link>
-            <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              to="/properties"
               onClick={() => track("book_direct_click", { surface: "home_hero" })}
               data-testid="home-hero-book-direct"
               className="w-full rounded-sm bg-[var(--color-gold)] px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-deep)] shadow-md transition hover:brightness-105 sm:w-auto sm:text-xs sm:tracking-[0.25em]"
             >
               Book Direct
-            </a>
+            </Link>
           </div>
 
           <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 px-6 sm:bottom-10">
@@ -236,22 +234,20 @@ function Index() {
               When you book directly with Sea &amp; City Rentals, you skip the Airbnb service fees,
               talk directly to us, and unlock exclusive perks you won&apos;t find anywhere else.
             </p>
-            <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              to="/properties"
               onClick={() => track("book_direct_click", { surface: "home_why_book_direct" })}
               data-testid="home-why-book-direct"
               className="mt-8 inline-block rounded-sm bg-[var(--color-gold)] px-7 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow-md transition hover:brightness-105"
             >
               Book Direct Now
-            </a>
+            </Link>
           </div>
           <dl className="grid gap-6 sm:grid-cols-2">
             {[
               { icon: "💰", t: "Save up to 15%", d: "No platform service fees added at checkout. What you see is what you pay." },
               { icon: "💬", t: "Direct Line to Us", d: "Text or call us directly. No bots, no delays — real people who care." },
-              { icon: "🔁", t: "Return Guest Perk", d: "Come back and get 10% off your next stay — automatically." },
+              { icon: "🔁", t: "Return Guest Perk", d: "Come back and get 10% off your next stay — contact us for your code." },
               { icon: "✨", t: "Custom Requests", d: "Early check-in, special occasions, extended stays — just ask us." },
             ].map((b) => (
               <div key={b.t} className="rounded-md border border-white/10 bg-white/5 p-4">

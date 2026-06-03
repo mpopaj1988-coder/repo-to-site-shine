@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BOOK_DIRECT_URL, CONTACT_EMAIL, PHONE } from "@/data/properties";
+import { CONTACT_EMAIL, PHONE } from "@/data/properties";
 import { track } from "@/lib/analytics";
 import { FooterEmailSignup } from "./FooterEmailSignup";
 
@@ -15,16 +15,14 @@ export function Footer() {
             Beautifully furnished vacation rentals across the Sunshine State — beach escapes,
             waterfront homes and vibrant city retreats. Personally hosted with heart.
           </p>
-          <a
-            href={BOOK_DIRECT_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/properties"
             onClick={() => track("book_direct_click", { surface: "footer" })}
             data-testid="footer-book-direct"
             className="mt-6 inline-block rounded-sm bg-[var(--color-gold)] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)]"
           >
             Book Direct
-          </a>
+          </Link>
         </div>
         <nav aria-label="Footer navigation">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">
