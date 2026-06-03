@@ -20,15 +20,20 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WifiSlugRouteImport } from './routes/wifi.$slug'
+import { Route as PlaqueSlugRouteImport } from './routes/plaque.$slug'
 import { Route as ListingsSlugRouteImport } from './routes/listings.$slug'
 import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
+import { Route as DevEmailPreviewTemplateRouteImport } from './routes/dev/email-preview.$template'
+import { Route as ApiPublicWifiSignupRouteImport } from './routes/api/public/wifi-signup'
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
 import { Route as ApiPublicRebookingCampaignRouteImport } from './routes/api/public/rebooking-campaign'
 import { Route as ApiPublicProcessUpsellRepliesRouteImport } from './routes/api/public/process-upsell-replies'
+import { Route as ApiPublicProcessRebookingRepliesRouteImport } from './routes/api/public/process-rebooking-replies'
 import { Route as ApiPublicPreArrivalMessageRouteImport } from './routes/api/public/pre-arrival-message'
 import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/public/post-checkout-message'
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
@@ -92,6 +97,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WifiSlugRoute = WifiSlugRouteImport.update({
+  id: '/wifi/$slug',
+  path: '/wifi/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaqueSlugRoute = PlaqueSlugRouteImport.update({
+  id: '/plaque/$slug',
+  path: '/plaque/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ListingsSlugRoute = ListingsSlugRouteImport.update({
   id: '/listings/$slug',
   path: '/listings/$slug',
@@ -122,6 +137,16 @@ const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   path: '/lovable/email/suppression',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevEmailPreviewTemplateRoute = DevEmailPreviewTemplateRouteImport.update({
+  id: '/dev/email-preview/$template',
+  path: '/dev/email-preview/$template',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWifiSignupRoute = ApiPublicWifiSignupRouteImport.update({
+  id: '/api/public/wifi-signup',
+  path: '/api/public/wifi-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicRefreshReviewsRoute = ApiPublicRefreshReviewsRouteImport.update({
   id: '/api/public/refresh-reviews',
   path: '/api/public/refresh-reviews',
@@ -137,6 +162,12 @@ const ApiPublicProcessUpsellRepliesRoute =
   ApiPublicProcessUpsellRepliesRouteImport.update({
     id: '/api/public/process-upsell-replies',
     path: '/api/public/process-upsell-replies',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicProcessRebookingRepliesRoute =
+  ApiPublicProcessRebookingRepliesRouteImport.update({
+    id: '/api/public/process-rebooking-replies',
+    path: '/api/public/process-rebooking-replies',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicPreArrivalMessageRoute =
@@ -198,13 +229,18 @@ export interface FileRoutesByFullPath {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
+  '/plaque/$slug': typeof PlaqueSlugRoute
+  '/wifi/$slug': typeof WifiSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
+  '/api/public/process-rebooking-replies': typeof ApiPublicProcessRebookingRepliesRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -227,13 +263,18 @@ export interface FileRoutesByTo {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
+  '/plaque/$slug': typeof PlaqueSlugRoute
+  '/wifi/$slug': typeof WifiSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
+  '/api/public/process-rebooking-replies': typeof ApiPublicProcessRebookingRepliesRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -257,13 +298,18 @@ export interface FileRoutesById {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/listings/$slug': typeof ListingsSlugRoute
+  '/plaque/$slug': typeof PlaqueSlugRoute
+  '/wifi/$slug': typeof WifiSlugRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
+  '/api/public/process-rebooking-replies': typeof ApiPublicProcessRebookingRepliesRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
   '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
+  '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
+  '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -288,13 +334,18 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/explore/$slug'
     | '/listings/$slug'
+    | '/plaque/$slug'
+    | '/wifi/$slug'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
+    | '/api/public/process-rebooking-replies'
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
+    | '/api/public/wifi-signup'
+    | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -317,13 +368,18 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/explore/$slug'
     | '/listings/$slug'
+    | '/plaque/$slug'
+    | '/wifi/$slug'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
+    | '/api/public/process-rebooking-replies'
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
+    | '/api/public/wifi-signup'
+    | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -346,13 +402,18 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/explore/$slug'
     | '/listings/$slug'
+    | '/plaque/$slug'
+    | '/wifi/$slug'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
+    | '/api/public/process-rebooking-replies'
     | '/api/public/process-upsell-replies'
     | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
+    | '/api/public/wifi-signup'
+    | '/dev/email-preview/$template'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -373,13 +434,18 @@ export interface RootRouteChildren {
   UnsubscribeRoute: typeof UnsubscribeRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   ListingsSlugRoute: typeof ListingsSlugRoute
+  PlaqueSlugRoute: typeof PlaqueSlugRoute
+  WifiSlugRoute: typeof WifiSlugRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
   ApiPublicPostCheckoutMessageRoute: typeof ApiPublicPostCheckoutMessageRoute
   ApiPublicPreArrivalMessageRoute: typeof ApiPublicPreArrivalMessageRoute
+  ApiPublicProcessRebookingRepliesRoute: typeof ApiPublicProcessRebookingRepliesRoute
   ApiPublicProcessUpsellRepliesRoute: typeof ApiPublicProcessUpsellRepliesRoute
   ApiPublicRebookingCampaignRoute: typeof ApiPublicRebookingCampaignRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
+  ApiPublicWifiSignupRoute: typeof ApiPublicWifiSignupRoute
+  DevEmailPreviewTemplateRoute: typeof DevEmailPreviewTemplateRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -465,6 +531,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wifi/$slug': {
+      id: '/wifi/$slug'
+      path: '/wifi/$slug'
+      fullPath: '/wifi/$slug'
+      preLoaderRoute: typeof WifiSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plaque/$slug': {
+      id: '/plaque/$slug'
+      path: '/plaque/$slug'
+      fullPath: '/plaque/$slug'
+      preLoaderRoute: typeof PlaqueSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/listings/$slug': {
       id: '/listings/$slug'
       path: '/listings/$slug'
@@ -507,6 +587,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailSuppressionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dev/email-preview/$template': {
+      id: '/dev/email-preview/$template'
+      path: '/dev/email-preview/$template'
+      fullPath: '/dev/email-preview/$template'
+      preLoaderRoute: typeof DevEmailPreviewTemplateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/wifi-signup': {
+      id: '/api/public/wifi-signup'
+      path: '/api/public/wifi-signup'
+      fullPath: '/api/public/wifi-signup'
+      preLoaderRoute: typeof ApiPublicWifiSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/refresh-reviews': {
       id: '/api/public/refresh-reviews'
       path: '/api/public/refresh-reviews'
@@ -526,6 +620,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/process-upsell-replies'
       fullPath: '/api/public/process-upsell-replies'
       preLoaderRoute: typeof ApiPublicProcessUpsellRepliesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/process-rebooking-replies': {
+      id: '/api/public/process-rebooking-replies'
+      path: '/api/public/process-rebooking-replies'
+      fullPath: '/api/public/process-rebooking-replies'
+      preLoaderRoute: typeof ApiPublicProcessRebookingRepliesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/pre-arrival-message': {
@@ -617,13 +718,18 @@ const rootRouteChildren: RootRouteChildren = {
   UnsubscribeRoute: UnsubscribeRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   ListingsSlugRoute: ListingsSlugRoute,
+  PlaqueSlugRoute: PlaqueSlugRoute,
+  WifiSlugRoute: WifiSlugRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
   ApiPublicPostCheckoutMessageRoute: ApiPublicPostCheckoutMessageRoute,
   ApiPublicPreArrivalMessageRoute: ApiPublicPreArrivalMessageRoute,
+  ApiPublicProcessRebookingRepliesRoute: ApiPublicProcessRebookingRepliesRoute,
   ApiPublicProcessUpsellRepliesRoute: ApiPublicProcessUpsellRepliesRoute,
   ApiPublicRebookingCampaignRoute: ApiPublicRebookingCampaignRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
+  ApiPublicWifiSignupRoute: ApiPublicWifiSignupRoute,
+  DevEmailPreviewTemplateRoute: DevEmailPreviewTemplateRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,

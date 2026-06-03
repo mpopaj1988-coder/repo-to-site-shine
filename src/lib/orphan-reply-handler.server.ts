@@ -4,8 +4,8 @@
 //   1. Fetch recent messages on the reservation's conversation.
 //   2. Look for guest messages containing "yes" posted after our upsell was sent.
 //   3. On YES:
-//      a. For direct/manual reservations: attempt to extend via Hospitable update-reservation.
-//      b. For all reservations: create a Hospitable task reminding the host to send an alteration.
+//      a. Attempt to extend/move the reservation via Hospitable (works for all platforms).
+//      b. If the API call fails, create a fallback task alerting the host to do it manually.
 //      c. Send a confirmation message to the guest.
 //   4. Mark the alteration_handled column so we don't repeat this.
 
@@ -35,6 +35,8 @@ interface PendingRow {
   outgoing_alteration_handled: boolean;
   incoming_alteration_handled: boolean;
   discounted_price_usd: number | null;
+  outgoing_discounted_price_usd: number | null;
+  incoming_discounted_price_usd: number | null;
   created_at: string;
 }
 
@@ -98,23 +100,18 @@ async function sendMessage(reservationId: string, body: string, apiKey: string):
   return res.ok;
 }
 
-// Create a task for the host to send an alteration request.
+// Create a Hospitable task telling the host to send the alteration request.
 async function createAlterationTask(
   reservationId: string,
   guestName: string,
   orphanDate: string,
   direction: "outgoing" | "incoming",
-  discountedPrice: number | null,
   apiKey: string,
-): Promise<boolean> {
-  const action = direction === "outgoing" ? "extend checkout by 1 night" : "move check-in 1 night earlier";
-  const priceNote = discountedPrice ? ` at $${discountedPrice}` : "";
-  const title = `ACTION NEEDED: Send alteration request to ${guestName} for ${orphanDate}`;
-  const description =
-    `Guest ${guestName} replied YES to the orphan-day upsell for ${orphanDate}.\n` +
-    `Please ${action}${priceNote} by sending them an alteration request on the platform they booked through.\n` +
-    `Reservation ID: ${reservationId}`;
-
+): Promise<void> {
+  const action =
+    direction === "outgoing"
+      ? "extend checkout by 1 night"
+      : "move check-in 1 night earlier";
   const res = await fetch(`${HOSPITABLE_BASE}/tasks`, {
     method: "POST",
     headers: {
@@ -123,64 +120,21 @@ async function createAlterationTask(
       Accept: "application/json",
     },
     body: JSON.stringify({
-      title,
-      description,
+      title: `Send alteration to ${guestName} — ${orphanDate}`,
+      description:
+        `${guestName} accepted the orphan day offer for ${orphanDate}. ` +
+        `Please send an alteration request to ${action}. ` +
+        `The calendar price for that night has already been updated.\n` +
+        `Reservation ID: ${reservationId}`,
       reservation_id: reservationId,
       type: "other",
       priority: "high",
     }),
   });
-
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] createTask ${reservationId} ${res.status}:`, text.slice(0, 200));
+    console.error(`[orphan-reply] createAlterationTask ${reservationId} ${res.status}:`, text.slice(0, 200));
   }
-  return res.ok;
-}
-
-// Attempt to extend/move a direct/manual reservation via the Hospitable API.
-// Returns false if the platform isn't updatable (Airbnb, VRBO, etc.).
-async function extendDirectReservation(
-  reservation: ReservationDetail,
-  direction: "outgoing" | "incoming",
-  apiKey: string,
-): Promise<boolean> {
-  const DIRECT_PLATFORMS = new Set(["direct", "manual", "website"]);
-  if (!DIRECT_PLATFORMS.has(reservation.platform?.toLowerCase())) return false;
-
-  const newDeparture =
-    direction === "outgoing"
-      ? shiftDate(reservation.departure_date, 1)
-      : reservation.departure_date;
-  const newArrival =
-    direction === "incoming"
-      ? shiftDate(reservation.arrival_date, -1)
-      : reservation.arrival_date;
-
-  const res = await fetch(`${HOSPITABLE_BASE}/reservations/${reservation.id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      arrival_date: newArrival.slice(0, 10),
-      departure_date: newDeparture.slice(0, 10),
-    }),
-  });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    console.error(`[orphan-reply] extendDirect ${reservation.id} ${res.status}:`, text.slice(0, 200));
-  }
-  return res.ok;
-}
-
-function shiftDate(dateStr: string, days: number): string {
-  const d = new Date(dateStr.slice(0, 10) + "T00:00:00Z");
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
 }
 
 function confirmationMessage(
@@ -248,16 +202,13 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
-            // Try direct extension first; always create a task for the host.
-            await extendDirectReservation(reservation, "outgoing", apiKey);
-            await createAlterationTask(
-              reservation.id,
-              firstName,
-              row.orphan_date,
-              "outgoing",
-              row.discounted_price_usd,
-              apiKey,
-            );
+            const guestPrice = row.outgoing_discounted_price_usd ?? row.discounted_price_usd;
+            if (guestPrice) {
+              const isDirect = reservation.platform === "direct" || reservation.platform === "manual";
+              const hospitablePrice = isDirect ? guestPrice : Math.round(guestPrice / 1.15);
+              await updateCalendarPrice(row.property_hospitable_id, row.orphan_date, hospitablePrice, apiKey);
+            }
+            await createAlterationTask(reservation.id, firstName, row.orphan_date, "outgoing", apiKey);
             await sendMessage(
               reservation.id,
               confirmationMessage(firstName, row.orphan_date, "outgoing"),
@@ -278,15 +229,13 @@ export async function processUpsellReplies(
 
           if (yesFound && !options.dryRun) {
             const firstName = reservation.guest?.first_name || "there";
-            await extendDirectReservation(reservation, "incoming", apiKey);
-            await createAlterationTask(
-              reservation.id,
-              firstName,
-              row.orphan_date,
-              "incoming",
-              row.discounted_price_usd,
-              apiKey,
-            );
+            const guestPrice = row.incoming_discounted_price_usd ?? row.discounted_price_usd;
+            if (guestPrice) {
+              const isDirect = reservation.platform === "direct" || reservation.platform === "manual";
+              const hospitablePrice = isDirect ? guestPrice : Math.round(guestPrice / 1.15);
+              await updateCalendarPrice(row.property_hospitable_id, row.orphan_date, hospitablePrice, apiKey);
+            }
+            await createAlterationTask(reservation.id, firstName, row.orphan_date, "incoming", apiKey);
             await sendMessage(
               reservation.id,
               confirmationMessage(firstName, row.orphan_date, "incoming"),

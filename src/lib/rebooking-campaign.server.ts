@@ -53,6 +53,7 @@ interface CalendarDay {
 
 interface PastReservation {
   id: string;
+  platform: string;
   arrival_date: string;
   departure_date: string;
   nights: number;
@@ -323,10 +324,24 @@ export async function processRebookingCampaign(
         if (!options.dryRun) {
           try {
             const firstName = past.guest?.first_name || "there";
-            // Use first available night's price as the reference rate.
-            const firstDay = calendarDays.find((d) => toISO(d.date) === stretch.start);
-            const regularNightly = firstDay?.price?.amount
-              ? Math.round(firstDay.price.amount / 100)
+            // Average the Hospitable nightly price across every night in the stretch.
+            // Airbnb automatically adds 15% on top, so quote that rate with 10% off.
+            const stretchDays = calendarDays.filter(
+              (d) => toISO(d.date) >= stretch.start && toISO(d.date) <= stretch.end,
+            );
+            const priceSum = stretchDays.reduce(
+              (sum, d) => sum + (d.price?.amount ?? 0),
+              0,
+            );
+            const hospitableNightly =
+              stretchDays.length > 0 && priceSum > 0
+                ? Math.round(priceSum / stretchDays.length / 100)
+                : null;
+            const isDirect = ["direct", "manual", "website"].includes(
+              past.platform?.toLowerCase() ?? "",
+            );
+            const regularNightly = hospitableNightly
+              ? Math.round(hospitableNightly * (isDirect ? 1 : 1.15))
               : null;
             const discountedNightly = regularNightly
               ? Math.round(regularNightly * (1 - REBOOKING_DISCOUNT_PCT / 100))
@@ -357,6 +372,7 @@ export async function processRebookingCampaign(
                 available_start_date: stretch.start,
                 available_end_date: stretch.end,
                 sent: result.sent,
+                quoted_discounted_price_usd: discountedNightly,
               },
               { onConflict: "property_hospitable_id,guest_reservation_id,available_start_date" },
             );

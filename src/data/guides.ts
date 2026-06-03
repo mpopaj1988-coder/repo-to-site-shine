@@ -278,7 +278,7 @@ export const guides: Guide[] = [
       },
     ],
     driveTimes: [
-      { label: "Tampa International Airport", minutes: 15 },
+      { label: "Tampa International Airport", minutes: 7 },
       { label: "St. Petersburg Pier", minutes: 30 },
       { label: "Clearwater Beach", minutes: 45 },
       { label: "Indian Rocks Beach", minutes: 40 },
