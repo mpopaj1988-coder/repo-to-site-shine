@@ -5,6 +5,7 @@ import { properties, SITE_URL } from "@/data/properties";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 
 export const Route = createFileRoute("/map")({
+  staleTime: 5 * 60 * 1000,
   loader: async () => {
     const pricingMap: Record<string, Pricing> = {};
     await Promise.all(

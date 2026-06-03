@@ -17,6 +17,7 @@ import guideStpete from "@/assets/guide-stpete.jpg?format=webp&quality=85&as=url
 import guideClearwater from "@/assets/guide-clearwater.jpg?format=webp&quality=85&as=url";
 
 export const Route = createFileRoute("/")({
+  staleTime: 5 * 60 * 1000,
   loader: () => {
     const latestPosts = getPublishedPosts().slice(0, 3);
     const pricingPromise = Promise.all(

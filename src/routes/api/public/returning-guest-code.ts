@@ -13,6 +13,7 @@ const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
 const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
 const ML_GROUP_ID = '187986355712689414' // Website Leads
+const ML_AUTOMATION_ID = '187987610712409793' // Welcome — Website Lead
 
 const Schema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
@@ -63,11 +64,12 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
           { onConflict: 'email', ignoreDuplicates: true },
         ).throwOnError().catch(() => {/* non-fatal */})
 
-        // Add to MailerLite "Website Leads" group.
+        // Add to MailerLite "Website Leads" group and trigger automation.
         try {
           const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
+          if (!mlApiKey) console.error('MailerLite API key missing — subscriber not added')
           if (mlApiKey) {
-            await fetch('https://connect.mailerlite.com/api/subscribers', {
+            const mlRes = await fetch('https://connect.mailerlite.com/api/subscribers', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` },
               body: JSON.stringify({
@@ -78,9 +80,22 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
                 fields: { source: 'returning-guest-code' },
               }),
             })
+            if (!mlRes.ok) {
+              console.error('MailerLite error', mlRes.status, await mlRes.text())
+            } else {
+              const mlData = await mlRes.json() as any
+              const subscriberId = mlData?.data?.id
+              if (subscriberId) {
+                const trigRes = await fetch(
+                  `https://connect.mailerlite.com/api/automations/${ML_AUTOMATION_ID}/subscribers/${subscriberId}`,
+                  { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` } },
+                )
+                if (!trigRes.ok) console.error('MailerLite automation trigger error', trigRes.status, await trigRes.text())
+              }
+            }
           }
-        } catch {
-          // Non-fatal — email still sends even if MailerLite fails.
+        } catch (err) {
+          console.error('mailerlite sync failed', err)
         }
 
         // Get or create unsubscribe token.
