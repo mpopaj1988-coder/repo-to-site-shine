@@ -29,6 +29,26 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
         }
         const { email } = parsed.data
 
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+        if (!supabaseKey) {
+          return Response.json({ error: 'Server misconfigured' }, { status: 500 })
+        }
+        const sb = createClient(SUPABASE_URL, supabaseKey)
+
+        // Verify this email has at least one prior completed booking.
+        const { data: prior } = await sb
+          .from('bookings')
+          .select('id')
+          .eq('guest_email', email)
+          .in('status', ['confirmed', 'cancelled'])
+          .limit(1)
+          .maybeSingle()
+
+        if (!prior) {
+          // No booking on file — tell them to contact us directly.
+          return Response.json({ notFound: true })
+        }
+
         const template = TEMPLATES['returning-guest-code']
         const element = React.createElement(template.component, {})
         const html = await render(element)
@@ -38,7 +58,6 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
           : template.subject
 
         const lovableApiKey = process.env.LOVABLE_API_KEY
-        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
         if (lovableApiKey) {
           await sendLovableEmail(
@@ -55,8 +74,7 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
             },
             { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
           )
-        } else if (supabaseKey) {
-          const sb = createClient(SUPABASE_URL, supabaseKey)
+        } else {
           await sb.rpc('enqueue_email', {
             queue_name: 'transactional_emails',
             payload: {
@@ -73,8 +91,6 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
               queued_at: new Date().toISOString(),
             },
           })
-        } else {
-          return Response.json({ error: 'Email service not configured' }, { status: 500 })
         }
 
         return Response.json({ ok: true })
