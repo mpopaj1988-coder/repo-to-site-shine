@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import sunset from "@/assets/sunset-beach.jpg?format=webp&quality=85&as=url";
-import { BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
+import { SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/about")({
@@ -58,16 +58,14 @@ function AboutPage() {
           <Link to="/properties" className="rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white">
             View Properties
           </Link>
-          <a
-            href={BOOK_DIRECT_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/properties"
             onClick={() => track("book_direct_click", { surface: "about_page" })}
             data-testid="about-book-direct"
             className="rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
           >
             Book Direct
-          </a>
+          </Link>
         </div>
       </section>
     </Layout>

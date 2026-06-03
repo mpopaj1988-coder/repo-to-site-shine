@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
-import { properties, BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
+import { properties, SITE_URL } from "@/data/properties";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
@@ -62,16 +62,14 @@ function PropertiesPage() {
           ))}
         </div>
         <div className="mt-12 text-center">
-          <a
-            href={BOOK_DIRECT_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/properties"
             onClick={() => track("book_direct_click", { surface: "properties_page" })}
             data-testid="properties-book-direct"
             className="inline-block rounded-sm bg-[var(--color-gold)] px-8 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow-md hover:brightness-105"
           >
-            See full availability
-          </a>
+            Browse & Book Direct
+          </Link>
         </div>
       </section>
     </Layout>
