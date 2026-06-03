@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Layout } from "@/components/site/Layout";
-import { BOOK_DIRECT_URL, SITE_URL } from "@/data/properties";
+import { PHONE, SITE_URL } from "@/data/properties";
 import { track } from "@/lib/analytics";
 
 export const Route = createFileRoute("/contact")({
@@ -16,6 +17,62 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
+function ReturningGuestForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/public/returning-guest-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        track("returning_guest_code_requested", {});
+        setStatus("done");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "done") {
+    return (
+      <p className="mt-4 text-sm font-medium text-emerald-700">
+        Sent! Check your inbox for your RETURN10 code.
+      </p>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Your email address"
+        className="w-full rounded-sm border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-[var(--color-deep)]"
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="rounded-sm bg-[var(--color-gold)] px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] transition hover:brightness-105 disabled:opacity-60"
+      >
+        {status === "loading" ? "Sending…" : "Send me my code"}
+      </button>
+      {status === "error" && (
+        <p className="text-xs text-red-600">Something went wrong — please try again.</p>
+      )}
+    </form>
+  );
+}
+
 function ContactPage() {
   return (
     <Layout>
@@ -26,31 +83,28 @@ function ContactPage() {
           <p className="mt-4 max-w-xl text-white/75">No bots, no delays. Reach out for custom requests, special occasions, extended stays — or just to ask which property is right for your trip.</p>
         </div>
       </section>
+
       <section className="mx-auto max-w-3xl px-6 py-20 lg:px-10">
         <div className="grid gap-8 sm:grid-cols-2">
           <div className="rounded-md border border-border bg-card p-8">
-            <h2 className="font-display text-2xl">Book direct</h2>
-            <p className="mt-3 text-sm text-muted-foreground">Skip the platform fees and unlock the returning-guest discount.</p>
-            <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("book_direct_click", { surface: "contact_book" })}
-              data-testid="contact-book-direct"
-              className="mt-6 inline-block rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
-            >Open booking →</a>
-          </div>
-          <div className="rounded-md border border-border bg-card p-8">
             <h2 className="font-display text-2xl">Have a question?</h2>
-            <p className="mt-3 text-sm text-muted-foreground">Send a message through our booking site and we&apos;ll get right back to you — usually within the hour.</p>
+            <p className="mt-3 text-sm text-muted-foreground">Call or text us directly — usually back within the hour.</p>
             <a
-              href={BOOK_DIRECT_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("inquiry_click", { surface: "contact_message" })}
-              data-testid="contact-inquiry"
-              className="mt-6 inline-block rounded-sm border border-[var(--color-deep)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] hover:bg-[var(--color-deep)] hover:text-white"
-            >Send a message →</a>
+              href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
+              onClick={() => track("phone_click", { surface: "contact_page" })}
+              className="mt-6 inline-block rounded-sm bg-[var(--color-gold)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)]"
+            >
+              Call / Text {PHONE}
+            </a>
+          </div>
+
+          <div className="rounded-md border border-border bg-card p-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--color-sea)]">Returning guest?</p>
+            <h2 className="mt-2 font-display text-2xl">Get your 10% off code</h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Enter your email and we'll send <span className="font-semibold text-foreground">RETURN10</span> straight to your inbox — applies at checkout.
+            </p>
+            <ReturningGuestForm />
           </div>
         </div>
       </section>
