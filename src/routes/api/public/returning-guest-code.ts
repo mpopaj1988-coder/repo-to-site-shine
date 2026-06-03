@@ -6,14 +6,23 @@ import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
+declare const __MAILERLITE_API_KEY__: string
+
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
 const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
+const ML_GROUP_ID = '187986355712689414' // Website Leads
 
 const Schema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
 })
+
+function genToken(): string {
+  const bytes = new Uint8Array(32)
+  crypto.getRandomValues(bytes)
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('')
+}
 
 export const Route = createFileRoute('/api/public/returning-guest-code')({
   server: {
@@ -45,8 +54,49 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
           .maybeSingle()
 
         if (!prior) {
-          // No booking on file — tell them to contact us directly.
           return Response.json({ notFound: true })
+        }
+
+        // Opt them into marketing: upsert into email_leads.
+        await sb.from('email_leads').upsert(
+          { email, source: 'returning-guest-code' },
+          { onConflict: 'email', ignoreDuplicates: true },
+        ).throwOnError().catch(() => {/* non-fatal */})
+
+        // Add to MailerLite "Website Leads" group.
+        try {
+          const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
+          if (mlApiKey) {
+            await fetch('https://connect.mailerlite.com/api/subscribers', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` },
+              body: JSON.stringify({
+                email,
+                groups: [ML_GROUP_ID],
+                resubscribe: true,
+                status: 'active',
+                fields: { source: 'returning-guest-code' },
+              }),
+            })
+          }
+        } catch {
+          // Non-fatal — email still sends even if MailerLite fails.
+        }
+
+        // Get or create unsubscribe token.
+        let unsubscribeToken = ''
+        const { data: existingToken } = await sb
+          .from('email_unsubscribe_tokens')
+          .select('token, used_at')
+          .eq('email', email)
+          .maybeSingle()
+        unsubscribeToken = existingToken?.token ?? ''
+        if (!unsubscribeToken || existingToken?.used_at) {
+          unsubscribeToken = genToken()
+          await sb.from('email_unsubscribe_tokens').upsert(
+            { email, token: unsubscribeToken },
+            { onConflict: 'email' },
+          )
         }
 
         const template = TEMPLATES['returning-guest-code']
@@ -58,6 +108,7 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
           : template.subject
 
         const lovableApiKey = process.env.LOVABLE_API_KEY
+        const idempotencyKey = `returning-guest-${email}-${new Date().toISOString().slice(0, 10)}`
 
         if (lovableApiKey) {
           await sendLovableEmail(
@@ -70,7 +121,8 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
               text,
               purpose: 'transactional',
               label: 'returning-guest-code',
-              idempotency_key: `returning-guest-${email}-${new Date().toISOString().slice(0, 10)}`,
+              idempotency_key: idempotencyKey,
+              unsubscribe_token: unsubscribeToken,
             },
             { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
           )
@@ -87,7 +139,8 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
               text,
               purpose: 'transactional',
               label: 'returning-guest-code',
-              idempotency_key: `returning-guest-${email}-${new Date().toISOString().slice(0, 10)}`,
+              idempotency_key: idempotencyKey,
+              unsubscribe_token: unsubscribeToken,
               queued_at: new Date().toISOString(),
             },
           })

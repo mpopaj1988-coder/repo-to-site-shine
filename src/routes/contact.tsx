@@ -80,6 +80,9 @@ function ReturningGuestForm() {
       >
         {status === "loading" ? "Sending…" : "Send me my code"}
       </button>
+      <p className="text-[11px] text-muted-foreground">
+        By submitting you agree to receive property updates and promotions from Sea &amp; City Rentals. Unsubscribe anytime.
+      </p>
       {status === "error" && (
         <p className="text-xs text-red-600">Something went wrong — please try again.</p>
       )}
