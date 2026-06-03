@@ -398,7 +398,7 @@ function ListingPage() {
         </div>
 
         {/* STICKY BOOKING CARD */}
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+        <aside id="availability" className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-md border border-border bg-card p-6 shadow-md">
             <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--color-sea)]">Book direct & save</p>
             {pricing ? (
@@ -423,9 +423,7 @@ function ListingPage() {
             />
             {!availability.length && (
               <a
-                href={p.directBookingUrl}
-                target="_blank"
-                rel="noreferrer"
+                href="#availability"
                 onClick={() => track("inquiry_click", { surface: "listing_sticky_check", property: p.slug })}
                 data-testid="listing-sticky-check"
                 className="mt-5 block rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-deep)] shadow hover:brightness-105"
@@ -476,9 +474,7 @@ function ListingPage() {
       {/* MOBILE CTA BAR */}
       <div className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-border bg-white p-3 shadow-lg lg:hidden">
         <a
-          href={p.directBookingUrl}
-          target="_blank"
-          rel="noreferrer"
+          href="#availability"
           onClick={() => track("inquiry_click", { surface: "listing_mobile_check", property: p.slug })}
           data-testid="listing-mobile-check"
           className="flex-1 rounded-sm bg-[var(--color-gold)] py-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)]"
