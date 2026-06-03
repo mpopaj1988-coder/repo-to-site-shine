@@ -134,7 +134,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     guideSlug: "clearwater-beach",
     notes: [
       "Pool turns on automatically at 9 AM. Heating is free Oct–May.",
-      "Fountain/waterfall: twist the left knob to operate; turn off when done.",
+      "Fountain/waterfall: twist both the left and right knobs to operate. IMPORTANT — turn off when not in use. Leaving it running will cause pool water to overflow and damage the pump.",
       "Gazebo lights: switch on the left outside by the blue chair at the sliding door.",
       "Firepit available — bring your own wood. Charcoal BBQ available — bring your own charcoal.",
       "Beach chairs and umbrella are provided.",
