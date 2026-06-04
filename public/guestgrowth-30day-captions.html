@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GuestGrowth — 30-Day Social Media Content Calendar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  /* ── Cover page ── */
+  .cover {
+    background: linear-gradient(135deg, #0f2535 0%, #1A3A4A 60%, #1e4a5c 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .cover-logo {
+    font-size: 36px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .cover-logo span { color: #C9A84C; }
+  .cover-tagline {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .cover-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  .cover-title span { color: #C9A84C; }
+  .cover-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+    line-height: 1.65;
+    margin-bottom: 48px;
+  }
+  .cover-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cover-stat { text-align: center; }
+  .cover-stat-num {
+    font-size: 32px;
+    font-weight: 900;
+    color: #C9A84C;
+    letter-spacing: -0.03em;
+  }
+  .cover-stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .cover-footer {
+    position: absolute;
+    bottom: 30px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── Week dividers ── */
+  .week-header {
+    background: #1A3A4A;
+    color: #C9A84C;
+    padding: 18px 32px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    page-break-before: always;
+  }
+  .week-header .week-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  /* ── Day cards ── */
+  .day-card {
+    background: #fff;
+    margin: 12px 24px;
+    border-radius: 10px;
+    border: 1px solid #e8e8e8;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+  }
+  .day-num {
+    background: #1A3A4A;
+    color: #C9A84C;
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .day-theme {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+  .day-video-id {
+    margin-left: auto;
+    font-size: 10px;
+    color: #ccc;
+    font-family: monospace;
+  }
+
+  .day-body { padding: 16px 20px; }
+
+  .hook-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #C9A84C;
+    margin-bottom: 5px;
+  }
+  .hook-text {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1A3A4A;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    border-left: 3px solid #C9A84C;
+    padding-left: 10px;
+  }
+
+  .body-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 5px;
+  }
+  .body-text {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .cta-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 5px;
+  }
+  .cta-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1A3A4A;
+    margin-bottom: 12px;
+  }
+
+  .hashtags {
+    font-size: 11px;
+    color: #4a90d9;
+    line-height: 1.7;
+    word-break: break-word;
+  }
+
+  /* ── Platform note strip ── */
+  .platform-strip {
+    display: flex;
+    gap: 8px;
+    padding: 8px 20px 14px;
+    border-top: 1px solid #f5f5f5;
+  }
+  .platform-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+  }
+  .pb-ig { background: #ffe4f0; color: #c41e6f; }
+  .pb-tt { background: #e4f7ff; color: #0077aa; }
+  .pb-yt { background: #ffe4e4; color: #cc0000; }
+
+  /* ── How to use page ── */
+  .usage-page {
+    padding: 48px 40px;
+    page-break-before: always;
+  }
+  .usage-page h2 {
+    font-size: 26px;
+    font-weight: 900;
+    color: #1A3A4A;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .usage-page h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1A3A4A;
+    margin: 20px 0 8px;
+  }
+  .usage-page p, .usage-page li {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.65;
+    margin-bottom: 6px;
+  }
+  .usage-page ul { padding-left: 20px; }
+  .tip-box {
+    background: #fff8e6;
+    border: 1px solid #f0d080;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #7a5c00;
+    line-height: 1.6;
+  }
+  .tip-box strong { color: #5a3c00; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .week-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .day-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @page { margin: 0.5in; size: letter; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="cover-logo">GuestGrowth<span>.</span></div>
+  <div class="cover-tagline">QR Guest System</div>
+  <div class="cover-title">30-Day <span>Content Calendar</span><br>& Caption Library</div>
+  <div class="cover-sub">
+    Every caption, hook, body copy, CTA, and hashtag set for your
+    30 daily TikTok &amp; Instagram Reels — ready to copy and post.
+  </div>
+  <div class="cover-stats">
+    <div class="cover-stat">
+      <div class="cover-stat-num">30</div>
+      <div class="cover-stat-label">Videos Queued</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">9:16</div>
+      <div class="cover-stat-label">Vertical Format</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">8s</div>
+      <div class="cover-stat-label">Per Video</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">4</div>
+      <div class="cover-stat-label">Theme Weeks</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ HOW TO USE -->
+<div class="usage-page">
+  <h2>How to Use This Calendar</h2>
+
+  <h3>Step 1 — Download your videos</h3>
+  <p>Log in to <strong>higgsfield.ai</strong> → Generations. All 30 videos are rendering there. Download each one (they're labeled by order). Rename them <code>day-01.mp4</code> through <code>day-30.mp4</code>.</p>
+
+  <h3>Step 2 — Schedule in Buffer (free)</h3>
+  <ul>
+    <li>Go to <strong>buffer.com</strong> and create a free account</li>
+    <li>Connect your Instagram Business account + TikTok</li>
+    <li>Add each video with its caption from this document</li>
+    <li>Set posts to go out once per day at your peak time (typically 7–9 PM EST)</li>
+    <li>Buffer auto-posts to Instagram · sends a TikTok push notification to your phone to tap "Post" (TikTok API requirement — takes 5 seconds)</li>
+  </ul>
+
+  <h3>Step 3 — Edit captions before posting</h3>
+  <ul>
+    <li>Replace "Link in bio" with your actual link (e.g. <code>seaandcityrentals.com/guestgrowth</code>)</li>
+    <li>Add your personal story details where you see italics cues</li>
+    <li>Keep the hook line exactly as written — it's crafted to stop the scroll</li>
+  </ul>
+
+  <div class="tip-box">
+    <strong>Pro tip:</strong> Pin your best-performing video (whichever gets the most saves/shares by Day 7) at the top of your TikTok profile. Add the GuestGrowth landing page link to your Instagram bio and TikTok bio on Day 1 before you post anything.
+  </div>
+
+  <h3>Caption structure explained</h3>
+  <ul>
+    <li><strong>Hook</strong> — the first line. Never change this. It determines whether someone stops scrolling.</li>
+    <li><strong>Body</strong> — 2–3 sentences of context. You can personalize these with your own numbers.</li>
+    <li><strong>CTA</strong> — Call to action. Always ends with "Link in bio." or "DM me [keyword]."</li>
+    <li><strong>Hashtags</strong> — paste these below the CTA. Use all of them.</li>
+  </ul>
+
+  <h3>Video IDs (Higgsfield)</h3>
+  <p>Each day card lists the Higgsfield job ID so you can match the right video to the right caption. Find videos by ID in your generations library.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ WEEK 1 -->
+<div class="week-header">
+  Week 1 — Days 1–7
+  <div class="week-sub">Theme: Problem Awareness — make hosts feel the pain before presenting the solution</div>
+</div>
+
+<!-- DAY 1 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 1</span>
+    <span class="day-theme">Problem · Commission Fees</span>
+    <span class="day-video-id">b8f50b3f</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Airbnb took $4,200 from me last year. I didn't even realize it."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Every time a repeat guest re-books through Airbnb instead of direct, you pay 3–5%. That's money you already earned — handed back. There's a system that captures their email the moment they arrive, so next time they book direct.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">One QR code in your entryway fixes this. Link in bio → GuestGrowth QR System.</div>
+    <div class="hashtags">#airbnbhost #vacationrental #strtips #directbooking #airbnbtips #vrbohost #shorttermrental #passiveincome #hostlife #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 2</span>
+    <span class="day-theme">Problem · Lost Guest Relationship</span>
+    <span class="day-video-id">dd8db051</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"They loved the property. They left. You'll never reach them again."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Every checkout without an email is a missed future booking. Without their contact, you can't offer a return discount, announce a new property, or win them back during a slow season. Airbnb keeps that relationship — not you.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Capture every guest email automatically. $299 one-time setup. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #guestexperience #emailmarketing #directbooking #strtips #vacationrentaltips #shorttermrental #vrbohost #hostlife #passiveincome</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 3</span>
+    <span class="day-theme">Problem · Scale of the Loss</span>
+    <span class="day-video-id">cc7d6740</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"47 guests stayed here this year. I had 0 of their emails."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">My property made great money on Airbnb. But every single guest left and went back to the platform. I had no way to reach them — no discount offer, no follow-up, nothing. That changed the day I added one QR code to my entryway.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Turn your guests into a list you own. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #clearwaterbeach #floridavacation #strtips #vacationrental #airbnbtips #vrbohost #beachhouse #floridaairbnb #directbooking</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 4 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 4</span>
+    <span class="day-theme">Problem · Subscription Cost</span>
+    <span class="day-video-id">1cdcc48c</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"I was paying $1,500/year for tools I could replace with a $299 one-time setup."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Guidebook app: $40/mo. WiFi email capture tool: $50/mo. Email platform: $35/mo. Every one of these is a recurring bill — forever. There's a done-for-you system that replaces all three. You pay once. You own everything.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">One-time. No monthly fees. See the full breakdown. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #hostfully #touchstay #vacationrental #propertymanagement #passiveincome #directbooking #vrbohost #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 5</span>
+    <span class="day-theme">Problem / Solution · WiFi Gate</span>
+    <span class="day-video-id">1367ad9d</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"What if getting the WiFi password required guests to give you their email first?"</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">That's exactly what this does. Guest scans the QR code in your entryway → enters their email → gets the WiFi password + full house guide instantly. You get their email. Forever. No awkward asks. No review begging.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">See the live demo at the link in bio.</div>
+    <div class="hashtags">#airbnbhost #wifipassword #guestguide #strtips #directbooking #vacationrental #airbnbtips #emailmarketing #hostingtips #guestexperience</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 6 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 6</span>
+    <span class="day-theme">Solution · Automatic Capture</span>
+    <span class="day-video-id">a613cb20</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"I woke up to 3 new guest emails while I was sleeping."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">My QR code captures every email automatically. No chasing, no awkward asks, no follow-up texts. Guests want the WiFi. They give you their email. It's a fair trade — and it happens every single check-in, on autopilot.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Set it up once. Collect emails forever. $299. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #emailmarketing #passiveincome #strtips #guestexperience #vacationrental #hostlife #directbooking #airbnbtips #emaillist</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 7 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 7</span>
+    <span class="day-theme">Solution · Entryway Setup</span>
+    <span class="day-video-id">b4ce47f1</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"This one thing in your entryway is worth more than any smart lock."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">A smart lock protects one stay. A QR guest guide card captures one email per stay — and that email is worth a future booking worth $300–$1,000+. A smart lock costs $200 and does nothing for repeat business. This costs $299 total and does everything.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">What's one direct booking worth to you? Link in bio.</div>
+    <div class="hashtags">#airbnbhost #smartlock #vacationrental #strtips #directbooking #airbnbtips #entrywaydesign #hostingtips #guestexperience #shorttermrental</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ WEEK 2 -->
+<div class="week-header">
+  Week 2 — Days 8–14
+  <div class="week-sub">Theme: Solution Introduction — show exactly how the system works and what hosts get</div>
+</div>
+
+<!-- DAY 8 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 8</span>
+    <span class="day-theme">Solution · How It Works</span>
+    <span class="day-video-id">c97895d2</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"3 seconds. That's how long it takes a guest to get WiFi — and you to get their email."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">They scan the QR code. They enter their email. You get a notification. Your guest list grows with every single checkout, automatically. No app for guests to download. No hardware to buy. Just a QR code in your entryway.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">See how it works. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #guestguide #wifipassword #strtips #emailmarketing #directbooking #vacationrental #hostlife #qrcode #hostingtips</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 9 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 9</span>
+    <span class="day-theme">Social Proof · Growing List</span>
+    <span class="day-video-id">793a9bb0</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"I have 83 past guest emails. None of them came from Airbnb."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">My email list is mine. I can send a discount, promote a new property, or fill a slow week — whenever I want. No algorithm. No commission. No platform deciding who sees my offer. I own this list. It's my most valuable business asset.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Start building yours tonight. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #emailmarketing #directbooking #strtips #vacationrental #airbnbtips #hostlife #emaillist #passiveincome #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 10 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 10</span>
+    <span class="day-theme">Math · ROI Comparison</span>
+    <span class="day-video-id">df373274</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"$480 per year vs $299 one time. Do the math."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">One guidebook subscription alone is $40/month. Add a WiFi capture tool and you're over $1,000/year — every year, forever. My entire guest system cost $299 once, three years ago. It's still running. Still capturing emails. Zero monthly bills.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">See the full cost breakdown. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #hostfully #touchstay #vacationrental #propertymanagement #passiveincome #directbooking #roi #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 11 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 11</span>
+    <span class="day-theme">Aspirational · Multi-Property</span>
+    <span class="day-video-id">94ed38a4</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Every one of these properties has a QR code in the entryway."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Beach house. City apartment. Lake cabin. Pool villa. Different properties, same system. One QR code per property, set up once, capturing emails forever. Multi-property hosts who use this are building a guest list of thousands — completely independent of Airbnb.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Add yours. $299 per property, done-for-you. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #vacationrental #strtips #beachhouse #floridavacation #directbooking #vrbohost #propertymanagement #multipleproperties #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 12 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 12</span>
+    <span class="day-theme">Demo · Real Guest Experience</span>
+    <span class="day-video-id">c616b2b1</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Watch what happens when guests walk into a property with a QR guide."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">They spot it. They scan. They get their WiFi in 10 seconds. You get their email for life. No awkward "can I have your email?" No 5-star review begging. Just a system that works quietly in the background every single check-in.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">This is what your guests' first minute should look like. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #guestexperience #clearwaterbeach #strtips #vacationrental #wifipassword #airbnbtips #hostingtips #qrcode #emailmarketing</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 13 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 13</span>
+    <span class="day-theme">Lifestyle · Results</span>
+    <span class="day-video-id">f27e8cc7</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"60 new emails this month. All from guests already staying at my property."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">I didn't run ads. I didn't cold DM anyone. I didn't post extra content. My guests gave me their email because they wanted the WiFi. The QR system does the work. My only job was to set it up once — 3 years ago.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">$299 one-time setup. See what you get. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #emailmarketing #passiveincome #strtips #beachlife #directbooking #vacationrental #emaillist #hostlife #floridaairbnb</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 14 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 14</span>
+    <span class="day-theme">Results · Email to Booking</span>
+    <span class="day-video-id">5922b027</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"I emailed 60 past guests a 'book direct' offer. 3 booked. $2,400 in commission-free revenue."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">That's what happens when you own your guest list. One email, sent on a Tuesday afternoon, produced 3 direct bookings. Zero Airbnb commission. That single email paid back the entire cost of the setup — many times over.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Start building your list. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #directbooking #emailmarketing #strtips #vacationrental #passiveincome #airbnbtips #emaillist #roi #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ WEEK 3 -->
+<div class="week-header">
+  Week 3 — Days 15–21
+  <div class="week-sub">Theme: Social Proof &amp; Objections — answer doubts and build trust with real-feeling scenarios</div>
+</div>
+
+<!-- DAY 15 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 15</span>
+    <span class="day-theme">Proof · First Direct Booking</span>
+    <span class="day-video-id">03fd1654</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Zero Airbnb commission. Those words just hit different."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">First direct booking from my email list. The guest had stayed 6 months ago. Got my 'book direct and save 15%' email. Booked the same day. $0 fee to Airbnb. Full payment straight to me. This is what owning your guest relationship looks like.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Own your guest relationships. Link in bio → GuestGrowth QR System.</div>
+    <div class="hashtags">#airbnbhost #directbooking #vacationrental #strtips #passiveincome #emailmarketing #airbnbtips #hostlife #guestrelationship #realestate</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 16 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 16</span>
+    <span class="day-theme">Objection · Subscriptions</span>
+    <span class="day-video-id">a41d5c45</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"I canceled $1,500/year in subscriptions. Replaced it with one $299 setup."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Hostfully. Touch Stay. Enso Connect. All monthly. All charging forever. The moment you stop paying — your guide disappears, your QR code breaks, your guests get nothing. With a one-time setup, you own the guide page. No one can take it away.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">See the comparison. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #hostfully #touchstay #strtips #vacationrental #directbooking #propertymanagement #airbnbtips #subscriptions #passiveincome</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 17 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 17</span>
+    <span class="day-theme">Aspirational · Beach Property</span>
+    <span class="day-video-id">2e7a7a5d</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"This property captures guest emails 24/7 without me doing anything."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">The QR code is in the entryway. Guests arrive and scan it automatically — they want the WiFi. My list grows while I sleep, while I work, while I'm on vacation. This is what passive income actually looks like. Not the rental itself — the system behind it.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Done-for-you setup. $299. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #beachhouse #clearwaterbeach #strtips #passiveincome #vacationrental #floridaairbnb #emailmarketing #directbooking #hostlife</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 18 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 18</span>
+    <span class="day-theme">Objection · Small Properties</span>
+    <span class="day-video-id">32086f3f</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Even a 1-bedroom city apartment can build a 100-person email list in a year."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">At 100 guests per year — a normal number for any active listing — you have 100 potential repeat bookings. Without a system to capture their email, that's 100 opportunities lost every single year. The QR guide works for 1 bedroom or 10 properties.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Fix this in 5 days. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #cityapartment #strtips #vacationrental #emailmarketing #directbooking #airbnbtips #1bedroom #smallproperty #hostlife</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 19 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 19</span>
+    <span class="day-theme">FOMO · Direct Booking Calendar</span>
+    <span class="day-video-id">f11a31fc</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"What if your calendar filled with direct bookings instead of Airbnb ones?"</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Every direct booking saves you 3–5% in platform fees and puts you in full control of the guest relationship. No algorithm determining your visibility. No fear of getting delisted. This starts with capturing guest emails at check-in — one QR code, one time.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">See how hosts are saving $1,200+/month in fees. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #directbooking #vacationrental #strtips #passiveincome #vrbohost #bookingcalendar #emailmarketing #hostlife #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 20 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 20</span>
+    <span class="day-theme">Problem · The Real Cost of 0 Emails</span>
+    <span class="day-video-id">f0aef37b</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"200 guests. 0 emails. Here's what that actually costs you every year."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">At a 5% repeat rate, 10 of those guests would re-book direct — if you had their email. At $350 average, that's $3,500 in direct revenue lost to commission fees. Every year. The math is brutal. The fix is $299.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Stop doing the math. Start fixing it. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #directbooking #vacationrental #emailmarketing #airbnbtips #passiveincome #realestateinvesting #hostlife #repeatguests</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 21 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 21</span>
+    <span class="day-theme">Demo · Guest Guide Scroll</span>
+    <span class="day-video-id">5636ae64</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"This is what your guests should see when they scan your QR code."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">WiFi password. House rules. Step-by-step check-in walkthrough. Local restaurants they'll actually love. Emergency contacts. And a 'book direct and save 15%' offer at the bottom. Everything in one scroll. Zero app downloads. Zero friction.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">I'll build this for your property. $299. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #guestguide #guestexperience #strtips #vacationrental #airbnbtips #wifipassword #hostingtips #directbooking #qrcode</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ WEEK 4 -->
+<div class="week-header">
+  Week 4 — Days 22–28
+  <div class="week-sub">Theme: FOMO &amp; CTA — urgency, behind-the-scenes trust, close the sale</div>
+</div>
+
+<!-- DAY 22 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 22</span>
+    <span class="day-theme">Setup · Installation</span>
+    <span class="day-video-id">b73162ae</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"This took 5 minutes to install. It will earn me thousands."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">The QR code plaque goes on your entryway wall, or sits on your welcome table. That's the whole installation. Every guest who arrives will scan it. Every scan is a potential email. Every email is a potential direct booking. Simplest ROI in short-term rentals.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">I'll build yours in 3–5 business days. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #vacationrental #entrywaydesign #guestguide #directbooking #airbnbtips #qrcode #hostingtips #passiveincome</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 23 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 23</span>
+    <span class="day-theme">Setup · Pre-Arrival Checklist</span>
+    <span class="day-video-id">754cf2d2</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"My pre-arrival checklist now includes one thing yours probably doesn't."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Welcome basket? Check. Fresh towels? Check. QR guest guide card in the basket? Check. Every guest who arrives scans it within the first 5 minutes — because they want the WiFi. You get their email. It's that simple.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Add this to your pre-arrival checklist. $299 setup. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #hostingtips #guestexperience #strtips #vacationrental #airbnbtips #prearrival #checklist #emailmarketing #directbooking</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 24 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 24</span>
+    <span class="day-theme">Setup · QR Card Creation</span>
+    <span class="day-video-id">262ef37a</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"This card costs pennies to print. And it captures emails worth $300+ each."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">One guest email → one future direct booking → one $300–$1,000+ reservation with zero platform commission. The QR guide card that captures that email costs almost nothing. The $299 setup builds everything behind it — the guide page, the email capture, the welcome flow.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Get yours made. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #directbooking #vacationrental #passiveincome #roi #airbnbtips #qrcode #emailmarketing #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 25 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 25</span>
+    <span class="day-theme">Value · Compounding Effect</span>
+    <span class="day-video-id">84cf7e08</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"One 3-day stay = 1 guest email = 1 potential direct booking. Forever."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">They arrive. They scan. They enjoy the stay. They check out. And you have their email — permanently. That's the compounding value of the QR guest system. 12 months in: 100 emails. 3 years in: 300 emails. That's a list worth tens of thousands in future direct bookings.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Start compounding. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #guestexperience #directbooking #vacationrental #emailmarketing #passiveincome #compounding #hostlife #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 26 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 26</span>
+    <span class="day-theme">Social Proof · Host to Host</span>
+    <span class="day-video-id">465638f8</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"'I set it up once. Now every guest is on my list.' — actual STR host."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Hosts who own their guest list aren't at the mercy of the Airbnb algorithm. They can market direct, offer discounts, announce new properties, and fill slow weeks — without paying a 3–5% commission. This is the difference between a business and a side hustle.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Be that host. $299. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #strtips #vacationrental #directbooking #emailmarketing #shorttermrental #hostcommunity #airbnbtips #passiveincome #realestate</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 27 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 27</span>
+    <span class="day-theme">Behind Scenes · Build Process</span>
+    <span class="day-video-id">6e72b6d9</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Here's what we actually build for you behind the scenes."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Custom property guide page (mobile-first, your branding). WiFi email gate with optional skip. House rules, check-in walkthrough, local recommendations, emergency contacts. Direct booking discount CTA at the bottom. QR code that links directly to it. Done in 3–5 business days. You own all of it.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Ready to get yours? Link in bio.</div>
+    <div class="hashtags">#airbnbhost #guestguide #strtips #vacationrental #behindthescenes #directbooking #airbnbtips #qrcode #emailmarketing #hostingtips</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 28 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 28</span>
+    <span class="day-theme">Email Automation · The Sequence</span>
+    <span class="day-video-id">baa23adc</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"3 emails. That's all it takes to turn a past guest into a direct booking."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">Email 1 (check-in day): Welcome — here's your guide, my favorite local spots, and my direct number. Email 2 (checkout day): Loved having you. Book direct next time and save 15%. Email 3 (30 days later): Miss the beach? Here's a discount code. This sequence is included in the $399 package.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">See all 3 packages. Link in bio.</div>
+    <div class="hashtags">#airbnbhost #emailmarketing #directbooking #strtips #vacationrental #airbnbtips #emailautomation #emailsequence #passiveincome #hostlife</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ DAYS 29-30 -->
+<div class="week-header">
+  Days 29–30
+  <div class="week-sub">Theme: Results &amp; Close — make it feel inevitable, final push to the landing page</div>
+</div>
+
+<!-- DAY 29 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 29</span>
+    <span class="day-theme">Results Montage · The Loop</span>
+    <span class="day-video-id">8e86ee33</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"QR card placed. Guest scans. Email captured. Booking confirmed. $0 commission."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">This is the loop that pays you back — every single check-in, every single year. Set it up once and it runs forever. Every guest becomes a contact. Every contact is a potential direct booking. You own everything. No one can take it away.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">One last time: $299. Done-for-you. 3–5 days. Link in bio → GuestGrowth QR System.</div>
+    <div class="hashtags">#airbnbhost #directbooking #vacationrental #strtips #passiveincome #emailmarketing #guestguide #qrcode #hostlife #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- DAY 30 -->
+<div class="day-card">
+  <div class="day-header">
+    <span class="day-num">DAY 30</span>
+    <span class="day-theme">Results · Month 1 Closer</span>
+    <span class="day-video-id">6caa23a0</span>
+  </div>
+  <div class="day-body">
+    <div class="hook-label">Hook (first line)</div>
+    <div class="hook-text">"Month 1 results: 127 emails. 3 direct bookings. $1,400 saved in Airbnb fees."</div>
+    <div class="body-label">Caption Body</div>
+    <div class="body-text">That's month 1. By month 12, most hosts using this system have 1,000+ emails and enough direct bookings to meaningfully reduce their platform dependency. This is how you build a real hospitality business — not just a listing on someone else's platform.</div>
+    <div class="cta-label">Call to Action</div>
+    <div class="cta-text">Start your Month 1. Link in bio → GuestGrowth QR System.</div>
+    <div class="hashtags">#airbnbhost #directbooking #strtips #vacationrental #passiveincome #emailmarketing #results #airbnbtips #hostlife #realestateinvesting</div>
+  </div>
+  <div class="platform-strip">
+    <span class="platform-badge pb-tt">TikTok</span>
+    <span class="platform-badge pb-ig">Instagram Reels</span>
+    <span class="platform-badge pb-yt">YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ QUICK REF -->
+<div class="usage-page">
+  <h2>Quick Reference — All 30 Video IDs</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:16px;">
+    <thead>
+      <tr style="background:#1A3A4A;color:#C9A84C;">
+        <th style="padding:8px 12px;text-align:left;font-weight:800;">Day</th>
+        <th style="padding:8px 12px;text-align:left;font-weight:800;">Theme</th>
+        <th style="padding:8px 12px;text-align:left;font-weight:800;">Hook (first words)</th>
+        <th style="padding:8px 12px;text-align:left;font-weight:800;">Video ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">1</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Commission fees</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Airbnb took $4,200..."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">b8f50b3f</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">2</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Lost guest</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"They loved the property..."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">dd8db051</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">3</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Scale of loss</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"47 guests. 0 emails."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">cc7d6740</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">4</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Subscription cost</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"$1,500/year → $299 once"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">1cdcc48c</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">5</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">WiFi gate</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"What if WiFi required email?"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">1367ad9d</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">6</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Auto capture</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"3 new emails while sleeping"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">a613cb20</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">7</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Entryway setup</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Worth more than a smart lock"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">b4ce47f1</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">8</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">How it works</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"3 seconds. Email captured."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">c97895d2</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">9</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Growing list</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"83 emails, not from Airbnb"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">793a9bb0</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">10</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Math / ROI</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"$480/yr vs $299 once"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">df373274</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">11</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Multi-property</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Every property has a QR code"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">94ed38a4</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">12</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Guest experience demo</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Watch what happens..."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">c616b2b1</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">13</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Lifestyle results</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"60 emails this month"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">f27e8cc7</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">14</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Email → booking</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"$2,400 from one email"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">5922b027</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">15</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">First direct booking</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Zero commission. Hits different."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">03fd1654</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">16</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Cancel subscriptions</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"$1,500/yr → $299 one-time"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">a41d5c45</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">17</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Passive system</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Captures emails while I sleep"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">2e7a7a5d</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">18</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Small property objection</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Even 1BR builds 100 emails/yr"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">32086f3f</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">19</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Direct booking calendar</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Calendar full of direct bookings"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">f11a31fc</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">20</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Real cost of zero emails</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"200 guests × 0 emails = ?"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">f0aef37b</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">21</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Guide scroll demo</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"What guests should see"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">5636ae64</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">22</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Installation</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"5 min install, earns thousands"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">b73162ae</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">23</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Pre-arrival checklist</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"One thing not on your list"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">754cf2d2</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">24</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">QR card value</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Pennies to print, $300+ email"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">262ef37a</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">25</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Compounding effect</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"1 stay = 1 email = forever"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">84cf7e08</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">26</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Host-to-host proof</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Set it once, list grows"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">465638f8</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">27</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Behind the scenes</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"What we build for you"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">6e72b6d9</td></tr>
+      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee;">28</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">Email sequence</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"3 emails → direct booking"</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">baa23adc</td></tr>
+      <tr style="background:#fafafa;"><td style="padding:7px 12px;border-bottom:1px solid #eee;">29</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">The loop / montage</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">"Scan. Email. Booking. $0 fee."</td><td style="padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">8e86ee33</td></tr>
+      <tr><td style="padding:7px 12px;">30</td><td style="padding:7px 12px;">Month 1 results closer</td><td style="padding:7px 12px;">"127 emails. $1,400 saved."</td><td style="padding:7px 12px;font-family:monospace;font-size:11px;">6caa23a0</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:40px;padding:20px 0;border-top:1px solid #eee;text-align:center;color:#bbb;font-size:11px;">
+    GuestGrowth QR System &nbsp;·&nbsp; seaandcityrentals.com/guestgrowth &nbsp;·&nbsp; Generated June 2026
+  </div>
+</div>
+
+</body>
+</html>
