@@ -21,14 +21,20 @@ import { Route as CancelBookingRouteImport } from './routes/cancel-booking'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HostIndexRouteImport } from './routes/host/index'
 import { Route as WifiSlugRouteImport } from './routes/wifi.$slug'
 import { Route as PlaqueSlugRouteImport } from './routes/plaque.$slug'
 import { Route as ListingsSlugRouteImport } from './routes/listings.$slug'
+import { Route as HostSignupRouteImport } from './routes/host/signup'
+import { Route as HostLoginRouteImport } from './routes/host/login'
+import { Route as HostDashboardRouteImport } from './routes/host/dashboard'
 import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
+import { Route as HostPropertiesNewRouteImport } from './routes/host/properties/new'
+import { Route as HostPropertiesIdRouteImport } from './routes/host/properties/$id'
 import { Route as DevEmailPreviewTemplateRouteImport } from './routes/dev/email-preview.$template'
 import { Route as ApiWebhooksStripeRouteImport } from './routes/api/webhooks/stripe'
 import { Route as ApiPublicWifiSignupRouteImport } from './routes/api/public/wifi-signup'
@@ -42,6 +48,8 @@ import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/p
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
 import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
+import { Route as ApiHostPropertiesRouteImport } from './routes/api/host/properties'
+import { Route as ApiHostProfileRouteImport } from './routes/api/host/profile'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -106,6 +114,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HostIndexRoute = HostIndexRouteImport.update({
+  id: '/host/',
+  path: '/host/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WifiSlugRoute = WifiSlugRouteImport.update({
   id: '/wifi/$slug',
   path: '/wifi/$slug',
@@ -119,6 +132,21 @@ const PlaqueSlugRoute = PlaqueSlugRouteImport.update({
 const ListingsSlugRoute = ListingsSlugRouteImport.update({
   id: '/listings/$slug',
   path: '/listings/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostSignupRoute = HostSignupRouteImport.update({
+  id: '/host/signup',
+  path: '/host/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostLoginRoute = HostLoginRouteImport.update({
+  id: '/host/login',
+  path: '/host/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostDashboardRoute = HostDashboardRouteImport.update({
+  id: '/host/dashboard',
+  path: '/host/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExploreSlugRoute = ExploreSlugRouteImport.update({
@@ -144,6 +172,16 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   id: '/lovable/email/suppression',
   path: '/lovable/email/suppression',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostPropertiesNewRoute = HostPropertiesNewRouteImport.update({
+  id: '/host/properties/new',
+  path: '/host/properties/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostPropertiesIdRoute = HostPropertiesIdRouteImport.update({
+  id: '/host/properties/$id',
+  path: '/host/properties/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DevEmailPreviewTemplateRoute = DevEmailPreviewTemplateRouteImport.update({
@@ -219,6 +257,16 @@ const ApiInternalMarketingDripRoute =
     path: '/api/internal/marketing-drip',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiHostPropertiesRoute = ApiHostPropertiesRouteImport.update({
+  id: '/api/host/properties',
+  path: '/api/host/properties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHostProfileRoute = ApiHostProfileRouteImport.update({
+  id: '/api/host/profile',
+  path: '/api/host/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -255,9 +303,15 @@ export interface FileRoutesByFullPath {
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
+  '/host/dashboard': typeof HostDashboardRoute
+  '/host/login': typeof HostLoginRoute
+  '/host/signup': typeof HostSignupRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/host/': typeof HostIndexRoute
+  '/api/host/profile': typeof ApiHostProfileRoute
+  '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -271,6 +325,8 @@ export interface FileRoutesByFullPath {
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
   '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
   '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
+  '/host/properties/$id': typeof HostPropertiesIdRoute
+  '/host/properties/new': typeof HostPropertiesNewRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -293,9 +349,15 @@ export interface FileRoutesByTo {
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
+  '/host/dashboard': typeof HostDashboardRoute
+  '/host/login': typeof HostLoginRoute
+  '/host/signup': typeof HostSignupRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/host': typeof HostIndexRoute
+  '/api/host/profile': typeof ApiHostProfileRoute
+  '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -309,6 +371,8 @@ export interface FileRoutesByTo {
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
   '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
   '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
+  '/host/properties/$id': typeof HostPropertiesIdRoute
+  '/host/properties/new': typeof HostPropertiesNewRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -332,9 +396,15 @@ export interface FileRoutesById {
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
+  '/host/dashboard': typeof HostDashboardRoute
+  '/host/login': typeof HostLoginRoute
+  '/host/signup': typeof HostSignupRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/host/': typeof HostIndexRoute
+  '/api/host/profile': typeof ApiHostProfileRoute
+  '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -348,6 +418,8 @@ export interface FileRoutesById {
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
   '/api/webhooks/stripe': typeof ApiWebhooksStripeRoute
   '/dev/email-preview/$template': typeof DevEmailPreviewTemplateRoute
+  '/host/properties/$id': typeof HostPropertiesIdRoute
+  '/host/properties/new': typeof HostPropertiesNewRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -372,9 +444,15 @@ export interface FileRouteTypes {
     | '/blog/rss.xml'
     | '/email/unsubscribe'
     | '/explore/$slug'
+    | '/host/dashboard'
+    | '/host/login'
+    | '/host/signup'
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/host/'
+    | '/api/host/profile'
+    | '/api/host/properties'
     | '/api/internal/marketing-drip'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
@@ -388,6 +466,8 @@ export interface FileRouteTypes {
     | '/api/public/wifi-signup'
     | '/api/webhooks/stripe'
     | '/dev/email-preview/$template'
+    | '/host/properties/$id'
+    | '/host/properties/new'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -410,9 +490,15 @@ export interface FileRouteTypes {
     | '/blog/rss.xml'
     | '/email/unsubscribe'
     | '/explore/$slug'
+    | '/host/dashboard'
+    | '/host/login'
+    | '/host/signup'
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/host'
+    | '/api/host/profile'
+    | '/api/host/properties'
     | '/api/internal/marketing-drip'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
@@ -426,6 +512,8 @@ export interface FileRouteTypes {
     | '/api/public/wifi-signup'
     | '/api/webhooks/stripe'
     | '/dev/email-preview/$template'
+    | '/host/properties/$id'
+    | '/host/properties/new'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -448,9 +536,15 @@ export interface FileRouteTypes {
     | '/blog/rss.xml'
     | '/email/unsubscribe'
     | '/explore/$slug'
+    | '/host/dashboard'
+    | '/host/login'
+    | '/host/signup'
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/host/'
+    | '/api/host/profile'
+    | '/api/host/properties'
     | '/api/internal/marketing-drip'
     | '/api/public/discount-signup'
     | '/api/public/orphan-day-upsell'
@@ -464,6 +558,8 @@ export interface FileRouteTypes {
     | '/api/public/wifi-signup'
     | '/api/webhooks/stripe'
     | '/dev/email-preview/$template'
+    | '/host/properties/$id'
+    | '/host/properties/new'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -484,9 +580,15 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
+  HostDashboardRoute: typeof HostDashboardRoute
+  HostLoginRoute: typeof HostLoginRoute
+  HostSignupRoute: typeof HostSignupRoute
   ListingsSlugRoute: typeof ListingsSlugRoute
   PlaqueSlugRoute: typeof PlaqueSlugRoute
   WifiSlugRoute: typeof WifiSlugRoute
+  HostIndexRoute: typeof HostIndexRoute
+  ApiHostProfileRoute: typeof ApiHostProfileRoute
+  ApiHostPropertiesRoute: typeof ApiHostPropertiesRoute
   ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
@@ -500,6 +602,8 @@ export interface RootRouteChildren {
   ApiPublicWifiSignupRoute: typeof ApiPublicWifiSignupRoute
   ApiWebhooksStripeRoute: typeof ApiWebhooksStripeRoute
   DevEmailPreviewTemplateRoute: typeof DevEmailPreviewTemplateRoute
+  HostPropertiesIdRoute: typeof HostPropertiesIdRoute
+  HostPropertiesNewRoute: typeof HostPropertiesNewRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -592,6 +696,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/host/': {
+      id: '/host/'
+      path: '/host'
+      fullPath: '/host/'
+      preLoaderRoute: typeof HostIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/wifi/$slug': {
       id: '/wifi/$slug'
       path: '/wifi/$slug'
@@ -611,6 +722,27 @@ declare module '@tanstack/react-router' {
       path: '/listings/$slug'
       fullPath: '/listings/$slug'
       preLoaderRoute: typeof ListingsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/signup': {
+      id: '/host/signup'
+      path: '/host/signup'
+      fullPath: '/host/signup'
+      preLoaderRoute: typeof HostSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/login': {
+      id: '/host/login'
+      path: '/host/login'
+      fullPath: '/host/login'
+      preLoaderRoute: typeof HostLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/dashboard': {
+      id: '/host/dashboard'
+      path: '/host/dashboard'
+      fullPath: '/host/dashboard'
+      preLoaderRoute: typeof HostDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explore/$slug': {
@@ -646,6 +778,20 @@ declare module '@tanstack/react-router' {
       path: '/lovable/email/suppression'
       fullPath: '/lovable/email/suppression'
       preLoaderRoute: typeof LovableEmailSuppressionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/properties/new': {
+      id: '/host/properties/new'
+      path: '/host/properties/new'
+      fullPath: '/host/properties/new'
+      preLoaderRoute: typeof HostPropertiesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/properties/$id': {
+      id: '/host/properties/$id'
+      path: '/host/properties/$id'
+      fullPath: '/host/properties/$id'
+      preLoaderRoute: typeof HostPropertiesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dev/email-preview/$template': {
@@ -739,6 +885,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInternalMarketingDripRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/host/properties': {
+      id: '/api/host/properties'
+      path: '/api/host/properties'
+      fullPath: '/api/host/properties'
+      preLoaderRoute: typeof ApiHostPropertiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/host/profile': {
+      id: '/api/host/profile'
+      path: '/api/host/profile'
+      fullPath: '/api/host/profile'
+      preLoaderRoute: typeof ApiHostProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -800,9 +960,15 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
+  HostDashboardRoute: HostDashboardRoute,
+  HostLoginRoute: HostLoginRoute,
+  HostSignupRoute: HostSignupRoute,
   ListingsSlugRoute: ListingsSlugRoute,
   PlaqueSlugRoute: PlaqueSlugRoute,
   WifiSlugRoute: WifiSlugRoute,
+  HostIndexRoute: HostIndexRoute,
+  ApiHostProfileRoute: ApiHostProfileRoute,
+  ApiHostPropertiesRoute: ApiHostPropertiesRoute,
   ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
@@ -816,6 +982,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicWifiSignupRoute: ApiPublicWifiSignupRoute,
   ApiWebhooksStripeRoute: ApiWebhooksStripeRoute,
   DevEmailPreviewTemplateRoute: DevEmailPreviewTemplateRoute,
+  HostPropertiesIdRoute: HostPropertiesIdRoute,
+  HostPropertiesNewRoute: HostPropertiesNewRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,

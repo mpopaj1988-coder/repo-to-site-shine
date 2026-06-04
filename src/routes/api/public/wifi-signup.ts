@@ -46,7 +46,34 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
         }
         const { email, slug, marketingConsent } = parsed.data;
 
-        const config = WIFI_CONFIG[slug];
+        // Check host_properties DB first (SaaS multi-tenant), then fall back to WIFI_CONFIG
+        let config: (typeof WIFI_CONFIG)[string] | null = WIFI_CONFIG[slug] ?? null;
+        {
+          const svcKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+          if (svcKey) {
+            const adminClient = createClient(SUPABASE_URL, svcKey);
+            const { data: dbProp } = await adminClient
+              .from("host_properties")
+              .select("*")
+              .eq("slug", slug)
+              .eq("is_active", true)
+              .maybeSingle();
+            if (dbProp) {
+              config = {
+                propertyName: dbProp.property_name,
+                wifiNetwork: dbProp.wifi_network,
+                wifiPassword: dbProp.wifi_password,
+                checkInTime: dbProp.check_in_time,
+                checkoutTime: dbProp.checkout_time,
+                parking: dbProp.parking ?? undefined,
+                trash: dbProp.trash ?? undefined,
+                emergencyContact: dbProp.emergency_contact,
+                notes: Array.isArray(dbProp.notes) ? dbProp.notes : [],
+                guideSlug: dbProp.guide_slug ?? undefined,
+              };
+            }
+          }
+        }
         if (!config) {
           return Response.json({ error: "Property not found" }, { status: 404 });
         }

@@ -1,25 +1,36 @@
 import { useState } from "react";
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { properties } from "@/data/properties";
+import { WIFI_CONFIG } from "@/data/wifiConfig.server";
+import { createClient } from "@supabase/supabase-js";
 
 const SITE_URL = "https://seaandcityrentals.com";
+const SUPABASE_URL = "https://ywstqonfcfjfqfuwscya.supabase.co";
 
 function propertyTitle(slug: string) {
   const p = properties.find((x) => x.slug === slug);
   return p?.title ?? "Your Stay";
 }
 
-const VALID_SLUGS = [
-  "tampa",
-  "largo",
-  "irb-b",
-  "clearwater",
-  "irb-a",
-  "stpete-sunsoaked",
-  "stpete-modern",
-  "stpete-hottub",
-  "stpete-patio",
-];
+const validateSlug = createServerFn({ method: "GET" })
+  .inputValidator((data: { slug: string }) => data)
+  .handler(async ({ data }) => {
+    if (WIFI_CONFIG[data.slug]) return { valid: true, title: propertyTitle(data.slug) };
+    // Check DB for SaaS-hosted properties
+    const svcKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (svcKey) {
+      const admin = createClient(SUPABASE_URL, svcKey);
+      const { data: dbProp } = await admin
+        .from("host_properties")
+        .select("property_name")
+        .eq("slug", data.slug)
+        .eq("is_active", true)
+        .maybeSingle();
+      if (dbProp) return { valid: true, title: dbProp.property_name };
+    }
+    return { valid: false, title: "" };
+  });
 
 type Tip = { name: string; note: string };
 type HouseNote = string | { text: string; image: string };
@@ -42,9 +53,10 @@ type Guide = {
 };
 
 export const Route = createFileRoute("/wifi/$slug")({
-  loader: ({ params }) => {
-    if (!VALID_SLUGS.includes(params.slug)) throw notFound();
-    return { slug: params.slug, title: propertyTitle(params.slug) };
+  loader: async ({ params }) => {
+    const result = await validateSlug({ data: { slug: params.slug } });
+    if (!result.valid) throw notFound();
+    return { slug: params.slug, title: result.title };
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
