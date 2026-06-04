@@ -59,7 +59,7 @@ export const template = {
   subject: ({ name, package: pkg }: Record<string, any>) =>
     `New GuestGrowth lead: ${name ?? 'Unknown'} — ${pkg ?? 'unknown package'}`,
   displayName: 'GuestGrowth Lead Notification',
-  to: 'mpopaj1988@gmail.com',
+  to: 'vacation@seaandcityrentals.com',
   previewData: {
     name: 'Sarah Johnson',
     email: 'sarah@example.com',

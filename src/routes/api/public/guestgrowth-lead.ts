@@ -10,7 +10,7 @@ const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
 const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
-const OWNER_EMAIL = 'mpopaj1988@gmail.com'
+const OWNER_EMAIL = 'vacation@seaandcityrentals.com'
 
 const LeadSchema = z.object({
   name: z.string().trim().min(1).max(100),
