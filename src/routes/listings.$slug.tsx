@@ -499,16 +499,13 @@ function ListingPage() {
 function BookDirectFooter() {
   return (
     <div className="bg-[var(--color-deep)] py-12 text-center text-white lg:hidden">
-      <a
-        href={BOOK_DIRECT_URL}
-        target="_blank"
-        rel="noreferrer"
-        onClick={() => track("book_direct_click", { surface: "listing_footer_mobile" })}
+      <Link
+        to="/properties"
         data-testid="listing-footer-book-direct"
         className="text-xs uppercase tracking-[0.3em] text-[var(--color-gold)] underline-offset-4 hover:underline"
       >
         See all 9 properties →
-      </a>
+      </Link>
     </div>
   );
 }
