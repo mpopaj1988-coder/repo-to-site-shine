@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:02,500
+Airbnb took $4,200 from me last year.
+
+2
+00:00:02,500 --> 00:00:05,000
+I didn't even realize it.
+
+3
+00:00:05,000 --> 00:00:06,400
+One QR code fixes this. Link in bio.

@@ -1,0 +1,13 @@
+1
+00:00:00,000 --> 00:00:02,500
+This is what your guests should see
+when they scan your QR code.
+
+2
+00:00:02,500 --> 00:00:05,000
+WiFi. House rules. Local recs.
+Emergency contacts. Book direct offer.
+
+3
+00:00:05,000 --> 00:00:06,400
+I'll build this for your property. $299. Link in bio.
