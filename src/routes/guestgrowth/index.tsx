@@ -4,11 +4,11 @@ import { useState } from 'react'
 export const Route = createFileRoute('/guestgrowth/')({
   head: () => ({
     meta: [
-      { title: 'GuestGrowth QR System — Turn WiFi Into a Guest List' },
+      { title: 'GuestGrowth QR System — Replace StayFi + Guidebook Subscriptions' },
       {
         name: 'description',
         content:
-          'Stop losing guests to Airbnb forever. One QR code captures every guest email — so you can re-book direct, skip the fees, and build a business you own.',
+          'Stop paying for StayFi AND a guidebook app every month. One QR code does both — guest guide + email capture — for a one-time fee that pays for itself in under a year.',
       },
     ],
   }),
@@ -67,36 +67,36 @@ const PRICING_TIERS = [
 ]
 
 const COMPARISON_DATA = [
-  { feature: 'Works on any phone — no app needed', us: true, guidebook: false, wifiOnly: false },
-  { feature: 'Captures guest email automatically', us: true, guidebook: false, wifiOnly: false },
-  { feature: 'Re-booking campaign built in', us: true, guidebook: false, wifiOnly: false },
-  { feature: 'House rules & local recommendations', us: true, guidebook: true, wifiOnly: false },
-  { feature: 'WiFi password delivery', us: true, guidebook: false, wifiOnly: true },
-  { feature: 'Book Direct CTA to bypass Airbnb', us: true, guidebook: false, wifiOnly: false },
-  { feature: 'Update info instantly (no reprint)', us: true, guidebook: false, wifiOnly: true },
-  { feature: 'Works across unlimited stays', us: true, guidebook: true, wifiOnly: true },
+  { feature: 'Mobile guest guide (house rules, check-in, local tips)', us: true, stayfi: false, touchstay: true },
+  { feature: 'WiFi password delivery via QR code', us: true, stayfi: true, touchstay: false },
+  { feature: 'Captures guest email automatically', us: true, stayfi: true, touchstay: false },
+  { feature: 'Re-booking / direct booking campaign', us: true, stayfi: true, touchstay: false },
+  { feature: 'No hardware required', us: true, stayfi: false, touchstay: true },
+  { feature: 'No monthly subscription fee', us: true, stayfi: false, touchstay: false },
+  { feature: 'One-time setup, own it forever', us: true, stayfi: false, touchstay: false },
+  { feature: 'Works across unlimited stays', us: true, stayfi: true, touchstay: true },
 ]
 
 const FAQ_ITEMS = [
   {
-    q: 'How does the QR code work?',
-    a: 'You print a small card (or frame) with the QR code and leave it at your property. Guests scan it when they arrive, enter their email to reveal the WiFi password, and get a mobile-friendly guide with your house rules and local tips. You get their email.',
+    q: 'How is this different from StayFi?',
+    a: "StayFi requires you to buy their hardware ($89–$205 per access point) and pay a monthly fee on top. It captures emails but doesn't give guests a guide. GuestGrowth needs no hardware — guests scan a printed QR code — and includes the full guest guide built in.",
   },
   {
-    q: "Does this violate Airbnb's terms of service?",
-    a: "No. You're not soliciting bookings during an active stay or using Airbnb's messaging system. Guests voluntarily scan the QR code at your property. The Book Direct CTA only shows after their stay, in follow-up emails they opted into.",
+    q: 'How is this different from Touch Stay or GoGuidebook?',
+    a: "Those are guidebook-only tools. They show house rules and local tips, but they don't capture guest emails and don't require any opt-in. GuestGrowth ties the WiFi reveal to an email opt-in, so every guest who wants the password becomes a contact you own.",
   },
   {
     q: 'What if guests skip the email gate?',
-    a: "We add a 'Skip' option so guests always get the WiFi. Most guests enter their email because they want the guide — conversion rates are typically 60–80%. You keep every email you do capture.",
+    a: "We add a 'Skip' option so guests always get the WiFi — no one gets locked out. Most guests enter their email because they want the guide. Conversion rates are typically 60–80% and you keep every email you do capture.",
   },
   {
     q: 'How long does setup take?',
     a: "Once you send us your property info, we deliver within 3–5 business days. You print your QR card, place it at the property, and it's live.",
   },
   {
-    q: 'Do I need any technical knowledge?',
-    a: "None. You print a card, place it at the property, and we handle everything else. You log into a simple dashboard to see your guest email list grow.",
+    q: 'Do I need any technical knowledge or hardware?',
+    a: "None. No router changes, no hardware, no app install. You print a card, place it at the property, and we handle everything else.",
   },
   {
     q: 'Can I use this for multiple properties?',
@@ -106,19 +106,19 @@ const FAQ_ITEMS = [
 
 const PAIN_CARDS = [
   {
-    stat: '$4,200',
-    label: 'Average host pays Airbnb every year',
-    detail: "That's 15–20% of every booking, plus the guest service fee your guests pay too.",
+    stat: '$280+',
+    label: 'What StayFi costs in year one',
+    detail: '$89–$205 hardware upfront, then $5–$15/month on top. After that it\'s $60–$180 every year — forever.',
   },
   {
-    stat: '0 emails',
-    label: 'You own after 47 avg guest stays',
-    detail: "Airbnb owns the relationship. When a guest loves your place, they go back to Airbnb — not you.",
+    stat: '$180/yr',
+    label: 'What a guidebook subscription costs',
+    detail: 'Touch Stay, GoGuidebook, Folio — all charge monthly. A guidebook alone runs $84–$180/year with no email capture.',
   },
   {
-    stat: '3×',
-    label: 'More revenue from repeat vs new guests',
-    detail: "Repeat guests cost nothing to acquire and book direct. One email list changes everything.",
+    stat: '$299',
+    label: 'GuestGrowth — one time, does both',
+    detail: 'Guest guide + WiFi email capture in one product. No hardware. No monthly fee. Pay once, own it forever.',
   },
 ]
 
@@ -220,14 +220,14 @@ function GuestGrowthPage() {
           fontSize: 'clamp(32px, 6vw, 58px)', fontWeight: '800', color: '#ffffff',
           lineHeight: 1.1, margin: '0 auto 24px', maxWidth: '760px',
         }}>
-          Turn Every WiFi Password<br />Into a Guest Email
+          One Product Replaces<br />StayFi + Your Guidebook App
         </h1>
         <p style={{
           fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'rgba(255,255,255,0.75)',
-          maxWidth: '560px', margin: '0 auto 40px', lineHeight: 1.6,
+          maxWidth: '580px', margin: '0 auto 40px', lineHeight: 1.6,
         }}>
-          One QR code at your property. Guests scan to get the WiFi — you get their email.
-          Re-book direct, skip Airbnb fees, build a business you own.
+          Guest guide + WiFi email capture in one QR code. No hardware. No monthly fee.
+          Pay $299 once — instead of $280+ a year forever for two separate subscriptions.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
@@ -284,7 +284,7 @@ function GuestGrowthPage() {
           textAlign: 'center', fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: '800',
           color: '#1A3A4A', marginBottom: '48px', lineHeight: 1.2,
         }}>
-          Airbnb owns your guests.<br />You do all the work.
+          Two subscriptions. Two bills.<br />One product replaces both.
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
           {PAIN_CARDS.map((c) => (
@@ -385,22 +385,30 @@ function GuestGrowthPage() {
         </p>
         <h2 style={{
           textAlign: 'center', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: '800',
-          color: '#1A3A4A', marginBottom: '40px',
+          color: '#1A3A4A', marginBottom: '12px',
         }}>
-          Everything else leaves money on the table
+          StayFi does WiFi. Touch Stay does guidebooks.<br />Neither does both.
         </h2>
+        <p style={{ textAlign: 'center', color: '#666', fontSize: '15px', marginBottom: '40px' }}>
+          Most hosts end up paying for two tools. GuestGrowth is one.
+        </p>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '2px solid #1A3A4A' }}>
                 <th style={{ textAlign: 'left', padding: '12px 16px', fontSize: '13px', color: '#666' }}>Feature</th>
-                {['GuestGrowth', 'Printed Guidebook', 'WiFi Only'].map((h) => (
-                  <th key={h} style={{
-                    textAlign: 'center', padding: '12px 16px', fontSize: '13px',
-                    color: h === 'GuestGrowth' ? '#1A3A4A' : '#999',
-                    fontWeight: h === 'GuestGrowth' ? '800' : '600',
+                {[
+                  { label: 'GuestGrowth', sub: '$299 once' },
+                  { label: 'StayFi', sub: '$100 hardware + $15/mo' },
+                  { label: 'Touch Stay', sub: '$15/mo guidebook only' },
+                ].map((h) => (
+                  <th key={h.label} style={{
+                    textAlign: 'center', padding: '12px 8px', fontSize: '13px',
+                    color: h.label === 'GuestGrowth' ? '#1A3A4A' : '#999',
+                    fontWeight: h.label === 'GuestGrowth' ? '800' : '600',
                   }}>
-                    {h}
+                    <div>{h.label}</div>
+                    <div style={{ fontSize: '11px', fontWeight: '400', marginTop: '2px', color: h.label === 'GuestGrowth' ? '#C9A84C' : '#bbb' }}>{h.sub}</div>
                   </th>
                 ))}
               </tr>
@@ -413,10 +421,10 @@ function GuestGrowthPage() {
                     {row.us ? <CheckIcon /> : <XIcon />}
                   </td>
                   <td style={{ textAlign: 'center', padding: '12px 8px' }}>
-                    {row.guidebook ? <CheckIcon color="#6b7280" /> : <XIcon />}
+                    {row.stayfi ? <CheckIcon color="#6b7280" /> : <XIcon />}
                   </td>
                   <td style={{ textAlign: 'center', padding: '12px 8px' }}>
-                    {row.wifiOnly ? <CheckIcon color="#6b7280" /> : <XIcon />}
+                    {row.touchstay ? <CheckIcon color="#6b7280" /> : <XIcon />}
                   </td>
                 </tr>
               ))}
@@ -658,10 +666,10 @@ function GuestGrowthPage() {
           fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: '800', color: '#ffffff',
           marginBottom: '16px', lineHeight: 1.2,
         }}>
-          Stop giving Airbnb<br />a 20% cut forever.
+          Stop paying two monthly bills<br />for one problem.
         </h2>
-        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', marginBottom: '36px', maxWidth: '440px', margin: '0 auto 36px' }}>
-          One QR code. One email list. One direct booking pays for the whole system.
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', marginBottom: '36px', maxWidth: '480px', margin: '0 auto 36px' }}>
+          StayFi + a guidebook app costs $280–$360 every single year. GuestGrowth does both for $299 — once.
         </p>
         <a
           href="#get-started"
