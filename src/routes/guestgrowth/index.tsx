@@ -448,9 +448,21 @@ function GuestGrowthPage() {
           }}>
             One-time fee. No subscriptions.
           </h2>
-          <p style={{ textAlign: 'center', color: '#666', marginBottom: '48px', fontSize: '15px' }}>
+          <p style={{ textAlign: 'center', color: '#666', marginBottom: '32px', fontSize: '15px' }}>
             Pay once, use forever. Most hosts recoup the cost in a single direct booking.
           </p>
+          <div style={{
+            backgroundColor: '#1A3A4A', borderRadius: '10px', padding: '20px 28px',
+            marginBottom: '40px', display: 'flex', alignItems: 'flex-start', gap: '12px',
+          }}>
+            <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
+            <p style={{ margin: 0, fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6 }}>
+              A host paying <strong style={{ color: '#ffffff' }}>$15/mo for a guidebook app</strong> and{' '}
+              <strong style={{ color: '#ffffff' }}>$15/mo for StayFi</strong> pays{' '}
+              <strong style={{ color: '#C9A84C' }}>$360/year</strong> — every year, for one property.
+              GuestGrowth is <strong style={{ color: '#C9A84C' }}>$299 — once.</strong>
+            </p>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
             {PRICING_TIERS.map((tier) => (
               <div key={tier.id} style={{
