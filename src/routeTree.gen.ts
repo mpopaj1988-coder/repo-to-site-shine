@@ -20,9 +20,11 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GuestgrowthIndexRouteImport } from './routes/guestgrowth/index'
 import { Route as WifiSlugRouteImport } from './routes/wifi.$slug'
 import { Route as PlaqueSlugRouteImport } from './routes/plaque.$slug'
 import { Route as ListingsSlugRouteImport } from './routes/listings.$slug'
+import { Route as GuestgrowthSampleRouteImport } from './routes/guestgrowth/sample'
 import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
@@ -36,6 +38,7 @@ import { Route as ApiPublicProcessUpsellRepliesRouteImport } from './routes/api/
 import { Route as ApiPublicPreArrivalMessageRouteImport } from './routes/api/public/pre-arrival-message'
 import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/public/post-checkout-message'
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
+import { Route as ApiPublicGuestgrowthLeadRouteImport } from './routes/api/public/guestgrowth-lead'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -96,6 +99,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuestgrowthIndexRoute = GuestgrowthIndexRouteImport.update({
+  id: '/guestgrowth/',
+  path: '/guestgrowth/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WifiSlugRoute = WifiSlugRouteImport.update({
   id: '/wifi/$slug',
   path: '/wifi/$slug',
@@ -109,6 +117,11 @@ const PlaqueSlugRoute = PlaqueSlugRouteImport.update({
 const ListingsSlugRoute = ListingsSlugRouteImport.update({
   id: '/listings/$slug',
   path: '/listings/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuestgrowthSampleRoute = GuestgrowthSampleRouteImport.update({
+  id: '/guestgrowth/sample',
+  path: '/guestgrowth/sample',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExploreSlugRoute = ExploreSlugRouteImport.update({
@@ -181,6 +194,12 @@ const ApiPublicOrphanDayUpsellRoute =
     path: '/api/public/orphan-day-upsell',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicGuestgrowthLeadRoute =
+  ApiPublicGuestgrowthLeadRouteImport.update({
+    id: '/api/public/guestgrowth-lead',
+    path: '/api/public/guestgrowth-lead',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   id: '/api/public/discount-signup',
   path: '/api/public/discount-signup',
@@ -221,10 +240,13 @@ export interface FileRoutesByFullPath {
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
+  '/guestgrowth/sample': typeof GuestgrowthSampleRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/guestgrowth/': typeof GuestgrowthIndexRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
+  '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
@@ -254,10 +276,13 @@ export interface FileRoutesByTo {
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
+  '/guestgrowth/sample': typeof GuestgrowthSampleRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/guestgrowth': typeof GuestgrowthIndexRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
+  '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
@@ -288,10 +313,13 @@ export interface FileRoutesById {
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
+  '/guestgrowth/sample': typeof GuestgrowthSampleRoute
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/guestgrowth/': typeof GuestgrowthIndexRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
+  '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
@@ -323,10 +351,13 @@ export interface FileRouteTypes {
     | '/blog/rss.xml'
     | '/email/unsubscribe'
     | '/explore/$slug'
+    | '/guestgrowth/sample'
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/guestgrowth/'
     | '/api/public/discount-signup'
+    | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
@@ -356,10 +387,13 @@ export interface FileRouteTypes {
     | '/blog/rss.xml'
     | '/email/unsubscribe'
     | '/explore/$slug'
+    | '/guestgrowth/sample'
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/guestgrowth'
     | '/api/public/discount-signup'
+    | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
@@ -389,10 +423,13 @@ export interface FileRouteTypes {
     | '/blog/rss.xml'
     | '/email/unsubscribe'
     | '/explore/$slug'
+    | '/guestgrowth/sample'
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/guestgrowth/'
     | '/api/public/discount-signup'
+    | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
@@ -420,10 +457,13 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
+  GuestgrowthSampleRoute: typeof GuestgrowthSampleRoute
   ListingsSlugRoute: typeof ListingsSlugRoute
   PlaqueSlugRoute: typeof PlaqueSlugRoute
   WifiSlugRoute: typeof WifiSlugRoute
+  GuestgrowthIndexRoute: typeof GuestgrowthIndexRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
+  ApiPublicGuestgrowthLeadRoute: typeof ApiPublicGuestgrowthLeadRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
   ApiPublicPostCheckoutMessageRoute: typeof ApiPublicPostCheckoutMessageRoute
   ApiPublicPreArrivalMessageRoute: typeof ApiPublicPreArrivalMessageRoute
@@ -517,6 +557,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guestgrowth/': {
+      id: '/guestgrowth/'
+      path: '/guestgrowth'
+      fullPath: '/guestgrowth/'
+      preLoaderRoute: typeof GuestgrowthIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/wifi/$slug': {
       id: '/wifi/$slug'
       path: '/wifi/$slug'
@@ -536,6 +583,13 @@ declare module '@tanstack/react-router' {
       path: '/listings/$slug'
       fullPath: '/listings/$slug'
       preLoaderRoute: typeof ListingsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guestgrowth/sample': {
+      id: '/guestgrowth/sample'
+      path: '/guestgrowth/sample'
+      fullPath: '/guestgrowth/sample'
+      preLoaderRoute: typeof GuestgrowthSampleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explore/$slug': {
@@ -629,6 +683,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicOrphanDayUpsellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/guestgrowth-lead': {
+      id: '/api/public/guestgrowth-lead'
+      path: '/api/public/guestgrowth-lead'
+      fullPath: '/api/public/guestgrowth-lead'
+      preLoaderRoute: typeof ApiPublicGuestgrowthLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/discount-signup': {
       id: '/api/public/discount-signup'
       path: '/api/public/discount-signup'
@@ -696,10 +757,13 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
+  GuestgrowthSampleRoute: GuestgrowthSampleRoute,
   ListingsSlugRoute: ListingsSlugRoute,
   PlaqueSlugRoute: PlaqueSlugRoute,
   WifiSlugRoute: WifiSlugRoute,
+  GuestgrowthIndexRoute: GuestgrowthIndexRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
+  ApiPublicGuestgrowthLeadRoute: ApiPublicGuestgrowthLeadRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
   ApiPublicPostCheckoutMessageRoute: ApiPublicPostCheckoutMessageRoute,
   ApiPublicPreArrivalMessageRoute: ApiPublicPreArrivalMessageRoute,
