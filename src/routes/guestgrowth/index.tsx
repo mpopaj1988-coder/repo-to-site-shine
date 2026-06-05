@@ -99,6 +99,10 @@ const FAQ_ITEMS = [
     a: "None. No router changes, no hardware, no app install. You print a card, place it at the property, and we handle everything else.",
   },
   {
+    q: 'What if I don\'t have a website?',
+    a: "No website needed. If you want one, we can build you a direct booking site — just ask. But if you'd rather keep it simple, the email automation handles it without one. Instead of sending guests to a website, the follow-up email can say something like \"Reply to this email to book your next stay\" or \"Text me at (your number) for a direct booking discount.\" Many hosts with one or two properties prefer it that way — no website maintenance, just a direct conversation.",
+  },
+  {
     q: 'Can I use this for multiple properties?',
     a: 'Yes — each property gets its own QR code and guide page. Contact us for multi-property pricing.',
   },
