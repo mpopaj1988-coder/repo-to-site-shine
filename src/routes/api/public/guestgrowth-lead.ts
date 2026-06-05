@@ -40,25 +40,25 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
 
         // Save lead to DB
-        if (supabase) {
-          try {
-            await supabase.from('guestgrowth_leads').insert({
-              name: data.name,
-              email: data.email,
-              num_properties: data.num_properties ?? null,
-              listing_url: data.listing_url ?? null,
-              package: data.package ?? null,
-              message: data.message ?? null,
-              source: 'guestgrowth-landing',
-            })
-            // Also log in email_leads for unified tracking
-            await supabase.from('email_leads').insert({
-              email: data.email,
-              source: 'guestgrowth-landing',
-            })
-          } catch (err) {
-            console.error('DB insert failed', err)
-          }
+        if (!supabase) {
+          console.error('guestgrowth-lead: SUPABASE_SERVICE_ROLE_KEY is not set')
+        } else {
+          const { error: leadError } = await supabase.from('guestgrowth_leads').insert({
+            name: data.name,
+            email: data.email,
+            num_properties: data.num_properties ?? null,
+            listing_url: data.listing_url ?? null,
+            package: data.package ?? null,
+            message: data.message ?? null,
+            source: 'guestgrowth-landing',
+          })
+          if (leadError) console.error('guestgrowth_leads insert error:', JSON.stringify(leadError))
+
+          const { error: emailLeadError } = await supabase.from('email_leads').insert({
+            email: data.email,
+            source: 'guestgrowth-landing',
+          })
+          if (emailLeadError) console.error('email_leads insert error:', JSON.stringify(emailLeadError))
         }
 
         // Send owner notification email
