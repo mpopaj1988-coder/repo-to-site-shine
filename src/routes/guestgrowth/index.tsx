@@ -230,7 +230,7 @@ function GuestGrowthPage() {
           fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase',
           color: '#C9A84C', marginBottom: '20px',
         }}>
-          Built for hosts with 1–5 properties
+          For Airbnb & VRBO Hosts
         </p>
         <h1 style={{
           fontSize: 'clamp(32px, 6vw, 58px)', fontWeight: '800', color: '#ffffff',
@@ -243,7 +243,7 @@ function GuestGrowthPage() {
           maxWidth: '580px', margin: '0 auto 40px', lineHeight: 1.6,
         }}>
           Guest guide + WiFi email capture in one QR code. No hardware. No monthly fee.
-          No website required. Pay $299 once — instead of $280+ a year forever.
+          Pay $299 once — instead of $280+ a year forever. Works whether you have a website or not.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
@@ -390,21 +390,21 @@ function GuestGrowthPage() {
           textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
           textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
         }}>
-          No website? No problem.
+          Flexible by design
         </p>
         <h2 style={{
           textAlign: 'center', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '800',
           color: '#1A3A4A', marginBottom: '16px', lineHeight: 1.2,
         }}>
-          Big companies have websites and marketing teams.<br />You don't need either.
+          Have a website? Great. Don't have one? Also great.
         </h2>
         <p style={{
           textAlign: 'center', color: '#555', fontSize: '16px', lineHeight: 1.7,
           maxWidth: '640px', margin: '0 auto 48px',
         }}>
-          GuestGrowth is built for independent hosts — not property management companies.
-          If you have 1, 2, or 5 properties and you're running it yourself, this is for you.
-          The email automation works perfectly without a booking website.
+          If you have a direct booking site, your email follow-ups send guests straight there.
+          If you don't, no problem — the emails can direct guests to reply, text you, or book however works best for you.
+          GuestGrowth fits your setup, not the other way around.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
           {[
