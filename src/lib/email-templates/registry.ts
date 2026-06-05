@@ -7,6 +7,7 @@ import { template as returningGuestCode } from './returning-guest-code'
 import { template as marketingWhyBookDirect } from './marketing-why-book-direct'
 import { template as marketingPropertyShowcase } from './marketing-property-showcase'
 import { template as marketingLastMinute } from './marketing-last-minute'
+import { template as guestgrowthLeadNotify } from './guestgrowth-lead-notify'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -26,4 +27,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'marketing-why-book-direct': marketingWhyBookDirect,
   'marketing-property-showcase': marketingPropertyShowcase,
   'marketing-last-minute': marketingLastMinute,
+  'guestgrowth-lead-notify': guestgrowthLeadNotify,
 }

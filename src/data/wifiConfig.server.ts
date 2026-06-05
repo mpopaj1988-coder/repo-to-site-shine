@@ -239,8 +239,8 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
 
   "irb-a": {
     propertyName: "Walk to Beach — IRB (Unit B)",
-    wifiNetwork: "spectrum6BFF",
-    wifiPassword: "happyspace961",
+    wifiNetwork: "benchkettle931",
+    wifiPassword: "SpectrumSetup-CF",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
     parking: "Two spots in front of Unit B (right side).",
@@ -297,9 +297,9 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     emergencyContact: "248-766-2957",
     guideSlug: "st-petersburg",
     notes: [
+      "Two bicycles available — use at your own risk.",
       "Downtown St. Pete and Central Ave are a short walk.",
-      "Induction stovetop — place a pot or pan on the burner to activate it. Not responding? Check that the lock button is off.",
-      "Stovetop showing 'LO'? A fuse tripped. Step outside your door, open the electric panel on the left wall (may be behind a portrait), and flip the last switch (main) OFF then back ON.",
+      "Stove tip: always place a pot or pan on the burner for it to activate.",
       "Quiet hours: 10 PM – 7 AM.",
       "No chores needed — dishes in dishwasher, towels in dryer is fine.",
     ],
@@ -319,7 +319,13 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     address: "434 15th Ave N, Unit A, St. Petersburg, FL",
     emergencyContact: "248-766-2957",
     guideSlug: "st-petersburg",
-    notes: [],
+    notes: [
+      "Hot tub is in the private fenced backyard. Contact host to request setup (fee applies).",
+      "BBQ grill and outdoor seating are yours in the patio.",
+      "Central Ave dining and nightlife is a 3-block walk.",
+      "Enter via front gate (15th Ave) or back gate (alley between 14th and 15th).",
+      "Quiet hours: 10 PM – 7 AM.",
+    ],
     restaurants: ST_PETE_RESTAURANTS,
     activities: ST_PETE_ACTIVITIES,
     nightlife: ST_PETE_NIGHTLIFE,
