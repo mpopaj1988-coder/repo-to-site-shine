@@ -39,6 +39,13 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         const lovableApiKey = process.env.LOVABLE_API_KEY
         const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
 
+        const debug: Record<string, unknown> = {
+          hasServiceKey: !!serviceKey,
+          keyPrefix: serviceKey ? serviceKey.slice(0, 20) + '...' : null,
+          leadError: null,
+          emailLeadError: null,
+        }
+
         // Save lead to DB
         if (!supabase) {
           console.error('guestgrowth-lead: SUPABASE_SERVICE_ROLE_KEY is not set')
@@ -52,13 +59,19 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
             message: data.message ?? null,
             source: 'guestgrowth-landing',
           })
-          if (leadError) console.error('guestgrowth_leads insert error:', JSON.stringify(leadError))
+          if (leadError) {
+            console.error('guestgrowth_leads insert error:', JSON.stringify(leadError))
+            debug.leadError = leadError
+          }
 
           const { error: emailLeadError } = await supabase.from('email_leads').insert({
             email: data.email,
             source: 'guestgrowth-landing',
           })
-          if (emailLeadError) console.error('email_leads insert error:', JSON.stringify(emailLeadError))
+          if (emailLeadError) {
+            console.error('email_leads insert error:', JSON.stringify(emailLeadError))
+            debug.emailLeadError = emailLeadError
+          }
         }
 
         // Send owner notification email
@@ -131,7 +144,7 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         //   body: JSON.stringify({ fields: { Name: data.name, Email: data.email, Package: data.package } }),
         // })
 
-        return Response.json({ ok: true })
+        return Response.json({ ok: true, debug })
       },
     },
   },
