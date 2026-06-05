@@ -5,11 +5,13 @@
 // guests a personalised discount offer via Hospitable messaging.
 //
 // Idempotent: the orphan_upsell_log table ensures each (property, orphan_date)
-// pair is messaged at most once, so the cron can fire safely every 4 hours.
+// pair is messaged at most once.
+//
+// Send window: messages only go out during the 3 pm Eastern hour (UTC 19 in
+// summer / UTC 20 in winter).  Use ?dry_run=true to preview outside that window.
 //
 // Trigger methods:
-//   • pg_cron every 4 hours (see migration for SQL)
-//   • Hospitable webhook on reservation.created → point to this URL
+//   • pg_cron daily at 3 pm Eastern (see migration for SQL)
 //   • Manual: GET /api/public/orphan-day-upsell?dry_run=true  (read-only preview)
 
 import { createFileRoute } from "@tanstack/react-router";
@@ -25,12 +27,30 @@ export const Route = createFileRoute("/api/public/orphan-day-upsell")({
   },
 });
 
+// Returns true if it's currently the 3 pm Eastern hour.
+// Eastern observes EDT (UTC-4) mid-Mar–Nov and EST (UTC-5) Nov–mid-Mar.
+// 3 pm EDT = 19:00 UTC; 3 pm EST = 20:00 UTC — accept both hours.
+function isEasternAfternoon(): boolean {
+  const utcHour = new Date().getUTCHours();
+  return utcHour === 19 || utcHour === 20;
+}
+
 async function handleUpsell(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const dryRun = url.searchParams.get("dry_run") === "true";
 
   if (!process.env.HOSPITABLE_API_KEY) {
     return Response.json({ error: "HOSPITABLE_API_KEY not configured" }, { status: 500 });
+  }
+
+  // Enforce send window — skip silently when outside 3 pm Eastern hour.
+  // dry_run bypasses this so you can preview at any time.
+  if (!dryRun && !isEasternAfternoon()) {
+    return Response.json({
+      ok: true,
+      skipped: true,
+      reason: "Outside send window — messages only go out at 3 pm Eastern",
+    });
   }
 
   try {
