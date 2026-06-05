@@ -167,7 +167,6 @@ function GuestGrowthPage() {
     message: '',
   })
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [debugInfo, setDebugInfo] = useState<string>('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -178,8 +177,6 @@ function GuestGrowthPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
-      const json = await res.json()
-      setDebugInfo(JSON.stringify(json, null, 2))
       if (!res.ok) throw new Error('Server error')
       setFormState('success')
     } catch {
@@ -640,11 +637,6 @@ function GuestGrowthPage() {
             <p style={{ color: '#555', fontSize: '15px', margin: 0 }}>
               Expect an email from us within 24 hours. Check your spam folder just in case.
             </p>
-            {debugInfo && (
-              <pre style={{ marginTop: '16px', background: '#111', color: '#0f0', padding: '12px', borderRadius: '6px', fontSize: '11px', textAlign: 'left', overflowX: 'auto' }}>
-                {debugInfo}
-              </pre>
-            )}
           </div>
         ) : (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
