@@ -6,7 +6,7 @@ import { WIFI_CONFIG } from "@/data/wifiConfig.server";
 import { createClient } from "@supabase/supabase-js";
 
 const SITE_URL = "https://seaandcityrentals.com";
-const SUPABASE_URL = "https://ywstqonfcfjfqfuwscya.supabase.co";
+const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
 
 function propertyTitle(slug: string) {
   const p = properties.find((x) => x.slug === slug);

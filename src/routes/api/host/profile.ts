@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://ywstqonfcfjfqfuwscya.supabase.co";
+const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
 
 function getAdminClient() {
   return createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY!);

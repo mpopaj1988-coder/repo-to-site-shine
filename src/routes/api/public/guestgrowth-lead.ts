@@ -9,7 +9,7 @@ import { TEMPLATES } from '@/lib/email-templates/registry'
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
-const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
+const SUPABASE_URL = 'https://bgollemualqrwfrxrmwx.supabase.co'
 const OWNER_EMAIL = 'vacation@seaandcityrentals.com'
 
 const LeadSchema = z.object({

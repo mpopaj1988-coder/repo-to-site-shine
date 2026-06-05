@@ -11,7 +11,7 @@ declare const __MAILERLITE_API_KEY__: string
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
-const SUPABASE_URL = 'https://ywstqonfcfjfqfuwscya.supabase.co'
+const SUPABASE_URL = 'https://bgollemualqrwfrxrmwx.supabase.co'
 const ML_GROUP_ID = '187986355712689414' // Website Leads
 const ML_AUTOMATION_ID = '187987610712409793' // Welcome — Website Lead
 

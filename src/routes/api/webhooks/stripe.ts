@@ -21,7 +21,7 @@ import { sendLovableEmail } from "@lovable.dev/email-js";
 import { TEMPLATES } from "@/lib/email-templates/registry";
 import type { BookingConfirmationProps } from "@/lib/email-templates/booking-confirmation";
 
-const SUPABASE_URL = "https://ywstqonfcfjfqfuwscya.supabase.co";
+const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
 const SITE_NAME = "Sea & City Rentals";
 const SITE_URL = "https://www.seaandcityrentals.com";
 const FROM_DOMAIN = "seaandcityrentals.com";
