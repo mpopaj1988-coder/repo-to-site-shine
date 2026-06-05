@@ -254,6 +254,30 @@ function GuestGrowthPage() {
         </div>
       </section>
 
+      {/* ── Video embed ── swap src URL when ready ── */}
+      {/* <section style={{ backgroundColor: '#0d2233', padding: '48px 24px', textAlign: 'center' }}>
+        <p style={{
+          fontSize: '12px', letterSpacing: '0.25em', textTransform: 'uppercase',
+          color: '#C9A84C', marginBottom: '12px',
+        }}>
+          See It In Action
+        </p>
+        <div style={{
+          maxWidth: '360px', margin: '0 auto', borderRadius: '16px',
+          overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+          aspectRatio: '9/16',
+        }}>
+          <video
+            src="YOUR_VIDEO_URL_HERE"
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+      </section> */}
+
       {/* ── Trust bar ── */}
       <section style={{
         backgroundColor: '#f8f4ee', borderTop: '1px solid #e8dfc8',
