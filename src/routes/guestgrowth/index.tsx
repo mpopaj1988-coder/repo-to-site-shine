@@ -457,10 +457,11 @@ function GuestGrowthPage() {
           }}>
             <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
             <p style={{ margin: 0, fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6 }}>
-              A host paying <strong style={{ color: '#ffffff' }}>$15/mo for a guidebook app</strong> and{' '}
-              <strong style={{ color: '#ffffff' }}>$15/mo for StayFi</strong> pays{' '}
-              <strong style={{ color: '#C9A84C' }}>$360/year</strong> — every year, for one property.
-              GuestGrowth is <strong style={{ color: '#C9A84C' }}>$299 — once.</strong>
+              Touch Stay is <strong style={{ color: '#ffffff' }}>$15/mo</strong> (guidebook, no email capture).
+              StayFi is <strong style={{ color: '#ffffff' }}>$10/mo + $100 equipment</strong> (email capture, no guidebook).
+              Together that's <strong style={{ color: '#C9A84C' }}>$400 in year one</strong> and{' '}
+              <strong style={{ color: '#C9A84C' }}>$300 every year after</strong> — for two tools that still don't fully replace each other.
+              GuestGrowth does both for <strong style={{ color: '#C9A84C' }}>$299 — once.</strong>
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
