@@ -191,15 +191,6 @@ function SampleGuidePage() {
                   Reveal WiFi Password →
                 </button>
               </form>
-              <button
-                onClick={handleSkip}
-                style={{
-                  background: 'none', border: 'none', color: '#aaa', fontSize: '13px',
-                  cursor: 'pointer', marginTop: '12px', display: 'block', width: '100%', textAlign: 'center',
-                }}
-              >
-                Skip — just show me the password
-              </button>
             </div>
           ) : (
             <div style={{ padding: '0 20px 20px' }}>

@@ -87,8 +87,8 @@ const FAQ_ITEMS = [
     a: "Those are guidebook-only tools. They show house rules and local tips, but they don't capture guest emails and don't require any opt-in. GuestGrowth ties the WiFi reveal to an email opt-in, so every guest who wants the password becomes a contact you own.",
   },
   {
-    q: 'What if guests skip the email gate?',
-    a: "We add a 'Skip' option so guests always get the WiFi — no one gets locked out. Most guests enter their email because they want the guide. Conversion rates are typically 60–80% and you keep every email you do capture.",
+    q: 'What if a guest refuses to enter their email?',
+    a: "Guests enter their email to get the WiFi password — that's the exchange, same as hotels, coffee shops, and airports. In practice, nearly all guests complete it without hesitation because they want the password and the guide.",
   },
   {
     q: 'How long does setup take?',
