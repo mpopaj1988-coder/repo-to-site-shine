@@ -99,6 +99,18 @@ const FAQ_ITEMS = [
     a: "None. No router changes, no hardware, no app install. You print a card, place it at the property, and we handle everything else.",
   },
   {
+    q: 'What happens to the email list — do I own it?',
+    a: "Yes, 100% yours. Guest emails are added to your own MailerLite account, which you control. We don't hold your list, we don't market to your guests, and there's no lock-in. If you ever stop using GuestGrowth, your list stays with you.",
+  },
+  {
+    q: "I'm already on Airbnb and VRBO — does this still work?",
+    a: "Yes. The QR card sits at your property and works regardless of where guests booked. Airbnb, VRBO, direct — every guest who scans it gets the guide and goes into your email list. The platform doesn't matter.",
+  },
+  {
+    q: 'Is the guide mobile-friendly?',
+    a: "It's designed specifically for phones. Guests scan the QR code and it opens instantly in their browser — no app to download, no login, no friction. Works on every iPhone and Android.",
+  },
+  {
     q: 'What if I don\'t have a website?',
     a: "No website needed. If you want one, we can build you a direct booking site — just ask. But if you'd rather keep it simple, the email automation handles it without one. Instead of sending guests to a website, the follow-up email can say something like \"Reply to this email to book your next stay\" or \"Text me at (your number) for a direct booking discount.\" Many hosts with one or two properties prefer it that way — no website maintenance, just a direct conversation.",
   },
@@ -218,7 +230,7 @@ function GuestGrowthPage() {
           fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase',
           color: '#C9A84C', marginBottom: '20px',
         }}>
-          For Airbnb & VRBO Hosts
+          Built for hosts with 1–5 properties
         </p>
         <h1 style={{
           fontSize: 'clamp(32px, 6vw, 58px)', fontWeight: '800', color: '#ffffff',
@@ -231,7 +243,7 @@ function GuestGrowthPage() {
           maxWidth: '580px', margin: '0 auto 40px', lineHeight: 1.6,
         }}>
           Guest guide + WiFi email capture in one QR code. No hardware. No monthly fee.
-          Pay $299 once — instead of $280+ a year forever for two separate subscriptions.
+          No website required. Pay $299 once — instead of $280+ a year forever.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
@@ -369,6 +381,60 @@ function GuestGrowthPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── No website needed ── */}
+      <section style={{ padding: '80px 24px', maxWidth: '860px', margin: '0 auto' }}>
+        <p style={{
+          textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
+          textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
+        }}>
+          No website? No problem.
+        </p>
+        <h2 style={{
+          textAlign: 'center', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '800',
+          color: '#1A3A4A', marginBottom: '16px', lineHeight: 1.2,
+        }}>
+          Big companies have websites and marketing teams.<br />You don't need either.
+        </h2>
+        <p style={{
+          textAlign: 'center', color: '#555', fontSize: '16px', lineHeight: 1.7,
+          maxWidth: '640px', margin: '0 auto 48px',
+        }}>
+          GuestGrowth is built for independent hosts — not property management companies.
+          If you have 1, 2, or 5 properties and you're running it yourself, this is for you.
+          The email automation works perfectly without a booking website.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+          {[
+            {
+              icon: '✉️',
+              title: 'Reply-to-book',
+              body: 'Your follow-up email can simply say "Reply to this email and I\'ll send you a direct booking discount." No website, no checkout — just a real conversation.',
+            },
+            {
+              icon: '📱',
+              title: 'Text for direct bookings',
+              body: 'We can set your emails to say "Text me at (your number) to book your next stay and skip the Airbnb fee." Works great for hosts who prefer talking directly.',
+            },
+            {
+              icon: '🔗',
+              title: 'Add a website later',
+              body: 'If you grow to 5+ properties and want a full direct booking site, we build those too. Start simple now — upgrade when it makes sense.',
+            },
+          ].map((card) => (
+            <div key={card.title} style={{
+              backgroundColor: '#f9f9f9', borderRadius: '10px', padding: '28px 24px',
+              borderTop: '3px solid #1A3A4A',
+            }}>
+              <div style={{ fontSize: '28px', marginBottom: '12px' }}>{card.icon}</div>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#1A3A4A', marginBottom: '8px' }}>
+                {card.title}
+              </h3>
+              <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.6, margin: 0 }}>{card.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
