@@ -92,7 +92,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'How long does setup take?',
-    a: "Once you send us your property info, we deliver within 3–5 business days. You print your QR card, place it at the property, and it's live.",
+    a: "Just send us your WiFi details, house rules, emergency contact, and property address. We research your local area and write the recommendations for you. Your guide and QR card are ready in 3–5 business days — you just print and place it.",
   },
   {
     q: 'Do I need any technical knowledge or hardware?',
@@ -321,9 +321,9 @@ function GuestGrowthPage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '32px' }}>
             {[
-              { step: '01', title: 'Print your QR card', body: 'We send you a print-ready card. Leave it on the kitchen counter, coffee table, or welcome book.' },
-              { step: '02', title: 'Guest scans → enters email', body: 'They get your mobile-optimized guide with WiFi, house rules, and local tips. You get their email.' },
-              { step: '03', title: 'Automated re-booking emails', body: 'After checkout, your email automation sends a 10%-off direct booking offer — Airbnb fee avoided.' },
+              { step: '01', title: 'Send us 4 things', body: 'Property address, WiFi name & password, house rules, and an emergency contact. That\'s it — 5 minutes of your time.' },
+              { step: '02', title: 'We build everything', body: 'Your custom guide page, QR code, and local recommendations — researched and written for you. Ready in 3–5 business days.' },
+              { step: '03', title: 'Print & place the card', body: 'We send you a print-ready QR card. Leave it on the counter. Every guest who scans goes into your email list automatically.' },
             ].map((s) => (
               <div key={s.step} style={{ textAlign: 'center' }}>
                 <div style={{
