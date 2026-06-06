@@ -642,12 +642,6 @@ function GuestGrowthPage() {
             <p style={{ color: '#555', fontSize: '15px', margin: 0 }}>
               Expect an email from us within 24 hours. Check your spam folder just in case.
             </p>
-            {(emailDebug || keysDebug) && (
-              <p style={{ marginTop: '12px', fontSize: '11px', color: '#999', fontFamily: 'monospace', lineHeight: 1.6 }}>
-                {keysDebug && <><strong>keys:</strong> {keysDebug}<br /></>}
-                {emailDebug && <><strong>email:</strong> {emailDebug}</>}
-              </p>
-            )}
           </div>
         ) : (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
