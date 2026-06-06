@@ -81,19 +81,22 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
             }
 
             if (groupId) {
+              // Add the OWNER to the group (so MailerLite automation emails the owner).
+              // Lead details are stored as custom fields on the owner's subscriber record.
+              const leadSummary = [
+                `From: ${data.name} <${data.email}>`,
+                data.package ? `Package: ${data.package}` : '',
+                data.num_properties ? `Properties: ${data.num_properties}` : '',
+                data.listing_url ? `Listing: ${data.listing_url}` : '',
+                data.message ? `Message: ${data.message}` : '',
+              ].filter(Boolean).join(' | ')
+
               const subRes = await fetch('https://connect.mailerlite.com/api/subscribers', {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${mlApiKey}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  email: data.email,
-                  fields: {
-                    name: data.name,
-                    last_name: [
-                      data.package ? `pkg:${data.package}` : '',
-                      data.num_properties ? `props:${data.num_properties}` : '',
-                      data.listing_url ? `url:${data.listing_url}` : '',
-                    ].filter(Boolean).join(' | ') || data.name,
-                  },
+                  email: OWNER_EMAIL,
+                  fields: { name: 'GuestGrowth Alert', last_name: leadSummary },
                   groups: [groupId],
                   resubscribe: true,
                   status: 'active',
