@@ -117,7 +117,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What is the 30-day money-back guarantee?',
-    a: "If we deliver your completed guide and setup and you're not satisfied, we'll refund you in full within 30 days — no questions asked. We're confident in the results because we built this for our own 9 Tampa Bay properties before offering it to anyone else.",
+    a: "If we deliver your completed guide and setup and you're not satisfied, we'll refund you in full within 30 days — no questions asked. We're confident in the results because we built this for our own 16 Tampa Bay properties before offering it to anyone else.",
   },
   {
     q: 'How is this different from StayFi?',
@@ -535,7 +535,7 @@ function GuestGrowthPage() {
           fontSize: 'clamp(17px, 2.5vw, 22px)', fontStyle: 'italic', color: '#1A3A4A',
           lineHeight: 1.65, margin: '0 0 28px', fontWeight: '400',
         }}>
-          "We run 9 vacation rentals across Tampa Bay. We built GuestGrowth for ourselves before offering it to anyone else. First season: 180+ guest emails collected, 11 direct re-bookings, over $4,000 saved in Airbnb fees. That's when we knew other hosts needed this."
+          "We run 16 vacation rentals across Tampa Bay. We built GuestGrowth for ourselves before offering it to anyone else. First season: 180+ guest emails collected, 11 direct re-bookings, over $4,000 saved in Airbnb fees. That's when we knew other hosts needed this."
         </blockquote>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
           <div style={{
@@ -548,7 +548,7 @@ function GuestGrowthPage() {
           </div>
           <div style={{ textAlign: 'left' }}>
             <div style={{ fontSize: '14px', fontWeight: '700', color: '#1A3A4A' }}>Marko P.</div>
-            <div style={{ fontSize: '13px', color: '#888' }}>Sea & City Rentals · Tampa Bay, FL · 9 properties</div>
+            <div style={{ fontSize: '13px', color: '#888' }}>Sea & City Rentals · Tampa Bay, FL · 16 properties</div>
           </div>
         </div>
       </section>
