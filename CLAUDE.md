@@ -1,5 +1,17 @@
 # Sea & City Rentals — Codebase Guide
 
+## Owner Preferences
+
+### Video Generation
+- **Always check cost and get approval before generating any video** — never generate without explicit go-ahead
+- **Avatar UGC videos only** (marketing_studio_video model, UGC preset, Sofia or female avatar talking to camera)
+- Do NOT generate cinematic/lifestyle videos (kling3_0) — they require too much post-production work (CapCut, voiceover overlays)
+- Avatar videos explain the product directly — no extra editing needed after generation
+- GuestGrowth webproduct URL: `https://seaandcityrentals.com/guestgrowth`
+- UGC video cost: 75 credits each — confirm before generating
+
+---
+
 ## Project Overview
 
 **Sea & City Rentals** is a vacation rental website for 9 properties across the Tampa Bay area (Tampa, St. Petersburg, Clearwater, Largo, Indian Rocks Beach). It is a full-stack SSR React app deployed to **Cloudflare Workers**, built on **TanStack Start** with file-based routing.
