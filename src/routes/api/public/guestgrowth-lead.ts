@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
 declare const __MAILERLITE_API_KEY__: string
+declare const __RESEND_API_KEY__: string
 
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
@@ -58,7 +59,7 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
 
         // Send owner notification email
         let emailSent = false
-        const _hasResend = !!process.env.RESEND_API_KEY
+        const _hasResend = !!(process.env.RESEND_API_KEY || __RESEND_API_KEY__)
         const _hasLovable = !!lovableApiKey
         const _hasML = !!(process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__)
         let emailDebug = `keys:${_hasLovable ? 'L' : ''}${_hasResend ? 'R' : ''}${_hasML ? 'M' : ''}`
@@ -100,7 +101,7 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
 
         // Path 2: Resend (free tier, no plan upgrade needed)
         if (!emailSent) {
-          const resendKey = process.env.RESEND_API_KEY || ''
+          const resendKey = process.env.RESEND_API_KEY || __RESEND_API_KEY__ || ''
           if (resendKey) {
             try {
               const resendRes = await fetch('https://api.resend.com/emails', {
