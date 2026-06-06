@@ -669,7 +669,7 @@ function GuestGrowthPage() {
                 <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#1A3A4A', marginBottom: '4px' }}>
                   {tier.name}
                 </h3>
-                <div style={{ fontSize: '42px', fontWeight: '800', color: '#1A3A4A', lineHeight: 1, margin: '16px 0 24px' }}>
+                <div style={{ fontSize: '42px', fontWeight: '800', color: '#1A3A4A', lineHeight: 1, margin: '16px 0 24px', whiteSpace: 'nowrap' }}>
                   {tier.price}
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px' }}>
