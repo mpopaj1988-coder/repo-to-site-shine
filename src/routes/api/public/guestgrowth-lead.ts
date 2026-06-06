@@ -58,7 +58,10 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
 
         // Send owner notification email
         let emailSent = false
-        let emailDebug = ''
+        const _hasResend = !!process.env.RESEND_API_KEY
+        const _hasLovable = !!lovableApiKey
+        const _hasML = !!(process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__)
+        let emailDebug = `keys:${_hasLovable ? 'L' : ''}${_hasResend ? 'R' : ''}${_hasML ? 'M' : ''}`
         const subject = `New GuestGrowth Lead: ${data.name}`
         const html = `<h2>New GuestGrowth Lead</h2>
 <p><strong>Name:</strong> ${data.name}<br>
