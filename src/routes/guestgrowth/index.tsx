@@ -4,11 +4,11 @@ import { useState } from 'react'
 export const Route = createFileRoute('/guestgrowth/')({
   head: () => ({
     meta: [
-      { title: 'GuestGrowth QR System — Replace StayFi + Guidebook Subscriptions' },
+      { title: 'GuestGrowth QR System — Done-For-You Guest Email Automation' },
       {
         name: 'description',
         content:
-          'Stop paying for StayFi AND a guidebook app every month. One QR code does both — guest guide + email capture — for a one-time fee that pays for itself in under a year.',
+          'We build your QR guest guide, set up email capture, and automate your follow-ups. You print a card. Your guest list grows on autopilot. One-time fee, no monthly costs.',
       },
     ],
   }),
@@ -17,35 +17,37 @@ export const Route = createFileRoute('/guestgrowth/')({
 
 const PRICING_TIERS = [
   {
-    id: 'qr-guide',
-    name: 'QR Guest Guide',
+    id: 'starter',
+    name: 'WiFi QR + Email Capture',
     price: '$299',
     description: 'One-time setup',
     features: [
       'Custom QR code for your property',
       'Mobile-optimized guest guide page',
       'WiFi credentials reveal',
+      'Email gate before WiFi reveal',
+      'Guest emails automatically collected',
       'House rules & check-in steps',
-      'Local recommendations section',
+      'Local recommendations (we research & write)',
       'Book Direct CTA built in',
     ],
-    cta: 'Get My QR Guide',
+    cta: 'Get Started',
     highlighted: false,
   },
   {
-    id: 'email-automation',
-    name: 'QR Guide + Email Capture',
+    id: 'automation',
+    name: 'WiFi QR + Email + Automation',
     price: '$399',
     description: 'One-time setup — most popular',
     features: [
-      'Everything in QR Guest Guide',
-      'Email gate before WiFi reveal',
-      'Builds your guest email list automatically',
-      'MailerLite automation setup',
+      'Everything in WiFi QR + Email Capture',
+      'Full MailerLite automation setup',
       'Welcome email to every new guest',
       'Re-booking campaign (10% off direct)',
+      'Review request sequence',
+      'All follow-up emails written for you',
     ],
-    cta: 'Get Email Automation',
+    cta: 'Get Full Automation',
     highlighted: true,
   },
   {
@@ -77,7 +79,46 @@ const COMPARISON_DATA = [
   { feature: 'Works across unlimited stays', us: true, stayfi: true, touchstay: true },
 ]
 
+const PAIN_CARDS = [
+  {
+    stat: '0 hrs',
+    label: 'Your time to set up',
+    detail:
+      'You send us 4 things. We research your neighborhood, write the guide content, build the page, and configure everything. You get a print-ready QR card back in 3–5 days.',
+  },
+  {
+    stat: '$300/yr',
+    label: 'What StayFi + a guidebook costs',
+    detail:
+      "Most hosts end up paying for two tools that still don't fully replace each other — hardware upfront, then monthly fees every year, forever.",
+  },
+  {
+    stat: '1 booking',
+    label: 'All it takes to pay for itself',
+    detail:
+      'One direct re-booking (avg. $700–$1,200 for a Florida property, no Airbnb cut) covers your entire GuestGrowth investment. Everything after that is pure profit.',
+  },
+]
+
+const WHAT_WE_BUILD = [
+  { label: 'Mobile guest guide page', detail: 'Written, designed, and hosted — guests open it instantly in their browser, no app needed.' },
+  { label: 'WiFi email gate', detail: 'Guests enter their email to unlock the password. Configured and tested before delivery.' },
+  { label: 'Local recommendations', detail: 'We research restaurants, beaches, and activities for your specific property location.' },
+  { label: 'Print-ready QR card', detail: 'Formatted and sized — take it to any print shop or print at home. Done.' },
+  { label: 'MailerLite account setup', detail: 'Your email list, automation triggers, and sequences fully configured. (Automation tier)', automationOnly: true },
+  { label: 'Welcome email sequence', detail: 'Written and automated — every new guest gets a personal-feeling welcome and check-in tips. (Automation tier)', automationOnly: true },
+  { label: 'Re-booking campaign', detail: '10% off direct booking offer, timed and automated. We write the copy. (Automation tier)', automationOnly: true },
+]
+
 const FAQ_ITEMS = [
+  {
+    q: 'Do I have to do any of the setup myself?',
+    a: "No. You send us four things: your property address, WiFi name & password, house rules, and an emergency contact. We research your neighborhood, write the local recommendations, build the guide page, set up the email capture, and configure all the automations. You get a print-ready QR card back in 3–5 business days. Your only job is to print it and place it at the property.",
+  },
+  {
+    q: 'What is the 30-day money-back guarantee?',
+    a: "If we deliver your completed guide and setup and you're not satisfied, we'll refund you in full within 30 days — no questions asked. We're confident in the results because we built this for our own 9 Tampa Bay properties before offering it to anyone else.",
+  },
   {
     q: 'How is this different from StayFi?',
     a: "StayFi requires you to buy their hardware ($89–$205 per access point) and pay a monthly fee on top. It captures emails but doesn't give guests a guide. GuestGrowth needs no hardware — guests scan a printed QR code — and includes the full guest guide built in.",
@@ -111,30 +152,12 @@ const FAQ_ITEMS = [
     a: "It's designed specifically for phones. Guests scan the QR code and it opens instantly in their browser — no app to download, no login, no friction. Works on every iPhone and Android.",
   },
   {
-    q: 'What if I don\'t have a website?',
-    a: "No website needed. If you want one, we can build you a direct booking site — just ask. But if you'd rather keep it simple, the email automation handles it without one. Instead of sending guests to a website, the follow-up email can say something like \"Reply to this email to book your next stay\" or \"Text me at (your number) for a direct booking discount.\" Many hosts with one or two properties prefer it that way — no website maintenance, just a direct conversation.",
+    q: "What if I don't have a website?",
+    a: "No website needed. The email automation works without one — your follow-up can say \"Reply to this email to book your next stay\" or \"Text me at (your number) for a direct booking discount.\" Many hosts with one or two properties prefer it that way. If you want a full site later, we build those too.",
   },
   {
     q: 'Can I use this for multiple properties?',
     a: 'Yes — each property gets its own QR code and guide page. Contact us for multi-property pricing.',
-  },
-]
-
-const PAIN_CARDS = [
-  {
-    stat: '$280+',
-    label: 'What StayFi costs in year one',
-    detail: '$89–$205 hardware upfront, then $5–$15/month on top. After that it\'s $60–$180 every year — forever.',
-  },
-  {
-    stat: '$180/yr',
-    label: 'What a guidebook subscription costs',
-    detail: 'Touch Stay, GoGuidebook, Folio — all charge monthly. A guidebook alone runs $84–$180/year with no email capture.',
-  },
-  {
-    stat: '$299',
-    label: 'GuestGrowth — one time, does both',
-    detail: 'Guest guide + WiFi email capture in one product. No hardware. No monthly fee. Pay once, own it forever.',
   },
 ]
 
@@ -167,8 +190,6 @@ function GuestGrowthPage() {
     message: '',
   })
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [emailDebug, setEmailDebug] = useState('')
-  const [keysDebug, setKeysDebug] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -180,9 +201,6 @@ function GuestGrowthPage() {
         body: JSON.stringify(formData),
       })
       if (!res.ok) throw new Error('Server error')
-      const json = await res.json() as { ok: boolean; _ml?: string }
-      setEmailDebug(json._ml ?? '')
-      setKeysDebug('')
       setFormState('success')
     } catch {
       setFormState('error')
@@ -235,20 +253,26 @@ function GuestGrowthPage() {
           fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase',
           color: '#C9A84C', marginBottom: '20px',
         }}>
-          For Airbnb & VRBO Hosts
+          Done-For-You · For Airbnb & VRBO Hosts
         </p>
         <h1 style={{
           fontSize: 'clamp(32px, 6vw, 58px)', fontWeight: '800', color: '#ffffff',
-          lineHeight: 1.1, margin: '0 auto 24px', maxWidth: '760px',
+          lineHeight: 1.1, margin: '0 auto 24px', maxWidth: '800px',
         }}>
-          One Product Replaces<br />StayFi + Your Guidebook App
+          Your Guest Email List,<br />On Autopilot
         </h1>
         <p style={{
           fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'rgba(255,255,255,0.75)',
-          maxWidth: '580px', margin: '0 auto 40px', lineHeight: 1.6,
+          maxWidth: '600px', margin: '0 auto 16px', lineHeight: 1.6,
         }}>
-          Guest guide + WiFi email capture in one QR code. No hardware. No monthly fee.
-          Pay $299 once — instead of $280+ a year forever. Works whether you have a website or not.
+          We build your QR guest guide, set up the email capture, and automate your follow-ups.
+          You print a card and place it at your property. That's your only job.
+        </p>
+        <p style={{
+          fontSize: '14px', color: 'rgba(255,255,255,0.5)',
+          margin: '0 auto 40px',
+        }}>
+          Replaces StayFi + your guidebook app. One-time fee. No hardware. No monthly costs.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
@@ -259,7 +283,7 @@ function GuestGrowthPage() {
               textDecoration: 'none', display: 'inline-block',
             }}
           >
-            Get My QR System →
+            Get My Setup →
           </a>
           <a
             href="/guestgrowth/sample"
@@ -275,40 +299,20 @@ function GuestGrowthPage() {
         </div>
       </section>
 
-      {/* ── Video embed ── swap src URL when ready ── */}
-      {/* <section style={{ backgroundColor: '#0d2233', padding: '48px 24px', textAlign: 'center' }}>
-        <p style={{
-          fontSize: '12px', letterSpacing: '0.25em', textTransform: 'uppercase',
-          color: '#C9A84C', marginBottom: '12px',
-        }}>
-          See It In Action
-        </p>
-        <div style={{
-          maxWidth: '360px', margin: '0 auto', borderRadius: '16px',
-          overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-          aspectRatio: '9/16',
-        }}>
-          <video
-            src="YOUR_VIDEO_URL_HERE"
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-        </div>
-      </section> */}
-
       {/* ── Trust bar ── */}
       <section style={{
         backgroundColor: '#f8f4ee', borderTop: '1px solid #e8dfc8',
         borderBottom: '1px solid #e8dfc8', padding: '20px 24px',
       }}>
         <div style={{
-          maxWidth: '800px', margin: '0 auto', display: 'flex',
+          maxWidth: '900px', margin: '0 auto', display: 'flex',
           justifyContent: 'center', gap: '40px', flexWrap: 'wrap', textAlign: 'center',
         }}>
-          {['One-time fee, no monthly costs', 'Setup in 3–5 business days', 'Works on any phone'].map((t) => (
+          {[
+            'We handle the entire setup',
+            'Ready in 3–5 business days',
+            '30-day money-back guarantee',
+          ].map((t) => (
             <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <CheckIcon color="#C9A84C" />
               <span style={{ fontSize: '13px', color: '#5a4a2a', fontWeight: '600' }}>{t}</span>
@@ -317,19 +321,19 @@ function GuestGrowthPage() {
         </div>
       </section>
 
-      {/* ── Pain section ── */}
+      {/* ── Pain / value section ── */}
       <section style={{ padding: '80px 24px', maxWidth: '960px', margin: '0 auto' }}>
         <p style={{
           textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
           textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
         }}>
-          The Problem
+          The Value
         </p>
         <h2 style={{
           textAlign: 'center', fontSize: 'clamp(24px, 4vw, 38px)', fontWeight: '800',
           color: '#1A3A4A', marginBottom: '48px', lineHeight: 1.2,
         }}>
-          Two subscriptions. Two bills.<br />One product replaces both.
+          Zero setup time. Pays for itself<br />with one direct booking.
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
           {PAIN_CARDS.map((c) => (
@@ -360,15 +364,20 @@ function GuestGrowthPage() {
           </p>
           <h2 style={{
             textAlign: 'center', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: '800',
-            color: '#1A3A4A', marginBottom: '48px',
+            color: '#1A3A4A', marginBottom: '8px',
           }}>
-            Three steps. Done once.
+            You do 5 minutes of work. We do the rest.
           </h2>
+          <p style={{
+            textAlign: 'center', color: '#666', fontSize: '15px', marginBottom: '48px',
+          }}>
+            This is a done-for-you service — not a DIY tool you have to figure out.
+          </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '32px' }}>
             {[
-              { step: '01', title: 'Send us 4 things', body: 'Property address, WiFi name & password, house rules, and an emergency contact. That\'s it — 5 minutes of your time.' },
-              { step: '02', title: 'We build everything', body: 'Your custom guide page, QR code, and local recommendations — researched and written for you. Ready in 3–5 business days.' },
-              { step: '03', title: 'Print & place the card', body: 'We send you a print-ready QR card. Leave it on the counter. Every guest who scans goes into your email list automatically.' },
+              { step: '01', title: 'You send us 4 things', body: 'Property address, WiFi name & password, house rules, and an emergency contact. That\'s it — 5 minutes of your time, one email.' },
+              { step: '02', title: 'We build everything', body: 'Your guide page, QR code, email capture gate, local recommendations (written for you), and all automation sequences. We handle it all.' },
+              { step: '03', title: 'You print & place the card', body: 'We send a print-ready QR card. Leave it on the counter. Every guest who scans goes into your email list automatically — forever.' },
             ].map((s) => (
               <div key={s.step} style={{ textAlign: 'center' }}>
                 <div style={{
@@ -389,57 +398,97 @@ function GuestGrowthPage() {
         </div>
       </section>
 
-      {/* ── No website needed ── */}
+      {/* ── What we build for you ── */}
       <section style={{ padding: '80px 24px', maxWidth: '860px', margin: '0 auto' }}>
         <p style={{
           textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
           textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
         }}>
-          Flexible by design
+          What's Included
         </p>
         <h2 style={{
           textAlign: 'center', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '800',
-          color: '#1A3A4A', marginBottom: '16px', lineHeight: 1.2,
+          color: '#1A3A4A', marginBottom: '12px', lineHeight: 1.2,
         }}>
-          Have a website? Great. Don't have one? Also great.
+          Everything is built and delivered to you.
         </h2>
         <p style={{
-          textAlign: 'center', color: '#555', fontSize: '16px', lineHeight: 1.7,
-          maxWidth: '640px', margin: '0 auto 48px',
+          textAlign: 'center', color: '#666', fontSize: '15px', marginBottom: '48px', maxWidth: '560px', margin: '0 auto 48px',
         }}>
-          If you have a direct booking site, your email follow-ups send guests straight there.
-          If you don't, no problem — the emails can direct guests to reply, text you, or book however works best for you.
-          GuestGrowth fits your setup, not the other way around.
+          This isn't software you configure yourself. We do the research, the writing, the technical setup, and the automation — and hand you a finished product.
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
-          {[
-            {
-              icon: '✉️',
-              title: 'Reply-to-book',
-              body: 'Your follow-up email can simply say "Reply to this email and I\'ll send you a direct booking discount." No website, no checkout — just a real conversation.',
-            },
-            {
-              icon: '📱',
-              title: 'Text for direct bookings',
-              body: 'We can set your emails to say "Text me at (your number) to book your next stay and skip the Airbnb fee." Works great for hosts who prefer talking directly.',
-            },
-            {
-              icon: '🔗',
-              title: 'Add a website later',
-              body: 'If you grow to 5+ properties and want a full direct booking site, we build those too. Start simple now — upgrade when it makes sense.',
-            },
-          ].map((card) => (
-            <div key={card.title} style={{
-              backgroundColor: '#f9f9f9', borderRadius: '10px', padding: '28px 24px',
-              borderTop: '3px solid #1A3A4A',
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px' }}>
+          {WHAT_WE_BUILD.map((item) => (
+            <div key={item.label} style={{
+              display: 'flex', gap: '14px', alignItems: 'flex-start',
+              padding: '20px 24px', borderRadius: '8px',
+              backgroundColor: item.automationOnly ? '#f8f4ee' : '#f9f9f9',
+              border: item.automationOnly ? '1px solid #e8dfc8' : '1px solid #efefef',
             }}>
-              <div style={{ fontSize: '28px', marginBottom: '12px' }}>{card.icon}</div>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#1A3A4A', marginBottom: '8px' }}>
-                {card.title}
-              </h3>
-              <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.6, margin: 0 }}>{card.body}</p>
+              <CheckIcon color={item.automationOnly ? '#C9A84C' : '#1A3A4A'} />
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: '700', color: '#1A3A4A', marginBottom: '4px' }}>
+                  {item.label}
+                </div>
+                <div style={{ fontSize: '13px', color: '#666', lineHeight: 1.5 }}>{item.detail}</div>
+              </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── No website needed ── */}
+      <section style={{ backgroundColor: '#f9f9f9', padding: '80px 24px' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+          <p style={{
+            textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
+          }}>
+            Flexible by Design
+          </p>
+          <h2 style={{
+            textAlign: 'center', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '800',
+            color: '#1A3A4A', marginBottom: '16px', lineHeight: 1.2,
+          }}>
+            Have a website? Great. Don't have one? Also great.
+          </h2>
+          <p style={{
+            textAlign: 'center', color: '#555', fontSize: '16px', lineHeight: 1.7,
+            maxWidth: '640px', margin: '0 auto 48px',
+          }}>
+            If you have a direct booking site, your email follow-ups send guests straight there.
+            If you don't, no problem — the emails can direct guests to reply, text you, or book however works best for you.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+            {[
+              {
+                icon: '✉️',
+                title: 'Reply-to-book',
+                body: 'Your follow-up email can simply say "Reply to this email and I\'ll send you a direct booking discount." No website, no checkout — just a real conversation.',
+              },
+              {
+                icon: '📱',
+                title: 'Text for direct bookings',
+                body: 'We can set your emails to say "Text me at (your number) to book your next stay and skip the Airbnb fee." Great for hosts who prefer talking directly.',
+              },
+              {
+                icon: '🔗',
+                title: 'Add a website later',
+                body: 'If you grow to 5+ properties and want a full direct booking site, we build those too. Start simple now — upgrade when it makes sense.',
+              },
+            ].map((card) => (
+              <div key={card.title} style={{
+                backgroundColor: '#ffffff', borderRadius: '10px', padding: '28px 24px',
+                borderTop: '3px solid #1A3A4A',
+              }}>
+                <div style={{ fontSize: '28px', marginBottom: '12px' }}>{card.icon}</div>
+                <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#1A3A4A', marginBottom: '8px' }}>
+                  {card.title}
+                </h3>
+                <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.6, margin: 0 }}>{card.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -474,66 +523,98 @@ function GuestGrowthPage() {
         </a>
       </section>
 
-      {/* ── Comparison table ── */}
-      <section style={{ padding: '80px 24px', maxWidth: '840px', margin: '0 auto' }}>
+      {/* ── Testimonial ── */}
+      <section style={{ padding: '80px 24px', maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
         <p style={{
-          textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
-          textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
+          fontSize: '12px', letterSpacing: '0.25em', textTransform: 'uppercase',
+          color: '#C9A84C', marginBottom: '32px',
         }}>
-          Why GuestGrowth
+          Built on Our Own Properties First
         </p>
-        <h2 style={{
-          textAlign: 'center', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: '800',
-          color: '#1A3A4A', marginBottom: '12px',
+        <blockquote style={{
+          fontSize: 'clamp(17px, 2.5vw, 22px)', fontStyle: 'italic', color: '#1A3A4A',
+          lineHeight: 1.65, margin: '0 0 28px', fontWeight: '400',
         }}>
-          StayFi does WiFi. Touch Stay does guidebooks.<br />Neither does both.
-        </h2>
-        <p style={{ textAlign: 'center', color: '#666', fontSize: '15px', marginBottom: '40px' }}>
-          Most hosts end up paying for two tools. GuestGrowth is one.
-        </p>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ borderBottom: '2px solid #1A3A4A' }}>
-                <th style={{ textAlign: 'left', padding: '12px 16px', fontSize: '13px', color: '#666' }}>Feature</th>
-                {[
-                  { label: 'GuestGrowth', sub: '$299 once' },
-                  { label: 'StayFi', sub: '$100 hardware + $15/mo' },
-                  { label: 'Touch Stay', sub: '$15/mo guidebook only' },
-                ].map((h) => (
-                  <th key={h.label} style={{
-                    textAlign: 'center', padding: '12px 8px', fontSize: '13px',
-                    color: h.label === 'GuestGrowth' ? '#1A3A4A' : '#999',
-                    fontWeight: h.label === 'GuestGrowth' ? '800' : '600',
-                  }}>
-                    <div>{h.label}</div>
-                    <div style={{ fontSize: '11px', fontWeight: '400', marginTop: '2px', color: h.label === 'GuestGrowth' ? '#C9A84C' : '#bbb' }}>{h.sub}</div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {COMPARISON_DATA.map((row, i) => (
-                <tr key={row.feature} style={{ backgroundColor: i % 2 === 0 ? '#fafafa' : '#ffffff', borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px 16px', fontSize: '14px', color: '#333' }}>{row.feature}</td>
-                  <td style={{ textAlign: 'center', padding: '12px 8px' }}>
-                    {row.us ? <CheckIcon /> : <XIcon />}
-                  </td>
-                  <td style={{ textAlign: 'center', padding: '12px 8px' }}>
-                    {row.stayfi ? <CheckIcon color="#6b7280" /> : <XIcon />}
-                  </td>
-                  <td style={{ textAlign: 'center', padding: '12px 8px' }}>
-                    {row.touchstay ? <CheckIcon color="#6b7280" /> : <XIcon />}
-                  </td>
+          "We run 9 vacation rentals across Tampa Bay. We built GuestGrowth for ourselves before offering it to anyone else. First season: 180+ guest emails collected, 11 direct re-bookings, over $4,000 saved in Airbnb fees. That's when we knew other hosts needed this."
+        </blockquote>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+          <div style={{
+            width: '44px', height: '44px', borderRadius: '50%',
+            backgroundColor: '#1A3A4A', color: '#C9A84C',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '16px', fontWeight: '800',
+          }}>
+            M
+          </div>
+          <div style={{ textAlign: 'left' }}>
+            <div style={{ fontSize: '14px', fontWeight: '700', color: '#1A3A4A' }}>Marko P.</div>
+            <div style={{ fontSize: '13px', color: '#888' }}>Sea & City Rentals · Tampa Bay, FL · 9 properties</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Comparison table ── */}
+      <section style={{ backgroundColor: '#f9f9f9', padding: '80px 24px' }}>
+        <div style={{ maxWidth: '840px', margin: '0 auto' }}>
+          <p style={{
+            textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
+          }}>
+            Why GuestGrowth
+          </p>
+          <h2 style={{
+            textAlign: 'center', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: '800',
+            color: '#1A3A4A', marginBottom: '12px',
+          }}>
+            StayFi does WiFi. Touch Stay does guidebooks.<br />Neither does both.
+          </h2>
+          <p style={{ textAlign: 'center', color: '#666', fontSize: '15px', marginBottom: '40px' }}>
+            Most hosts end up paying for two tools. GuestGrowth is one — and we set it all up for you.
+          </p>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid #1A3A4A' }}>
+                  <th style={{ textAlign: 'left', padding: '12px 16px', fontSize: '13px', color: '#666' }}>Feature</th>
+                  {[
+                    { label: 'GuestGrowth', sub: 'from $299 one-time' },
+                    { label: 'StayFi', sub: '$100 hardware + $15/mo' },
+                    { label: 'Touch Stay', sub: '$15/mo guidebook only' },
+                  ].map((h) => (
+                    <th key={h.label} style={{
+                      textAlign: 'center', padding: '12px 8px', fontSize: '13px',
+                      color: h.label === 'GuestGrowth' ? '#1A3A4A' : '#999',
+                      fontWeight: h.label === 'GuestGrowth' ? '800' : '600',
+                    }}>
+                      <div>{h.label}</div>
+                      <div style={{ fontSize: '11px', fontWeight: '400', marginTop: '2px', color: h.label === 'GuestGrowth' ? '#C9A84C' : '#bbb' }}>{h.sub}</div>
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {COMPARISON_DATA.map((row, i) => (
+                  <tr key={row.feature} style={{ backgroundColor: i % 2 === 0 ? '#fafafa' : '#ffffff', borderBottom: '1px solid #eee' }}>
+                    <td style={{ padding: '12px 16px', fontSize: '14px', color: '#333' }}>{row.feature}</td>
+                    <td style={{ textAlign: 'center', padding: '12px 8px' }}>
+                      {row.us ? <CheckIcon /> : <XIcon />}
+                    </td>
+                    <td style={{ textAlign: 'center', padding: '12px 8px' }}>
+                      {row.stayfi ? <CheckIcon color="#6b7280" /> : <XIcon />}
+                    </td>
+                    <td style={{ textAlign: 'center', padding: '12px 8px' }}>
+                      {row.touchstay ? <CheckIcon color="#6b7280" /> : <XIcon />}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
       {/* ── Pricing ── */}
-      <section id="pricing" style={{ backgroundColor: '#f9f9f9', padding: '80px 24px' }}>
+      <section id="pricing" style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: '960px', margin: '0 auto' }}>
           <p style={{
             textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
@@ -545,24 +626,26 @@ function GuestGrowthPage() {
             textAlign: 'center', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: '800',
             color: '#1A3A4A', marginBottom: '12px',
           }}>
-            One-time fee. No subscriptions.
+            One-time fee. We do all the work.
           </h2>
-          <p style={{ textAlign: 'center', color: '#666', marginBottom: '32px', fontSize: '15px' }}>
-            Pay once, use forever. Most hosts recoup the cost in a single direct booking.
+          <p style={{ textAlign: 'center', color: '#666', marginBottom: '16px', fontSize: '15px' }}>
+            Pay once, own it forever. Most hosts recoup the cost with a single direct booking.
           </p>
+
+          {/* Scarcity banner */}
           <div style={{
-            backgroundColor: '#1A3A4A', borderRadius: '10px', padding: '20px 28px',
-            marginBottom: '40px', display: 'flex', alignItems: 'flex-start', gap: '12px',
+            backgroundColor: '#fff8e6', border: '1px solid #e8dfc8', borderRadius: '8px',
+            padding: '14px 24px', marginBottom: '32px', textAlign: 'center',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
           }}>
-            <span style={{ fontSize: '20px', flexShrink: 0 }}>💡</span>
-            <p style={{ margin: 0, fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6 }}>
-              Touch Stay is <strong style={{ color: '#ffffff' }}>$15/mo</strong> (guidebook, no email capture).
-              StayFi is <strong style={{ color: '#ffffff' }}>$10/mo + $100 equipment</strong> (email capture, no guidebook).
-              Together that's <strong style={{ color: '#C9A84C' }}>$400 in year one</strong> and{' '}
-              <strong style={{ color: '#C9A84C' }}>$300 every year after</strong> — for two tools that still don't fully replace each other.
-              GuestGrowth does both for <strong style={{ color: '#C9A84C' }}>$299 — once.</strong>
+            <span style={{ fontSize: '16px' }}>⏳</span>
+            <p style={{ margin: 0, fontSize: '14px', color: '#7a5c1a', fontWeight: '600' }}>
+              We personally handle every setup — currently accepting{' '}
+              <strong style={{ color: '#1A3A4A' }}>5 new setups this month.</strong>{' '}
+              A few spots remaining.
             </p>
           </div>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
             {PRICING_TIERS.map((tier) => (
               <div key={tier.id} style={{
@@ -610,6 +693,87 @@ function GuestGrowthPage() {
                 </button>
               </div>
             ))}
+          </div>
+
+          {/* Guarantee note */}
+          <div style={{
+            marginTop: '32px', textAlign: 'center', display: 'flex',
+            alignItems: 'center', justifyContent: 'center', gap: '10px',
+          }}>
+            <span style={{ fontSize: '22px' }}>🛡️</span>
+            <p style={{ margin: 0, fontSize: '14px', color: '#555' }}>
+              <strong style={{ color: '#1A3A4A' }}>30-day money-back guarantee.</strong>{' '}
+              If you're not satisfied after we deliver your setup, we'll refund you in full — no questions asked.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── What you receive (notification mockup) ── */}
+      <section style={{ backgroundColor: '#f9f9f9', padding: '80px 24px' }}>
+        <div style={{ maxWidth: '680px', margin: '0 auto' }}>
+          <p style={{
+            textAlign: 'center', fontSize: '12px', letterSpacing: '0.25em',
+            textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px',
+          }}>
+            What You Get
+          </p>
+          <h2 style={{
+            textAlign: 'center', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: '800',
+            color: '#1A3A4A', marginBottom: '16px',
+          }}>
+            The moment someone's interested, you know.
+          </h2>
+          <p style={{
+            textAlign: 'center', color: '#666', fontSize: '15px', marginBottom: '40px',
+          }}>
+            Every lead submission sends you an instant notification like this:
+          </p>
+
+          {/* Email mockup */}
+          <div style={{
+            backgroundColor: '#ffffff', border: '1px solid #e5e5e5', borderRadius: '12px',
+            overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+          }}>
+            {/* Email header bar */}
+            <div style={{
+              backgroundColor: '#1A3A4A', padding: '12px 20px',
+              display: 'flex', alignItems: 'center', gap: '8px',
+            }}>
+              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
+              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#f59e0b' }} />
+              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', marginLeft: '8px' }}>Email notification</span>
+            </div>
+            {/* Email meta */}
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f0f0f0' }}>
+              <div style={{ fontSize: '13px', color: '#888', marginBottom: '4px' }}>
+                <strong style={{ color: '#555' }}>From:</strong> GuestGrowth Alerts &lt;vacation@seaandcityrentals.com&gt;
+              </div>
+              <div style={{ fontSize: '13px', color: '#888', marginBottom: '12px' }}>
+                <strong style={{ color: '#555' }}>Subject:</strong> New GuestGrowth lead just came in
+              </div>
+              <div style={{ fontSize: '16px', fontWeight: '700', color: '#1A3A4A' }}>
+                New GuestGrowth lead just came in:
+              </div>
+            </div>
+            {/* Email body */}
+            <div style={{ padding: '20px 24px' }}>
+              {[
+                { label: 'From', value: 'Sarah Martinez <sarah@gmail.com>' },
+                { label: 'Package', value: 'WiFi QR + Email + Automation — $399' },
+                { label: 'Properties', value: '2' },
+                { label: 'Listing', value: 'airbnb.com/rooms/12345678' },
+                { label: 'Message', value: 'Looking to set up before summer season. Both properties are in Clearwater.' },
+              ].map((row) => (
+                <div key={row.label} style={{
+                  display: 'flex', gap: '12px', marginBottom: '10px', fontSize: '14px',
+                }}>
+                  <span style={{ color: '#888', minWidth: '72px', fontWeight: '600' }}>{row.label}:</span>
+                  <span style={{ color: '#1A3A4A' }}>{row.value}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -728,6 +892,16 @@ function GuestGrowthPage() {
             >
               {formState === 'loading' ? 'Sending…' : 'Send My Request →'}
             </button>
+            {/* Guarantee badge */}
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              gap: '8px', paddingTop: '4px',
+            }}>
+              <span style={{ fontSize: '16px' }}>🛡️</span>
+              <span style={{ fontSize: '12px', color: '#888' }}>
+                30-day money-back guarantee — if you're not satisfied, we'll refund you in full.
+              </span>
+            </div>
           </form>
         )}
       </section>
@@ -778,10 +952,13 @@ function GuestGrowthPage() {
           fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: '800', color: '#ffffff',
           marginBottom: '16px', lineHeight: 1.2,
         }}>
-          Stop paying two monthly bills<br />for one problem.
+          Your guest list won't grow itself.<br />Let us automate it for you.
         </h2>
-        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', marginBottom: '36px', maxWidth: '480px', margin: '0 auto 36px' }}>
-          StayFi + a guidebook app costs $280–$360 every single year. GuestGrowth does both for $299 — once.
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '16px', maxWidth: '480px', margin: '0 auto 16px' }}>
+          Done-for-you setup in 3–5 days. One-time fee. Pays for itself with one direct booking.
+        </p>
+        <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '13px', marginBottom: '36px' }}>
+          🛡️ 30-day money-back guarantee
         </p>
         <a
           href="#get-started"
@@ -791,7 +968,7 @@ function GuestGrowthPage() {
             textDecoration: 'none', display: 'inline-block',
           }}
         >
-          Get My QR System →
+          Get My Setup →
         </a>
       </section>
 
