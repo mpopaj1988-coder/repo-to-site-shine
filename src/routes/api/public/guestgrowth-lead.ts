@@ -6,6 +6,8 @@ import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
+declare const __MAILERLITE_API_KEY__: string
+
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
@@ -55,6 +57,7 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         }
 
         // Send owner notification email
+        let emailSent = false
         try {
           const template = TEMPLATES['guestgrowth-lead-notify']
           const props = {
@@ -88,8 +91,38 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
               },
               { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
             )
-          } else if (supabase) {
-            await supabase.rpc('enqueue_email', {
+            emailSent = true
+          }
+
+          // Fallback: MailerLite transactional email (uses same API key as subscriber sync)
+          if (!emailSent) {
+            const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
+            if (mlApiKey) {
+              const mlRes = await fetch('https://connect.mailerlite.com/api/emails', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${mlApiKey}`,
+                },
+                body: JSON.stringify({
+                  from: { email: `noreply@${FROM_DOMAIN}`, name: SITE_NAME },
+                  to: [{ email: OWNER_EMAIL }],
+                  subject,
+                  html,
+                  text: plainText,
+                }),
+              })
+              if (mlRes.ok) {
+                emailSent = true
+              } else {
+                console.error('MailerLite transactional error', mlRes.status, await mlRes.text())
+              }
+            }
+          }
+
+          // Last resort: Supabase email queue
+          if (!emailSent && supabase) {
+            const { error: rpcError } = await supabase.rpc('enqueue_email', {
               queue_name: 'transactional_emails',
               payload: {
                 message_id: messageId,
@@ -105,6 +138,12 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
                 queued_at: new Date().toISOString(),
               },
             })
+            if (!rpcError) emailSent = true
+            else console.error('enqueue_email error', JSON.stringify(rpcError))
+          }
+
+          if (!emailSent) {
+            console.error('guestgrowth-lead: all email paths failed — lead saved but no owner notification sent', { name: data.name, email: data.email, package: data.package })
           }
         } catch (err) {
           console.error('Owner notification failed', err)
