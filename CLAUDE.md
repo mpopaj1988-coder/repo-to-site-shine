@@ -6,6 +6,10 @@
 - **Always do the best quality work, cost-efficiently** — don't waste resources on things that don't move the needle
 - Think before acting: choose the approach that gives the best result with the least waste
 - Never do something expensive or irreversible without confirming first
+- **Owner is completely new to marketing and AI tools** — always explain what something is, why it matters, and what it will do before doing it
+- **Always present options with expected outcomes** before taking any action — never just do something because it seems obvious
+- **Walk through everything step-by-step** — assume no prior knowledge of tools, platforms, or marketing concepts
+- Owner tends to trust recommendations blindly — this means extra responsibility to explain trade-offs, costs, and consequences clearly before proceeding
 
 ### Video Generation
 - **Always check cost and get approval before generating any video** — never generate without explicit go-ahead
