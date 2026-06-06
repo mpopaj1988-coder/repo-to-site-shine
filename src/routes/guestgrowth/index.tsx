@@ -168,6 +168,7 @@ function GuestGrowthPage() {
   })
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [emailDebug, setEmailDebug] = useState('')
+  const [keysDebug, setKeysDebug] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -179,8 +180,9 @@ function GuestGrowthPage() {
         body: JSON.stringify(formData),
       })
       if (!res.ok) throw new Error('Server error')
-      const json = await res.json() as { ok: boolean; _email?: string }
+      const json = await res.json() as { ok: boolean; _email?: string; _keys?: string }
       setEmailDebug(json._email ?? 'no-debug-field')
+      setKeysDebug(json._keys ?? '')
       setFormState('success')
     } catch {
       setFormState('error')
@@ -640,9 +642,10 @@ function GuestGrowthPage() {
             <p style={{ color: '#555', fontSize: '15px', margin: 0 }}>
               Expect an email from us within 24 hours. Check your spam folder just in case.
             </p>
-            {emailDebug && (
-              <p style={{ marginTop: '12px', fontSize: '11px', color: '#999', fontFamily: 'monospace' }}>
-                email: {emailDebug}
+            {(emailDebug || keysDebug) && (
+              <p style={{ marginTop: '12px', fontSize: '11px', color: '#999', fontFamily: 'monospace', lineHeight: 1.6 }}>
+                {keysDebug && <><strong>keys:</strong> {keysDebug}<br /></>}
+                {emailDebug && <><strong>email:</strong> {emailDebug}</>}
               </p>
             )}
           </div>

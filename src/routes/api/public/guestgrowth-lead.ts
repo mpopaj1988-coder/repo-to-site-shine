@@ -181,7 +181,11 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         //   body: JSON.stringify({ fields: { Name: data.name, Email: data.email, Package: data.package } }),
         // })
 
-        return Response.json({ ok: true, _email: emailDebug })
+        return Response.json({
+          ok: true,
+          _keys: `L:${_hasLovable} R:${_hasResend} M:${_hasML}`,
+          _email: emailDebug,
+        })
       },
     },
   },
