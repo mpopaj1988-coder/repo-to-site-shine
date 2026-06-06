@@ -58,24 +58,20 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
 
         // Send owner notification email
         let emailSent = false
-        try {
-          const template = TEMPLATES['guestgrowth-lead-notify']
-          const props = {
-            name: data.name,
-            email: data.email,
-            num_properties: data.num_properties ?? undefined,
-            listing_url: data.listing_url ?? undefined,
-            package: data.package ?? undefined,
-            message: data.message ?? undefined,
-          }
-          const element = React.createElement(template.component, props)
-          const html = await render(element)
-          const plainText = await render(element, { plainText: true })
-          const subject = typeof template.subject === 'function'
-            ? template.subject(props) : template.subject
-          const messageId = crypto.randomUUID()
+        let emailDebug = ''
+        const subject = `New GuestGrowth Lead: ${data.name}`
+        const html = `<h2>New GuestGrowth Lead</h2>
+<p><strong>Name:</strong> ${data.name}<br>
+<strong>Email:</strong> ${data.email}<br>
+<strong>Properties:</strong> ${data.num_properties ?? '—'}<br>
+<strong>Listing URL:</strong> ${data.listing_url ?? '—'}<br>
+<strong>Package:</strong> ${data.package ?? '—'}<br>
+<strong>Message:</strong> ${data.message ?? '—'}</p>`
+        const text = `New GuestGrowth Lead\n\nName: ${data.name}\nEmail: ${data.email}\nProperties: ${data.num_properties ?? '—'}\nListing: ${data.listing_url ?? '—'}\nPackage: ${data.package ?? '—'}\nMessage: ${data.message ?? '—'}`
 
-          if (lovableApiKey) {
+        // Path 1: Lovable email API
+        if (lovableApiKey && !emailSent) {
+          try {
             await sendLovableEmail(
               {
                 to: OWNER_EMAIL,
@@ -83,70 +79,58 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
                 sender_domain: SENDER_DOMAIN,
                 subject,
                 html,
-                text: plainText,
+                text,
                 purpose: 'transactional',
                 label: 'guestgrowth-lead-notify',
                 idempotency_key: `guestgrowth-lead-${data.email}-${Date.now()}`,
-                message_id: messageId,
+                message_id: crypto.randomUUID(),
               },
               { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
             )
             emailSent = true
+            emailDebug = 'lovable'
+          } catch (err: any) {
+            emailDebug = `lovable-error: ${err?.message ?? err}`
+            console.error('Lovable email failed', err)
           }
+        }
 
-          // Fallback: MailerLite transactional email (uses same API key as subscriber sync)
-          if (!emailSent) {
-            const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
-            if (mlApiKey) {
+        // Path 2: MailerLite transactional email
+        if (!emailSent) {
+          const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
+          if (mlApiKey) {
+            try {
               const mlRes = await fetch('https://connect.mailerlite.com/api/emails', {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${mlApiKey}`,
-                },
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${mlApiKey}` },
                 body: JSON.stringify({
                   from: { email: `noreply@${FROM_DOMAIN}`, name: SITE_NAME },
                   to: [{ email: OWNER_EMAIL }],
                   subject,
                   html,
-                  text: plainText,
+                  text,
                 }),
               })
+              const mlBody = await mlRes.text()
               if (mlRes.ok) {
                 emailSent = true
+                emailDebug = 'mailerlite'
               } else {
-                console.error('MailerLite transactional error', mlRes.status, await mlRes.text())
+                emailDebug = `mailerlite-error-${mlRes.status}: ${mlBody}`
+                console.error('MailerLite transactional error', mlRes.status, mlBody)
               }
+            } catch (err: any) {
+              emailDebug = `mailerlite-exception: ${err?.message ?? err}`
+              console.error('MailerLite fetch failed', err)
             }
+          } else {
+            emailDebug = 'no-ml-key'
+            console.error('guestgrowth-lead: MAILERLITE_API_KEY not available')
           }
+        }
 
-          // Last resort: Supabase email queue
-          if (!emailSent && supabase) {
-            const { error: rpcError } = await supabase.rpc('enqueue_email', {
-              queue_name: 'transactional_emails',
-              payload: {
-                message_id: messageId,
-                to: OWNER_EMAIL,
-                from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
-                sender_domain: SENDER_DOMAIN,
-                subject,
-                html,
-                text: plainText,
-                purpose: 'transactional',
-                label: 'guestgrowth-lead-notify',
-                idempotency_key: `guestgrowth-lead-${data.email}-${Date.now()}`,
-                queued_at: new Date().toISOString(),
-              },
-            })
-            if (!rpcError) emailSent = true
-            else console.error('enqueue_email error', JSON.stringify(rpcError))
-          }
-
-          if (!emailSent) {
-            console.error('guestgrowth-lead: all email paths failed — lead saved but no owner notification sent', { name: data.name, email: data.email, package: data.package })
-          }
-        } catch (err) {
-          console.error('Owner notification failed', err)
+        if (!emailSent) {
+          console.error('guestgrowth-lead: all email paths failed', emailDebug, { name: data.name, email: data.email })
         }
 
         // ── Future: ConvertKit ──────────────────────────────────────────────
@@ -163,7 +147,7 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         //   body: JSON.stringify({ fields: { Name: data.name, Email: data.email, Package: data.package } }),
         // })
 
-        return Response.json({ ok: true })
+        return Response.json({ ok: true, _email: emailDebug })
       },
     },
   },
