@@ -95,7 +95,38 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
           }
         }
 
-        // Path 2: MailerLite transactional email
+        // Path 2: Resend (free tier, no plan upgrade needed)
+        if (!emailSent) {
+          const resendKey = process.env.RESEND_API_KEY || ''
+          if (resendKey) {
+            try {
+              const resendRes = await fetch('https://api.resend.com/emails', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
+                body: JSON.stringify({
+                  from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                  to: [OWNER_EMAIL],
+                  subject,
+                  html,
+                  text,
+                }),
+              })
+              const resendBody = await resendRes.text()
+              if (resendRes.ok) {
+                emailSent = true
+                emailDebug = 'resend'
+              } else {
+                emailDebug = `resend-error-${resendRes.status}: ${resendBody}`
+                console.error('Resend error', resendRes.status, resendBody)
+              }
+            } catch (err: any) {
+              emailDebug = `resend-exception: ${err?.message ?? err}`
+              console.error('Resend fetch failed', err)
+            }
+          }
+        }
+
+        // Path 3: MailerLite transactional email (requires paid add-on)
         if (!emailSent) {
           const mlApiKey = process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__ || ''
           if (mlApiKey) {
