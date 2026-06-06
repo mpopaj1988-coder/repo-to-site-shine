@@ -2,6 +2,11 @@
 
 ## Owner Preferences
 
+### General
+- **Always do the best quality work, cost-efficiently** — don't waste resources on things that don't move the needle
+- Think before acting: choose the approach that gives the best result with the least waste
+- Never do something expensive or irreversible without confirming first
+
 ### Video Generation
 - **Always check cost and get approval before generating any video** — never generate without explicit go-ahead
 - **Avatar UGC videos only** (marketing_studio_video model, UGC preset, Sofia or female avatar talking to camera)
