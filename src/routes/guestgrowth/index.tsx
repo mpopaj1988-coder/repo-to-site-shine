@@ -53,7 +53,7 @@ const PRICING_TIERS = [
   {
     id: 'full-site',
     name: 'Direct Booking Website',
-    price: '$999+',
+    price: '$999',
     description: 'Custom quote',
     features: [
       'Everything in Email Automation',
