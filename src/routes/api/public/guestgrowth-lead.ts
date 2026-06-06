@@ -81,8 +81,6 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
             }
 
             if (groupId) {
-              // Add the OWNER to the group (so MailerLite automation emails the owner).
-              // Lead details are stored as custom fields on the owner's subscriber record.
               const leadSummary = [
                 `From: ${data.name} <${data.email}>`,
                 data.package ? `Package: ${data.package}` : '',
@@ -91,6 +89,27 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
                 data.message ? `Message: ${data.message}` : '',
               ].filter(Boolean).join(' | ')
 
+              // Update owner subscriber record with lead details
+              const updateRes = await fetch('https://connect.mailerlite.com/api/subscribers', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${mlApiKey}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: OWNER_EMAIL,
+                  fields: { name: 'GuestGrowth Alert', last_name: leadSummary },
+                  status: 'active',
+                }),
+              })
+              const ownerData = await updateRes.json() as any
+              const ownerId = ownerData?.data?.id ?? ''
+
+              // Remove owner from group then re-add — forces "joins group" trigger to fire
+              if (ownerId) {
+                await fetch(`https://connect.mailerlite.com/api/subscribers/${ownerId}/groups/${groupId}`, {
+                  method: 'DELETE',
+                  headers: { Authorization: `Bearer ${mlApiKey}` },
+                })
+              }
+
               const subRes = await fetch('https://connect.mailerlite.com/api/subscribers', {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${mlApiKey}`, 'Content-Type': 'application/json' },
@@ -98,7 +117,6 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
                   email: OWNER_EMAIL,
                   fields: { name: 'GuestGrowth Alert', last_name: leadSummary },
                   groups: [groupId],
-                  resubscribe: true,
                   status: 'active',
                 }),
               })
