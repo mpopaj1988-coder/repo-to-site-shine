@@ -10,7 +10,7 @@
 ### Video Generation
 - **Always check cost and get approval before generating any video** — never generate without explicit go-ahead
 - **Avatar UGC videos only** (marketing_studio_video model, UGC preset, Sofia or female avatar talking to camera)
-- Do NOT generate cinematic/lifestyle videos (kling3_0) — they require too much post-production work (CapCut, voiceover overlays)
+- Do NOT generate cinematic/lifestyle videos (kling3_0) — they require too much post-production work (CapCut, voiceover overlays), produce blurry images, and cannot render readable text on screens/phones/laptops (always distorted)
 - Avatar videos explain the product directly — no extra editing needed after generation
 - GuestGrowth webproduct URL: `https://seaandcityrentals.com/guestgrowth`
 - UGC video cost: 75 credits each — confirm before generating
