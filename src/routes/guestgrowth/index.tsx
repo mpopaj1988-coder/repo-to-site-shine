@@ -180,9 +180,9 @@ function GuestGrowthPage() {
         body: JSON.stringify(formData),
       })
       if (!res.ok) throw new Error('Server error')
-      const json = await res.json() as { ok: boolean; _email?: string; _keys?: string }
+      const json = await res.json() as { ok: boolean; _email?: string }
       setEmailDebug(json._email ?? 'no-debug-field')
-      setKeysDebug(json._keys ?? '')
+      setKeysDebug('')
       setFormState('success')
     } catch {
       setFormState('error')

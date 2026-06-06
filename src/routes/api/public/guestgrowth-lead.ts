@@ -59,10 +59,12 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
 
         // Send owner notification email
         let emailSent = false
-        const _hasResend = !!(process.env.RESEND_API_KEY || __RESEND_API_KEY__)
+        const _rtResend = process.env.RESEND_API_KEY ?? ''
+        const _bkResend = __RESEND_API_KEY__ ?? ''
+        const _hasResend = !!(_rtResend || _bkResend)
         const _hasLovable = !!lovableApiKey
         const _hasML = !!(process.env.MAILERLITE_API_KEY || process.env.VITE_MAILERLITE_API_KEY || __MAILERLITE_API_KEY__)
-        let emailDebug = `keys:${_hasLovable ? 'L' : ''}${_hasResend ? 'R' : ''}${_hasML ? 'M' : ''}`
+        let emailDebug = `rt=${_rtResend.length} bk=${_bkResend.length} ML=${_hasML}`
         const subject = `New GuestGrowth Lead: ${data.name}`
         const html = `<h2>New GuestGrowth Lead</h2>
 <p><strong>Name:</strong> ${data.name}<br>
@@ -182,11 +184,7 @@ export const Route = createFileRoute('/api/public/guestgrowth-lead')({
         //   body: JSON.stringify({ fields: { Name: data.name, Email: data.email, Package: data.package } }),
         // })
 
-        return Response.json({
-          ok: true,
-          _keys: `L:${_hasLovable} R:${_hasResend} M:${_hasML}`,
-          _email: emailDebug,
-        })
+        return Response.json({ ok: true, _email: emailDebug })
       },
     },
   },
