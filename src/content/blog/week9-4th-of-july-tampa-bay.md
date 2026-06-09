@@ -20,7 +20,7 @@ Downtown St. Petersburg puts on a fireworks show over Tampa Bay, typically launc
 
 For a lower-key Fourth, Safety Harbor shoots fireworks over Old Tampa Bay — Philippe Park is a great viewing spot with room to spread out, and the community vibe is warm and festive without the crowds of the big beach events.
 
-The Fourth is exactly when a vacation rental beats a hotel. Full kitchen for the day, private outdoor space for the pre-fireworks gathering, and no checkout at 11am. [Browse properties at seaandcityrentals.com.](https://seaandcityrentals.com)
+The Fourth is exactly when a vacation rental beats a hotel. Full kitchen for the day, private outdoor space for the pre-fireworks gathering, and no checkout at 11am. [Browse properties at seaandcityrentals.com.](https://seaandcityrentals.com) For large groups celebrating together, the [6-bedroom Tampa home with pool and dock](https://seaandcityrentals.com/listings/tampa) sleeps 15 and has outdoor space built for exactly this kind of gathering. Groups staying on the beach side should look at the [beachside rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-b) — walk to the beach for the fireworks, then walk back.
 
 ## On the Water
 

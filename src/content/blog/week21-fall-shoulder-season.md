@@ -12,7 +12,7 @@ September through early November is the sweet spot. Daytime highs sit in the low
 
 ## Rates Drop, Availability Opens Up
 
-Shoulder season pricing on Gulf Coast rentals can run 25–40% below summer peaks. The same beachfront property that books out at premium rates in July is often available at a real discount in October. [Browse fall availability at Sea & City Rentals](https://seaandcityrentals.com) — direct booking, no platform fees.
+Shoulder season pricing on Gulf Coast rentals can run 25–40% below summer peaks. The same beachfront property that books out at premium rates in July is often available at a real discount in October. [Browse fall availability at Sea & City Rentals](https://seaandcityrentals.com) — direct booking, no platform fees. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a particularly good fall pick — hot tub evenings in October are excellent, and the beach crowds vanish. Large groups who want to anchor a fall trip with real space should look at the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa), where shoulder-season rates make sleeping 15 people genuinely affordable.
 
 ## What to Actually Do
 

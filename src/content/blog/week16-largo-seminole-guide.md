@@ -6,7 +6,7 @@ author: "Sea & City Rentals"
 ---
 Largo and Seminole don't appear on many travel itineraries, and that's precisely what makes them worth knowing about. Sitting in the middle of Pinellas County, they offer a quieter, more residential slice of Gulf Coast Florida that has its own genuine character.
 
-Properties in Largo and Seminole tend to offer more space for the price than beach-adjacent rentals, with easy access to the Gulf beaches (15–20 minutes). [Browse Sea & City Rentals Largo properties.](https://seaandcityrentals.com)
+Properties in Largo and Seminole tend to offer more space for the price than beach-adjacent rentals, with easy access to the Gulf beaches (15–20 minutes). [Browse Sea & City Rentals Largo properties.](https://seaandcityrentals.com) For groups who want full beach proximity, the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) — just a short drive north — gives you hot tub access and a walk-to-beach location at a price still friendlier than Clearwater. Larger groups often pair a Largo area base with a day trip to the water — or opt for the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) when they need the dock and pool experience.
 
 ## Largo Central Park & Nature Preserve
 

@@ -26,7 +26,7 @@ If your kids are under 12, this is a must. Two-hour pirate-themed cruises out of
 
 ## Splash Harbour Water Park — Indian Rocks Beach
 
-On a scorching July afternoon when everyone's had enough sand, Splash Harbour Water Park is the answer. Compact, well-priced compared to larger parks, and has enough slides and splash zones to keep kids busy for hours.
+On a scorching July afternoon when everyone's had enough sand, Splash Harbour Water Park is the answer. Compact, well-priced compared to larger parks, and has enough slides and splash zones to keep kids busy for hours. If you're considering staying closer to this side of the beach corridor, the [beachside rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-b) puts you just minutes from the water park and a short drive to Clearwater's attractions.
 
 ## Tips for Families Visiting Clearwater Beach
 
@@ -34,3 +34,5 @@ On a scorching July afternoon when everyone's had enough sand, Splash Harbour Wa
 * Pack a cooler — beachside concessions are expensive and the lines are long
 * Many restaurants have kids menus and will accommodate early dinner — go at 5pm and skip the wait
 * Vacation rentals with a private pool are a lifesaver when afternoon storms roll in
+
+For large multi-family groups, the [6-bedroom Tampa home with pool and dock](https://seaandcityrentals.com/listings/tampa) is within 45 minutes of Clearwater's attractions and offers the outdoor space that makes a family trip genuinely comfortable. [Browse all available properties](https://seaandcityrentals.com/properties) to find the right fit for your group size and budget.

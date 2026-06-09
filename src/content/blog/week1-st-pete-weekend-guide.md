@@ -16,7 +16,7 @@ St. Pete Beach is a barrier island on Florida's Gulf Coast, sitting just west of
 
 ### Morning: Get Your Bearings
 
-Fly in, grab your rental car at TPA, and head over the Gandy or Howard Frankland Bridge. Stop at Publix on Gulf Blvd to stock up on snacks and breakfast basics — you'll thank yourself when you're not scrambling for coffee at 7am. Check into your [vacation rental](https://seaandcityrentals.com) and walk the beach first before you plant yourself on it.
+Fly in, grab your rental car at TPA, and head over the Gandy or Howard Frankland Bridge. Stop at Publix on Gulf Blvd to stock up on snacks and breakfast basics — you'll thank yourself when you're not scrambling for coffee at 7am. Check into your [vacation rental](https://seaandcityrentals.com) and walk the beach first before you plant yourself on it. If your group is large, the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) — a 6-bedroom with a heated pool and private dock that sleeps 15 — is one of the best large-group options in the whole region.
 
 ### Afternoon: Beach Time (Done Right)
 
@@ -28,7 +28,7 @@ Fly in, grab your rental car at TPA, and head over the Gandy or Howard Frankland
 
 The Gulf Coast sunset is the real headline act of any trip here. Grab a drink from a beachfront bar around 7:30–8pm and just be present for it. For dinner, walk Corey Avenue and pick what looks good. Mastry's Brewing Co. is a local favorite for craft beer and bar bites. For fresh seafood, Crabby Bill's has been doing it right for decades.
 
-Already thinking about where to stay? [Browse Sea & City Rentals properties](https://seaandcityrentals.com) across St. Pete Beach, Clearwater, Indian Rocks Beach, and the broader Gulf Coast — book direct and skip the Airbnb fees entirely.
+Already thinking about where to stay? [Browse Sea & City Rentals properties](https://seaandcityrentals.com) across St. Pete Beach, Clearwater, Indian Rocks Beach, and the broader Gulf Coast — book direct and skip the Airbnb fees entirely. For a quieter base just 20 minutes up the coast, the [walk-to-beach rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-a) with a hot tub is a great option for smaller groups.
 
 ## Day 2: Downtown St. Pete + Waterfront
 

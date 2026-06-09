@@ -10,7 +10,7 @@ Memorial Day weekend is the unofficial starting gun of summer on the Gulf Coast 
 
 Clearwater Beach is one of the most visited beaches in the country on a normal weekend. Memorial Day multiplies that. Parking lots fill by 8am, restaurants have waits by noon, and Gulf Blvd slows to a crawl in the afternoon. That is not a reason to skip it — it is a reason to plan ahead.
 
-The move: stay in a vacation rental so you are already where you want to be. No driving to the beach, no parking stress, no hotel checkout at 11am when you want to stay until sunset.
+The move: stay in a vacation rental so you are already where you want to be. No driving to the beach, no parking stress, no hotel checkout at 11am when you want to stay until sunset. For families and smaller groups, the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) — just a walk to the sand with a private hot tub — is a quieter Memorial Day alternative to the Clearwater core. Large groups should check out the [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa) that sleeps 15.
 
 ## What's Actually Happening
 

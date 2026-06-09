@@ -6,7 +6,7 @@ author: "Sea & City Rentals"
 ---
 The afternoon storm has rolled in, the beach is temporarily off the table, and someone in your group is about to say 'so what do we do now?' Here's the answer. Tampa Bay has a genuinely solid lineup of indoor and covered activities that make rainy afternoons feel like part of the plan rather than a disruption to it.
 
-Rainy afternoons are temporary — storms typically clear in 60–90 minutes. [Book a property with a covered lanai at seaandcityrentals.com](https://seaandcityrentals.com) and watch the storm from there with a cold drink before heading back to the beach.
+Rainy afternoons are temporary — storms typically clear in 60–90 minutes. [Book a property with a covered lanai at seaandcityrentals.com](https://seaandcityrentals.com) and watch the storm from there with a cold drink before heading back to the beach. The [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) — 6 bedrooms, heated pool, private dock — has covered outdoor space that makes a rainy afternoon feel like part of the plan. For beach-side groups, the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) puts you five minutes from Splash Harbour Water Park when the storms roll in.
 
 ## 1. The Salvador Dali Museum — St. Pete
 

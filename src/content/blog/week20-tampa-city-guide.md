@@ -17,7 +17,7 @@ The main drag — 7th Avenue — is lined with historic brick buildings housing 
 * Ybor City Museum State Park — small but well-done, gives good context for the neighborhood's history
 * 7th Avenue walk — just walk it, look at the buildings, pop into what interests you
 
-Planning a Tampa day trip from your Gulf Coast rental? [Most Sea & City Rentals properties](https://seaandcityrentals.com) are 30–40 minutes from Tampa — plan to arrive around 11am, do Ybor for lunch, and stay for dinner at Armature Works.
+Planning a Tampa day trip from your Gulf Coast rental? [Most Sea & City Rentals properties](https://seaandcityrentals.com) are 30–40 minutes from Tampa — plan to arrive around 11am, do Ybor for lunch, and stay for dinner at Armature Works. If you want to stay right in Tampa itself, the [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa) puts you in a Bay Crest waterfront neighborhood with easy Ybor access — and a private pool and dock to return to after a day in the city. For groups who prefer the beach but still want to do Tampa, the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) is a 35-minute drive from Ybor.
 
 ## The Riverwalk & Downtown Waterfront
 

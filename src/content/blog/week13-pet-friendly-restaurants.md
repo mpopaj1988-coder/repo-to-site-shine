@@ -6,7 +6,7 @@ author: "Sea & City Rentals"
 ---
 The best vacation rentals allow dogs. The best trips allow dogs everywhere. Tampa Bay is genuinely one of the more dog-welcoming metro areas in Florida, with a solid lineup of restaurants, bars, and waterfront spots that don't just tolerate your dog — they actually seem happy to see them.
 
-Starting your trip right: [Sea & City Rentals pet-friendly properties](https://seaandcityrentals.com) put you close to all of the spots below. Let us know about your dog when you book.
+Starting your trip right: [Sea & City Rentals pet-friendly properties](https://seaandcityrentals.com) put you close to all of the spots below. Let us know about your dog when you book. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a great base for dog owners — quick beach access during the early morning and evening hours, and a short drive from Tom's Place and Crabby Bill's. Groups traveling with dogs who need more space will find the [waterfront rental that sleeps 15](https://seaandcityrentals.com/listings/tampa) has the outdoor room that big dogs especially appreciate.
 
 ## St. Petersburg
 

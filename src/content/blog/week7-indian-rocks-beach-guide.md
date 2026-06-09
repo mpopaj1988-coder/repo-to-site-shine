@@ -14,7 +14,7 @@ IRB's beach is wide, white, and the Gulf water is that signature Gulf Coast turq
 
 Old Florida, in the best possible way. Indian Rocks Beach still has the feel of a Gulf Coast beach town before everything got resort-ified. A main street with independent restaurants, a local market, surf shops, and a community pier. No giant chain hotels blocking the sunset. No $30 parking lots.
 
-Deciding between IRB and Clearwater? [Reach out to Sea & City Rentals](https://seaandcityrentals.com) — we have properties in both areas and will help you figure out which fits your trip better.
+Deciding between IRB and Clearwater? [Reach out to Sea & City Rentals](https://seaandcityrentals.com) — we have properties in both areas and will help you figure out which fits your trip better. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) has a private hot tub and is a short walk to the sand — ideal for couples or small groups. For a second option with a coastal feel, the [2-bedroom beach house at Indian Rocks](https://seaandcityrentals.com/listings/irb-b) sleeps 6 and puts you right in this low-key community. Larger groups heading to the area may want to consider the [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa) — just 30 minutes from IRB.
 
 ## What to Do
 

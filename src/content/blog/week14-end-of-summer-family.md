@@ -6,7 +6,7 @@ author: "Sea & City Rentals"
 ---
 The last weeks of summer before school starts have a particular kind of energy — equal parts urgency and nostalgia. If you're looking to make the most of it, the Tampa Bay area in August delivers everything you need: warm Gulf water, family-friendly activities, and experiences that turn into the stories kids tell years later.
 
-August is actually a great time to find well-priced Gulf Coast rentals. [Browse current availability at seaandcityrentals.com](https://seaandcityrentals.com) and book direct to skip the platform fees.
+August is actually a great time to find well-priced Gulf Coast rentals. [Browse current availability at seaandcityrentals.com](https://seaandcityrentals.com) and book direct to skip the platform fees. Multi-family groups should check out the [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa) — sleeps 15, and the private pool and dock keep everyone busy between the day trips. Smaller families who want to stay closer to the beach will love the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) for its walk-to-beach access and easygoing coastal vibe.
 
 ## Spend a Full Day at Fort De Soto
 

@@ -10,7 +10,7 @@ Snowbird season on the Gulf Coast officially kicks off in November and runs thro
 
 Most owners and managers price differently for stays of 28 nights or more. A monthly snowbird rate is typically 30–50% lower per night than a one-week rate, which makes longer stays dramatically more affordable than people expect.
 
-[Sea & City Rentals offers monthly rates on most properties](https://seaandcityrentals.com) — book direct for the best long-stay pricing.
+[Sea & City Rentals offers monthly rates on most properties](https://seaandcityrentals.com) — book direct for the best long-stay pricing. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a favorite for snowbirds who want to walk to the beach daily — hot tub, 2 bedrooms, and a location that puts you in the quieter part of the Gulf Coast beach corridor. Groups or extended families doing a long stay should look at the [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa), which comes fully equipped for the kind of stay that actually feels like home.
 
 ## What to Look For in a Long-Term Rental
 

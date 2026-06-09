@@ -32,7 +32,7 @@ If you want a dinner-and-fireworks plan, book in October. By December the desira
 
 Renting a waterfront house with a group, cooking together, and watching the public fireworks from your own deck is, honestly, the best version of NYE on the Gulf Coast. No driving, no waits, no parking, no overpriced prix fixe. Just dinner with people you like and a clear view of the show.
 
-[Sea & City Rentals waterfront properties](https://seaandcityrentals.com) — book direct for NYE week.
+[Sea & City Rentals waterfront properties](https://seaandcityrentals.com) — book direct for NYE week. The [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) — 6 bedrooms, heated pool, private dock, sleeps 15 — is exactly the rental the "deck fireworks viewing" scenario was built for: Tampa Riverwalk fireworks visible from the water, no parking, everyone in one house. Beach groups celebrating NYE on the Gulf side should look at the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) — walk to the Intracoastal for boat parade viewing and spend midnight on the beach.
 
 ## Booking Window
 

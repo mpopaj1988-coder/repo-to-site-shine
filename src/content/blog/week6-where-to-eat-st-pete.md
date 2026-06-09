@@ -55,3 +55,5 @@ A Gulf Coast institution. Fresh grouper, stone crab, shrimp, and oysters — cas
 Right on Corey Avenue in St. Pete Beach. Excellent tap list and a kitchen that goes beyond bar food. The brisket tacos and smash burgers are regulars on the menu.
 
 Make reservations Thursday before your weekend trip — popular spots book out quickly. And [ask your Sea & City Rentals host](https://seaandcityrentals.com) for their personal favorites — always the most useful food intel you'll get.
+
+Staying in the area? The [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) — 6 bedrooms, heated pool, private dock, sleeps 15 — is a 30-minute drive from downtown St. Pete and a natural base for groups who want the full Tampa Bay experience. For smaller groups looking to stay close to the beach, the [walk-to-beach rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-a) is an easy drive to all the restaurants on this list.

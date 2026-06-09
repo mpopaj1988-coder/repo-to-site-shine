@@ -29,7 +29,7 @@ Tampa's downtown waterfront park brings in actual snow for kids to play in, plus
 
 ## Where to Stay
 
-December is busy but not booked-solid like Thanksgiving and Christmas weeks. Mid-month is the best value. [Sea & City Rentals](https://seaandcityrentals.com) — book direct for holiday rates without platform fees.
+December is busy but not booked-solid like Thanksgiving and Christmas weeks. Mid-month is the best value. [Sea & City Rentals](https://seaandcityrentals.com) — book direct for holiday rates without platform fees. For the Largo Central Park lights and boat parades, the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) puts you 15 minutes from the action with a hot tub waiting when you get back. Large groups doing a full holiday week can make the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) their home base — just 30 minutes from Tampa's Snowfest and the Riverwalk celebrations. [Browse all available properties](https://seaandcityrentals.com/properties) to find the right holiday fit.
 
 ## A Note on Christmas Week
 

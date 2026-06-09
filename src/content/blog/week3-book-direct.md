@@ -12,7 +12,7 @@ Airbnb's guest service fee typically runs 14–16% on top of the nightly rate. O
 
 ## 2. The Nightly Rate Is Often Lower
 
-Hosts who list on Airbnb frequently set higher nightly rates to offset the platform's host fees (usually 3%). When you go direct, hosts can offer the same or lower price without taking a hit. It's a win for everyone except the platform.
+Hosts who list on Airbnb frequently set higher nightly rates to offset the platform's host fees (usually 3%). When you go direct, hosts can offer the same or lower price without taking a hit. It's a win for everyone except the platform. For example, the [Tampa waterfront property](https://seaandcityrentals.com/listings/tampa) — 6 bedrooms, heated pool, private dock, sleeps 15 — is available to book directly with transparent pricing and no platform fees.
 
 ## 3. You Talk to an Actual Human
 
@@ -34,4 +34,4 @@ Return guests who book direct often get perks that platforms can't offer — ear
 
 Most vacation rental properties are owned by regular people — not corporations. When you book through Airbnb, a significant chunk of your payment goes to a multi-billion dollar tech company. When you book direct, more of your money goes to the family that owns and cares for the home.
 
-All Sea & City Rentals properties are available to book directly at [seaandcityrentals.com](https://seaandcityrentals.com). No platform fees, transparent pricing, and a real host on the other end.
+All Sea & City Rentals properties are available to book directly at [seaandcityrentals.com](https://seaandcityrentals.com). No platform fees, transparent pricing, and a real host on the other end. Whether you're looking for an [IRB beach house with hot tub](https://seaandcityrentals.com/listings/irb-a) for a couples trip or a [2-bedroom beach house at Indian Rocks](https://seaandcityrentals.com/listings/irb-b) for a small family, you'll always get a better deal going direct.

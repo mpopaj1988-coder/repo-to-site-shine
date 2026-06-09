@@ -6,7 +6,7 @@ author: "Sea & City Rentals"
 ---
 Let's be honest: leaving your dog behind when you go on vacation is the worst part of going on vacation. The good news? The Tampa Bay area is genuinely one of the best places in Florida to travel with your dog — and yes, that includes the beach.
 
-Traveling with a dog? [Sea & City Rentals has pet-friendly properties](https://seaandcityrentals.com) across Clearwater, Indian Rocks Beach, St. Pete, and more. Just let us know you're bringing a pup.
+Traveling with a dog? [Sea & City Rentals has pet-friendly properties](https://seaandcityrentals.com) across Clearwater, Indian Rocks Beach, St. Pete, and more. Just let us know you're bringing a pup. For larger groups traveling with dogs, the [waterfront rental that sleeps 15](https://seaandcityrentals.com/listings/tampa) in Tampa has outdoor space and is a short drive from Fred Howard Park and Philippe Park.
 
 ## Fred Howard Park Beach — Tarpon Springs
 
@@ -22,7 +22,7 @@ Fort De Soto has a dedicated off-leash dog beach at the northeast corner of the 
 
 ## Indian Rocks Beach Access Points
 
-Dogs on leashes are welcome on the beach in Indian Rocks Beach before 9am and after 5pm. If you're staying in an IRB rental and want to do an early morning or sunset walk with your dog, this is the move — the beach is gorgeous, the crowds are minimal, and your dog will never let you sleep in again.
+Dogs on leashes are welcome on the beach in Indian Rocks Beach before 9am and after 5pm. If you're staying in an IRB rental and want to do an early morning or sunset walk with your dog, this is the move — the beach is gorgeous, the crowds are minimal, and your dog will never let you sleep in again. Both the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) and the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) are walk-to-beach properties that work well for pet-owners who want quick beach access at the right hours.
 
 ## Anderson Park — Tarpon Springs
 
