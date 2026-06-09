@@ -20,7 +20,7 @@ Probably the most famous seafood spot on Clearwater Beach, and for good reason. 
 
 Old-school, no-pretense seafood in a waterfront setting. Buckets of crab, boiled shrimp, and cold beer. The kind of place where the paper on the table serves as a placemat and a garbage bag simultaneously. Go hungry.
 
-Stone crab season runs October–May. If your trip overlaps, don't skip it — [ask your Sea & City Rentals host](https://seaandcityrentals.com) which local spots have the best claws when you arrive.
+Stone crab season runs October–May. If your trip overlaps, don't skip it — [ask your Sea & City Rentals host](https://seaandcityrentals.com) which local spots have the best claws when you arrive. Groups staying at the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) are a 30-minute drive from both the Indian Rocks Beach and Clearwater locations on this list — and the private dock means you can time a post-dinner sunset perfectly. Guests based at the [walk-to-beach rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-a) can walk to Crabby Bill's original location in under 10 minutes.
 
 ## The Elevated Options
 

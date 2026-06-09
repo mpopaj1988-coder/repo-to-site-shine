@@ -16,7 +16,7 @@ Once you understand this pattern, your vacation schedule basically writes itself
 
 Florida afternoon thunderstorms are intense but brief. They come in fast, drop a lot of rain and lightning, and move out. The lightning is the serious part — when it's close, you need to be off the beach. But these aren't days-long gray sky events. You're not going to lose an entire beach day.
 
-Properties with a covered lanai or screened porch are particularly great for rainy season. [Browse Sea & City Rentals properties](https://seaandcityrentals.com) and ask us which ones have the best outdoor covered space.
+Properties with a covered lanai or screened porch are particularly great for rainy season. [Browse Sea & City Rentals properties](https://seaandcityrentals.com) and ask us which ones have the best outdoor covered space. The [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) — 6 bedrooms, heated pool, private dock — has excellent covered outdoor space and is perfect for large groups who want somewhere comfortable to wait out the storm before heading back to the water. Smaller groups staying on the beach side can retreat to the [IRB beach house with hot tub](https://seaandcityrentals.com/listings/irb-a) when the afternoon storms roll in.
 
 ## The Upside of Rainy Season
 

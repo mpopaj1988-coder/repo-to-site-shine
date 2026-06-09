@@ -14,7 +14,7 @@ Not all beaches are equal for toddlers. You want calm water, not surf. Shallow g
 
 Work around the nap schedule. If your toddler naps at 1pm, plan beach time from 8–11am, head back for lunch and nap, then return for the late afternoon beach session. You also happen to avoid the worst of the Florida sun this way, which is a bonus. The 8–11am window on the Gulf is legitimately beautiful — golden light, calm water, minimal crowds.
 
-A vacation rental with a full kitchen makes the toddler trip dramatically easier. [Browse Sea & City Rentals family properties](https://seaandcityrentals.com) — all have full kitchens, space for a pack-n-play, and laundry access.
+A vacation rental with a full kitchen makes the toddler trip dramatically easier. [Browse Sea & City Rentals family properties](https://seaandcityrentals.com) — all have full kitchens, space for a pack-n-play, and laundry access. For families based in Tampa with a larger group, the [waterfront rental that sleeps 15](https://seaandcityrentals.com/listings/tampa) has a heated pool and outdoor space that toddlers love. Families who want the beach right outside the door will find the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) a perfect fit — hot tub for after the kids go down, beach just a short walk away.
 
 ## The Gear List (Actually Useful Version)
 

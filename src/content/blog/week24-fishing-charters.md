@@ -34,7 +34,7 @@ Half-day inshore (4 hours) runs $400–600 for up to 4 people and is plenty for 
 
 ## Where to Launch From
 
-St. Pete, Madeira Beach, Indian Rocks Beach, and Tarpon Springs all have well-established charter fleets. Madeira Beach (John's Pass) has the largest concentration if you want to walk the docks before booking. [Sea & City Rentals properties near the marinas](https://seaandcityrentals.com) make morning departures easy.
+St. Pete, Madeira Beach, Indian Rocks Beach, and Tarpon Springs all have well-established charter fleets. Madeira Beach (John's Pass) has the largest concentration if you want to walk the docks before booking. [Sea & City Rentals properties near the marinas](https://seaandcityrentals.com) make morning departures easy. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a 10-minute drive from John's Pass — perfect for early morning charter departures. Large fishing groups who want a dock of their own should check out the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa), which has a private dock and sleeps 15 — ideal for a serious multi-day fishing trip.
 
 ## A Note on Reviews
 

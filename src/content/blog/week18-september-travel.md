@@ -18,7 +18,7 @@ Gulf water temperatures in September are at or near their annual peak — typica
 
 After Labor Day, vacation rental rates typically step down from summer peak pricing. You'll generally find better availability and lower nightly rates than you'd pay in July or August. [Booking direct](https://seaandcityrentals.com) amplifies this further — you skip the 14–16% Airbnb service fee on top of the already-lower September rates.
 
-September availability is better than you'd think. [Check what's open at seaandcityrentals.com](https://seaandcityrentals.com) and book direct for the best rate.
+September availability is better than you'd think. [Check what's open at seaandcityrentals.com](https://seaandcityrentals.com) and book direct for the best rate. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a particularly good September pick — warm water, near-empty beaches, hot tub evenings when the temperature finally cools. Groups of 8 or more should look at the [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa), where the post-Labor Day price drop can make a large-group stay remarkably affordable.
 
 ## The Afternoon Storm Pattern Shifts
 

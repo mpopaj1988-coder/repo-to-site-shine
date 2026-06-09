@@ -28,4 +28,4 @@ Last weekend of October at John's Pass Village in Madeira Beach. Fresh Gulf seaf
 
 ## Planning Around Events
 
-Festival weekends mean tighter accommodation availability and higher rates closer to the date. Booking 4–6 weeks out gets you the best selection.
+Festival weekends mean tighter accommodation availability and higher rates closer to the date. Booking 4–6 weeks out gets you the best selection. For Clearwater Jazz Holiday, the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a 15-minute drive from Coachman Park and much better value than anything on the Clearwater Beach strip. Groups coming for Guavaween in Tampa should look at the [waterfront rental that sleeps 15](https://seaandcityrentals.com/listings/tampa) — 20 minutes from Ybor City with a pool and dock to recover at afterward. [Browse all available properties](https://seaandcityrentals.com/properties) to see what's open for October.

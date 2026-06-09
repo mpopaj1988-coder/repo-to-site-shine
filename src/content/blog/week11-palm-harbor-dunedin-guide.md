@@ -24,7 +24,7 @@ Florida's oldest craft brewery, established in 1996, and still excellent. The ta
 
 Dunedin is the spring training home of the Toronto Blue Jays, and the stadium (TD Ballpark) is a charming old-school spring training facility. Games run February through March — affordable and genuinely fun if your trip overlaps.
 
-Staying with [Sea & City Rentals](https://seaandcityrentals.com) in Palm Harbor or Clearwater? Dunedin and Palm Harbor make for a perfect half-day or full-day excursion — we can point you to specifics based on exactly where you're staying.
+Staying with [Sea & City Rentals](https://seaandcityrentals.com) in Palm Harbor or Clearwater? Dunedin and Palm Harbor make for a perfect half-day or full-day excursion — we can point you to specifics based on exactly where you're staying. The [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) sits about 20 minutes south of Dunedin — a great base for exploring this whole stretch of the coast. For large groups who want easy Tampa access while still being close to Dunedin and Honeymoon Island, the [Tampa waterfront property](https://seaandcityrentals.com/listings/tampa) makes an excellent anchor for the whole region.
 
 ## Eating in Dunedin
 

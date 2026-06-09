@@ -10,7 +10,7 @@ Dunedin punches well above its weight. A small Gulf Coast town with Scottish her
 
 The downtown is compact, low-rise, and has resisted the strip-mall sprawl that flattened most of suburban Florida. Main Street and Douglas Avenue are lined with locally owned restaurants, coffee shops, breweries, and shops. It's genuinely walkable, which puts it in rare company on the Gulf Coast.
 
-[Sea & City Rentals has properties within easy reach of downtown Dunedin](https://seaandcityrentals.com) — book direct.
+[Sea & City Rentals has properties within easy reach of downtown Dunedin](https://seaandcityrentals.com) — book direct. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) sits about 20 minutes south of Dunedin and makes a great base for the whole Pinellas beach corridor. For large groups making Dunedin and Honeymoon Island a day trip, the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) is 45 minutes away — [browse all Sea & City Rentals homes](https://seaandcityrentals.com/properties) to find the right fit for your group.
 
 ## The Brewery Scene
 

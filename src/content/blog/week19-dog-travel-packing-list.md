@@ -6,7 +6,7 @@ author: "Sea & City Rentals"
 ---
 Bringing your dog on a Gulf Coast trip is one of the better decisions you can make. The Tampa Bay area has dog-friendly beaches, outdoor restaurants, parks, and vacation rentals that actually welcome your dog rather than just tolerating them. But packing right makes the difference between a smooth trip and a chaotic one.
 
-Before you pack, find the right property. [Sea & City Rentals pet-friendly properties](https://seaandcityrentals.com) — we're happy to answer questions about specific fencing and yard situations when you book.
+Before you pack, find the right property. [Sea & City Rentals pet-friendly properties](https://seaandcityrentals.com) — we're happy to answer questions about specific fencing and yard situations when you book. For beach-adjacent stays with dogs, the [walk-to-beach rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-a) has quick morning and evening beach access — exactly the right hours for dogs in Pinellas County. Groups with dogs who need more outdoor space should look at the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa), which has a yard, dock, and quick access to Fred Howard Park dog beach.
 
 ## The Non-Negotiables
 

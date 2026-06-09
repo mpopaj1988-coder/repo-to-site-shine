@@ -20,7 +20,7 @@ The solution: [book vacation rentals directly](https://seaandcityrentals.com). W
 
 On a 5-night trip, a family of four eating three meals a day: hotel (no kitchen) typically runs $80–120/day in restaurant costs = $400–600 extra. Vacation rental (full kitchen): groceries for the same meals run $50–80/day = $250–400. That's a $150–200 difference in food costs alone — enough to cover one to two nights of rental premium.
 
-The math on direct booking is even better. [Browse Sea & City Rentals properties](https://seaandcityrentals.com) — the price you see is much closer to the price you pay.
+The math on direct booking is even better. [Browse Sea & City Rentals properties](https://seaandcityrentals.com) — the price you see is much closer to the price you pay. For example, the [6-bedroom Tampa home with pool and dock](https://seaandcityrentals.com/listings/tampa) sleeps 15 — split across a family group, the per-person cost undercuts any comparable hotel option by a significant margin. Beach groups often find the [walk-to-beach rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-a) checks every box: private hot tub, no parking stress, full kitchen, and none of the per-night platform fee surprise.
 
 ## Group Size Changes Everything
 
