@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Waves } from "lucide-react";
 import { track } from "@/lib/analytics";
 
 const links = [
@@ -21,15 +21,8 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
   const wrapperClass = isLight
     ? "border-b border-border bg-[var(--color-sand)]"
     : "absolute inset-x-0 top-0 z-30";
-  const logoClass = isLight
-    ? "font-display text-2xl tracking-wide text-[var(--color-deep)]"
-    : "font-display text-2xl tracking-wide text-white drop-shadow-md";
-  const ampClass = isLight
-    ? "italic text-[var(--color-gold)]"
-    : "italic text-[var(--color-sea)]";
-  const subClass = isLight
-    ? "ml-1 text-sm font-sans uppercase tracking-[0.3em] text-[var(--color-deep)]/60"
-    : "ml-1 text-sm font-sans uppercase tracking-[0.3em] text-white/70";
+  const logoTextClass = isLight ? "text-[var(--color-deep)]" : "text-white drop-shadow-md";
+  const logoSubClass = isLight ? "text-[var(--color-deep)]/55" : "text-white/60";
   const linkClass = isLight
     ? "text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-deep)]/75 transition hover:text-[var(--color-deep)]"
     : "text-xs font-medium uppercase tracking-[0.18em] text-white/85 transition hover:text-white";
@@ -44,9 +37,16 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
         aria-label="Primary"
         className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-10"
       >
-        <Link to="/" data-testid="site-logo" className={logoClass}>
-          Sea <span className={ampClass}>&amp;</span> City
-          <span className={subClass}>Rentals</span>
+        <Link to="/" data-testid="site-logo" className="flex items-center gap-2.5">
+          <Waves className="size-7 shrink-0 text-[var(--color-gold)]" />
+          <div className="flex flex-col leading-none gap-[3px]">
+            <span className={`font-bold text-[17px] tracking-[0.13em] uppercase ${logoTextClass}`}>
+              Sea <span className="text-[var(--color-gold)]">&amp;</span> City
+            </span>
+            <span className={`text-[9px] tracking-[0.42em] uppercase font-semibold ${logoSubClass}`}>
+              Rentals
+            </span>
+          </div>
         </Link>
 
         <div className="hidden items-center gap-7 lg:flex">
@@ -83,7 +83,17 @@ export function Header({ tone = "dark" }: { tone?: "dark" | "light" }) {
       {open && (
         <div className="fixed inset-0 z-50 bg-[var(--color-deep)]/97 lg:hidden">
           <div className="flex items-center justify-between px-6 py-6">
-            <span className="font-display text-2xl text-white">Sea &amp; City</span>
+            <div className="flex items-center gap-2.5">
+              <Waves className="size-7 text-[var(--color-gold)]" />
+              <div className="flex flex-col leading-none gap-[3px]">
+                <span className="font-bold text-[17px] tracking-[0.13em] uppercase text-white">
+                  Sea <span className="text-[var(--color-gold)]">&amp;</span> City
+                </span>
+                <span className="text-[9px] tracking-[0.42em] uppercase font-semibold text-white/60">
+                  Rentals
+                </span>
+              </div>
+            </div>
             <button onClick={() => setOpen(false)} aria-label="Close menu" className="text-white">
               <X className="size-7" />
             </button>
