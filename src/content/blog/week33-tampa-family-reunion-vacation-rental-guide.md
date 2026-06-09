@@ -47,4 +47,4 @@ Large waterfront homes often become the centerpiece of the reunion itself. Inste
 
 A well-chosen vacation rental can transform a family reunion from a stressful event into a memorable experience everyone will talk about for years.
 
-[Sea & City Rentals](https://seaandcityrentals.com) specializes in large-group vacation homes that provide the space, amenities, and waterfront experiences families love.
+[Sea & City Rentals](https://seaandcityrentals.com) specializes in large-group vacation homes that provide the space, amenities, and waterfront experiences families love. For the centerpiece reunion property, the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) delivers exactly what this guide describes — 6 bedrooms, heated pool, private dock, sleeps 15, and easy proximity to TPA and Tampa's attractions. Families who want to extend the reunion with a beach day can pair it with bookings at the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) or the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) for the beach-loving branch of the family.

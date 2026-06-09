@@ -10,7 +10,7 @@ At some point, every multi-generational family realizes that hosting Thanksgivin
 
 November on the Gulf Coast is genuinely beautiful — mid-70s, low humidity, no rain. The beach is empty. Sunset is at a civilized hour. Booking a multi-bedroom rental for the week splits the cost across the family and gives everyone real space — not the air-mattress-in-the-living-room compromise.
 
-[Sea & City Rentals has multi-bedroom homes with full kitchens, dining tables that fit everyone, and outdoor space](https://seaandcityrentals.com).
+[Sea & City Rentals has multi-bedroom homes with full kitchens, dining tables that fit everyone, and outdoor space](https://seaandcityrentals.com). The [6-bedroom Tampa waterfront home with pool and dock](https://seaandcityrentals.com/listings/tampa) sleeps 15 and is one of the best Thanksgiving reunion setups on the Gulf Coast — everyone under one roof, outdoor space for the morning walk, and a heated pool for the afternoon. Beach families who prefer the Gulf side should look at the [beachside rental at Indian Rocks Beach](https://seaandcityrentals.com/listings/irb-b), where a Thanksgiving morning beach walk becomes an instant tradition. [View all Sea & City Rentals homes](https://seaandcityrentals.com/properties) to find the right fit for your group size.
 
 ## Planning the Meal
 

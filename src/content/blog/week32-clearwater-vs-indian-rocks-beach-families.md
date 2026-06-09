@@ -37,4 +37,4 @@ If your goal is a relaxing family vacation with easier beach access and fewer cr
 
 Many visitors discover that Indian Rocks Beach provides the Gulf Coast experience they were hoping to find all along.
 
-Looking for a family-friendly vacation rental near Indian Rocks Beach? [Sea & City Rentals](https://seaandcityrentals.com) offers comfortable accommodations just minutes from the sand.
+Looking for a family-friendly vacation rental near Indian Rocks Beach? [Sea & City Rentals](https://seaandcityrentals.com) offers comfortable accommodations just minutes from the sand. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) — 2 bedrooms, hot tub, walk to beach — is ideal for small families who want the relaxed atmosphere described in this post. A second option, the [2-bedroom beach house at Indian Rocks](https://seaandcityrentals.com/listings/irb-b), sleeps 6 and gives you the same beachside access. For larger family groups who need more bedrooms, the [waterfront rental that sleeps 15](https://seaandcityrentals.com/listings/tampa) in Tampa is a 30-minute drive to both Clearwater and Indian Rocks.

@@ -46,4 +46,4 @@ A private pool often becomes the center of the vacation. Many guests spend more 
 
 Whether you're planning a weekend getaway or a week-long family vacation, choosing a vacation rental with a pool can create memories that last long after your trip ends.
 
-[Sea & City Rentals](https://seaandcityrentals.com) offers family-friendly vacation homes with private pools, outdoor entertainment spaces, and convenient access to Tampa's top attractions.
+[Sea & City Rentals](https://seaandcityrentals.com) offers family-friendly vacation homes with private pools, outdoor entertainment spaces, and convenient access to Tampa's top attractions. The flagship option is the [6-bedroom Tampa home with pool and dock](https://seaandcityrentals.com/listings/tampa) — a heated pool, private dock, outdoor entertaining space, and room for 15 guests in a Bay Crest waterfront setting. For groups who want a pool in a beach community, [browse all Sea & City Rentals properties](https://seaandcityrentals.com/properties) — including options on the Indian Rocks Beach side of the coast.

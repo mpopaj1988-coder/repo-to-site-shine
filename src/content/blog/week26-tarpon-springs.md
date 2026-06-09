@@ -30,4 +30,4 @@ The annual Epiphany celebration on January 6 is one of the largest Greek Orthodo
 
 ## Where to Base Yourself
 
-Tarpon Springs sits at the north end of the Pinellas beaches. A vacation rental in Palm Harbor, Tarpon Springs, or Dunedin makes day-tripping easy. [Sea & City Rentals north Pinellas properties](https://seaandcityrentals.com).
+Tarpon Springs sits at the north end of the Pinellas beaches. A vacation rental in Palm Harbor, Tarpon Springs, or Dunedin makes day-tripping easy. [Sea & City Rentals north Pinellas properties](https://seaandcityrentals.com). For groups who want a beach base while still day-tripping to the sponge docks, the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) is a 30-minute drive north — a natural anchor for the full Pinellas County experience. Large groups should check out the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) as a base, with Tarpon Springs about 45 minutes up the coast.

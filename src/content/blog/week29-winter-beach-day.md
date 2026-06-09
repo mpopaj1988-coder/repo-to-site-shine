@@ -33,4 +33,4 @@ Average daytime highs December through February: 71–73°F. Sunny days are comm
 
 ## Pair It With a Beach-Adjacent Rental
 
-The trick to winter beach trips is having a warm, comfortable place to retreat to. A vacation rental with a screened porch, a hot tub, or even just a sunny living room turns a cool-morning trip into a great day. [Sea & City Rentals beach properties](https://seaandcityrentals.com).
+The trick to winter beach trips is having a warm, comfortable place to retreat to. A vacation rental with a screened porch, a hot tub, or even just a sunny living room turns a cool-morning trip into a great day. [Sea & City Rentals beach properties](https://seaandcityrentals.com). The [IRB beach house with hot tub](https://seaandcityrentals.com/listings/irb-a) is purpose-built for this — a cold January walk on the beach followed by the hot tub is genuinely one of the best Gulf Coast winter experiences. For large groups who want a winter base with a heated pool, the [6-bedroom Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) is the answer.
