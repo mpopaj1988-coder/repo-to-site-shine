@@ -42,4 +42,4 @@ The slower pace, beautiful beaches, and welcoming atmosphere make it one of Flor
 
 When planning your Gulf Coast getaway, don't just visit the attractions everyone knows about. Some of the best memories are made discovering the places that tourists often overlook.
 
-[Sea & City Rentals](https://seaandcityrentals.com) helps guests experience the best of Indian Rocks Beach while enjoying comfortable accommodations close to the beach.
+[Sea & City Rentals](https://seaandcityrentals.com) helps guests experience the best of Indian Rocks Beach while enjoying comfortable accommodations close to the beach. The [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) puts you in the neighborhood — walk to the beach, the pier, the local restaurants — and the private hot tub makes the evenings feel like a reward. The [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) is a second option with the same walk-to-beach access and the same authentic IRB atmosphere that keeps guests coming back year after year.

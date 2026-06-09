@@ -53,4 +53,4 @@ Guests can enjoy waterfront living while still spending beach days along the coa
 
 Whether you choose a waterfront rental or a beach rental, the Tampa Bay area offers unforgettable vacation experiences for families, couples, and groups alike.
 
-[Sea & City Rentals](https://seaandcityrentals.com) offers both waterfront and beach-area accommodations designed to help guests experience the best of Tampa Bay.
+[Sea & City Rentals](https://seaandcityrentals.com) offers both waterfront and beach-area accommodations designed to help guests experience the best of Tampa Bay. On the Tampa waterfront side, the [6-bedroom Tampa home with pool and dock](https://seaandcityrentals.com/listings/tampa) sleeps 15 and is the best large-group waterfront option in the region. On the beach side, the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) and the [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) both offer walk-to-beach access in the quieter, more residential stretch of the Gulf Coast. [Browse all available properties](https://seaandcityrentals.com/properties) to compare both options side by side.

@@ -54,4 +54,4 @@ Choosing accommodations near Tampa International Airport can also simplify arriv
 
 Starting your vacation one day early can turn cruise embarkation from a stressful travel day into a memorable part of the trip itself.
 
-[Sea & City Rentals](https://seaandcityrentals.com) offers spacious accommodations ideal for families and groups sailing from the Port of Tampa.
+[Sea & City Rentals](https://seaandcityrentals.com) offers spacious accommodations ideal for families and groups sailing from the Port of Tampa. The [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa) — 6 bedrooms, heated pool, private dock, sleeps 15 — is an ideal pre-cruise gathering place for large groups: arrive the night before, cook dinner together, then leave refreshed in the morning. Families who want a beach night before their cruise can also look at the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) — about 40 minutes from the port — and pair it with a beach morning before heading to embarkation. [View all Sea & City Rentals homes](https://seaandcityrentals.com/properties) to compare options.
