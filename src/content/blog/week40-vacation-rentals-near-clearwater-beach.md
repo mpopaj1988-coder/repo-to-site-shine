@@ -46,4 +46,4 @@ Families and larger groups frequently discover that vacation rentals deliver a b
 
 If you're looking for the beauty of Clearwater Beach without paying premium beachfront prices, nearby communities may provide the perfect solution.
 
-[Sea & City Rentals](https://seaandcityrentals.com) offers vacation homes throughout the Tampa Bay area that combine comfort, convenience, and value.
+[Sea & City Rentals](https://seaandcityrentals.com) offers vacation homes throughout the Tampa Bay area that combine comfort, convenience, and value. The best Clearwater-adjacent option is the [Indian Rocks Beach vacation rental](https://seaandcityrentals.com/listings/irb-a) — 2 bedrooms, hot tub, walk-to-beach, 15 minutes from Clearwater Beach without Clearwater Beach prices. The [Indian Rocks Beach coastal home](https://seaandcityrentals.com/listings/irb-b) offers the same value and access. Groups who need more space and don't mind a short drive can stretch their budget further with the [Tampa waterfront home](https://seaandcityrentals.com/listings/tampa), which puts 15 guests in a waterfront property for what two Clearwater beachfront rooms would cost.
