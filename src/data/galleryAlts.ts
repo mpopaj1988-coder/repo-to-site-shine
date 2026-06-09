@@ -6,307 +6,198 @@ export type GalleryEntry = { file: string; alt: string };
 
 export const galleryManifest: Record<string, GalleryEntry[]> = {
   // ===================== TAMPA =====================
-  // NOTE: Alt texts were audited by visual inspection — many prior descriptions
-  // were assigned to the wrong files. All corrected below.
   tampa: [
-    // 1. HERO — pool at twilight, emotional anchor, most click-worthy
+    { file: "IMG_7271.png", alt: "Tampa waterfront rental pool at night with illuminated palm trees reflected in glowing water" },
     { file: "14773F44-0C3A-4B77-9D78-1B21DDFA61DE.png", alt: "Tampa waterfront rental heated pool at twilight with lounge chairs, wine and dramatic sunset sky" },
-    // 2. OUTDOOR LIFESTYLE — covered lanai with string lights, sectional, pink bougainvillea, pool view
+    { file: "IMG_7268.png", alt: "Sparkling kidney-shaped pool with teal lounge chairs under vivid blue Florida sky at Tampa waterfront rental" },
     { file: "38.jpg", alt: "Covered outdoor living room with string lights, sectional sofa, pink bougainvillea and heated pool view at Tampa waterfront rental" },
-    // 3. WATERFRONT USP — private dock at sunset, Adirondack chairs, canal reflections
     { file: "42.jpg", alt: "Tampa private dock at sunset with teal Adirondack chairs, lanterns and canal twilight views" },
-    // 4. DECISION: master suite — four-poster king with leather chairs and palm views
-    { file: "E11916F4-2048-40F7-BA24-80C7ACCDD393.png", alt: "Four-poster king master suite with leather chairs, geometric rug and palm tree views at Tampa rental" },
-    // 5. EMOTIONAL: spa soaking tub with candles open to four-poster bedroom
+    { file: "9D177890-A454-411B-82D9-FB97C8B28E69.png", alt: "Four-poster king master suite with caramel leather club chairs, geometric rug and tropical palm views at Tampa waterfront rental" },
     { file: "41.jpg", alt: "Spa primary suite soaking tub with candles, wine and book tray opening to four-poster master bedroom at Tampa rental" },
-    // 6. DECISION: dining + kitchen with marble island, bar stools, pool through French doors
+    { file: "CAEB62AB-81FF-473C-9987-55F98F2418BB.png", alt: "Modern chef kitchen with large marble island, three wood rattan stools, orchid and gray cabinetry at Tampa rental" },
+    { file: "2108A0A7-7E0D-422D-91CD-BA4090C8D3F2.png", alt: "Round dining table set for four with French doors opening to outdoor patio and pool at Tampa rental" },
     { file: "36.jpg", alt: "Open kitchen and dining area with marble island, bar stools and pool views through French doors at Tampa rental" },
-    // 7. DECISION: living room with curved green sectional
     { file: "19.jpg", alt: "Spacious open-plan living room with curved green sectional and smart TV in Tampa rental" },
-    // 8. DECISION: twin queen bedroom with green velvet headboards and canal views
+    { file: "7AECF52A-8D4F-4FE7-BB90-8514096AF852.png", alt: "Twin queen bedroom with olive curved velvet headboards, rust accent pillows, water views and ceiling fan at Tampa waterfront rental" },
+    { file: "D4A21E67-1FA7-4AF2-94D5-D258B25F887F.png", alt: "Twin queen bedroom with olive green headboards, rust pillows, wall-mounted smart TV and bright windows at Tampa vacation home" },
     { file: "4299ED75-DE64-4415-A3E6-1C74B8BF78D7.png", alt: "Twin queen bedroom with dark green velvet headboards and pool canal views at Tampa waterfront home" },
-    // 9. SCALE: aerial showing full property with pool, dock, canal
-    { file: "09.jpg", alt: "Aerial backyard view of Tampa rental with pool, dock and canal" },
-    // 10. DECISION: chef kitchen with marble island and three bar stools
-    { file: "20.jpg", alt: "Open chef kitchen with marble island, three bar stools and stainless appliances at Tampa 6-bedroom rental" },
-    // 11. OUTDOOR: pool with paver deck and palms, daytime
-    { file: "53.jpg", alt: "Sparkling pool with paver deck, lounge chairs and palm trees at Tampa waterfront rental" },
-    // 12. OUTDOOR: pool loungers with umbrella and wine
-    { file: "14.jpg", alt: "Pool loungers and umbrella beside the heated pool at Tampa waterfront rental" },
-    // 13. DECISION: primary bath with freestanding soaking tub and marble tile
-    { file: "54.jpg", alt: "Primary bath with freestanding soaking tub, marble accents and wood-look tile floors at Tampa rental" },
-    // 14. DECISION: master bath with soaking tub, white subway tile, hex mosaic floor
-    { file: "55.jpg", alt: "Designer master bath with freestanding tub, white subway tile walls and hex mosaic floor at Tampa rental" },
-    // 15. DECISION: king bedroom with blue velvet bedding and wood slat accent wall
-    { file: "44.jpg", alt: "King bedroom with blue velvet bedding, wood slat accent wall and natural light at Tampa vacation home" },
-    // 16. DECISION: pink queen bedroom with sunset views and ceiling fan
+    { file: "2C5BA573-2562-4A58-A819-530D4008C40B.png", alt: "King bedroom with warm neutral tones, landscape art and en-suite bathroom access at Tampa rental" },
+    { file: "39112B37-8888-43F2-88E7-DBD4F9B2CC78.png", alt: "Cozy bedroom with terracotta platform bed, landscape painting and natural window light at Tampa vacation home" },
     { file: "52.jpg", alt: "Pink upholstered queen bedroom with sunset view and ceiling fan at Tampa waterfront rental" },
-    // 17. DECISION: bunk room with full-size bunk, desk, canal views (key for large groups)
     { file: "30.jpg", alt: "Bunk bed room with full-size bunk, study desk and canal views at Tampa waterfront rental" },
-    // 18. OUTDOOR: pool daytime, blue sky, wine on tray
-    { file: "3010EF30-59E8-45E4-A635-58D933FF1504.png", alt: "Heated pool with lounge chairs and wine under a vivid blue Florida sky at Tampa waterfront rental" },
-    // 19. ATMOSPHERIC: three illuminated palms reflected in pool at night
-    { file: "hero-tampa.jpg", alt: "Three illuminated palm trees reflected in the pool at night at Tampa waterfront rental" },
-    // 20. DETAIL: spa bath with double arch mirrors, floating wood vanity, walk-in shower
+    { file: "54.jpg", alt: "Primary bath with freestanding soaking tub, marble accents and wood-look tile floors at Tampa rental" },
+    { file: "55.jpg", alt: "Designer master bath with freestanding tub, white subway tile walls and hex mosaic floor at Tampa rental" },
     { file: "37.jpg", alt: "Spa bathroom with double arch mirrors, floating wood vanity and glass walk-in shower at Tampa rental" },
-    // 21. DETAIL: guest bath with blue tile surround and dark wood vanity
+    { file: "9CCE45C8-EF6A-4E5B-9953-3136562232D0.png", alt: "Bright bathroom with sage green vanity, black-framed mirror and glass walk-in shower at Tampa vacation home" },
+    { file: "CAC6B858-317C-498E-BD3E-790AF5136854.png", alt: "Guest bathroom with dark wood vanity, antique mirror, blue tile tub surround and teal mosaic floor at Tampa rental" },
     { file: "47.jpg", alt: "Guest bathroom with blue tile surround, dark wood vanity and combo shower-tub at Tampa rental" },
-    // 22. DETAIL: guest bath with sage green cabinetry and tile walk-in shower
-    { file: "46.jpg", alt: "Guest bath with sage green cabinetry, white countertop and tile walk-in shower at Tampa rental" },
-    // 23. DETAIL: dining area with sculptural barrel chairs, art, and pool view
-    { file: "23.jpg", alt: "Dining area with sculptural barrel chairs, statement art and backyard pool view at Tampa rental" },
-    // 24. DETAIL: living and dining from kitchen angle
-    { file: "18.jpg", alt: "Open-plan living and dining viewed from kitchen with green sectional and statement art at Tampa rental" },
-    // 25. DETAIL: kitchen with island, flowers, dining table visible
+    { file: "3010EF30-59E8-45E4-A635-58D933FF1504.png", alt: "Heated pool with lounge chairs and wine under a vivid blue Florida sky at Tampa waterfront rental" },
+    { file: "14.jpg", alt: "Pool loungers and umbrella beside the heated pool at Tampa waterfront rental" },
     { file: "22.jpg", alt: "Kitchen and dining area with marble island, fresh flowers and views to living room at Tampa rental" },
-    // 26. DETAIL: bright open kitchen and living area from rear
-    { file: "48.jpg", alt: "Bright open kitchen and living area with marble island, flowers and garden views at Tampa rental" },
-    // 27. DETAIL: king bedroom suite with en-suite bath and kitchen views
-    { file: "26.jpg", alt: "King bedroom suite with en-suite bath access and open kitchen views at Tampa waterfront rental" },
-    // 28. DETAIL: queen bedroom with white bedding and landscape art
-    { file: "40.jpg", alt: "Bright queen bedroom with white bedding, landscape art and en-suite access at Tampa vacation home" },
-    // 29. DETAIL: twin queen green velvet from alternate angle
-    { file: "39.jpg", alt: "Twin queen bedroom with green velvet headboards, canal views and ceiling fan at Tampa waterfront rental" },
-    // 30. DETAIL: twin queen green velvet, third angle
-    { file: "45.jpg", alt: "Twin queen bedroom with green velvet headboards, water views and smart TV at Tampa waterfront home" },
-    // 31. DETAIL: curved green sectional living room alt angle
     { file: "25.jpg", alt: "Curved green sectional living room with leather accent chairs and designer lighting at Tampa rental" },
-    // 32. DETAIL: kitchen sink with marble backsplash and bougainvillea window view
+    { file: "48.jpg", alt: "Bright open kitchen and living area with marble island, flowers and garden views at Tampa rental" },
     { file: "04.jpg", alt: "Renovated kitchen sink and quartz counters with tropical view at Tampa rental" },
-    // 33. UTILITY: workspace with desk, smart TV, palm tree views
-    { file: "43.jpg", alt: "Workspace area with desk, smart TV and palm tree window views at Tampa vacation home" },
-    // 34. CONTEXT: street view at twilight
-    { file: "06.jpg", alt: "Tampa vacation home street view at twilight with pink sky and palm trees" },
-    // 35. CONTEXT: aerial from canal showing dock and yard
+    { file: "45.jpg", alt: "Twin queen bedroom with green velvet headboards, water views and smart TV at Tampa waterfront home" },
+    { file: "IMG_7269.png", alt: "Workspace with desk, laptop, beach-scene smart TV and palm tree views at Tampa vacation home" },
+    { file: "IMG_7270.png", alt: "Tampa vacation home front exterior at pink and purple sunset with palm trees and manicured lawn" },
     { file: "10.jpg", alt: "Aerial of Tampa pool home from canal showing yard, patio and private dock" },
   ],
 
   // ===================== CLEARWATER =====================
   clearwater: [
-    // 1. HERO — daytime pool, bright and inviting, reliable render
-    { file: "01.jpg", alt: "Sparkling pool with striped lounge chairs and blue sky at Clearwater 4-bedroom pool home" },
-    // 2. DECISION: master bedroom with dramatic floral accent wall — most distinctive room, pull up for CTR
-    { file: "04.jpg", alt: "Master bedroom with dramatic floral accent wall, tufted headboard, mirrored nightstands and crystal chandelier at Clearwater rental" },
-    // 3. OUTDOOR: daytime pool, bright and inviting
-    { file: "06.jpg", alt: "Daytime pool with lounge chairs, outdoor sofa, al-fresco dining table and palm tree at Clearwater 4-bedroom home" },
-    // 4. DECISION: open living room with sectional
-    { file: "13.jpg", alt: "Bright open living room with large sectional, teal drapes and smart TV at Clearwater 4-bedroom rental" },
-    // 5. DECISION: sage king bedroom
-    { file: "20.jpg", alt: "Spacious king bedroom with sage green walls, tufted headboard, gold accents and sitting chair at Clearwater vacation home" },
-    // 6. DECISION: full kitchen with stainless appliances
-    { file: "26.jpg", alt: "Full kitchen with stainless appliances, wooden cabinetry and barn door at Clearwater vacation home" },
-    // 7. LIFESTYLE: outdoor patio at dusk with sectional and dining
+    { file: "B7A0BCC2-B211-4442-A1EA-E0A80CB155C0.png", alt: "Clearwater pool home backyard at dramatic sunset with palm trees, lounge chairs, outdoor dining and lanterns" },
+    { file: "IMG_7321.png", alt: "Fire pit with teal Adirondack chairs, glowing pool and string-lit gazebo at twilight at Clearwater vacation home" },
+    { file: "08E7AFAB-05FE-490A-A5E8-3B8C02238AC0.png", alt: "Backyard fire pit at sunset with Adirondack chairs, cornhole game and uplighted palms at Clearwater rental" },
+    { file: "3071D617-E65B-44F5-9D19-F000984BBAEA.png", alt: "Aerial view of sparkling pool with float, lounge chairs and outdoor dining at Clearwater 4-bedroom pool home" },
+    { file: "F06028A6-21F8-4E56-A6AA-C82D05CF2FC8.png", alt: "Bright living room with cream L-shaped sectional, teal drapes, gallery art and large smart TV at Clearwater rental" },
+    { file: "9DF48B93-1617-4EEF-9B93-980E01F923E5.png", alt: "Open living room with gallery wall, neutral sectional, teal accents and kitchen view at Clearwater vacation home" },
+    { file: "EEFE2623-2262-422C-BF02-ED66A5B90AC2.png", alt: "Master bedroom with dramatic floral accent wall, tufted headboard, pink accents and crystal chandelier at Clearwater rental" },
+    { file: "45772605-B89C-4F3F-A780-2D1ED7430697.png", alt: "Sage green king bedroom with tufted headboard, smart TV, sitting chair and gold accents at Clearwater vacation home" },
+    { file: "4C85BF85-7C18-489E-8D8D-60643BE571B5.png", alt: "Spacious sage green king bedroom with gold mirror accents, palm tree views and natural light at Clearwater rental" },
+    { file: "A70CBE78-E87F-4BE6-BF96-2FDDA0B83075.png", alt: "Twin full bedroom with olive green bedding, rust accent pillows and beach boardwalk artwork at Clearwater family rental" },
+    { file: "30869D0B-20C7-491E-ACA1-4E494F22B018.png", alt: "Navy blue bunk room with two sets of full bunk beds, beach window views and playful chandelier at Clearwater family home" },
+    { file: "56E7C895-3235-481D-8514-613269F941F8.png", alt: "Full kitchen with warm wood cabinetry, stainless steel appliances and outdoor pool views at Clearwater vacation home" },
+    { file: "D1ED70F6-4997-45D9-B69C-A16A3430FF27.png", alt: "Bright dining nook with farmhouse table, French doors opening to pool and kitchen view at Clearwater rental" },
     { file: "10.jpg", alt: "Outdoor patio at dusk with dark sectional, teal cushions, dining table and French doors lit from inside at Clearwater rental" },
-    // 8. OUTDOOR: pool with lounge seating and dining umbrella
+    { file: "06.jpg", alt: "Daytime pool with lounge chairs, outdoor sofa, al-fresco dining table and palm tree at Clearwater 4-bedroom home" },
     { file: "28.jpg", alt: "Private pool and patio with lounge chairs, outdoor sofa and dining umbrella at Clearwater vacation home" },
-    // 9. CONTEXT: front exterior at pink and purple sunset
-    { file: "11.jpg", alt: "Front exterior of Clearwater 4-bedroom pool home at pink and purple sunset" },
-    // 10. DECISION: dining nook with six-seat table and pool view
-    { file: "15.jpg", alt: "Dining nook with six-seat table, kitchen and French door pool view at Clearwater family home" },
-    // 11. DECISION: open dining and living with coastal art
-    { file: "12.jpg", alt: "Open dining and living area with coastal art at Clearwater 4-bedroom rental" },
-    // 12. DECISION: second king bedroom with green velvet duvet
-    { file: "21.jpg", alt: "King bedroom with tufted headboard, green velvet duvet, gold pillow and round mirrors at Clearwater family rental" },
-    // 13. DECISION: twin queen family bedroom
-    { file: "18.jpg", alt: "Twin queen bedroom with green bedspreads and beach boardwalk artwork at Clearwater rental" },
-    // 14. DECISION: floral queen bedroom
-    { file: "05.jpg", alt: "Queen bedroom with bold floral wallpaper accent wall and pink accents at Clearwater vacation home" },
-    // 15. DECISION: blue accent wall bedroom with workspace
-    { file: "25.jpg", alt: "Blue accent wall bedroom with workspace desk and white dresser at Clearwater family home" },
-    // 16. DETAIL: gallery wall and kitchen view
-    { file: "14.jpg", alt: "Open living area with gallery wall and kitchen view at Clearwater vacation home" },
-    // 17. OUTDOOR: pool at twilight with string lights and dining
-    { file: "02.jpg", alt: "Heated pool glowing at twilight with string lights, outdoor dining and lounge chairs at Clearwater family rental" },
-    // 18. OUTDOOR: pool at dusk with teal umbrella
-    { file: "07.jpg", alt: "Pool and patio at dusk with lounge seating, dining and teal umbrella at Clearwater rental" },
-    // 19. OUTDOOR: daytime pool with palm tree and OJ on lounge
     { file: "09.jpg", alt: "Daytime pool view with palm trees and orange juice on lounge at Clearwater family vacation home" },
-    // 20. UTILITY: bathroom with round mirror and seashell curtain
-    { file: "27.jpg", alt: "Bathroom with round mirror, pendant lights, natural light and seashell shower curtain at Clearwater rental" },
-    // 21. UTILITY: guest bathroom with modern vanity
-    { file: "23.jpg", alt: "Guest bathroom with modern vanity and oval mirror at Clearwater 4-bedroom pool home" },
+    { file: "11.jpg", alt: "Front exterior of Clearwater 4-bedroom pool home at pink and purple sunset" },
+    { file: "4759916B-A1E4-4723-9D5C-802E69A91E2E.png", alt: "Guest bathroom with round mirror, gold sconces, light wood vanity and shower-tub combo at Clearwater rental" },
+    { file: "D972BBD8-7AA2-4A97-B1EC-3F6F4D787045.png", alt: "Bathroom with ornate gold mirror, glass-block window and mosaic tile walk-in shower at Clearwater vacation home" },
+    { file: "25.jpg", alt: "Blue accent wall bedroom with workspace desk and white dresser at Clearwater family home" },
   ],
 
   // ===================== LARGO =====================
   largo: [
-    // 1. HERO — fire pit at night showing fire pit + lit gazebo + glowing pool in one frame
-    { file: "02.jpg", alt: "Fire pit with red Adirondack chairs, lit gazebo and glowing pool at twilight at Largo rental" },
-    // 2. KEY FEATURE: pool with cascading waterfall feature
-    { file: "01.jpg", alt: "Heated pool with cascading waterfall feature and tropical palms at Largo vacation home" },
-    // 3. DECISION: king bedroom with navy velvet headboard — pull up from position 10
+    { file: "640B9ABE-D53C-4A0F-8AB9-81B4C040EF5F.png", alt: "Fire pit with red Adirondack chairs, string-lit gazebo and glowing pool at dramatic sunset at Largo vacation rental" },
+    { file: "C9765FCD-602B-41A5-B690-6AE4106C0B1C.png", alt: "Heated pool with cascading waterfall feature and lit gazebo at sunset at Largo vacation home" },
+    { file: "D9F4316D-9344-4CC5-99A2-7E4B9A59D456.png", alt: "Aerial view of Largo vacation home showing pool, gazebo, fire pit and private yard layout" },
+    { file: "186B6A48-D268-4176-BE52-D9EC9A97D73C.png", alt: "Coastal living room with large dark sectional, sliding doors to pool and beach-sunset smart TV at Largo rental" },
+    { file: "795B7BA7-8F9D-4533-B657-82C2D50E73A3.png", alt: "Spacious open-plan living room with two large sectionals, pelican art and kitchen view at Largo vacation home" },
     { file: "14.jpg", alt: "King bedroom with navy velvet headboard and gold frame at Largo vacation rental" },
     { file: "IMG_3856.jpeg", alt: "Coastal bunk and twin room with nautical art, striped rug and beach decor at Largo home" },
-    // 4. DECISION: designer kitchen with gray cabinetry and rattan stools
     { file: "12.jpg", alt: "Designer kitchen with gray cabinetry, quartz island and rattan stools at Largo home" },
-    // 5. DECISION: open living room with large sectional
-    { file: "04.jpg", alt: "Open living room with large sectional sofas and smart TV at Largo 3-bedroom home" },
-    // 6. LIFESTYLE: gazebo breakfast with string lights and croissants
     { file: "06.jpg", alt: "Gazebo breakfast table with string lights, croissants and fresh juice at Largo rental" },
-    // 7. LIFESTYLE: pink flamingo float in pool at dusk
-    { file: "10.jpg", alt: "Pink flamingo float in glowing pool at dusk with palm tree at Largo vacation home" },
-    // 8. LIFESTYLE: kitchen island breakfast spread
     { file: "07.jpg", alt: "Chef kitchen island with croissant breakfast spread and quartz counters at Largo rental" },
-    // 9. LIFESTYLE: dining with charcuterie and wine
     { file: "09.jpg", alt: "Open dining and living area with charcuterie, wine and coastal art at Largo vacation home" },
-    // 10. LIFESTYLE: candlelit dinner table
     { file: "08.jpg", alt: "Candlelit dining table with wine, flowers and cozy living room at Largo family rental" },
-    // 11. DECISION: twin queen bedroom with green velvet headboards
-    { file: "IMG_3851.png", alt: "Twin queen bedroom with dark green velvet headboards and blush bedding at Largo rental" },
-    // 12. OUTDOOR: covered lanai with pool view
     { file: "03.jpg", alt: "Covered lanai with coastal sectional and pool view through sliding door at Largo home" },
-    // 14. OUTDOOR: covered patio with blue lounge seating
     { file: "05.jpg", alt: "Covered outdoor patio with blue lounge seating and pool access at Largo rental" },
+    { file: "IMG_7323.png", alt: "Bright bathroom with gray vanity, rectangular mirror and marble walk-in shower at Largo vacation home" },
+    { file: "IMG_7324.png", alt: "Light blue bathroom with marble walk-in shower, mosaic floor and beach art at Largo rental" },
   ],
 
   // ===================== IRB-A =====================
   "irb-a": [
-    // 1. HERO — hot tub with neon sign, champagne, lifestyle magic
+    { file: "DE64EDF0-AB5E-4C11-BB33-D048440C129C.png", alt: "Indian Rocks Beach duplex vacation home at dramatic sunset showing both hot tubs, lit deck and glowing interior" },
+    { file: "78FC9346-4DC6-4DF2-B25C-69CEC77CA9C2.png", alt: "Private hot tub with string lights, red floral walls, sparkling water, wine and candles at Indian Rocks Beach rental" },
     { file: "01.jpg", alt: "Private hot tub with neon The Perfect Place sign, champagne, candles and flower wall at Indian Rocks Beach rental" },
-    // 2. BEACH USP: sunset deck with cocktails — pull up dramatically from position 17
     { file: "F2CA30AB-7AC0-488C-A950-F6B0DF50CD03.png", alt: "Sunset deck with grill, cocktails, food and string lights at Indian Rocks Beach rental" },
-    // 3. BEACH USP: beach chairs and umbrella steps from the Gulf — pull up from position 18
     { file: "E7270DEA-D439-47E4-AA79-37F96A90CA1A.png", alt: "Beach chairs and umbrella steps from Indian Rocks Beach Gulf shore vacation rental" },
-    // 4. DECISION: open-plan dining and kitchen with lotus chandelier
-    { file: "IMG_3214.jpeg", alt: "Open-plan dining and kitchen with blue toile chairs, lotus chandelier, marble backsplash and coastal living room at IRB beach house" },
-    // 5. DECISION: dining close-up with gold lotus chandelier
-    { file: "IMG_3205.jpeg", alt: "Dining area with gold lotus chandelier, blue toile chairs and white kitchen with marble backsplash at IRB vacation home" },
-    // 6. DECISION: primary bedroom
-    { file: "AAF38287-D5E4-4FF6-9BA5-ADDD91281130.png", alt: "Primary bedroom with wood headboard, mirrored wardrobe and tropical window light at Indian Rocks Beach vacation home" },
-    // 7. DECISION: spa bathroom with navy tile and gold fixtures
-    { file: "IMG_3207.jpeg", alt: "Luxury bathroom with navy blue tile walls, gold fixtures, marble vanity and glass walk-in shower at Indian Rocks Beach rental" },
-    // 8. LIFESTYLE: LOVE wall photo moment
-    { file: "D6E0639F-15A2-4D1F-B007-BB945C0F2190.png", alt: "LOVE wall with red rose letters, swing chair, hanging vines and lanterns at Indian Rocks Beach rental" },
-    // 9. LIFESTYLE: hot tub with bougainvillea from outside
-    { file: "IMG_3218.jpeg", alt: "Private hot tub with neon The Perfect Place sign surrounded by pink bougainvillea at Indian Rocks Beach rental" },
-    // 10. DECISION: bright coastal living room
+    { file: "E92D8035-F028-4DCF-916E-57C303E9632C.png", alt: "White kitchen with marble counters, gold pendant lights, blue toile dining chairs and ocean views at Indian Rocks Beach rental" },
+    { file: "CB705199-6169-4AA6-825A-97E308312FB0.png", alt: "Luxury bathroom with navy blue subway tile, gold fixtures, marble vanity and glass walk-in shower at IRB beach house" },
+    { file: "0BFB1BEF-76C9-4F72-8A67-98E04BBF6E24.png", alt: "Coastal living room with light blue sectional, dune art, beach TV, fiddle-leaf plant and fresh blue hydrangeas at IRB rental" },
     { file: "IMG_3211.jpeg", alt: "Bright coastal living room with white rattan TV cabinet, beach art and fresh pink hydrangeas at Indian Rocks Beach rental" },
-    // 11. DECISION: second bedroom
+    { file: "AAF38287-D5E4-4FF6-9BA5-ADDD91281130.png", alt: "Primary bedroom with wood headboard, mirrored wardrobe and tropical window light at Indian Rocks Beach vacation home" },
     { file: "C7C224BA-FC54-4A48-95D3-A4A5423BF343.png", alt: "Second bedroom with wood headboard, blue accent bedding and tropical natural light at IRB beach house" },
-    // 12. DECISION: marble spa bathroom
+    { file: "IMG_3214.jpeg", alt: "Open-plan dining and kitchen with blue toile chairs, lotus chandelier, marble backsplash and coastal living room at IRB beach house" },
+    { file: "IMG_3205.jpeg", alt: "Dining area with gold lotus chandelier, blue toile chairs and white kitchen with marble backsplash at IRB vacation home" },
+    { file: "IMG_3207.jpeg", alt: "Luxury bathroom with navy blue tile walls, gold fixtures, marble vanity and glass walk-in shower at Indian Rocks Beach rental" },
     { file: "IMG_3215.jpeg", alt: "Spa bathroom with white marble vanity, round mirror, gold sconce, glass shower and fresh flowers at IRB vacation home" },
-    // 13. DETAIL: entry view into kitchen and living room
-    { file: "IMG_3219.jpeg", alt: "Entry view into white kitchen with brass pendants, stainless appliances and coastal living room at Indian Rocks Beach rental" },
-    // 14. LIFESTYLE: boardwalk at sunset
-    { file: "04.jpg", alt: "Sunset over the boardwalk to Indian Rocks Beach with Please Leave Nothing But Footprints sign and string lights" },
-    // 15. DETAIL: living room additional angle
+    { file: "IMG_7468.png", alt: "Dining area with round table, blue toile chairs, gold pendant lights and white kitchen at Indian Rocks Beach rental" },
+    { file: "IMG_3218.jpeg", alt: "Private hot tub with neon The Perfect Place sign surrounded by pink bougainvillea at Indian Rocks Beach rental" },
+    { file: "D6E0639F-15A2-4D1F-B007-BB945C0F2190.png", alt: "LOVE wall with red rose letters, swing chair, hanging vines and lanterns at Indian Rocks Beach rental" },
     { file: "AD8DF012-611A-48A4-8465-CE12427AB071.png", alt: "Coastal living room with light blue sectional, white rattan media cabinet and beach art at IRB beach house" },
-    // 16. DETAIL: white kitchen with brass pendants
+    { file: "IMG_3219.jpeg", alt: "Entry view into white kitchen with brass pendants, stainless appliances and coastal living room at Indian Rocks Beach rental" },
+    { file: "04.jpg", alt: "Sunset over the boardwalk to Indian Rocks Beach with string lights" },
     { file: "06.jpg", alt: "White kitchen with marble counters, brass pendants and blue toile dining area at Indian Rocks Beach rental" },
-    // 17. UTILITY: in-unit washer and dryer
-    { file: "IMG_3220.png", alt: "In-unit washer and dryer laundry area at Indian Rocks Beach vacation home" },
   ],
 
   // ===================== IRB-B =====================
   "irb-b": [
-    // 1. HERO — hot tub with Relax & Unwind sign, swing chair, styled spa room
-    { file: "02.jpg", alt: "Private hot tub with Relax and Unwind sign, hanging swing chair and lounge chairs at Indian Rocks Beach rental" },
-    // 2. LIFESTYLE: LOVE wall photo moment
-    { file: "D6E0639F-15A2-4D1F-B007-BB945C0F2190.png", alt: "LOVE wall with swing chair, string lights and floral letters at IRB beach house" },
-    // 3. OUTDOOR: sunny deck with rocking chairs — pull up for beach-home feel
+    { file: "DE64EDF0-AB5E-4C11-BB33-D048440C129C.png", alt: "Indian Rocks Beach duplex vacation home at dramatic sunset with glowing interior, hot tubs and lit deck" },
+    { file: "02.jpg", alt: "Private hot tub with Relax and Unwind neon sign, hanging swing chair and lounge chairs at Indian Rocks Beach rental" },
+    { file: "3984FECF-DB9E-4ECA-85E9-237ACB6707AE.png", alt: "Open-plan coastal living room with blue sectional, beach art, white kitchen and dining nook at Indian Rocks Beach rental" },
+    { file: "6EEE86AC-20CA-434D-9DC6-4FF49B1DF50B.png", alt: "Primary bedroom with wicker headboard, coastal floral bedding, beach and coral art at IRB beach house" },
+    { file: "04902ABC-19CA-4668-AAF3-D0210646C2DB.png", alt: "Queen bedroom with wood and wicker headboard, teal duvet, botanical throw pillows and round-blade ceiling fan at IRB rental" },
+    { file: "9256A64E-5676-48D2-85AD-64184B4EF6BF.png", alt: "Bright dining nook with round table, gold lantern chandelier, blue hydrangeas and tree-view windows at IRB beach house" },
+    { file: "859BCB68-C3E1-4EA3-8FAA-757AC63CC8EA.png", alt: "White kitchen with marble counters, stainless appliances, palm tree views and gold chandelier at Indian Rocks Beach rental" },
+    { file: "12D917F7-5F80-4E75-9054-A5FC7A8A4D23.png", alt: "Luxury bathroom with green penny tile walk-in shower, gold fixtures and white marble vanity at IRB beach house" },
+    { file: "F2201DB5-10C8-458D-A3CE-7EB900F4C42F.png", alt: "Spa bathroom with marble vanity, oval mirror, gold sconce and rain-head walk-in shower at Indian Rocks Beach rental" },
     { file: "01.jpg", alt: "Sunny deck with rocking chairs, grill and tropical plants at Indian Rocks Beach 2-bedroom rental" },
-    // 4. BEACH USP: boardwalk at sunset — pull up to show beach proximity
-    { file: "D418CD98-830A-4162-98E1-5F36F1745A96.png", alt: "Sunset beach boardwalk with colorful footprints sign and string lights at Indian Rocks Beach" },
-    // 5. BEACH USP: beach chairs and umbrella included
     { file: "03.jpg", alt: "Beach chairs, umbrella and essentials included at Indian Rocks Beach rental" },
-    // 6. DECISION: white kitchen with teal dishwasher and marble counters
-    { file: "34E5FEBF-2DA2-4C93-B2B2-C01604D0E790.png", alt: "Bright white kitchen with teal dishwasher, marble counters and palm tree views at Indian Rocks Beach rental" },
-    // 7. DECISION: coastal living room with blue sectional
+    { file: "D418CD98-830A-4162-98E1-5F36F1745A96.png", alt: "Sunset beach boardwalk with colorful footprints sign and string lights at Indian Rocks Beach" },
+    { file: "D6E0639F-15A2-4D1F-B007-BB945C0F2190.png", alt: "LOVE wall with swing chair, string lights and floral letters at IRB beach house" },
     { file: "E81C752F-60B6-4601-A9F6-294225D83DD2.png", alt: "Coastal living room with blue sectional, Beach House sign and smart TV at IRB vacation home" },
-    // 8. DECISION: bright dining nook with gold chandelier
     { file: "B7604E1F-97BB-4EAA-9C6A-8463DC7C8722.png", alt: "Bright dining nook with round white table and gold chandelier at Indian Rocks Beach rental" },
-    // 9. DECISION: primary bedroom with wicker headboard
+    { file: "34E5FEBF-2DA2-4C93-B2B2-C01604D0E790.png", alt: "Bright white kitchen with teal dishwasher, marble counters and palm tree views at Indian Rocks Beach rental" },
     { file: "29-DSC_9367.jpg", alt: "Primary bedroom with wicker headboard, floral coastal bedding and mirrored wardrobe at IRB beach house" },
-    // 10. DECISION: queen bedroom with smart TV
     { file: "31-DSC_9381 2.jpg", alt: "Queen bedroom with smart TV and coastal bedding at Indian Rocks Beach vacation home" },
-    // 11. DETAIL: hallway view of both bedrooms
-    { file: "04.jpg", alt: "Hallway view of both bedroom suites with coastal bedding at Indian Rocks Beach 2-bedroom rental" },
-    // 12. DECISION: designer bathroom with marble vanity and scallop tile floor
-    { file: "07.jpg", alt: "Designer bathroom with marble vanity, oval mirror, gold fixtures and scallop tile floor at IRB rental" },
-    // 13. DECISION: dark hexagonal mosaic tile shower
     { file: "08.jpg", alt: "Dramatic dark hexagonal mosaic tile shower with gold mirror vanity at Indian Rocks Beach beach house" },
-    // 14. DECISION: second bathroom with white marble and mosaic tile
     { file: "32-DSC_9402.jpg", alt: "Second bathroom with white marble vanity and mosaic tile walk-in shower at IRB rental" },
-    // 15. DETAIL: mosaic shower close-up with rain head
-    { file: "09.jpg", alt: "Mosaic tile walk-in shower with rain head at IRB 2-bedroom beach house" },
-    // 16. DETAIL: hot tub room additional angle
-    { file: "10.jpg", alt: "Private hot tub room with hanging chair and lounge seating at Indian Rocks Beach coastal home" },
+    { file: "04.jpg", alt: "Hallway view of both bedroom suites with coastal bedding at Indian Rocks Beach 2-bedroom rental" },
   ],
 
   // ===================== STPETE-HOTTUB =====================
   "stpete-hottub": [
-    // 1. HERO — outdoor hot tub with red neon sign and champagne
     { file: "01.jpg", alt: "Private hot tub with red neon The Perfect Place sign, champagne bucket and bamboo garden at St. Pete bungalow" },
-    // 2. DECISION: living room with gray sectional
-    { file: "04.jpg", alt: "Living room with gray sectional, teal accent cushions and smart TV at downtown St. Pete bungalow" },
-    // 3. DECISION: updated white kitchen
-    { file: "05.jpg", alt: "Updated white kitchen with granite counters and stainless appliances at St. Pete vacation rental" },
-    // 4. CONTEXT: twilight exterior with green uplighting — moved up from position 4
-    { file: "03.jpg", alt: "Twilight exterior of St. Pete vacation rental with palm trees and green uplighting" },
-    // 5. DECISION: king bedroom with blue duvet
+    { file: "14625954-4BCB-4FCE-B47C-F441C2CC39D6.png", alt: "Open-plan living room with dark sectional, gold glass coffee table, accent chairs and St. Pete city art at downtown bungalow" },
+    { file: "42EFF8AF-9A84-4A1A-8957-86C169832B64.png", alt: "Updated white kitchen with black granite counters, stainless gas range, hood vent and palm tree views at St. Pete rental" },
+    { file: "4569A7A4-EB1B-4D89-B5E1-8DB59CC9A3C0.png", alt: "Spa bathroom with marble tile walk-in shower, black floating vanity, brass bar lights and open shelving at St. Pete bungalow" },
     { file: "06.jpg", alt: "King bedroom with blue duvet, landscape art and smart TV at St. Pete hot tub rental" },
-    // 6. LIFESTYLE: bamboo-enclosed garden patio with bistro seating
     { file: "02.jpg", alt: "Bamboo-enclosed garden patio with polka-dot bistro table and chairs at St. Pete bungalow" },
-    // 7. DECISION: marble walk-in shower
-    { file: "07.jpg", alt: "Marble walk-in shower with glass enclosure and modern vanity at St. Pete 1-bedroom rental" },
-    // 8. UTILITY: kitchen and stacked washer-dryer
-    { file: "08.jpg", alt: "Kitchen and stacked washer-dryer laundry area at St. Pete bungalow rental" },
-    // 9. LIFESTYLE/NEIGHBORHOOD: Crescent Lake park at sunset
+    { file: "IMG_7500.png", alt: "Front exterior of St. Pete vacation bungalow with blue and white facade, palm trees and tropical landscaping" },
+    { file: "03.jpg", alt: "Twilight exterior of St. Pete vacation rental with palm trees and green uplighting" },
     { file: "09.jpg", alt: "Crescent Lake park at sunset with bench and water reflections near St. Pete vacation rental" },
+    { file: "05.jpg", alt: "Updated white kitchen with granite counters and stainless appliances at St. Pete vacation rental" },
+    { file: "07.jpg", alt: "Marble walk-in shower with glass enclosure and modern vanity at St. Pete 1-bedroom rental" },
+    { file: "08.jpg", alt: "Kitchen and stacked washer-dryer laundry area at St. Pete bungalow rental" },
+    { file: "04.jpg", alt: "Living room with gray sectional, teal accent cushions and smart TV at downtown St. Pete bungalow" },
   ],
 
   // ===================== STPETE-MODERN =====================
   "stpete-modern": [
-    // 1. HERO — sage green living room with cloud sectional and built-in TV wall
-    { file: "03.jpg", alt: "Luxury living room with sage green walls, cloud sectional, built-in wood TV wall and mountain art at St. Pete modern retreat" },
-    // 2. LIFESTYLE: private balcony — defining feature, moved up from position 6
+    { file: "913CD7D8-D5BD-43A3-BA0A-D4F5E42FD596.png", alt: "Luxury living room with white cloud sectional, built-in wood TV wall, candles and balcony door open to tree views at St. Pete retreat" },
+    { file: "C937A15F-4576-4562-8900-7D879393D2FD.png", alt: "Living room with cream sectional, built-in TV wall, gallery art, orchids and balcony door at St. Pete modern retreat" },
     { file: "02.jpg", alt: "Private balcony with daybed bench, snake plant and yellow flowers overlooking tree canopy at St. Pete rental" },
-    // 3. DECISION: king bedroom with peach accent wall and balcony access
+    { file: "A704C5E4-4331-4B08-8804-51BB8A13E930.png", alt: "Modern kitchen island with Amalfi Coast art, charcuterie board, wine glasses, palm plant and induction cooktop at St. Pete retreat" },
+    { file: "49588D34-2986-4F94-8D9F-8943706D452A.png", alt: "High-end black and white kitchen with marble island, white bar stools, wine and charcuterie at St. Pete rental" },
+    { file: "B26196C7-FCEB-4361-989B-EE26A6DF7BBC.png", alt: "King bedroom with wood accent wall, built-in desk and shelving, wall TV, balcony door and natural light at St. Pete retreat" },
+    { file: "8A4B2821-C825-49CB-AFC8-4D849C89EE6E.png", alt: "Bright king bedroom with teal runner, wall TV, oval mirror vanity desk and ceiling fan at St. Pete modern rental" },
     { file: "08.jpg", alt: "King bedroom with peach accent wall, pink blossom art, balcony access and morning light at St. Pete retreat" },
-    // 4. DECISION: living room with balcony door open to tree views
-    { file: "04.jpg", alt: "Sage living room with cloud sectional, balcony door open to tree views and palm plant at St. Pete modern retreat" },
-    // 5. DECISION: high-end black and white kitchen with island
-    { file: "05.jpg", alt: "High-end black and white kitchen with large island, gold bar stools and professional range hood at St. Pete rental" },
-    // 6. DECISION: designer bathroom with charcoal tile and walk-in shower
     { file: "06.jpg", alt: "Designer bathroom with charcoal tile, wood-plank wall, vessel sink and walk-in shower at St. Pete retreat" },
-    // 7. DETAIL: galley kitchen with Amalfi Coast art
     { file: "07.jpg", alt: "Galley kitchen with white marble counters, induction cooktop and Amalfi Coast art at St. Pete modern rental" },
+    { file: "03.jpg", alt: "Luxury living room with sage green walls, cloud sectional, built-in wood TV wall and mountain art at St. Pete modern retreat" },
+    { file: "04.jpg", alt: "Sage living room with cloud sectional, balcony door open to tree views and palm plant at St. Pete modern retreat" },
+    { file: "05.jpg", alt: "High-end black and white kitchen with large island, gold bar stools and professional range hood at St. Pete rental" },
   ],
 
   // ===================== STPETE-PATIO =====================
   "stpete-patio": [
-    // 1. HERO — living room with oversized abstract painting, bold USP for this "art & character" listing
-    { file: "08.jpg", alt: "Living room with oversized abstract painting, blue accent chair and smart TV at St. Pete downtown rental" },
-    // 2. CONTEXT: twilight exterior showing distinctive arched doorway and green uplighting
+    { file: "9DFBE506-5D1C-4F20-9B9F-598AEF7546D0.png", alt: "Private hot tub at night with glowing St Pete neon sign, hanging wisteria flowers and string lights at St. Pete bungalow" },
     { file: "02.jpg", alt: "Twilight exterior of St. Pete bungalow with palm trees, arched doorway and green uplighting" },
-    // 3. DECISION: open living and dining with blue sofa
-    { file: "01.jpg", alt: "Open living and dining with blue sofa, abstract art and kitchen view at St. Pete bungalow" },
-    // 4. DECISION: king bedroom with blue velvet headboard
-    { file: "06.jpg", alt: "King bedroom with blue velvet headboard and burgundy bedding at St. Pete downtown rental" },
-    // 5. DECISION: bright sitting nook with purple chaise — distinctive feature
-    { file: "04.jpg", alt: "Bright sitting nook with purple chaise, gallery wall and arched window at St. Pete rental" },
-    // 6. CONTEXT: wide exterior shot at night showing full building
-    { file: "05.jpg", alt: "Twilight exterior of St. Pete bungalow with palm trees and uplighting" },
-    // 7. DECISION: walk-in shower with dark granite vanity
-    { file: "07.jpg", alt: "Walk-in shower with glass enclosure and dark granite vanity at St. Pete bungalow" },
-    // 8. DETAIL: custom dartboard game room — deprioritized (tight crop, show last)
-    { file: "03.jpg", alt: "Custom dartboard game room with scoreboards at St. Pete 1-bedroom vacation rental" },
+    { file: "79485F3F-A09B-4E6D-BFE8-40336E222675.png", alt: "Living room with gray sectional, bold abstract art, blue accent chair, large windows and city skyline TV at St. Pete downtown rental" },
+    { file: "95E9B0D0-5F20-4CC3-AE21-CFE270E70FCC.png", alt: "Open living and dining with neutral sectional, blue accent chair, abstract art, round coffee table and kitchen view at St. Pete bungalow" },
+    { file: "9FE75344-E700-4312-BAC8-54FF5236DB0C.png", alt: "King bedroom with teal velvet headboard, sage quilted bedding, white towels and natural light at St. Pete downtown rental" },
+    { file: "6D1ADDB3-0E6C-43F4-A0EE-8DC85F8E977F.png", alt: "King bedroom with blue tufted headboard, welcome smart TV and beach art at St. Pete bungalow" },
+    { file: "84E28073-0C23-4E6D-A836-96714F8DE7D9.png", alt: "Dining area with round marble table, black chairs, white flower arrangement and dark kitchen with abstract art at St. Pete rental" },
+    { file: "C6782C1B-949E-41F6-B3E6-4541D20D6628.png", alt: "Kitchen with dark wood cabinetry, granite island, pendant lights and stainless appliances at St. Pete bungalow" },
+    { file: "43CA4956-7663-4142-8654-81FF521137BC.png", alt: "Designer bathroom with travertine tile walk-in shower, dark granite vanity and glass enclosure at St. Pete rental" },
+    { file: "36F0AE26-D625-4106-BAF3-7CAC2E4920B3.png", alt: "Sitting nook with purple velvet loveseat, arched windows, gallery art and modern side table at St. Pete bungalow" },
   ],
 
   // ===================== STPETE-SUNSOAKED =====================
   "stpete-sunsoaked": [
-    // 1. HERO — luxury living room: first impression, shows full scale of the space
-    { file: "01.jpg", alt: "Luxury living room with cream sectional, sage drapes, gallery wall and balcony access at downtown St. Pete condo" },
-    // 2. DECISION: primary king bedroom — sleep quality is the #1 booking decision
-    { file: "05.jpg", alt: "King bedroom with white bedding, city skyline TV art and workspace desk at St. Pete sun-soaked condo" },
-    // 3. DECISION: second king bedroom — two kings is the key differentiator for couples/groups
-    { file: "08.jpg", alt: "Second king bedroom with wood accent wall, city skyline art, St. Pete travel vibes at downtown condo" },
-    // 4. DECISION: spa bathroom — premium bath converts luxury seekers
+    { file: "97F89976-FF2F-4CB0-B20D-3F4398D0CCCF.png", alt: "Luxury living room with large sectional, sage green drapes, balcony door, floral arrangement and charcuterie at downtown St. Pete condo" },
+    { file: "B377902D-7E6D-4100-BFD5-547CE417D4DE.png", alt: "Open living room with gray sectional, gallery wall, built-in TV wall and balcony door at downtown St. Pete condo" },
+    { file: "F0338B4E-F85B-4615-BA34-6052CE5382D8.png", alt: "Bright living room with cream sectional, sage green curtains, balcony door and pampas grass at St. Pete sun-soaked condo" },
+    { file: "50F217D2-D7A1-4BA6-B607-EF791C236715.png", alt: "King bedroom with terracotta orange accent wall, wood headboard, arc lamp and Calm wall art at St. Pete condo" },
+    { file: "8725C0D2-129E-401F-9E75-7C9C82783441.png", alt: "King bedroom with wood headboard, palm plant, city skyline art, workspace desk and luggage shelf at St. Pete rental" },
+    { file: "605419EC-3ABF-48DC-840D-2F6043D80261.png", alt: "Bedroom with king bed, built-in workspace desk, wall TV, oval mirror and ceiling fan at St. Pete sun-soaked condo" },
     { file: "06.jpg", alt: "Spa bathroom with backlit LED mirror, dark tile, wood plank wall and rain shower at St. Pete condo" },
-    // 5. LIFESTYLE: balcony — the "sunsoaked" promise, aspirational close
     { file: "03.jpg", alt: "Private balcony with bistro seating and downtown St. Pete neighbourhood views" },
-    // 6. SUPPORTING: second living room angle with sage green accent wall
     { file: "04.jpg", alt: "Modern living room with sage green accent walls, built-in shelving and St. Pete skyline art at downtown rental" },
-    // 7. DETAIL: built-in workspace for remote workers
     { file: "07.jpg", alt: "Built-in workspace with wood wall, city skyline TV and storage at St. Pete sun-soaked rental" },
   ],
 };
