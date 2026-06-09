@@ -1,7 +1,7 @@
 ---
 title: "Clearwater vs Indian Rocks Beach: Which Is Better for Families?"
 description: "Two of Florida's Gulf Coast favorites — but they offer very different experiences. Here's how to decide which is the right fit for your family vacation."
-publishDate: "2026-06-09"
+publishDate: "2026-06-11"
 author: "Sea & City Rentals"
 tags: ["clearwater", "indian rocks beach", "family", "beaches"]
 ---
