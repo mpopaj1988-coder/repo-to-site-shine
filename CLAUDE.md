@@ -19,6 +19,12 @@
 - GuestGrowth webproduct URL: `https://seaandcityrentals.com/guestgrowth`
 - UGC video cost: 75 credits each — confirm before generating
 
+### GuestGrowth Product Description
+GuestGrowth is a done-for-you service for STR hosts. The QR code placed at the property does two things:
+1. **WiFi access** — guests scan to connect, which captures their email for direct booking follow-up
+2. **Guest book** — a digital guest book that would otherwise cost money and take significant time to create manually
+The value pitch is: hosts get both a guest email capture system AND a professional guest book, all handled for them. It saves time and replaces an expense they'd otherwise have to pay for separately.
+
 ---
 
 ## Project Overview
