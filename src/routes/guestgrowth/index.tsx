@@ -321,38 +321,6 @@ function GuestGrowthPage() {
         </div>
       </section>
 
-      {/* ── Video explainer ── */}
-      <section style={{ padding: '64px 24px', backgroundColor: '#ffffff' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{
-            fontSize: '12px', letterSpacing: '0.25em', textTransform: 'uppercase',
-            color: '#C9A84C', marginBottom: '12px',
-          }}>
-            See How It Works
-          </p>
-          <h2 style={{
-            fontSize: 'clamp(22px, 4vw, 32px)', fontWeight: '800',
-            color: '#1A3A4A', marginBottom: '32px', lineHeight: 1.2,
-          }}>
-            Watch the 2-minute overview
-          </h2>
-          <div style={{
-            position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden',
-            borderRadius: '10px', boxShadow: '0 8px 40px rgba(0,0,0,0.15)',
-          }}>
-            <iframe
-              src="https://realestate.febreframeworks.com/videos/019c7cb1-7052-7024-9675-e9e6202cd638"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              style={{
-                position: 'absolute', top: 0, left: 0,
-                width: '100%', height: '100%', border: 0,
-              }}
-            />
-          </div>
-        </div>
-      </section>
-
       {/* ── Pain / value section ── */}
       <section style={{ padding: '80px 24px', maxWidth: '960px', margin: '0 auto' }}>
         <p style={{
