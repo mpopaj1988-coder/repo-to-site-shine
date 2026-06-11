@@ -39,7 +39,7 @@ export function FooterEmailSignup() {
       }).catch(() => {});
 
       setStatus("success");
-      setMessage("Thanks! Check your inbox for your 10% off code.");
+      setMessage("Thanks! Check your inbox for your mystery discount code.");
       track("email_signup", { method: "footer" });
       setEmail("");
     } catch {
@@ -54,7 +54,7 @@ export function FooterEmailSignup() {
         Stay in the loop
       </h2>
       <p className="mt-5 text-sm text-white/75">
-        Local tips, new listings & 10% off your first direct booking.
+        Local tips, new listings & a mystery discount on your first direct booking.
       </p>
       {status === "success" ? (
         <p className="mt-4 text-sm text-[var(--color-sea)]">{message}</p>
@@ -73,7 +73,7 @@ export function FooterEmailSignup() {
             disabled={status === "loading"}
             className="w-full rounded-sm bg-[var(--color-gold)] px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-deep)] transition hover:opacity-90 disabled:opacity-60"
           >
-            {status === "loading" ? "Sending..." : "Get 10% off"}
+            {status === "loading" ? "Sending..." : "Get mystery discount"}
           </button>
           {status === "error" && (
             <p className="text-xs text-red-300">{message}</p>

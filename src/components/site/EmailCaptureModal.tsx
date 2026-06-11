@@ -56,7 +56,7 @@ export function EmailCaptureModal() {
       }).catch(() => {});
 
       setStatus("success");
-      setMessage("Thanks! Check your inbox — we just sent your DIRECT10 code for 10% off any direct booking.");
+      setMessage("Thanks! Check your inbox — we just sent your mystery discount code for your first direct booking.");
       try {
         localStorage.setItem(STORAGE_KEY, String(Date.now()));
         track("email_signup", { method: "modal" });
@@ -94,10 +94,10 @@ export function EmailCaptureModal() {
             Direct Booking Perk
           </p>
           <h2 id="email-capture-title" className="mt-2 font-display text-3xl leading-tight">
-            Save 10% on your stay
+            Unlock your mystery discount
           </h2>
           <p className="mt-2 text-sm text-white/75">
-            Join our list and we'll email you a code good on any direct booking — no Airbnb fees, no markup.
+            Join our list and we'll email you a mystery discount code good on any direct booking — no Airbnb fees, no markup.
           </p>
         </div>
         <div className="px-7 py-6">
@@ -118,7 +118,7 @@ export function EmailCaptureModal() {
                 disabled={status === "loading"}
                 className="w-full rounded-md bg-[var(--color-deep)] px-4 py-3 text-sm font-medium text-white transition hover:bg-[var(--color-deep)]/90 disabled:opacity-60"
               >
-                {status === "loading" ? "Sending..." : "Get my 10% code"}
+                {status === "loading" ? "Sending..." : "Get my mystery discount"}
               </button>
               {message && status === "error" && (
                 <p className="text-xs text-red-600">{message}</p>
