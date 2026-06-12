@@ -10,7 +10,7 @@ import { properties } from '@/data/properties'
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
 const SITE_NAME = 'Sea & City Rentals'
-const SUPABASE_URL = 'https://bgollemualqrwfrxrmwx.supabase.co'
+const SUPABASE_URL = process.env.SUPABASE_URL!
 
 // ---------------------------------------------------------------------------
 // Last-minute availability helpers

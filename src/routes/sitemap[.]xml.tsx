@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { properties } from "@/data/properties";
+import { guides } from "@/data/guides";
 import { getAllPostSlugsForSitemap } from "@/lib/blog";
 
 const SITE = "https://www.seaandcityrentals.com";
@@ -8,7 +9,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: () => {
-        const staticPaths = ["/", "/properties", "/about", "/contact", "/explore", "/reviews", "/blog"];
+        const staticPaths = ["/", "/properties", "/about", "/contact", "/explore", "/reviews", "/blog", "/map"];
         const today = new Date().toISOString().split("T")[0];
         const urls = [
           ...staticPaths.map(
@@ -18,6 +19,10 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...properties.map(
             (p) =>
               `<url><loc>${SITE}/listings/${p.slug}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>`,
+          ),
+          ...guides.map(
+            (g) =>
+              `<url><loc>${SITE}/explore/${g.slug}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
           ),
           ...getAllPostSlugsForSitemap().map(
             (slug) =>

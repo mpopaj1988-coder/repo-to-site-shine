@@ -26,8 +26,26 @@ async function fetchReviewsForProperty(propertyId: string, token: string) {
 export const Route = createFileRoute("/api/public/refresh-reviews")({
   server: {
     handlers: {
-      GET: async () => handleRefresh(),
-      POST: async () => handleRefresh(),
+      GET: async ({ request }) => {
+        const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        if (serviceKey) {
+          const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+          if (token !== serviceKey) {
+            return Response.json({ error: "Forbidden" }, { status: 403 });
+          }
+        }
+        return handleRefresh();
+      },
+      POST: async ({ request }) => {
+        const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        if (serviceKey) {
+          const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+          if (token !== serviceKey) {
+            return Response.json({ error: "Forbidden" }, { status: 403 });
+          }
+        }
+        return handleRefresh();
+      },
     },
   },
 });

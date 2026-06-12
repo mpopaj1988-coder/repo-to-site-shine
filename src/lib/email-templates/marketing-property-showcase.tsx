@@ -3,6 +3,7 @@ import {
   Section, Text, Row, Column,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { PROPERTY_COUNT } from '@/data/properties'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
@@ -88,7 +89,7 @@ const PropertyShowcaseEmail = ({
 
           <Section style={{ textAlign: 'center', margin: '24px 0' }}>
             <Button style={button} href={`${SITE_URL}/properties`}>
-              See all 9 properties
+              See all {PROPERTY_COUNT} properties
             </Button>
           </Section>
 

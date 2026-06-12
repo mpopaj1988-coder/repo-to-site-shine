@@ -2,7 +2,7 @@ import { createFileRoute, defer, Await, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
-import { properties, type Category } from "@/data/properties";
+import { properties, PROPERTY_COUNT, type Category } from "@/data/properties";
 import { RealReviews } from "@/components/site/RealReviews";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { getPublishedPosts } from "@/lib/blog";
@@ -181,7 +181,7 @@ function Index() {
             to="/properties"
             className="text-sm font-medium text-[var(--color-deep)] underline-offset-4 hover:underline"
           >
-            View all 9 properties →
+            View all {PROPERTY_COUNT} properties →
           </Link>
         </div>
 

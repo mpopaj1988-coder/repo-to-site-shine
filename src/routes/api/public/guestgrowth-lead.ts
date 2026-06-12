@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 declare const __MAILERLITE_API_KEY__: string
 
-const SUPABASE_URL = 'https://bgollemualqrwfrxrmwx.supabase.co'
+const SUPABASE_URL = process.env.SUPABASE_URL!
 const OWNER_EMAIL = 'vacation@seaandcityrentals.com'
 
 const LeadSchema = z.object({

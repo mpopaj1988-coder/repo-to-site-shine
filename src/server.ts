@@ -85,8 +85,12 @@ export default {
 
         // Refresh Hospitable reviews into Supabase cache.
         try {
+          const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
           const res = await handler.fetch(
-            new Request("https://seaandcityrentals.com/api/public/refresh-reviews", { method: "POST" }),
+            new Request("https://seaandcityrentals.com/api/public/refresh-reviews", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${serviceKey}` },
+            }),
             env, ctx,
           );
           console.log("Scheduled review refresh:", res.status, await res.text());

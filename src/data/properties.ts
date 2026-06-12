@@ -292,6 +292,7 @@ export const properties: Property[] = data.map((p) => {
   return { ...p, image: images[0] ?? "", images, imageAlts };
 });
 
+export const PROPERTY_COUNT = properties.length;
 export const BOOK_DIRECT_URL = "https://seaandcityrentals.hospitable.rentals/";
 export const HOSPITABLE_INQUIRY_URL = "https://seaandcityrentals.hospitable.rentals/";
 export const PHONE = "248-766-2957";

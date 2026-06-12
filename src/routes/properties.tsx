@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
-import { properties, SITE_URL } from "@/data/properties";
+import { properties, PROPERTY_COUNT, SITE_URL } from "@/data/properties";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/properties")({
       {
         name: "description",
         content:
-          "Browse all 9 Sea & City Rentals properties across Tampa, St. Petersburg, Clearwater, Largo and Indian Rocks Beach. Book direct to skip Airbnb fees.",
+          `Browse all ${PROPERTY_COUNT} Sea & City Rentals properties across Tampa, St. Petersburg, Clearwater, Largo and Indian Rocks Beach. Book direct to skip Airbnb fees.`,
       },
       { property: "og:title", content: "Our Properties — Sea & City Rentals" },
       { property: "og:description", content: "Hand-picked Florida vacation rentals — book direct & save." },

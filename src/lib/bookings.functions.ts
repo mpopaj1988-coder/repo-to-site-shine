@@ -6,7 +6,7 @@ import { sendLovableEmail } from "@lovable.dev/email-js";
 import { TEMPLATES } from "@/lib/email-templates/registry";
 import type { BookingCancellationProps } from "@/lib/email-templates/booking-cancellation";
 
-const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
+const SUPABASE_URL = process.env.SUPABASE_URL!;
 const SITE_NAME = "Sea & City Rentals";
 const FROM_DOMAIN = "seaandcityrentals.com";
 const SENDER_DOMAIN = "notify.seaandcityrentals.com";

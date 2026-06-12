@@ -10,7 +10,7 @@ import { WIFI_CONFIG } from "@/data/wifiConfig.server";
 const SENDER_DOMAIN = "notify.seaandcityrentals.com";
 const FROM_DOMAIN = "seaandcityrentals.com";
 const SITE_NAME = "Sea & City Rentals";
-const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
+const SUPABASE_URL = process.env.SUPABASE_URL!;
 const ML_WIFI_GROUP_ID = "189035051981211452"; // WiFi Guests
 
 declare const __MAILERLITE_API_KEY__: string;

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/site/Layout";
 import { PropertyMap } from "@/components/site/PropertyMap";
-import { properties, SITE_URL } from "@/data/properties";
+import { properties, PROPERTY_COUNT, SITE_URL } from "@/data/properties";
 import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 
 export const Route = createFileRoute("/map")({
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/map")({
   head: () => {
     const title = "Florida Vacation Rentals Map — Sea & City Rentals";
     const description =
-      "Explore all 9 Sea & City Rentals on an interactive map of Tampa Bay, St. Petersburg, Clearwater, Largo and Indian Rocks Beach.";
+      `Explore all ${PROPERTY_COUNT} Sea & City Rentals on an interactive map of Tampa Bay, St. Petersburg, Clearwater, Largo and Indian Rocks Beach.`;
     return {
       meta: [
         { title },

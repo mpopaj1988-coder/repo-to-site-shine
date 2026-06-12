@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { AvailabilityChecker } from "@/components/site/AvailabilityChecker";
-import { properties, BOOK_DIRECT_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
+import { properties, PROPERTY_COUNT, BOOK_DIRECT_URL, PHONE, SITE_URL, type Property } from "@/data/properties";
 import { guides } from "@/data/guides";
 import { Bath, BedDouble, Users, Star, MapPin, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
@@ -507,7 +507,7 @@ function BookDirectFooter() {
         data-testid="listing-footer-book-direct"
         className="text-xs uppercase tracking-[0.3em] text-[var(--color-gold)] underline-offset-4 hover:underline"
       >
-        See all 9 properties →
+        See all {PROPERTY_COUNT} properties →
       </a>
     </div>
   );

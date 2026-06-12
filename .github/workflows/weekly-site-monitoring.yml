@@ -20,7 +20,7 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          branch: claude/website-monitoring-setup-MxGBy
+          branch: claude/weekly-monitoring
           prompt: |
             You are running the weekly Sea & City Rentals website monitoring pass.
 
