@@ -421,6 +421,7 @@ function ListingPage() {
               propertySlug={p.slug}
               propertyTitle={p.title}
               hospitableId={p.hospitableId}
+              maxGuests={p.sleeps}
             />
             {!availability.length && (
               <a

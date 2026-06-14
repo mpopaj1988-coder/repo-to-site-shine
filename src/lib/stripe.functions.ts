@@ -5,6 +5,7 @@ export type CheckoutInput = {
   propertySlug: string;
   propertyTitle: string;
   hospitableId?: string;
+  guests?: number;
   checkIn: string; // YYYY-MM-DD
   checkOut: string; // YYYY-MM-DD
   nights: number;
@@ -39,6 +40,7 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     "metadata[check_out]": input.checkOut,
     "metadata[nights]": String(input.nights),
     ...(input.hospitableId ? { "metadata[hospitable_id]": input.hospitableId } : {}),
+    ...(input.guests ? { "metadata[guests]": String(input.guests) } : {}),
   });
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {

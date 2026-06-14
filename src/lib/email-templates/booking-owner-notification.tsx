@@ -13,6 +13,7 @@ export interface BookingOwnerNotificationProps {
   checkIn?: string
   checkOut?: string
   nights?: number
+  guests?: number
   total?: string
   stripeSessionId?: string
   hospitableCreated?: boolean
@@ -25,6 +26,7 @@ const BookingOwnerNotificationEmail = ({
   checkIn = '—',
   checkOut = '—',
   nights = 1,
+  guests = 1,
   total = '—',
   stripeSessionId = '—',
   hospitableCreated = false,
@@ -62,6 +64,10 @@ const BookingOwnerNotificationEmail = ({
             <Row style={summaryRow}>
               <Column style={summaryLabel}>Nights</Column>
               <Column style={summaryValue}>{nights}</Column>
+            </Row>
+            <Row style={summaryRow}>
+              <Column style={summaryLabel}>Guests</Column>
+              <Column style={summaryValue}>{guests}</Column>
             </Row>
             <Hr style={summaryDivider} />
             <Row style={summaryRow}>
@@ -115,6 +121,7 @@ export const template = {
     checkIn: 'June 15, 2026',
     checkOut: 'June 22, 2026',
     nights: 7,
+    guests: 4,
     total: '$3,850 USD',
     stripeSessionId: 'cs_live_abc123',
     hospitableCreated: true,

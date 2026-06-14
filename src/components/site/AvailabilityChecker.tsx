@@ -39,14 +39,17 @@ export function AvailabilityChecker({
   propertySlug,
   propertyTitle,
   hospitableId,
+  maxGuests = 16,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
   propertySlug?: string;
   propertyTitle?: string;
   hospitableId?: string;
+  maxGuests?: number;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
+  const [guests, setGuests] = useState(1);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
@@ -161,6 +164,7 @@ export function AvailabilityChecker({
       nights,
       total,
       currency,
+      guests,
       check_in: range?.from ? ymd(range.from) : undefined,
       check_out: range?.to ? ymd(range.to) : undefined,
     });
@@ -178,6 +182,7 @@ export function AvailabilityChecker({
           propertySlug: propertySlug ?? "",
           propertyTitle: propertyTitle ?? propertySlug ?? "Vacation Rental",
           hospitableId,
+          guests,
           checkIn: ymd(range!.from!),
           checkOut: ymd(range!.to!),
           nights,
@@ -262,6 +267,32 @@ export function AvailabilityChecker({
               ×
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Guest count */}
+      <div className="mt-2 flex items-center justify-between rounded-sm border border-border bg-background px-3 py-2">
+        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Guests</span>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="Remove guest"
+            disabled={guests <= 1}
+            onClick={() => setGuests((g) => Math.max(1, g - 1))}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-sm text-muted-foreground transition hover:border-[var(--color-deep)] hover:text-foreground disabled:opacity-30"
+          >
+            −
+          </button>
+          <span className="w-6 text-center text-sm font-semibold text-foreground">{guests}</span>
+          <button
+            type="button"
+            aria-label="Add guest"
+            disabled={guests >= maxGuests}
+            onClick={() => setGuests((g) => Math.min(maxGuests, g + 1))}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-sm text-muted-foreground transition hover:border-[var(--color-deep)] hover:text-foreground disabled:opacity-30"
+          >
+            +
+          </button>
         </div>
       </div>
 

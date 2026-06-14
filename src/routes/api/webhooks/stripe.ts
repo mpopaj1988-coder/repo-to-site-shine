@@ -94,6 +94,7 @@ async function createHospitableReservation(opts: {
   guestFirstName: string;
   guestLastName: string;
   guestEmail: string;
+  adults: number;
   amountCents: number;
   currency: string;
   stripeSessionId: string;
@@ -103,7 +104,7 @@ async function createHospitableReservation(opts: {
   const body = {
     check_in: opts.checkIn,
     check_out: opts.checkOut,
-    guests: { adults: 1 },
+    guests: { adults: Math.max(1, opts.adults) },
     guest: {
       first_name: opts.guestFirstName,
       last_name: opts.guestLastName,
@@ -177,6 +178,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
         const propertySlug = metadata.property ?? "";
         const propertyTitle = metadata.title ?? propertySlug;
         const hospitableId = metadata.hospitable_id ?? "";
+        const guestCount = parseInt(metadata.guests ?? "1", 10);
         const checkIn = metadata.check_in ?? "";
         const checkOut = metadata.check_out ?? "";
         const nights = parseInt(metadata.nights ?? "1", 10);
@@ -328,6 +330,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             guestFirstName,
             guestLastName,
             guestEmail,
+            adults: guestCount,
             amountCents,
             currency,
             stripeSessionId: sessionId,
@@ -348,6 +351,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             checkIn: formatDate(checkIn),
             checkOut: formatDate(checkOut),
             nights,
+            guests: guestCount,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
             stripeSessionId: sessionId,
             hospitableCreated,
