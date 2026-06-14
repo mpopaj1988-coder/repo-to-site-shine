@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
-import type { CalendarDay } from "@/lib/hospitable.functions";
+import type { CalendarDay, Quote } from "@/lib/hospitable.functions";
+import { getListingQuote } from "@/lib/hospitable.functions";
 import { createBookingCheckout } from "@/lib/stripe.functions";
 import { track } from "@/lib/analytics";
 
@@ -50,6 +51,9 @@ export function AvailabilityChecker({
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [guests, setGuests] = useState(1);
+  const [quote, setQuote] = useState<Quote>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const quoteAbortRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
@@ -137,6 +141,31 @@ export function AvailabilityChecker({
     }
   }, [showUpsellModal]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Fetch a real price quote from Hospitable when dates + guests are set.
+  useEffect(() => {
+    if (!range?.from || !range?.to || hasUnavailable || !hospitableId || nights <= 0) {
+      setQuote(null);
+      setQuoteLoading(false);
+      return;
+    }
+    // Debounce so rapid guest +/- taps don't fire many requests.
+    if (quoteAbortRef.current) clearTimeout(quoteAbortRef.current);
+    setQuoteLoading(true);
+    setQuote(null);
+    quoteAbortRef.current = setTimeout(async () => {
+      try {
+        const result = await getListingQuote({
+          data: { id: hospitableId, checkIn: ymd(range.from!), checkOut: ymd(range.to!), adults: guests },
+        });
+        setQuote(result);
+      } catch {
+        setQuote(null);
+      } finally {
+        setQuoteLoading(false);
+      }
+    }, 400);
+  }, [range?.from, range?.to, guests, hospitableId, hasUnavailable, nights]); // eslint-disable-line react-hooks/exhaustive-deps
+
   function acceptUpsell() {
     if (!range?.to) return;
     const newTo = new Date(range.to);
@@ -169,8 +198,9 @@ export function AvailabilityChecker({
       check_out: range?.to ? ymd(range.to) : undefined,
     });
 
-    // No per-night pricing available → fall back to Hospitable booking URL
-    if (!total || total <= 0) {
+    // No pricing available → fall back to Hospitable booking URL
+    const checkoutTotal = quote?.totalBeforeTax ?? (total > 0 ? total : 0);
+    if (!checkoutTotal) {
       window.open(bookingUrl, "_blank", "noreferrer");
       return;
     }
@@ -186,8 +216,10 @@ export function AvailabilityChecker({
           checkIn: ymd(range!.from!),
           checkOut: ymd(range!.to!),
           nights,
-          total,
-          currency,
+          accommodation: quote?.accommodation ?? total,
+          cleaningFee: quote?.cleaningFee ?? 0,
+          total: checkoutTotal,
+          currency: quote?.currency ?? currency,
         },
       });
       window.location.href = result.url;
@@ -329,7 +361,33 @@ export function AvailabilityChecker({
           data-testid="availability-summary"
           className="mt-4 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
         >
-          {total > 0 ? (
+          {quoteLoading ? (
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+              <span className="text-xs">Calculating…</span>
+            </div>
+          ) : quote ? (
+            <>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                <span>${Math.round(quote.accommodation)} {quote.currency}</span>
+              </div>
+              {quote.cleaningFee > 0 && (
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>Cleaning fee</span>
+                  <span>${Math.round(quote.cleaningFee)} {quote.currency}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>FL taxes (14.5%)</span>
+                <span>${Math.round(quote.totalBeforeTax * 0.145)} {quote.currency}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
+                <span>Total</span>
+                <span>${Math.round(quote.totalBeforeTax * 1.145)} {quote.currency}</span>
+              </div>
+            </>
+          ) : total > 0 ? (
             <>
               <div className="flex items-center justify-between text-muted-foreground">
                 <span>{nights} {nights === 1 ? "night" : "nights"}</span>
@@ -364,19 +422,21 @@ export function AvailabilityChecker({
       <button
         type="button"
         data-testid="availability-reserve-btn"
-        disabled={redirecting}
+        disabled={redirecting || (canReserve && quoteLoading)}
         onClick={handleReserve}
         className={`mt-4 w-full rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
-          redirecting
+          redirecting || (canReserve && quoteLoading)
             ? "cursor-wait bg-[var(--color-gold)]/70 text-[var(--color-deep)]"
             : "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
         }`}
       >
         {redirecting
           ? "Redirecting to checkout…"
-          : canReserve
-            ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
-            : "Select dates to reserve"}
+          : canReserve && quoteLoading
+            ? "Calculating price…"
+            : canReserve
+              ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
+              : "Select dates to reserve"}
       </button>
 
       <p className="mt-2 text-center text-[11px] text-muted-foreground">

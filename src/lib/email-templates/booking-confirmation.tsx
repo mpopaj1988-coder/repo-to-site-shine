@@ -13,8 +13,9 @@ export interface BookingConfirmationProps {
   checkOut?: string
   nights?: number
   accommodation?: string // e.g. "$742 USD"
-  tax?: string           // e.g. "$108 USD"
-  total?: string         // e.g. "$850 USD"
+  cleaningFee?: string   // e.g. "$150 USD"
+  tax?: string           // e.g. "$130 USD"
+  total?: string         // e.g. "$1,022 USD"
   cancelUrl?: string
 }
 
@@ -25,6 +26,7 @@ const BookingConfirmationEmail = ({
   checkOut = '—',
   nights = 1,
   accommodation,
+  cleaningFee,
   tax,
   total = '—',
   cancelUrl = SITE_URL,
@@ -70,6 +72,12 @@ const BookingConfirmationEmail = ({
               <Row style={summaryRow}>
                 <Column style={summaryLabel}>Accommodation</Column>
                 <Column style={summaryValue}>{accommodation}</Column>
+              </Row>
+            )}
+            {cleaningFee && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>Cleaning fee</Column>
+                <Column style={summaryValue}>{cleaningFee}</Column>
               </Row>
             )}
             {tax && (

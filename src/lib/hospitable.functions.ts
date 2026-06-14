@@ -269,3 +269,68 @@ export const getListingAvailability = createServerFn({ method: "GET" })
       return [];
     }
   });
+
+// ============================================================
+// Quote — exact pricing breakdown for a specific date range
+// ============================================================
+
+export type Quote = {
+  accommodation: number; // dollars
+  cleaningFee: number;   // dollars
+  totalBeforeTax: number; // dollars
+  currency: string;
+} | null;
+
+export const getListingQuote = createServerFn({ method: "GET" })
+  .inputValidator((data: { id: string; checkIn: string; checkOut: string; adults: number }) => data)
+  .handler(async ({ data }): Promise<Quote> => {
+    const apiKey = process.env.HOSPITABLE_API_KEY;
+    if (!apiKey) return null;
+
+    const url = `https://public.api.hospitable.com/v2/properties/${data.id}/quote`;
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          checkin_date: data.checkIn,
+          checkout_date: data.checkOut,
+          guests: { adults: Math.max(1, data.adults) },
+        }),
+      });
+      if (!res.ok) {
+        console.error("Hospitable quote error", res.status, await res.text());
+        return null;
+      }
+      const json = (await res.json()) as {
+        data?: {
+          pricing?: {
+            accommodation?: { amount?: number; currency?: string };
+            cleaning_fee?: { amount?: number };
+            subtotal?: { amount?: number };
+            total?: { amount?: number; currency?: string };
+          };
+        };
+      };
+      const pricing = json.data?.pricing;
+      if (!pricing) return null;
+
+      const accommodation = (pricing.accommodation?.amount ?? 0) / 100;
+      const cleaningFee = (pricing.cleaning_fee?.amount ?? 0) / 100;
+      // Use subtotal (pre-tax) if available, otherwise sum the parts.
+      const totalBeforeTax =
+        pricing.subtotal?.amount != null
+          ? pricing.subtotal.amount / 100
+          : accommodation + cleaningFee;
+      const currency = pricing.accommodation?.currency ?? pricing.total?.currency ?? "USD";
+
+      return { accommodation, cleaningFee, totalBeforeTax, currency };
+    } catch (err) {
+      console.error("Hospitable quote fetch error", err);
+      return null;
+    }
+  });

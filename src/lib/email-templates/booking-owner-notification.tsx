@@ -15,6 +15,7 @@ export interface BookingOwnerNotificationProps {
   nights?: number
   guests?: number
   accommodation?: string
+  cleaningFee?: string
   tax?: string
   total?: string
   stripeSessionId?: string
@@ -30,6 +31,7 @@ const BookingOwnerNotificationEmail = ({
   nights = 1,
   guests = 1,
   accommodation,
+  cleaningFee,
   tax,
   total = '—',
   stripeSessionId = '—',
@@ -77,6 +79,12 @@ const BookingOwnerNotificationEmail = ({
               <Row style={summaryRow}>
                 <Column style={summaryLabel}>Accommodation</Column>
                 <Column style={summaryValue}>{accommodation}</Column>
+              </Row>
+            )}
+            {cleaningFee && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>Cleaning fee</Column>
+                <Column style={summaryValue}>{cleaningFee}</Column>
               </Row>
             )}
             {tax && (

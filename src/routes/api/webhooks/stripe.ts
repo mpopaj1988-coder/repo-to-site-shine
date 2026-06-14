@@ -96,6 +96,7 @@ async function createHospitableReservation(opts: {
   guestEmail: string;
   adults: number;
   accommodationCents: number;
+  cleaningFeeCents: number;
   taxCents: number;
   currency: string;
   stripeSessionId: string;
@@ -117,6 +118,7 @@ async function createHospitableReservation(opts: {
     financials: {
       currency: opts.currency.toUpperCase(),
       accommodation: opts.accommodationCents,
+      ...(opts.cleaningFeeCents > 0 ? { cleaning_fee: opts.cleaningFeeCents } : {}),
       ...(opts.taxCents > 0 ? { pass_through_taxes: opts.taxCents } : {}),
     },
   };
@@ -187,13 +189,17 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
         const guestEmail = session.customer_details?.email ?? "";
         const guestName = session.customer_details?.name ?? null;
         const currency = session.currency ?? "usd";
-        // Prefer metadata amounts (pre/post-tax split) over session total.
+        // Prefer metadata amounts over session total for accurate breakdown.
         const accommodationCents = metadata.accommodation_cents
           ? parseInt(metadata.accommodation_cents, 10)
           : session.amount_total ?? 0;
+        const cleaningFeeCents = metadata.cleaning_fee_cents
+          ? parseInt(metadata.cleaning_fee_cents, 10)
+          : 0;
         const taxCents = metadata.tax_cents ? parseInt(metadata.tax_cents, 10) : 0;
-        const totalCents = session.amount_total ?? accommodationCents + taxCents;
+        const totalCents = session.amount_total ?? accommodationCents + cleaningFeeCents + taxCents;
         const accommodationAmount = accommodationCents / 100;
+        const cleaningFeeAmount = cleaningFeeCents / 100;
         const taxAmount = taxCents / 100;
         const totalAmount = totalCents / 100;
         const sessionId = session.id ?? "";
@@ -233,6 +239,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             check_out: checkOut,
             nights,
             accommodation_amount: accommodationAmount,
+            cleaning_fee_amount: cleaningFeeAmount,
             tax_amount: taxAmount,
             total_amount: totalAmount,
             currency,
@@ -269,6 +276,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             checkOut: formatDate(checkOut),
             nights,
             accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
             tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
             cancelUrl,
@@ -345,6 +353,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             guestEmail,
             adults: guestCount,
             accommodationCents,
+            cleaningFeeCents,
             taxCents,
             currency,
             stripeSessionId: sessionId,
@@ -367,6 +376,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             nights,
             guests: guestCount,
             accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
             tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
             stripeSessionId: sessionId,
