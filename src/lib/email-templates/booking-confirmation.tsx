@@ -13,6 +13,8 @@ export interface BookingConfirmationProps {
   checkOut?: string
   nights?: number
   accommodation?: string // e.g. "$742 USD"
+  discount?: string      // e.g. "-$37 USD"
+  discountLabel?: string // e.g. "Weekly stay · 5% off"
   cleaningFee?: string   // e.g. "$150 USD"
   tax?: string           // e.g. "$130 USD"
   total?: string         // e.g. "$1,022 USD"
@@ -26,6 +28,8 @@ const BookingConfirmationEmail = ({
   checkOut = '—',
   nights = 1,
   accommodation,
+  discount,
+  discountLabel,
   cleaningFee,
   tax,
   total = '—',
@@ -72,6 +76,12 @@ const BookingConfirmationEmail = ({
               <Row style={summaryRow}>
                 <Column style={summaryLabel}>Accommodation</Column>
                 <Column style={summaryValue}>{accommodation}</Column>
+              </Row>
+            )}
+            {discount && (
+              <Row style={summaryRow}>
+                <Column style={{ ...summaryLabel, color: '#16a34a' }}>{discountLabel ?? 'Discount'}</Column>
+                <Column style={{ ...summaryValue, color: '#16a34a' }}>{discount}</Column>
               </Row>
             )}
             {cleaningFee && (

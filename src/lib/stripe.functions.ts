@@ -11,10 +11,12 @@ export type CheckoutInput = {
   checkIn: string; // YYYY-MM-DD
   checkOut: string; // YYYY-MM-DD
   nights: number;
-  accommodation: number; // nightly total, dollars
+  accommodation: number; // nightly total after discount, dollars
   cleaningFee: number;   // dollars
-  total: number;         // accommodation + cleaningFee, dollars
+  total: number;         // accommodation + cleaningFee (pre-tax), dollars
   currency: string;
+  discountAmount?: number; // dollar amount saved, for display/records
+  discountLabel?: string;  // e.g. "Weekly stay · 5% off"
 };
 
 async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
@@ -29,12 +31,15 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
 
   const params: Record<string, string> = {
     mode: "payment",
-    // Line item 1 — nightly accommodation
+    // Line item 1 — nightly accommodation (discounted price already applied)
     "line_items[0][price_data][currency]": input.currency.toLowerCase(),
     "line_items[0][price_data][product_data][name]":
       `${input.propertyTitle} · ${input.checkIn} → ${input.checkOut}`,
-    "line_items[0][price_data][product_data][description]":
-      `${input.nights} night${input.nights !== 1 ? "s" : ""} · Sea & City Rentals · Book direct`,
+    "line_items[0][price_data][product_data][description]": [
+      `${input.nights} night${input.nights !== 1 ? "s" : ""}`,
+      "Sea & City Rentals · Book direct",
+      input.discountLabel ? `${input.discountLabel} applied` : null,
+    ].filter(Boolean).join(" · "),
     "line_items[0][price_data][unit_amount]": String(accommodationCents),
     "line_items[0][quantity]": "1",
     success_url: `${listingUrl}?booking=success`,
@@ -51,6 +56,8 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     "metadata[accommodation_cents]": String(accommodationCents),
     "metadata[cleaning_fee_cents]": String(cleaningFeeCents),
     "metadata[tax_cents]": String(taxCents),
+    ...(input.discountAmount ? { "metadata[discount_cents]": String(Math.round(input.discountAmount * 100)) } : {}),
+    ...(input.discountLabel ? { "metadata[discount_label]": input.discountLabel } : {}),
   };
 
   let lineIndex = 1;

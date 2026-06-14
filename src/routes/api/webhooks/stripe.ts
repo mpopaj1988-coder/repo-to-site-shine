@@ -197,10 +197,13 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
           ? parseInt(metadata.cleaning_fee_cents, 10)
           : 0;
         const taxCents = metadata.tax_cents ? parseInt(metadata.tax_cents, 10) : 0;
+        const discountCents = metadata.discount_cents ? parseInt(metadata.discount_cents, 10) : 0;
+        const discountLabel = metadata.discount_label ?? "";
         const totalCents = session.amount_total ?? accommodationCents + cleaningFeeCents + taxCents;
         const accommodationAmount = accommodationCents / 100;
         const cleaningFeeAmount = cleaningFeeCents / 100;
         const taxAmount = taxCents / 100;
+        const discountAmount = discountCents / 100;
         const totalAmount = totalCents / 100;
         const sessionId = session.id ?? "";
         const paymentIntentId = typeof session.payment_intent === "string"
@@ -276,6 +279,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             checkOut: formatDate(checkOut),
             nights,
             accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            ...(discountAmount > 0 ? { discount: `-$${discountAmount.toFixed(0)} ${currency.toUpperCase()}`, discountLabel } : {}),
             ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
             tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
@@ -376,6 +380,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             nights,
             guests: guestCount,
             accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            ...(discountAmount > 0 ? { discount: `-$${discountAmount.toFixed(0)} ${currency.toUpperCase()}`, discountLabel } : {}),
             ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
             tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,

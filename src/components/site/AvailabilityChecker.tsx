@@ -34,6 +34,35 @@ function isSlowSeason(date: Date): boolean {
   return true;
 }
 
+// Peak / blackout nights: no length-of-stay discount applies if ANY night falls here.
+// Blackout: Feb, Mar, 4th of July week (Jun 28 – Jul 7), Christmas/New Year (Dec 20 – Jan 7).
+function isBlackoutNight(date: Date): boolean {
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  if (m === 2 || m === 3) return true;               // February, March
+  if (m === 6 && d >= 28) return true;               // Last days of June (4th of July week)
+  if (m === 7 && d <= 7) return true;                // First week of July
+  if (m === 12 && d >= 20) return true;              // Christmas week
+  if (m === 1 && d <= 7) return true;                // New Year week
+  return false;
+}
+
+type Discount = { pct: number; label: string; amount: number };
+
+function getStayDiscount(nights: number, from: Date, to: Date, accommodationTotal: number): Discount | null {
+  if (nights < 7) return null;
+  // Check every night of the stay for a blackout date.
+  const cursor = new Date(from);
+  while (cursor < to) {
+    if (isBlackoutNight(cursor)) return null;
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  const pct = nights >= 28 ? 0.15 : 0.05;
+  const label = nights >= 28 ? "Monthly stay · 15% off" : "Weekly stay · 5% off";
+  const amount = Math.round(accommodationTotal * pct);
+  return { pct, label, amount };
+}
+
 export function AvailabilityChecker({
   bookingUrl,
   calendar,
@@ -199,11 +228,20 @@ export function AvailabilityChecker({
     });
 
     // No pricing available → fall back to Hospitable booking URL
-    const checkoutTotal = quote?.totalBeforeTax ?? (total > 0 ? total : 0);
-    if (!checkoutTotal) {
+    const baseAccommodation = quote?.accommodation ?? (total > 0 ? total : 0);
+    if (!baseAccommodation) {
       window.open(bookingUrl, "_blank", "noreferrer");
       return;
     }
+
+    const discount = range?.from && range?.to && quote
+      ? getStayDiscount(nights, range.from, range.to, quote.accommodation)
+      : null;
+    const discountedAccommodation = discount
+      ? Math.round(baseAccommodation - discount.amount)
+      : Math.round(baseAccommodation);
+    const cleaningFeeAmt = quote?.cleaningFee ?? 0;
+    const checkoutTotal = discountedAccommodation + cleaningFeeAmt;
 
     setRedirecting(true);
     try {
@@ -216,10 +254,11 @@ export function AvailabilityChecker({
           checkIn: ymd(range!.from!),
           checkOut: ymd(range!.to!),
           nights,
-          accommodation: quote?.accommodation ?? total,
-          cleaningFee: quote?.cleaningFee ?? 0,
+          accommodation: discountedAccommodation,
+          cleaningFee: cleaningFeeAmt,
           total: checkoutTotal,
           currency: quote?.currency ?? currency,
+          ...(discount ? { discountAmount: discount.amount, discountLabel: discount.label } : {}),
         },
       });
       window.location.href = result.url;
@@ -368,24 +407,45 @@ export function AvailabilityChecker({
             </div>
           ) : quote ? (
             <>
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-                <span>${Math.round(quote.accommodation)} {quote.currency}</span>
-              </div>
-              {quote.cleaningFee > 0 && (
-                <div className="flex items-center justify-between text-muted-foreground">
-                  <span>Cleaning fee</span>
-                  <span>${Math.round(quote.cleaningFee)} {quote.currency}</span>
-                </div>
-              )}
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>FL taxes (14.5%)</span>
-                <span>${Math.round(quote.totalBeforeTax * 0.145)} {quote.currency}</span>
-              </div>
-              <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
-                <span>Total</span>
-                <span>${Math.round(quote.totalBeforeTax * 1.145)} {quote.currency}</span>
-              </div>
+              {(() => {
+                const disc = range?.from && range?.to
+                  ? getStayDiscount(nights, range.from, range.to, quote.accommodation)
+                  : null;
+                const discountedAccom = disc
+                  ? quote.accommodation - disc.amount
+                  : quote.accommodation;
+                const subtotal = discountedAccom + quote.cleaningFee;
+                const tax = Math.round(subtotal * 0.145);
+                const grandTotal = Math.round(subtotal + tax);
+                return (
+                  <>
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                      <span>${Math.round(quote.accommodation)} {quote.currency}</span>
+                    </div>
+                    {disc && (
+                      <div className="flex items-center justify-between text-emerald-700">
+                        <span>{disc.label}</span>
+                        <span>-${disc.amount} {quote.currency}</span>
+                      </div>
+                    )}
+                    {quote.cleaningFee > 0 && (
+                      <div className="flex items-center justify-between text-muted-foreground">
+                        <span>Cleaning fee</span>
+                        <span>${Math.round(quote.cleaningFee)} {quote.currency}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span>FL taxes (14.5%)</span>
+                      <span>${tax} {quote.currency}</span>
+                    </div>
+                    <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
+                      <span>Total</span>
+                      <span>${grandTotal} {quote.currency}</span>
+                    </div>
+                  </>
+                );
+              })()}
             </>
           ) : total > 0 ? (
             <>

@@ -15,6 +15,8 @@ export interface BookingOwnerNotificationProps {
   nights?: number
   guests?: number
   accommodation?: string
+  discount?: string
+  discountLabel?: string
   cleaningFee?: string
   tax?: string
   total?: string
@@ -31,6 +33,8 @@ const BookingOwnerNotificationEmail = ({
   nights = 1,
   guests = 1,
   accommodation,
+  discount,
+  discountLabel,
   cleaningFee,
   tax,
   total = '—',
@@ -79,6 +83,12 @@ const BookingOwnerNotificationEmail = ({
               <Row style={summaryRow}>
                 <Column style={summaryLabel}>Accommodation</Column>
                 <Column style={summaryValue}>{accommodation}</Column>
+              </Row>
+            )}
+            {discount && (
+              <Row style={summaryRow}>
+                <Column style={{ ...summaryLabel, color: '#16a34a' }}>{discountLabel ?? 'Discount'}</Column>
+                <Column style={{ ...summaryValue, color: '#16a34a' }}>{discount}</Column>
               </Row>
             )}
             {cleaningFee && (
