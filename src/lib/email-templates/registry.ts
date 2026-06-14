@@ -8,6 +8,7 @@ import { template as marketingWhyBookDirect } from './marketing-why-book-direct'
 import { template as marketingPropertyShowcase } from './marketing-property-showcase'
 import { template as marketingLastMinute } from './marketing-last-minute'
 import { template as guestgrowthLeadNotify } from './guestgrowth-lead-notify'
+import { template as bookingOwnerNotification } from './booking-owner-notification'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -28,4 +29,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'marketing-property-showcase': marketingPropertyShowcase,
   'marketing-last-minute': marketingLastMinute,
   'guestgrowth-lead-notify': guestgrowthLeadNotify,
+  'booking-owner-notification': bookingOwnerNotification,
 }

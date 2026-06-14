@@ -420,6 +420,7 @@ function ListingPage() {
               calendar={availability}
               propertySlug={p.slug}
               propertyTitle={p.title}
+              hospitableId={p.hospitableId}
             />
             {!availability.length && (
               <a

@@ -38,11 +38,13 @@ export function AvailabilityChecker({
   calendar,
   propertySlug,
   propertyTitle,
+  hospitableId,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
   propertySlug?: string;
   propertyTitle?: string;
+  hospitableId?: string;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [showCalendar, setShowCalendar] = useState(false);
@@ -175,6 +177,7 @@ export function AvailabilityChecker({
         data: {
           propertySlug: propertySlug ?? "",
           propertyTitle: propertyTitle ?? propertySlug ?? "Vacation Rental",
+          hospitableId,
           checkIn: ymd(range!.from!),
           checkOut: ymd(range!.to!),
           nights,
