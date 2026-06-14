@@ -329,14 +329,26 @@ export function AvailabilityChecker({
           data-testid="availability-summary"
           className="mt-4 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
         >
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-            {total > 0 && (
-              <span className="font-semibold text-[var(--color-deep)]">
-                ${total} {currency}
-              </span>
-            )}
-          </div>
+          {total > 0 ? (
+            <>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                <span>${total} {currency}</span>
+              </div>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>FL taxes (14.5%)</span>
+                <span>${Math.round(total * 0.145)} {currency}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
+                <span>Total</span>
+                <span>${Math.round(total * 1.145)} {currency}</span>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+            </div>
+          )}
           {hasUnavailable && (
             <p className="text-xs text-red-600">
               Some dates in this range aren't available. Try different dates.

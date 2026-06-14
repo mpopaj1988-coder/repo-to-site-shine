@@ -12,7 +12,9 @@ export interface BookingConfirmationProps {
   checkIn?: string   // e.g. "June 15, 2026"
   checkOut?: string
   nights?: number
-  total?: string     // e.g. "$850 USD"
+  accommodation?: string // e.g. "$742 USD"
+  tax?: string           // e.g. "$108 USD"
+  total?: string         // e.g. "$850 USD"
   cancelUrl?: string
 }
 
@@ -22,6 +24,8 @@ const BookingConfirmationEmail = ({
   checkIn = '—',
   checkOut = '—',
   nights = 1,
+  accommodation,
+  tax,
   total = '—',
   cancelUrl = SITE_URL,
 }: BookingConfirmationProps) => (
@@ -62,6 +66,18 @@ const BookingConfirmationEmail = ({
               <Column style={summaryLabel}>Nights</Column>
               <Column style={summaryValue}>{nights}</Column>
             </Row>
+            {accommodation && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>Accommodation</Column>
+                <Column style={summaryValue}>{accommodation}</Column>
+              </Row>
+            )}
+            {tax && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>FL taxes (14.5%)</Column>
+                <Column style={summaryValue}>{tax}</Column>
+              </Row>
+            )}
             <Hr style={summaryDivider} />
             <Row style={summaryRow}>
               <Column style={{ ...summaryLabel, fontWeight: 'bold' as const, color: '#1A3A4A' }}>Total paid</Column>
@@ -110,6 +126,8 @@ export const template = {
     checkIn: 'June 15, 2026',
     checkOut: 'June 22, 2026',
     nights: 7,
+    accommodation: '$3,362 USD',
+    tax: '$488 USD',
     total: '$3,850 USD',
     cancelUrl: 'https://www.seaandcityrentals.com/cancel-booking?token=preview',
   },

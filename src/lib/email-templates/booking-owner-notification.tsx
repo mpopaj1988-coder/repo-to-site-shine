@@ -14,6 +14,8 @@ export interface BookingOwnerNotificationProps {
   checkOut?: string
   nights?: number
   guests?: number
+  accommodation?: string
+  tax?: string
   total?: string
   stripeSessionId?: string
   hospitableCreated?: boolean
@@ -27,6 +29,8 @@ const BookingOwnerNotificationEmail = ({
   checkOut = '—',
   nights = 1,
   guests = 1,
+  accommodation,
+  tax,
   total = '—',
   stripeSessionId = '—',
   hospitableCreated = false,
@@ -69,6 +73,18 @@ const BookingOwnerNotificationEmail = ({
               <Column style={summaryLabel}>Guests</Column>
               <Column style={summaryValue}>{guests}</Column>
             </Row>
+            {accommodation && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>Accommodation</Column>
+                <Column style={summaryValue}>{accommodation}</Column>
+              </Row>
+            )}
+            {tax && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>FL taxes (14.5%)</Column>
+                <Column style={summaryValue}>{tax}</Column>
+              </Row>
+            )}
             <Hr style={summaryDivider} />
             <Row style={summaryRow}>
               <Column style={{ ...summaryLabel, fontWeight: 'bold' as const, color: '#1A3A4A' }}>Total collected</Column>
@@ -122,6 +138,8 @@ export const template = {
     checkOut: 'June 22, 2026',
     nights: 7,
     guests: 4,
+    accommodation: '$3,362 USD',
+    tax: '$488 USD',
     total: '$3,850 USD',
     stripeSessionId: 'cs_live_abc123',
     hospitableCreated: true,
