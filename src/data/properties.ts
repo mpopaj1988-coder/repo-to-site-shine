@@ -61,11 +61,13 @@ export type Property = {
   longDescription: string;
   amenities: string[];
   highlights: { icon: string; title: string; body: string }[];
+  cleaningFee: number;
 };
 
 const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   {
     slug: "tampa",
+    cleaningFee: 189,
     hospitableId: "4c48de03-be86-4dc4-99de-45df7cd16d29",
     airbnbUrl: "https://www.airbnb.com/rooms/1583296551133303414",
     lat: 27.98832102, lng: -82.5822876,
@@ -91,6 +93,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "largo",
+    cleaningFee: 199,
     hospitableId: "eb384a9c-3877-4628-ae9b-f4f0d39ed132",
     airbnbUrl: "https://www.airbnb.com/rooms/50323601",
     lat: 27.87888145, lng: -82.82595825,
@@ -115,6 +118,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "irb-b",
+    cleaningFee: 110,
     hospitableId: "9aebd9d3-14e5-4dce-a80f-d8fb22c2f15a",
     airbnbUrl: "https://www.airbnb.com/rooms/1205753692890892812",
     lat: 27.90795729, lng: -82.84534257,
@@ -139,6 +143,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "clearwater",
+    cleaningFee: 189,
     hospitableId: "ed98cca4-b91c-4dc0-9883-397a7dfb38b2",
     airbnbUrl: "https://www.airbnb.com/rooms/43372143",
     lat: 27.97304916, lng: -82.78588867,
@@ -164,6 +169,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "irb-a",
+    cleaningFee: 110,
     hospitableId: "c95444d7-c292-48e8-a124-921f2322d1f6",
     airbnbUrl: "https://www.airbnb.com/rooms/1299344547038307200",
     lat: 27.9079573, lng: -82.8453425,
@@ -188,6 +194,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "stpete-sunsoaked",
+    cleaningFee: 110,
     hospitableId: "a47c8440-1ab4-4619-981d-cb2dfb682304",
     airbnbUrl: "https://www.airbnb.com/rooms/1059505409560170081",
     lat: 27.78670054, lng: -82.6392708,
@@ -212,6 +219,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "stpete-modern",
+    cleaningFee: 95,
     hospitableId: "a6a553e4-e627-4431-a41a-36e62a267ba6",
     airbnbUrl: "https://www.airbnb.com/rooms/1059509222873395071",
     lat: 27.78670054, lng: -82.6392708,
@@ -236,6 +244,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "stpete-hottub",
+    cleaningFee: 95,
     hospitableId: "a581de1a-6c11-46ea-b8ce-73183ad2dd4e",
     airbnbUrl: "https://www.airbnb.com/rooms/1648677049685478716",
     lat: 27.78652257, lng: -82.63916485,
@@ -260,6 +269,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
   },
   {
     slug: "stpete-patio",
+    cleaningFee: 95,
     hospitableId: "865c1555-746e-4496-8b2c-20f45659d020",
     airbnbUrl: "https://www.airbnb.com/rooms/1533433121539399451",
     lat: 27.7867277, lng: -82.6393307,
