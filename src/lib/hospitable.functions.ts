@@ -285,6 +285,38 @@ type QuoteCacheEntry = { value: Quote; expires: number };
 const quoteCache = new Map<string, QuoteCacheEntry>();
 const QUOTE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 
+// Cleaning fee fallback cache — keyed by property ID, refreshed every 24h.
+type FeeEntry = { amount: number; expires: number };
+const cleaningFeeCache = new Map<string, FeeEntry>();
+const CLEANING_FEE_TTL_MS = 24 * 60 * 60 * 1000;
+
+async function fetchCleaningFeeFromReservations(id: string, apiKey: string): Promise<number> {
+  const cached = cleaningFeeCache.get(id);
+  if (cached && cached.expires > Date.now()) return cached.amount;
+
+  try {
+    const url = `https://public.api.hospitable.com/v2/reservations?properties[]=${id}&status[]=accepted&include=financials&per_page=5&sort=check_in&direction=desc`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json" },
+    });
+    if (!res.ok) return 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const json = await res.json() as Record<string, any>;
+    for (const r of (json?.data ?? []) as Array<Record<string, any>>) {
+      const fees: Array<Record<string, any>> = r?.financials?.host?.guest_fees ?? [];
+      const cf = fees.find((f) => typeof f.label === "string" && f.label.toLowerCase().includes("cleaning"));
+      if (cf && (cf.amount as number) > 0) {
+        const amount = (cf.amount as number) / 100;
+        cleaningFeeCache.set(id, { amount, expires: Date.now() + CLEANING_FEE_TTL_MS });
+        return amount;
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return 0;
+}
+
 export const getListingQuote = createServerFn({ method: "GET" })
   .inputValidator((data: { id: string; checkIn: string; checkOut: string; adults: number }) => data)
   .handler(async ({ data }): Promise<Quote> => {
@@ -371,7 +403,13 @@ export const getListingQuote = createServerFn({ method: "GET" })
 
       if (accommodation === 0) {
         console.error("Hospitable quote: could not parse accommodation from", JSON.stringify(json).slice(0, 500));
+        // Still try to get accommodation from calendar total — return null so caller uses fallback.
         return null;
+      }
+
+      // If quote API didn't return a cleaning fee, pull it from recent reservation history.
+      if (cleaningFee === 0) {
+        cleaningFee = await fetchCleaningFeeFromReservations(data.id, apiKey);
       }
 
       const result: Quote = { accommodation, cleaningFee, totalBeforeTax: accommodation + cleaningFee, currency };
@@ -381,4 +419,14 @@ export const getListingQuote = createServerFn({ method: "GET" })
       console.error("Hospitable quote fetch error", err);
       return null;
     }
+  });
+
+// Also export a standalone server function so the AvailabilityChecker can pre-fetch
+// the cleaning fee as soon as the page loads (before the user selects dates).
+export const getPropertyCleaningFee = createServerFn({ method: "GET" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }): Promise<number> => {
+    const apiKey = process.env.HOSPITABLE_API_KEY;
+    if (!apiKey) return 0;
+    return fetchCleaningFeeFromReservations(data.id, apiKey);
   });

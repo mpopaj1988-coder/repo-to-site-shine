@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import type { CalendarDay, Quote } from "@/lib/hospitable.functions";
-import { getListingQuote } from "@/lib/hospitable.functions";
+import { getListingQuote, getPropertyCleaningFee } from "@/lib/hospitable.functions";
 import { createBookingCheckout } from "@/lib/stripe.functions";
 import { track } from "@/lib/analytics";
 
@@ -83,6 +83,8 @@ export function AvailabilityChecker({
   const [quote, setQuote] = useState<Quote>(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
   const quoteAbortRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Pre-fetched cleaning fee from reservation history — used when quote API returns null.
+  const [baseCleaningFee, setBaseCleaningFee] = useState(0);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
@@ -195,6 +197,14 @@ export function AvailabilityChecker({
     }, 200);
   }, [range?.from, range?.to, guests, hospitableId, hasUnavailable, nights]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Pre-fetch cleaning fee from reservation history on mount so it's ready as a fallback.
+  useEffect(() => {
+    if (!hospitableId) return;
+    getPropertyCleaningFee({ data: { id: hospitableId } })
+      .then((fee) => { if (fee > 0) setBaseCleaningFee(fee); })
+      .catch(() => {});
+  }, [hospitableId]); // eslint-disable-line react-hooks/exhaustive-deps
+
   function acceptUpsell() {
     if (!range?.to) return;
     const newTo = new Date(range.to);
@@ -234,13 +244,13 @@ export function AvailabilityChecker({
       return;
     }
 
-    const discount = range?.from && range?.to && quote
-      ? getStayDiscount(nights, range.from, range.to, quote.accommodation)
+    const discount = range?.from && range?.to
+      ? getStayDiscount(nights, range.from, range.to, baseAccommodation)
       : null;
     const discountedAccommodation = discount
       ? Math.round(baseAccommodation - discount.amount)
       : Math.round(baseAccommodation);
-    const cleaningFeeAmt = quote?.cleaningFee ?? 0;
+    const cleaningFeeAmt = quote?.cleaningFee ?? baseCleaningFee;
     const checkoutTotal = discountedAccommodation + cleaningFeeAmt;
 
     setRedirecting(true);
@@ -404,6 +414,8 @@ export function AvailabilityChecker({
             // Use quote data if available; fall back to calendar totals immediately.
             const baseAccom = quote?.accommodation ?? (total > 0 ? total : 0);
             const displayCurrency = quote?.currency ?? currency;
+            // Cleaning fee: quote > reservation-history fallback > 0
+            const resolvedCleaningFee = quote ? quote.cleaningFee : baseCleaningFee;
             if (baseAccom === 0) {
               return (
                 <div className="flex items-center justify-between text-muted-foreground">
@@ -415,7 +427,7 @@ export function AvailabilityChecker({
               ? getStayDiscount(nights, range.from, range.to, baseAccom)
               : null;
             const discountedAccom = disc ? baseAccom - disc.amount : baseAccom;
-            const cleaningFee = quote?.cleaningFee ?? 0;
+            const cleaningFee = resolvedCleaningFee;
             const subtotal = discountedAccom + cleaningFee;
             const tax = Math.round(subtotal * 0.145);
             const grandTotal = Math.round(subtotal + tax);
