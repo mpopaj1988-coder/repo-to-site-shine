@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
-import type { CalendarDay, Quote } from "@/lib/hospitable.functions";
-import { getListingQuote, getPropertyCleaningFee } from "@/lib/hospitable.functions";
+import type { CalendarDay } from "@/lib/hospitable.functions";
 import { createBookingCheckout } from "@/lib/stripe.functions";
 import { track } from "@/lib/analytics";
 
@@ -70,6 +69,7 @@ export function AvailabilityChecker({
   propertyTitle,
   hospitableId,
   maxGuests = 16,
+  cleaningFee = 0,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
@@ -77,14 +77,10 @@ export function AvailabilityChecker({
   propertyTitle?: string;
   hospitableId?: string;
   maxGuests?: number;
+  cleaningFee?: number;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [guests, setGuests] = useState(1);
-  const [quote, setQuote] = useState<Quote>(null);
-  const [quoteLoading, setQuoteLoading] = useState(false);
-  const quoteAbortRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Pre-fetched cleaning fee from reservation history — used when quote API returns null.
-  const [baseCleaningFee, setBaseCleaningFee] = useState(0);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
@@ -172,39 +168,6 @@ export function AvailabilityChecker({
     }
   }, [showUpsellModal]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Fetch a real price quote from Hospitable when dates + guests are set.
-  useEffect(() => {
-    if (!range?.from || !range?.to || hasUnavailable || !hospitableId || nights <= 0) {
-      setQuote(null);
-      setQuoteLoading(false);
-      return;
-    }
-    // Debounce so rapid guest +/- taps don't fire many requests.
-    if (quoteAbortRef.current) clearTimeout(quoteAbortRef.current);
-    setQuoteLoading(true);
-    setQuote(null);
-    quoteAbortRef.current = setTimeout(async () => {
-      try {
-        const result = await getListingQuote({
-          data: { id: hospitableId, checkIn: ymd(range.from!), checkOut: ymd(range.to!), adults: guests },
-        });
-        setQuote(result);
-      } catch {
-        setQuote(null);
-      } finally {
-        setQuoteLoading(false);
-      }
-    }, 200);
-  }, [range?.from, range?.to, guests, hospitableId, hasUnavailable, nights]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Pre-fetch cleaning fee from reservation history on mount so it's ready as a fallback.
-  useEffect(() => {
-    if (!hospitableId) return;
-    getPropertyCleaningFee({ data: { id: hospitableId } })
-      .then((fee) => { if (fee > 0) setBaseCleaningFee(fee); })
-      .catch(() => {});
-  }, [hospitableId]); // eslint-disable-line react-hooks/exhaustive-deps
-
   function acceptUpsell() {
     if (!range?.to) return;
     const newTo = new Date(range.to);
@@ -238,7 +201,7 @@ export function AvailabilityChecker({
     });
 
     // No pricing available → fall back to Hospitable booking URL
-    const baseAccommodation = quote?.accommodation ?? (total > 0 ? total : 0);
+    const baseAccommodation = total > 0 ? total : 0;
     if (!baseAccommodation) {
       window.open(bookingUrl, "_blank", "noreferrer");
       return;
@@ -250,8 +213,7 @@ export function AvailabilityChecker({
     const discountedAccommodation = discount
       ? Math.round(baseAccommodation - discount.amount)
       : Math.round(baseAccommodation);
-    const cleaningFeeAmt = quote?.cleaningFee ?? baseCleaningFee;
-    const checkoutTotal = discountedAccommodation + cleaningFeeAmt;
+    const checkoutTotal = discountedAccommodation + cleaningFee;
 
     setRedirecting(true);
     try {
@@ -265,9 +227,9 @@ export function AvailabilityChecker({
           checkOut: ymd(range!.to!),
           nights,
           accommodation: discountedAccommodation,
-          cleaningFee: cleaningFeeAmt,
+          cleaningFee,
           total: checkoutTotal,
-          currency: quote?.currency ?? currency,
+          currency,
           ...(discount ? { discountAmount: discount.amount, discountLabel: discount.label } : {}),
         },
       });
@@ -411,11 +373,7 @@ export function AvailabilityChecker({
           className="mt-4 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
         >
           {(() => {
-            // Use quote data if available; fall back to calendar totals immediately.
-            const baseAccom = quote?.accommodation ?? (total > 0 ? total : 0);
-            const displayCurrency = quote?.currency ?? currency;
-            // Cleaning fee: quote > reservation-history fallback > 0
-            const resolvedCleaningFee = quote ? quote.cleaningFee : baseCleaningFee;
+            const baseAccom = total > 0 ? total : 0;
             if (baseAccom === 0) {
               return (
                 <div className="flex items-center justify-between text-muted-foreground">
@@ -427,7 +385,6 @@ export function AvailabilityChecker({
               ? getStayDiscount(nights, range.from, range.to, baseAccom)
               : null;
             const discountedAccom = disc ? baseAccom - disc.amount : baseAccom;
-            const cleaningFee = resolvedCleaningFee;
             const subtotal = discountedAccom + cleaningFee;
             const tax = Math.round(subtotal * 0.145);
             const grandTotal = Math.round(subtotal + tax);
@@ -435,37 +392,25 @@ export function AvailabilityChecker({
               <>
                 <div className="flex items-center justify-between text-muted-foreground">
                   <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-                  <span>${Math.round(baseAccom)} {displayCurrency}</span>
+                  <span>${Math.round(baseAccom)} {currency}</span>
                 </div>
                 {disc && (
                   <div className="flex items-center justify-between text-emerald-700">
                     <span>{disc.label}</span>
-                    <span>-${disc.amount} {displayCurrency}</span>
+                    <span>-${disc.amount} {currency}</span>
                   </div>
                 )}
                 <div className="flex items-center justify-between text-muted-foreground">
                   <span>Cleaning fee</span>
-                  {quoteLoading ? (
-                    <span className="text-xs italic text-muted-foreground">loading…</span>
-                  ) : (
-                    <span>${Math.round(cleaningFee)} {displayCurrency}</span>
-                  )}
+                  <span>${cleaningFee} {currency}</span>
                 </div>
                 <div className="flex items-center justify-between text-muted-foreground">
                   <span>FL taxes (14.5%)</span>
-                  {quoteLoading ? (
-                    <span className="text-xs italic text-muted-foreground">loading…</span>
-                  ) : (
-                    <span>${tax} {displayCurrency}</span>
-                  )}
+                  <span>${tax} {currency}</span>
                 </div>
                 <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
                   <span>Total</span>
-                  {quoteLoading ? (
-                    <span className="text-xs font-normal italic text-muted-foreground">calculating…</span>
-                  ) : (
-                    <span>${grandTotal} {displayCurrency}</span>
-                  )}
+                  <span>${grandTotal} {currency}</span>
                 </div>
               </>
             );
@@ -485,21 +430,19 @@ export function AvailabilityChecker({
       <button
         type="button"
         data-testid="availability-reserve-btn"
-        disabled={redirecting || (canReserve && quoteLoading)}
+        disabled={redirecting}
         onClick={handleReserve}
         className={`mt-4 w-full rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
-          redirecting || (canReserve && quoteLoading)
+          redirecting
             ? "cursor-wait bg-[var(--color-gold)]/70 text-[var(--color-deep)]"
             : "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
         }`}
       >
         {redirecting
           ? "Redirecting to checkout…"
-          : canReserve && quoteLoading
-            ? "Calculating price…"
-            : canReserve
-              ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
-              : "Select dates to reserve"}
+          : canReserve
+            ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
+            : "Select dates to reserve"}
       </button>
 
       <p className="mt-2 text-center text-[11px] text-muted-foreground">
