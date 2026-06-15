@@ -20,12 +20,15 @@ import { createClient } from "@supabase/supabase-js";
 import { sendLovableEmail } from "@lovable.dev/email-js";
 import { TEMPLATES } from "@/lib/email-templates/registry";
 import type { BookingConfirmationProps } from "@/lib/email-templates/booking-confirmation";
+import type { BookingOwnerNotificationProps } from "@/lib/email-templates/booking-owner-notification";
 
 const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
 const SITE_NAME = "Sea & City Rentals";
 const SITE_URL = "https://www.seaandcityrentals.com";
 const FROM_DOMAIN = "seaandcityrentals.com";
 const SENDER_DOMAIN = "notify.seaandcityrentals.com";
+const OWNER_EMAIL = "mpopaj1988@gmail.com";
+const HOSPITABLE_API = "https://public.api.hospitable.com/v2";
 
 // ── Stripe webhook signature verification (Web Crypto API) ──────────────────
 
@@ -82,6 +85,66 @@ function formatDate(iso: string): string {
   });
 }
 
+// ── Hospitable reservation creation ──────────────────────────────────────────
+
+async function createHospitableReservation(opts: {
+  hospitableId: string;
+  checkIn: string;
+  checkOut: string;
+  guestFirstName: string;
+  guestLastName: string;
+  guestEmail: string;
+  adults: number;
+  accommodationCents: number;
+  cleaningFeeCents: number;
+  taxCents: number;
+  currency: string;
+  stripeSessionId: string;
+  apiKey: string;
+}): Promise<boolean> {
+  const url = `${HOSPITABLE_API}/properties/${opts.hospitableId}/reservations`;
+  const body = {
+    check_in: opts.checkIn,
+    check_out: opts.checkOut,
+    guests: { adults: Math.max(1, opts.adults) },
+    guest: {
+      first_name: opts.guestFirstName,
+      last_name: opts.guestLastName,
+      email: opts.guestEmail,
+    },
+    language: "en",
+    channel: "direct",
+    notes: `Booked via seaandcityrentals.com — Stripe session: ${opts.stripeSessionId}`,
+    financials: {
+      currency: opts.currency.toUpperCase(),
+      accommodation: opts.accommodationCents,
+      ...(opts.cleaningFeeCents > 0 ? { cleaning_fee: opts.cleaningFeeCents } : {}),
+      ...(opts.taxCents > 0 ? { pass_through_taxes: opts.taxCents } : {}),
+    },
+  };
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${opts.apiKey}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Hospitable reservation creation failed", res.status, err);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Hospitable reservation creation error", err);
+    return false;
+  }
+}
+
 // ── Route ────────────────────────────────────────────────────────────────────
 
 export const Route = createFileRoute("/api/webhooks/stripe")({
@@ -118,17 +181,39 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
 
         const propertySlug = metadata.property ?? "";
         const propertyTitle = metadata.title ?? propertySlug;
+        const hospitableId = metadata.hospitable_id ?? "";
+        const guestCount = parseInt(metadata.guests ?? "1", 10);
         const checkIn = metadata.check_in ?? "";
         const checkOut = metadata.check_out ?? "";
         const nights = parseInt(metadata.nights ?? "1", 10);
         const guestEmail = session.customer_details?.email ?? "";
         const guestName = session.customer_details?.name ?? null;
-        const totalAmount = (session.amount_total ?? 0) / 100;
         const currency = session.currency ?? "usd";
+        // Prefer metadata amounts over session total for accurate breakdown.
+        const accommodationCents = metadata.accommodation_cents
+          ? parseInt(metadata.accommodation_cents, 10)
+          : session.amount_total ?? 0;
+        const cleaningFeeCents = metadata.cleaning_fee_cents
+          ? parseInt(metadata.cleaning_fee_cents, 10)
+          : 0;
+        const taxCents = metadata.tax_cents ? parseInt(metadata.tax_cents, 10) : 0;
+        const discountCents = metadata.discount_cents ? parseInt(metadata.discount_cents, 10) : 0;
+        const discountLabel = metadata.discount_label ?? "";
+        const totalCents = session.amount_total ?? accommodationCents + cleaningFeeCents + taxCents;
+        const accommodationAmount = accommodationCents / 100;
+        const cleaningFeeAmount = cleaningFeeCents / 100;
+        const taxAmount = taxCents / 100;
+        const discountAmount = discountCents / 100;
+        const totalAmount = totalCents / 100;
         const sessionId = session.id ?? "";
         const paymentIntentId = typeof session.payment_intent === "string"
           ? session.payment_intent
           : null;
+
+        // Split full name into first / last for Hospitable
+        const nameParts = (guestName ?? "Guest").trim().split(/\s+/);
+        const guestFirstName = nameParts[0] ?? "Guest";
+        const guestLastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : ".";
 
         if (!guestEmail || !propertySlug || !checkIn || !checkOut) {
           console.error("Webhook missing required fields", { guestEmail, propertySlug, checkIn, checkOut });
@@ -156,6 +241,9 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             check_in: checkIn,
             check_out: checkOut,
             nights,
+            accommodation_amount: accommodationAmount,
+            cleaning_fee_amount: cleaningFeeAmount,
+            tax_amount: taxAmount,
             total_amount: totalAmount,
             currency,
             cancel_token: cancelToken,
@@ -190,6 +278,10 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             checkIn: formatDate(checkIn),
             checkOut: formatDate(checkOut),
             nights,
+            accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            ...(discountAmount > 0 ? { discount: `-$${discountAmount.toFixed(0)} ${currency.toUpperCase()}`, discountLabel } : {}),
+            ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
+            tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
             cancelUrl,
           };
@@ -250,6 +342,109 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
           }
         } catch (err) {
           console.error("confirmation email failed", err);
+        }
+
+        // Create Hospitable reservation to block the calendar.
+        const hospitableApiKey = process.env.HOSPITABLE_API_KEY;
+        let hospitableCreated = false;
+        if (hospitableId && hospitableApiKey) {
+          hospitableCreated = await createHospitableReservation({
+            hospitableId,
+            checkIn,
+            checkOut,
+            guestFirstName,
+            guestLastName,
+            guestEmail,
+            adults: guestCount,
+            accommodationCents,
+            cleaningFeeCents,
+            taxCents,
+            currency,
+            stripeSessionId: sessionId,
+            apiKey: hospitableApiKey,
+          });
+        } else if (!hospitableId) {
+          console.warn("No hospitable_id in Stripe metadata — calendar not blocked for session", sessionId);
+        }
+
+        // Send owner notification email.
+        try {
+          const lovableApiKey = process.env.LOVABLE_API_KEY;
+          const ownerTemplate = TEMPLATES["booking-owner-notification"];
+          const ownerProps: BookingOwnerNotificationProps = {
+            guestName: guestName ?? "Unknown",
+            guestEmail,
+            propertyTitle,
+            checkIn: formatDate(checkIn),
+            checkOut: formatDate(checkOut),
+            nights,
+            guests: guestCount,
+            accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            ...(discountAmount > 0 ? { discount: `-$${discountAmount.toFixed(0)} ${currency.toUpperCase()}`, discountLabel } : {}),
+            ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
+            tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
+            stripeSessionId: sessionId,
+            hospitableCreated,
+          };
+          const ownerElement = React.createElement(ownerTemplate.component, ownerProps);
+          const ownerHtml = await render(ownerElement);
+          const ownerText = await render(ownerElement, { plainText: true });
+          const ownerSubject =
+            typeof ownerTemplate.subject === "function"
+              ? ownerTemplate.subject(ownerProps as Record<string, any>)
+              : ownerTemplate.subject;
+          const ownerMessageId = crypto.randomUUID();
+
+          if (lovableApiKey) {
+            await sendLovableEmail(
+              {
+                to: OWNER_EMAIL,
+                from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                sender_domain: SENDER_DOMAIN,
+                subject: ownerSubject,
+                html: ownerHtml,
+                text: ownerText,
+                purpose: "transactional",
+                label: "booking-owner-notification",
+                idempotency_key: `booking-owner-${sessionId}`,
+                message_id: ownerMessageId,
+              },
+              { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+            );
+            await sb.from("email_send_log").insert({
+              message_id: ownerMessageId,
+              template_name: "booking-owner-notification",
+              recipient_email: OWNER_EMAIL,
+              status: "sent",
+            });
+          } else {
+            const ownerQueueMessageId = crypto.randomUUID();
+            await sb.from("email_send_log").insert({
+              message_id: ownerQueueMessageId,
+              template_name: "booking-owner-notification",
+              recipient_email: OWNER_EMAIL,
+              status: "pending",
+            });
+            await sb.rpc("enqueue_email", {
+              queue_name: "transactional_emails",
+              payload: {
+                message_id: ownerQueueMessageId,
+                to: OWNER_EMAIL,
+                from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                sender_domain: SENDER_DOMAIN,
+                subject: ownerSubject,
+                html: ownerHtml,
+                text: ownerText,
+                purpose: "transactional",
+                label: "booking-owner-notification",
+                idempotency_key: `booking-owner-${sessionId}`,
+                queued_at: new Date().toISOString(),
+              },
+            });
+          }
+        } catch (err) {
+          console.error("owner notification email failed", err);
         }
 
         return new Response("OK", { status: 200 });

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
-import type { CalendarDay } from "@/lib/hospitable.functions";
+import type { CalendarDay, Quote } from "@/lib/hospitable.functions";
+import { getListingQuote } from "@/lib/hospitable.functions";
 import { createBookingCheckout } from "@/lib/stripe.functions";
 import { track } from "@/lib/analytics";
 
@@ -33,18 +34,55 @@ function isSlowSeason(date: Date): boolean {
   return true;
 }
 
+// Peak / blackout nights: no length-of-stay discount applies if ANY night falls here.
+// Blackout: Feb, Mar, 4th of July week (Jun 28 – Jul 7), Christmas/New Year (Dec 20 – Jan 7).
+function isBlackoutNight(date: Date): boolean {
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  if (m === 2 || m === 3) return true;               // February, March
+  if (m === 6 && d >= 28) return true;               // Last days of June (4th of July week)
+  if (m === 7 && d <= 7) return true;                // First week of July
+  if (m === 12 && d >= 20) return true;              // Christmas week
+  if (m === 1 && d <= 7) return true;                // New Year week
+  return false;
+}
+
+type Discount = { pct: number; label: string; amount: number };
+
+function getStayDiscount(nights: number, from: Date, to: Date, accommodationTotal: number): Discount | null {
+  if (nights < 7) return null;
+  // Check every night of the stay for a blackout date.
+  const cursor = new Date(from);
+  while (cursor < to) {
+    if (isBlackoutNight(cursor)) return null;
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  const pct = nights >= 28 ? 0.15 : 0.05;
+  const label = nights >= 28 ? "Monthly stay · 15% off" : "Weekly stay · 5% off";
+  const amount = Math.round(accommodationTotal * pct);
+  return { pct, label, amount };
+}
+
 export function AvailabilityChecker({
   bookingUrl,
   calendar,
   propertySlug,
   propertyTitle,
+  hospitableId,
+  maxGuests = 16,
 }: {
   bookingUrl: string;
   calendar: CalendarDay[];
   propertySlug?: string;
   propertyTitle?: string;
+  hospitableId?: string;
+  maxGuests?: number;
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
+  const [guests, setGuests] = useState(1);
+  const [quote, setQuote] = useState<Quote>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const quoteAbortRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
@@ -132,6 +170,31 @@ export function AvailabilityChecker({
     }
   }, [showUpsellModal]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Fetch a real price quote from Hospitable when dates + guests are set.
+  useEffect(() => {
+    if (!range?.from || !range?.to || hasUnavailable || !hospitableId || nights <= 0) {
+      setQuote(null);
+      setQuoteLoading(false);
+      return;
+    }
+    // Debounce so rapid guest +/- taps don't fire many requests.
+    if (quoteAbortRef.current) clearTimeout(quoteAbortRef.current);
+    setQuoteLoading(true);
+    setQuote(null);
+    quoteAbortRef.current = setTimeout(async () => {
+      try {
+        const result = await getListingQuote({
+          data: { id: hospitableId, checkIn: ymd(range.from!), checkOut: ymd(range.to!), adults: guests },
+        });
+        setQuote(result);
+      } catch {
+        setQuote(null);
+      } finally {
+        setQuoteLoading(false);
+      }
+    }, 400);
+  }, [range?.from, range?.to, guests, hospitableId, hasUnavailable, nights]); // eslint-disable-line react-hooks/exhaustive-deps
+
   function acceptUpsell() {
     if (!range?.to) return;
     const newTo = new Date(range.to);
@@ -159,15 +222,26 @@ export function AvailabilityChecker({
       nights,
       total,
       currency,
+      guests,
       check_in: range?.from ? ymd(range.from) : undefined,
       check_out: range?.to ? ymd(range.to) : undefined,
     });
 
-    // No per-night pricing available → fall back to Hospitable booking URL
-    if (!total || total <= 0) {
+    // No pricing available → fall back to Hospitable booking URL
+    const baseAccommodation = quote?.accommodation ?? (total > 0 ? total : 0);
+    if (!baseAccommodation) {
       window.open(bookingUrl, "_blank", "noreferrer");
       return;
     }
+
+    const discount = range?.from && range?.to && quote
+      ? getStayDiscount(nights, range.from, range.to, quote.accommodation)
+      : null;
+    const discountedAccommodation = discount
+      ? Math.round(baseAccommodation - discount.amount)
+      : Math.round(baseAccommodation);
+    const cleaningFeeAmt = quote?.cleaningFee ?? 0;
+    const checkoutTotal = discountedAccommodation + cleaningFeeAmt;
 
     setRedirecting(true);
     try {
@@ -175,11 +249,16 @@ export function AvailabilityChecker({
         data: {
           propertySlug: propertySlug ?? "",
           propertyTitle: propertyTitle ?? propertySlug ?? "Vacation Rental",
+          hospitableId,
+          guests,
           checkIn: ymd(range!.from!),
           checkOut: ymd(range!.to!),
           nights,
-          total,
-          currency,
+          accommodation: discountedAccommodation,
+          cleaningFee: cleaningFeeAmt,
+          total: checkoutTotal,
+          currency: quote?.currency ?? currency,
+          ...(discount ? { discountAmount: discount.amount, discountLabel: discount.label } : {}),
         },
       });
       window.location.href = result.url;
@@ -262,6 +341,32 @@ export function AvailabilityChecker({
         </div>
       </div>
 
+      {/* Guest count */}
+      <div className="mt-2 flex items-center justify-between rounded-sm border border-border bg-background px-3 py-2">
+        <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Guests</span>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="Remove guest"
+            disabled={guests <= 1}
+            onClick={() => setGuests((g) => Math.max(1, g - 1))}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-sm text-muted-foreground transition hover:border-[var(--color-deep)] hover:text-foreground disabled:opacity-30"
+          >
+            −
+          </button>
+          <span className="w-6 text-center text-sm font-semibold text-foreground">{guests}</span>
+          <button
+            type="button"
+            aria-label="Add guest"
+            disabled={guests >= maxGuests}
+            onClick={() => setGuests((g) => Math.min(maxGuests, g + 1))}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-sm text-muted-foreground transition hover:border-[var(--color-deep)] hover:text-foreground disabled:opacity-30"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
       {showCalendar && (
         <div className="mt-3 rounded-sm border border-border bg-background p-2">
           {hasAnyAvailable ? (
@@ -295,14 +400,73 @@ export function AvailabilityChecker({
           data-testid="availability-summary"
           className="mt-4 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
         >
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-            {total > 0 && (
-              <span className="font-semibold text-[var(--color-deep)]">
-                ${total} {currency}
-              </span>
-            )}
-          </div>
+          {quoteLoading ? (
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+              <span className="text-xs">Calculating…</span>
+            </div>
+          ) : quote ? (
+            <>
+              {(() => {
+                const disc = range?.from && range?.to
+                  ? getStayDiscount(nights, range.from, range.to, quote.accommodation)
+                  : null;
+                const discountedAccom = disc
+                  ? quote.accommodation - disc.amount
+                  : quote.accommodation;
+                const subtotal = discountedAccom + quote.cleaningFee;
+                const tax = Math.round(subtotal * 0.145);
+                const grandTotal = Math.round(subtotal + tax);
+                return (
+                  <>
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                      <span>${Math.round(quote.accommodation)} {quote.currency}</span>
+                    </div>
+                    {disc && (
+                      <div className="flex items-center justify-between text-emerald-700">
+                        <span>{disc.label}</span>
+                        <span>-${disc.amount} {quote.currency}</span>
+                      </div>
+                    )}
+                    {quote.cleaningFee > 0 && (
+                      <div className="flex items-center justify-between text-muted-foreground">
+                        <span>Cleaning fee</span>
+                        <span>${Math.round(quote.cleaningFee)} {quote.currency}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between text-muted-foreground">
+                      <span>FL taxes (14.5%)</span>
+                      <span>${tax} {quote.currency}</span>
+                    </div>
+                    <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
+                      <span>Total</span>
+                      <span>${grandTotal} {quote.currency}</span>
+                    </div>
+                  </>
+                );
+              })()}
+            </>
+          ) : total > 0 ? (
+            <>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                <span>${total} {currency}</span>
+              </div>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>FL taxes (14.5%)</span>
+                <span>${Math.round(total * 0.145)} {currency}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
+                <span>Total</span>
+                <span>${Math.round(total * 1.145)} {currency}</span>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+            </div>
+          )}
           {hasUnavailable && (
             <p className="text-xs text-red-600">
               Some dates in this range aren't available. Try different dates.
@@ -318,19 +482,21 @@ export function AvailabilityChecker({
       <button
         type="button"
         data-testid="availability-reserve-btn"
-        disabled={redirecting}
+        disabled={redirecting || (canReserve && quoteLoading)}
         onClick={handleReserve}
         className={`mt-4 w-full rounded-sm py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] shadow transition ${
-          redirecting
+          redirecting || (canReserve && quoteLoading)
             ? "cursor-wait bg-[var(--color-gold)]/70 text-[var(--color-deep)]"
             : "bg-[var(--color-gold)] text-[var(--color-deep)] hover:brightness-105"
         }`}
       >
         {redirecting
           ? "Redirecting to checkout…"
-          : canReserve
-            ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
-            : "Select dates to reserve"}
+          : canReserve && quoteLoading
+            ? "Calculating price…"
+            : canReserve
+              ? `Reserve · ${nights} ${nights === 1 ? "night" : "nights"}`
+              : "Select dates to reserve"}
       </button>
 
       <p className="mt-2 text-center text-[11px] text-muted-foreground">
