@@ -8,7 +8,7 @@ import { getListingPricing, type Pricing } from "@/lib/hospitable.functions";
 import { getPublishedPosts } from "@/lib/blog";
 import { track } from "@/lib/analytics";
 import heroBeach from "@/assets/hero-beach.jpg?format=webp&quality=85&as=url";
-import heroTampa from "@/assets/properties/tampa/3010EF30-59E8-45E4-A635-58D933FF1504.png?format=webp&quality=85&as=url";
+import heroTampa from "@/assets/properties/tampa/3010EF30-59E8-45E4-A635-58D933FF1504.jpg?format=webp&quality=85&as=url";
 import heroLargo from "@/assets/hero-largo.jpg?format=webp&quality=85&as=url";
 import heroStpete from "@/assets/hero-stpete.jpg?format=webp&quality=85&as=url";
 import nella from "@/assets/nella.jpg?format=webp&quality=85&as=url";
