@@ -192,7 +192,7 @@ export function AvailabilityChecker({
       } finally {
         setQuoteLoading(false);
       }
-    }, 400);
+    }, 200);
   }, [range?.from, range?.to, guests, hospitableId, hasUnavailable, nights]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function acceptUpsell() {
@@ -400,73 +400,64 @@ export function AvailabilityChecker({
           data-testid="availability-summary"
           className="mt-4 space-y-1 rounded-sm bg-[var(--color-sand)] p-3 text-sm"
         >
-          {quoteLoading ? (
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-              <span className="text-xs">Calculating…</span>
-            </div>
-          ) : quote ? (
-            <>
-              {(() => {
-                const disc = range?.from && range?.to
-                  ? getStayDiscount(nights, range.from, range.to, quote.accommodation)
-                  : null;
-                const discountedAccom = disc
-                  ? quote.accommodation - disc.amount
-                  : quote.accommodation;
-                const subtotal = discountedAccom + quote.cleaningFee;
-                const tax = Math.round(subtotal * 0.145);
-                const grandTotal = Math.round(subtotal + tax);
-                return (
-                  <>
-                    <div className="flex items-center justify-between text-muted-foreground">
-                      <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-                      <span>${Math.round(quote.accommodation)} {quote.currency}</span>
-                    </div>
-                    {disc && (
-                      <div className="flex items-center justify-between text-emerald-700">
-                        <span>{disc.label}</span>
-                        <span>-${disc.amount} {quote.currency}</span>
-                      </div>
-                    )}
-                    {quote.cleaningFee > 0 && (
-                      <div className="flex items-center justify-between text-muted-foreground">
-                        <span>Cleaning fee</span>
-                        <span>${Math.round(quote.cleaningFee)} {quote.currency}</span>
-                      </div>
-                    )}
-                    <div className="flex items-center justify-between text-muted-foreground">
-                      <span>FL taxes (14.5%)</span>
-                      <span>${tax} {quote.currency}</span>
-                    </div>
-                    <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
-                      <span>Total</span>
-                      <span>${grandTotal} {quote.currency}</span>
-                    </div>
-                  </>
-                );
-              })()}
-            </>
-          ) : total > 0 ? (
-            <>
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-                <span>${total} {currency}</span>
-              </div>
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>FL taxes (14.5%)</span>
-                <span>${Math.round(total * 0.145)} {currency}</span>
-              </div>
-              <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
-                <span>Total</span>
-                <span>${Math.round(total * 1.145)} {currency}</span>
-              </div>
-            </>
-          ) : (
-            <div className="flex items-center justify-between text-muted-foreground">
-              <span>{nights} {nights === 1 ? "night" : "nights"}</span>
-            </div>
-          )}
+          {(() => {
+            // Use quote data if available; fall back to calendar totals immediately.
+            const baseAccom = quote?.accommodation ?? (total > 0 ? total : 0);
+            const displayCurrency = quote?.currency ?? currency;
+            if (baseAccom === 0) {
+              return (
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                </div>
+              );
+            }
+            const disc = range?.from && range?.to
+              ? getStayDiscount(nights, range.from, range.to, baseAccom)
+              : null;
+            const discountedAccom = disc ? baseAccom - disc.amount : baseAccom;
+            const cleaningFee = quote?.cleaningFee ?? 0;
+            const subtotal = discountedAccom + cleaningFee;
+            const tax = Math.round(subtotal * 0.145);
+            const grandTotal = Math.round(subtotal + tax);
+            return (
+              <>
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>{nights} {nights === 1 ? "night" : "nights"}</span>
+                  <span>${Math.round(baseAccom)} {displayCurrency}</span>
+                </div>
+                {disc && (
+                  <div className="flex items-center justify-between text-emerald-700">
+                    <span>{disc.label}</span>
+                    <span>-${disc.amount} {displayCurrency}</span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>Cleaning fee</span>
+                  {quoteLoading ? (
+                    <span className="text-xs italic text-muted-foreground">loading…</span>
+                  ) : (
+                    <span>${Math.round(cleaningFee)} {displayCurrency}</span>
+                  )}
+                </div>
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>FL taxes (14.5%)</span>
+                  {quoteLoading ? (
+                    <span className="text-xs italic text-muted-foreground">loading…</span>
+                  ) : (
+                    <span>${tax} {displayCurrency}</span>
+                  )}
+                </div>
+                <div className="flex items-center justify-between border-t border-border pt-1 font-semibold text-[var(--color-deep)]">
+                  <span>Total</span>
+                  {quoteLoading ? (
+                    <span className="text-xs font-normal italic text-muted-foreground">calculating…</span>
+                  ) : (
+                    <span>${grandTotal} {displayCurrency}</span>
+                  )}
+                </div>
+              </>
+            );
+          })()}
           {hasUnavailable && (
             <p className="text-xs text-red-600">
               Some dates in this range aren't available. Try different dates.

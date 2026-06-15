@@ -281,11 +281,19 @@ export type Quote = {
   currency: string;
 } | null;
 
+type QuoteCacheEntry = { value: Quote; expires: number };
+const quoteCache = new Map<string, QuoteCacheEntry>();
+const QUOTE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 export const getListingQuote = createServerFn({ method: "GET" })
   .inputValidator((data: { id: string; checkIn: string; checkOut: string; adults: number }) => data)
   .handler(async ({ data }): Promise<Quote> => {
     const apiKey = process.env.HOSPITABLE_API_KEY;
     if (!apiKey) return null;
+
+    const cacheKey = `${data.id}:${data.checkIn}:${data.checkOut}:${data.adults}`;
+    const cached = quoteCache.get(cacheKey);
+    if (cached && cached.expires > Date.now()) return cached.value;
 
     const url = `https://public.api.hospitable.com/v2/properties/${data.id}/quote`;
     try {
@@ -306,29 +314,69 @@ export const getListingQuote = createServerFn({ method: "GET" })
         console.error("Hospitable quote error", res.status, await res.text());
         return null;
       }
-      const json = (await res.json()) as {
-        data?: {
-          pricing?: {
-            accommodation?: { amount?: number; currency?: string };
-            cleaning_fee?: { amount?: number };
-            subtotal?: { amount?: number };
-            total?: { amount?: number; currency?: string };
-          };
-        };
-      };
-      const pricing = json.data?.pricing;
-      if (!pricing) return null;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const json = await res.json() as Record<string, any>;
+      const d = json?.data;
+      let accommodation = 0;
+      let cleaningFee = 0;
+      let currency = "USD";
 
-      const accommodation = (pricing.accommodation?.amount ?? 0) / 100;
-      const cleaningFee = (pricing.cleaning_fee?.amount ?? 0) / 100;
-      // Use subtotal (pre-tax) if available, otherwise sum the parts.
-      const totalBeforeTax =
-        pricing.subtotal?.amount != null
-          ? pricing.subtotal.amount / 100
-          : accommodation + cleaningFee;
-      const currency = pricing.accommodation?.currency ?? pricing.total?.currency ?? "USD";
+      // Format A: data.pricing with fees array (most common in Hospitable v2)
+      const pricing = d?.pricing;
+      if (pricing) {
+        accommodation = ((pricing.accommodation?.amount ?? pricing.nightly_rate?.amount ?? pricing.base_price?.amount ?? 0) as number) / 100;
+        currency = (pricing.accommodation?.currency ?? pricing.currency ?? d?.currency ?? "USD") as string;
+        // Cleaning fee may live in pricing.fees[] or pricing.cleaning_fee
+        if (Array.isArray(pricing.fees)) {
+          for (const fee of pricing.fees as Array<Record<string, unknown>>) {
+            const t = (fee.type ?? fee.kind ?? "") as string;
+            if (t === "cleaning_fee" || t === "cleaning") {
+              cleaningFee = ((fee.amount ?? 0) as number) / 100;
+            }
+          }
+        }
+        if (cleaningFee === 0 && pricing.cleaning_fee) {
+          cleaningFee = ((pricing.cleaning_fee?.amount ?? pricing.cleaning_fee ?? 0) as number) / 100;
+        }
+      }
 
-      return { accommodation, cleaningFee, totalBeforeTax, currency };
+      // Format B: data.line_items array
+      else if (Array.isArray(d?.line_items)) {
+        currency = (d.currency ?? "USD") as string;
+        for (const item of d.line_items as Array<Record<string, unknown>>) {
+          const amt = ((item.amount ?? item.value ?? 0) as number);
+          const t = (item.type ?? item.kind ?? "") as string;
+          if (t === "accommodation" || t === "nightly_rate" || t === "base_price") {
+            accommodation = amt / 100;
+          } else if (t === "cleaning_fee" || t === "cleaning") {
+            cleaningFee = amt / 100;
+          }
+        }
+      }
+
+      // Format C: data.prices flat object
+      else if (d?.prices) {
+        const p = d.prices as Record<string, number>;
+        accommodation = (p.nightly_rate ?? p.accommodation ?? p.base_price ?? 0) / 100;
+        cleaningFee = (p.cleaning_fee ?? p.cleaning ?? 0) / 100;
+        currency = (d.currency ?? "USD") as string;
+      }
+
+      // Format D: direct fields on data
+      else if (d) {
+        accommodation = ((d.accommodation_amount ?? d.nightly_total ?? d.accommodation ?? 0) as number) / 100;
+        cleaningFee = ((d.cleaning_fee_amount ?? d.cleaning_fee ?? 0) as number) / 100;
+        currency = (d.currency ?? "USD") as string;
+      }
+
+      if (accommodation === 0) {
+        console.error("Hospitable quote: could not parse accommodation from", JSON.stringify(json).slice(0, 500));
+        return null;
+      }
+
+      const result: Quote = { accommodation, cleaningFee, totalBeforeTax: accommodation + cleaningFee, currency };
+      quoteCache.set(cacheKey, { value: result, expires: Date.now() + QUOTE_TTL_MS });
+      return result;
     } catch (err) {
       console.error("Hospitable quote fetch error", err);
       return null;
