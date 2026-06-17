@@ -111,6 +111,8 @@ function pricesForPlatform(
     Math.round(regularPrice * (1 - discountPct / 100)),
     minPrice,
   );
+  // minPrice floor can push discountedPrice above regularPrice — don't quote broken math to guests
+  if (discountedPrice >= regularPrice) return { regularPrice: null, discountedPrice: null };
   return { regularPrice, discountedPrice };
 }
 
@@ -534,8 +536,8 @@ export async function processOrphanDayUpsells(
       for (const [orphanDate, result] of pairResults) {
         const pair = pendingPairs.find((p) => p.orphanDate === orphanDate)!;
         try {
-          const outgoingPrices = pricesForPlatform(pair.hospitablePrice, pair.outgoing.platform, property.minPrice);
-          const incomingPrices = pricesForPlatform(pair.hospitablePrice, pair.incoming.platform, property.minPrice);
+          const outgoingPrices = pricesForPlatform(pair.hospitablePrice, pair.outgoing.platform, property.minPrice, pair.discountPct);
+          const incomingPrices = pricesForPlatform(pair.hospitablePrice, pair.incoming.platform, property.minPrice, pair.discountPct);
           await supabaseAdmin.from("orphan_upsell_log").upsert(
             {
               property_hospitable_id: property.hospitableId,
