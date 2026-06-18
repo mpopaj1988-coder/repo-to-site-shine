@@ -90,14 +90,24 @@ function BlogPostPage() {
         </Link>
         <article className="mt-6">
           <header className="mb-8 border-b border-border pb-8">
-            <time className="text-sm text-muted-foreground">
-              {new Date(post.publishDate).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            <h1 className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+              <time>
+                {new Date(post.publishDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              {post.author && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span>{post.author}</span>
+                </>
+              )}
+              <span aria-hidden>·</span>
+              <span>{post.readingTime} min read</span>
+            </div>
+            <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
               {post.title}
             </h1>
             {post.description && (
