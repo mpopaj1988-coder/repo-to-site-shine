@@ -238,8 +238,8 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
 
   "irb-a": {
     propertyName: "Walk to Beach — IRB (Unit B)",
-    wifiNetwork: "benchkettle931",
-    wifiPassword: "SpectrumSetup-CF",
+    wifiNetwork: "spectrum6BFF",
+    wifiPassword: "happyspace961",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
     parking: "Two spots in front of Unit B (right side).",
