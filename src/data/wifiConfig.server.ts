@@ -1,4 +1,5 @@
 type Tip = { name: string; note: string };
+export type HouseNote = string | { text: string; image: string };
 
 export type PropertyHouseInfo = {
   propertyName: string;
@@ -10,7 +11,7 @@ export type PropertyHouseInfo = {
   trash?: string;
   address?: string;
   emergencyContact: string;
-  notes: string[];
+  notes: HouseNote[];
   guideSlug?: string;
   restaurants?: Tip[];
   activities?: Tip[];
@@ -135,7 +136,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     notes: [
       "Pool turns on automatically at 9 AM. Heating is free Oct–May.",
       "Pool restart: open the black box by the pump and press Quick Clean.",
-      "Fountain/waterfall: twist the left knob to operate; turn off when done.",
+      { text: "Pool pump: twist the knob as shown in the photo to turn on. To turn off, twist the knob back to its original position — IMPORTANT: leaving it running will cause water to overflow out of the pool.", image: "/guides/largo-pump-knob.jpg" },
       "Gazebo lights: switch on the left outside by the blue chair at the sliding door.",
       "Firepit and charcoal BBQ available — guests supply their own charcoal.",
       "Beach chairs, umbrella, and towels are provided.",
