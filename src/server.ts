@@ -78,10 +78,33 @@ export default {
     }
   },
 
-  async scheduled(_event: unknown, env: unknown, ctx: { waitUntil: (p: Promise<unknown>) => void }) {
+  async scheduled(
+    event: { cron?: string },
+    env: unknown,
+    ctx: { waitUntil: (p: Promise<unknown>) => void },
+  ) {
     ctx.waitUntil(
       (async () => {
         const handler = await getServerEntry();
+        const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+
+        // Every 5 minutes: drain the outgoing email queue (welcome emails,
+        // follow-ups, anything enqueued when direct-send wasn't available).
+        try {
+          const res = await handler.fetch(
+            new Request("https://seaandcityrentals.com/lovable/email/queue/process", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${serviceKey}` },
+            }),
+            env, ctx,
+          );
+          console.log("Scheduled email queue process:", res.status, await res.text());
+        } catch (err) {
+          console.error("Scheduled email queue process failed:", err);
+        }
+
+        // Once daily at 9am UTC: reviews refresh + marketing drip.
+        if (event.cron !== "0 9 * * *") return;
 
         // Refresh Hospitable reviews into Supabase cache.
         try {
@@ -96,7 +119,6 @@ export default {
 
         // Send marketing drip emails to eligible subscribers.
         try {
-          const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
           const res = await handler.fetch(
             new Request("https://seaandcityrentals.com/api/internal/marketing-drip", {
               method: "POST",
