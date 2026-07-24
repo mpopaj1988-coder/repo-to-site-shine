@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
 import { sendLovableEmail } from '@lovable.dev/email-js'
+import { sendResendEmail } from '@/lib/resend-email'
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { TEMPLATES } from '@/lib/email-templates/registry'
@@ -149,6 +150,7 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
 
         const sb = createClient(SUPABASE_URL, supabaseKey)
         const lovableApiKey = process.env.LOVABLE_API_KEY
+        const resendApiKey = process.env.RESEND_API_KEY
         const season = getSeason()
         const now = new Date()
         let sent = 0
@@ -277,6 +279,21 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
                     message_id: messageId,
                   },
                   { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+                )
+              } else if (resendApiKey) {
+                await sendResendEmail(
+                  {
+                    to: email,
+                    from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                    subject: leadSubject,
+                    html: leadHtml,
+                    text: leadText,
+                    reply_to: `vacation@${FROM_DOMAIN}`,
+                    idempotency_key: idempotencyKey,
+                    unsubscribe_token: unsubscribeToken,
+                    message_id: messageId,
+                  },
+                  { apiKey: resendApiKey },
                 )
               } else {
                 await sb.rpc('enqueue_email', {
