@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
 import { sendLovableEmail } from '@lovable.dev/email-js'
+import { sendResendEmail } from '@/lib/resend-email'
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
 declare const __MAILERLITE_API_KEY__: string
+declare const __RESEND_API_KEY__: string
 
 const SENDER_DOMAIN = 'notify.seaandcityrentals.com'
 const FROM_DOMAIN = 'seaandcityrentals.com'
@@ -58,6 +60,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         try {
           const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
           const lovableApiKey = process.env.LOVABLE_API_KEY
+          const resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY || __RESEND_API_KEY__ || ''
           const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
 
           // Log lead (best-effort, ignore duplicate errors)
@@ -127,6 +130,28 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                   recipient_email: data.email, status: 'sent',
                 })
               }
+            } else if (resendApiKey) {
+              // Direct send via Resend — no queue, no cron needed
+              await sendResendEmail(
+                {
+                  to: data.email,
+                  from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                  subject,
+                  html,
+                  text: plainText,
+                  reply_to: `vacation@${FROM_DOMAIN}`,
+                  idempotency_key: idempotencyKey,
+                  unsubscribe_token: unsubscribeToken,
+                  message_id: messageId,
+                },
+                { apiKey: resendApiKey },
+              )
+              if (supabase) {
+                await supabase.from('email_send_log').insert({
+                  message_id: messageId, template_name: 'welcome-discount',
+                  recipient_email: data.email, status: 'sent',
+                })
+              }
             } else if (supabase) {
               // Fall back to queue (requires cron to process)
               await supabase.from('email_send_log').insert({
@@ -145,7 +170,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
                 },
               })
             } else {
-              console.error('No email path available: LOVABLE_API_KEY and SUPABASE_SERVICE_ROLE_KEY are both missing')
+              console.error('No email path available: LOVABLE_API_KEY, RESEND_API_KEY, and SUPABASE_SERVICE_ROLE_KEY are all missing')
             }
           }
         } catch (err) {
