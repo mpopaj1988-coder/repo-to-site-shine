@@ -179,27 +179,48 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
 
           const { data: leads } = await sb
             .from('email_leads')
-            .select('email')
+            .select('email, discount_code')
             .lte('created_at', threshold.toISOString())
             .limit(500)
 
           if (!leads?.length) continue
 
-          // Pre-render once per step — all subscribers in this batch get the same HTML.
+          // The why-book-direct email carries a reminder of each lead's own discount
+          // code, so it has to be rendered per-recipient instead of once per batch.
+          const needsPerLeadRender = step.templateName === 'marketing-why-book-direct'
+
           const template = TEMPLATES[step.templateName]
           const templateProps =
             step.templateName === 'marketing-property-showcase' ? { season }
             : step.templateName === 'marketing-last-minute' ? { availableProps: lastMinuteProps }
             : {}
-          const element = React.createElement(template.component, templateProps)
-          const html = await render(element)
-          const text = await render(element, { plainText: true })
-          const subject = typeof template.subject === 'function'
-            ? template.subject({ season })
-            : template.subject
+
+          let html = ''
+          let text = ''
+          let subject = ''
+          if (!needsPerLeadRender) {
+            const element = React.createElement(template.component, templateProps)
+            html = await render(element)
+            text = await render(element, { plainText: true })
+            subject = typeof template.subject === 'function'
+              ? template.subject({ season })
+              : template.subject
+          }
 
           for (const lead of leads) {
-            const { email } = lead
+            const { email, discount_code } = lead
+
+            let leadHtml = html
+            let leadText = text
+            let leadSubject = subject
+            if (needsPerLeadRender) {
+              const element = React.createElement(template.component, { code: discount_code })
+              leadHtml = await render(element)
+              leadText = await render(element, { plainText: true })
+              leadSubject = typeof template.subject === 'function'
+                ? template.subject({ code: discount_code })
+                : template.subject
+            }
 
             // Skip suppressed addresses.
             const { data: suppressed } = await sb
@@ -246,9 +267,9 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
                     to: email,
                     from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
                     sender_domain: SENDER_DOMAIN,
-                    subject,
-                    html,
-                    text,
+                    subject: leadSubject,
+                    html: leadHtml,
+                    text: leadText,
                     purpose: 'marketing',
                     label: step.templateName,
                     idempotency_key: idempotencyKey,
@@ -265,9 +286,9 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
                     to: email,
                     from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
                     sender_domain: SENDER_DOMAIN,
-                    subject,
-                    html,
-                    text,
+                    subject: leadSubject,
+                    html: leadHtml,
+                    text: leadText,
                     purpose: 'marketing',
                     label: step.templateName,
                     idempotency_key: idempotencyKey,

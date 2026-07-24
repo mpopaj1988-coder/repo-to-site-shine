@@ -9,9 +9,10 @@ const SITE_URL = 'https://seaandcityrentals.com'
 
 interface WhyBookDirectProps {
   firstName?: string
+  code?: string
 }
 
-const WhyBookDirectEmail = ({ firstName = 'there' }: WhyBookDirectProps) => (
+const WhyBookDirectEmail = ({ firstName = 'there', code }: WhyBookDirectProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Skip the Airbnb fees — here's what you save when you book direct with us</Preview>
@@ -33,6 +34,13 @@ const WhyBookDirectEmail = ({ firstName = 'there' }: WhyBookDirectProps) => (
             rental price. We list on those platforms — but if you book directly
             through our site, you skip every one of those fees.
           </Text>
+
+          {code && (
+            <Section style={codeBox}>
+              <Text style={codeLabel}>YOUR CODE IS STILL WAITING</Text>
+              <Text style={codeValue}>{code}</Text>
+            </Section>
+          )}
 
           <Section style={comparisonBox}>
             <Text style={comparisonTitle}>A typical 5-night stay</Text>
@@ -107,7 +115,7 @@ export const template = {
   component: WhyBookDirectEmail,
   subject: 'Skip the Airbnb fees — book direct & save',
   displayName: 'Marketing — Why Book Direct',
-  previewData: { firstName: 'Jessica' },
+  previewData: { firstName: 'Jessica', code: 'DIRECT7X9K2' },
 } satisfies TemplateEntry
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Georgia, "Times New Roman", serif' }
@@ -121,6 +129,18 @@ const h1 = { fontSize: '30px', color: '#ffffff', margin: '0 0 6px', lineHeight: 
 const subheading = { fontSize: '15px', color: 'rgba(255,255,255,0.75)', margin: '0', fontFamily: 'Arial, sans-serif' }
 const body = { padding: '28px' }
 const text = { fontSize: '15px', color: '#333333', lineHeight: '1.6', margin: '0 0 16px' }
+const codeBox = {
+  border: '2px dashed #C9A84C', borderRadius: '6px', padding: '18px',
+  textAlign: 'center' as const, margin: '0 0 24px', backgroundColor: '#F5EFE4',
+}
+const codeLabel = {
+  fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase' as const,
+  color: '#1A3A4A', margin: '0 0 6px', fontFamily: 'Arial, sans-serif',
+}
+const codeValue = {
+  fontSize: '26px', fontWeight: 'bold' as const, color: '#1A3A4A',
+  margin: '0', letterSpacing: '0.15em', fontFamily: 'Arial, sans-serif',
+}
 const comparisonBox = {
   border: '1px solid #e5e5e5', borderRadius: '6px',
   backgroundColor: '#F9F6F0', margin: '20px 0', overflow: 'hidden' as const,
