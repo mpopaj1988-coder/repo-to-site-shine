@@ -140,6 +140,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "Gazebo lights: switch on the left outside by the blue chair at the sliding door.",
       "Firepit and charcoal BBQ available — guests supply their own charcoal.",
       "Beach chairs, umbrella, and towels are provided.",
+      "WiFi not working? First check that it's plugged in — the router is at the head of the bunk bed and can sometimes get accidentally unplugged if the bed is moved. A quick replug usually does the trick!",
       "Quiet hours: 10 PM – 7 AM.",
       "Check-out by 10 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
