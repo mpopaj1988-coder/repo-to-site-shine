@@ -7,6 +7,7 @@ import { template as returningGuestCode } from './returning-guest-code'
 import { template as marketingWhyBookDirect } from './marketing-why-book-direct'
 import { template as marketingPropertyShowcase } from './marketing-property-showcase'
 import { template as marketingLastMinute } from './marketing-last-minute'
+import { template as marketingWeeklyReminder } from './marketing-weekly-reminder'
 import { template as guestgrowthLeadNotify } from './guestgrowth-lead-notify'
 import { template as bookingOwnerNotification } from './booking-owner-notification'
 
@@ -28,6 +29,17 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'marketing-why-book-direct': marketingWhyBookDirect,
   'marketing-property-showcase': marketingPropertyShowcase,
   'marketing-last-minute': marketingLastMinute,
+  // Registered under 8 distinct keys (all pointing to the same component) so
+  // the drip loop's per-template "already sent" check tracks each week's
+  // send separately instead of blocking every week after the first.
+  'marketing-weekly-reminder-1': marketingWeeklyReminder,
+  'marketing-weekly-reminder-2': marketingWeeklyReminder,
+  'marketing-weekly-reminder-3': marketingWeeklyReminder,
+  'marketing-weekly-reminder-4': marketingWeeklyReminder,
+  'marketing-weekly-reminder-5': marketingWeeklyReminder,
+  'marketing-weekly-reminder-6': marketingWeeklyReminder,
+  'marketing-weekly-reminder-7': marketingWeeklyReminder,
+  'marketing-weekly-reminder-8': marketingWeeklyReminder,
   'guestgrowth-lead-notify': guestgrowthLeadNotify,
   'booking-owner-notification': bookingOwnerNotification,
 }
