@@ -32,17 +32,11 @@ export function EmailCaptureModal() {
     try {
       const normalizedEmail = email.trim().toLowerCase();
 
-      // Submit directly to MailerLite form endpoint — triggers automation properly
-      const formData = new FormData();
-      formData.append("fields[email]", normalizedEmail);
-      await fetch(
-        "https://assets.mailerlite.com/jsonp/2353166/forms/188851104776193043/subscribe",
-        { method: "POST", body: formData },
-      );
-
-      // Best-effort server call for Supabase lead logging
+      // Primary path: our own backend actually sends the discount email
+      // (via Lovable/Resend) and logs the lead. This is awaited and its
+      // result gates the success message — this is the call that matters.
       const params = new URLSearchParams(window.location.search);
-      fetch("/api/public/discount-signup", {
+      const res = await fetch("/api/public/discount-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,7 +47,17 @@ export function EmailCaptureModal() {
           utm_campaign: params.get("utm_campaign"),
           user_agent: navigator.userAgent.slice(0, 250),
         }),
-      }).catch(() => {});
+      });
+      if (!res.ok) throw new Error("signup failed");
+
+      // Best-effort: also add to the MailerLite marketing list. Not awaited —
+      // this is a secondary marketing sync, not the source of the actual email.
+      const formData = new FormData();
+      formData.append("fields[email]", normalizedEmail);
+      fetch(
+        "https://assets.mailerlite.com/jsonp/2353166/forms/188851104776193043/subscribe",
+        { method: "POST", body: formData },
+      ).catch(() => {});
 
       setStatus("success");
       setMessage("Thanks! Check your inbox — we just sent your mystery discount code for your first direct booking.");
