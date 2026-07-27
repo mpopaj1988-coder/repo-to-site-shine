@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
 import { sendLovableEmail } from '@lovable.dev/email-js'
+import { sendResendEmail } from '@/lib/resend-email'
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
@@ -123,6 +124,7 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
           : template.subject
 
         const lovableApiKey = process.env.LOVABLE_API_KEY
+        const resendApiKey = process.env.RESEND_API_KEY
         const idempotencyKey = `returning-guest-${email}-${new Date().toISOString().slice(0, 10)}`
 
         if (lovableApiKey) {
@@ -140,6 +142,20 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
               unsubscribe_token: unsubscribeToken,
             },
             { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+          )
+        } else if (resendApiKey) {
+          await sendResendEmail(
+            {
+              to: email,
+              from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+              subject,
+              html,
+              text,
+              reply_to: `vacation@${FROM_DOMAIN}`,
+              idempotency_key: idempotencyKey,
+              unsubscribe_token: unsubscribeToken,
+            },
+            { apiKey: resendApiKey },
           )
         } else {
           await sb.rpc('enqueue_email', {
