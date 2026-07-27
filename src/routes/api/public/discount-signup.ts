@@ -56,6 +56,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         const data = parsed.data
 
         const discountCode = genDiscountCode()
+        let debugSupabase: any = null
 
         // Send welcome email — try direct send first, fall back to queue
         try {
@@ -63,10 +64,11 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           const lovableApiKey = process.env.LOVABLE_API_KEY
           const resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY || __RESEND_API_KEY__ || ''
           const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
+          debugSupabase = supabase
 
           // Log lead (best-effort, ignore duplicate errors)
           if (supabase) {
-            await supabase.from('email_leads').insert({
+            const { error: leadError } = await supabase.from('email_leads').insert({
               email: data.email,
               source: data.source ?? null,
               utm_source: data.utm_source ?? null,
@@ -75,6 +77,7 @@ export const Route = createFileRoute('/api/public/discount-signup')({
               user_agent: data.user_agent ?? null,
               discount_code: discountCode,
             })
+            if (leadError) console.error('email_leads insert error', leadError)
           }
 
           // Check suppression list
@@ -176,6 +179,15 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           }
         } catch (err) {
           console.error('email send failed', err)
+          if (debugSupabase) {
+            await debugSupabase.from('email_send_log').insert({
+              message_id: crypto.randomUUID(),
+              template_name: 'welcome-discount',
+              recipient_email: data.email,
+              status: 'failed',
+              error_message: (err instanceof Error ? `${err.name}: ${err.message}\n${err.stack ?? ''}` : String(err)).slice(0, 1000),
+            }).then(undefined, () => {})
+          }
         }
 
         // MailerLite — adds subscriber to "Website Leads" group, triggers automation.
