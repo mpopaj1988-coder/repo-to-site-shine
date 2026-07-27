@@ -80,18 +80,21 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
           return Response.json({ error: "Property not found" }, { status: 404 });
         }
 
+        let debugSupabase: any = null;
         try {
           const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
           const lovableApiKey = process.env.LOVABLE_API_KEY;
           const resendApiKey = process.env.RESEND_API_KEY;
           const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null;
+          debugSupabase = supabase;
 
           // Log the request (reuse email_leads table, source = wifi-signup)
           if (supabase) {
-            await supabase.from("email_leads").insert({
+            const { error: leadError } = await supabase.from("email_leads").insert({
               email,
               source: `wifi-signup:${slug}`,
             });
+            if (leadError) console.error("email_leads insert error", leadError);
           }
 
           // Check suppression list
@@ -228,6 +231,15 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
         } catch (err) {
           console.error("wifi-signup email send failed", err);
           // Don't expose internal errors to client
+          if (debugSupabase) {
+            await debugSupabase.from("email_send_log").insert({
+              message_id: crypto.randomUUID(),
+              template_name: "wifi-info",
+              recipient_email: email,
+              status: "failed",
+              error_message: (err instanceof Error ? `${err.name}: ${err.message}\n${err.stack ?? ""}` : String(err)).slice(0, 1000),
+            }).then(undefined, () => {});
+          }
         }
 
         // MailerLite — only add if guest gave marketing consent
