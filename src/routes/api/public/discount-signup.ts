@@ -55,6 +55,28 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         }
         const data = parsed.data
 
+        const serviceKeyEarly = process.env.SUPABASE_SERVICE_ROLE_KEY
+        const supabaseEarly = serviceKeyEarly ? createClient(SUPABASE_URL, serviceKeyEarly) : null
+
+        // The discount code is a new-signup perk only — someone who already
+        // claimed one shouldn't get a fresh code (and fresh email) every time
+        // they resubmit the form. email_leads only allows one row per email
+        // (unique index on lower(email)), so this also tells us whether to
+        // insert a new lead row or update an existing one from another flow
+        // (e.g. a WiFi QR signup that hasn't claimed a code yet).
+        let existingLeadId: string | null = null
+        if (supabaseEarly) {
+          const { data: existingLead } = await supabaseEarly
+            .from('email_leads')
+            .select('id, discount_code')
+            .eq('email', data.email)
+            .maybeSingle()
+          if (existingLead?.discount_code) {
+            return Response.json({ ok: true, alreadyClaimed: true })
+          }
+          existingLeadId = existingLead?.id ?? null
+        }
+
         const discountCode = genDiscountCode()
         let debugSupabase: any = null
 
@@ -66,18 +88,24 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
           debugSupabase = supabase
 
-          // Log lead (best-effort, ignore duplicate errors)
+          // Log lead: update the existing row (from another flow, e.g. WiFi
+          // signup) if there is one, otherwise insert a new one. email_leads
+          // only allows one row per email (unique index on lower(email)),
+          // which is a functional index — plain-column upsert onConflict
+          // wouldn't match it, so this is done as an explicit branch instead.
           if (supabase) {
-            const { error: leadError } = await supabase.from('email_leads').insert({
-              email: data.email,
-              source: data.source ?? null,
-              utm_source: data.utm_source ?? null,
-              utm_medium: data.utm_medium ?? null,
-              utm_campaign: data.utm_campaign ?? null,
-              user_agent: data.user_agent ?? null,
-              discount_code: discountCode,
-            })
-            if (leadError) console.error('email_leads insert error', leadError)
+            const { error: leadError } = existingLeadId
+              ? await supabase.from('email_leads').update({ discount_code: discountCode }).eq('id', existingLeadId)
+              : await supabase.from('email_leads').insert({
+                  email: data.email,
+                  source: data.source ?? null,
+                  utm_source: data.utm_source ?? null,
+                  utm_medium: data.utm_medium ?? null,
+                  utm_campaign: data.utm_campaign ?? null,
+                  user_agent: data.user_agent ?? null,
+                  discount_code: discountCode,
+                })
+            if (leadError) console.error('email_leads insert/update error', leadError)
           }
 
           // Check suppression list
