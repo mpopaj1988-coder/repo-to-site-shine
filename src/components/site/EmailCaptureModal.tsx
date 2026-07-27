@@ -49,6 +49,7 @@ export function EmailCaptureModal() {
         }),
       });
       if (!res.ok) throw new Error("signup failed");
+      const resBody = await res.json().catch(() => ({}) as { alreadyClaimed?: boolean });
 
       // Best-effort: also add to the MailerLite marketing list. Not awaited —
       // this is a secondary marketing sync, not the source of the actual email.
@@ -60,7 +61,11 @@ export function EmailCaptureModal() {
       ).catch(() => {});
 
       setStatus("success");
-      setMessage("Thanks! Check your inbox — we just sent your mystery discount code for your first direct booking.");
+      setMessage(
+        resBody.alreadyClaimed
+          ? "Looks like you've already claimed your discount — check your inbox for the code from before."
+          : "Thanks! Check your inbox — we just sent your mystery discount code for your first direct booking.",
+      );
       try {
         localStorage.setItem(STORAGE_KEY, String(Date.now()));
         track("email_signup", { method: "modal" });

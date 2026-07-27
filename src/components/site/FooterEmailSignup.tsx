@@ -31,6 +31,7 @@ export function FooterEmailSignup() {
         }),
       });
       if (!res.ok) throw new Error("signup failed");
+      const resBody = await res.json().catch(() => ({}) as { alreadyClaimed?: boolean });
 
       // Best-effort: also add to the MailerLite marketing list. Not awaited —
       // this is a secondary marketing sync, not the source of the actual email.
@@ -42,7 +43,11 @@ export function FooterEmailSignup() {
       ).catch(() => {});
 
       setStatus("success");
-      setMessage("Thanks! Check your inbox for your mystery discount code.");
+      setMessage(
+        resBody.alreadyClaimed
+          ? "Looks like you've already claimed your discount — check your inbox for the code from before."
+          : "Thanks! Check your inbox for your mystery discount code.",
+      );
       track("email_signup", { method: "footer" });
       setEmail("");
     } catch {
