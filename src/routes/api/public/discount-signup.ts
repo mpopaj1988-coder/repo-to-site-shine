@@ -58,27 +58,31 @@ export const Route = createFileRoute('/api/public/discount-signup')({
         const serviceKeyEarly = process.env.SUPABASE_SERVICE_ROLE_KEY
         const supabaseEarly = serviceKeyEarly ? createClient(SUPABASE_URL, serviceKeyEarly) : null
 
-        // The discount code is a new-signup perk only — someone who already
-        // claimed one shouldn't get a fresh code (and fresh email) every time
-        // they resubmit the form. email_leads only allows one row per email
-        // (unique index on lower(email)), so this also tells us whether to
-        // insert a new lead row or update an existing one from another flow
-        // (e.g. a WiFi QR signup that hasn't claimed a code yet).
-        let existingLeadId: string | null = null
-        if (supabaseEarly) {
-          const { data: existingLead } = await supabaseEarly
-            .from('email_leads')
-            .select('id, discount_code')
-            .eq('email', data.email)
-            .maybeSingle()
-          if (existingLead?.discount_code) {
-            return Response.json({ ok: true, alreadyClaimed: true })
-          }
-          existingLeadId = existingLead?.id ?? null
-        }
-
         const discountCode = genDiscountCode()
         let debugSupabase: any = null
+
+        // Atomically claim the code for this email — creates the lead row if
+        // none exists, or fills in discount_code on an existing row that
+        // doesn't have one yet (e.g. from a WiFi QR signup). This is one
+        // database statement, so two near-simultaneous signups for the same
+        // email can't both "win" and both get a code — only one claim can
+        // ever succeed. If nothing was claimed, this email already has a
+        // code on record and shouldn't get another.
+        if (supabaseEarly) {
+          const { data: claimed, error: claimError } = await supabaseEarly.rpc('claim_discount_code', {
+            p_email: data.email,
+            p_code: discountCode,
+            p_source: data.source ?? null,
+            p_utm_source: data.utm_source ?? null,
+            p_utm_medium: data.utm_medium ?? null,
+            p_utm_campaign: data.utm_campaign ?? null,
+            p_user_agent: data.user_agent ?? null,
+          })
+          if (claimError) console.error('claim_discount_code error', claimError)
+          if (!claimError && (!claimed || claimed.length === 0)) {
+            return Response.json({ ok: true, alreadyClaimed: true })
+          }
+        }
 
         // Send welcome email — try direct send first, fall back to queue
         try {
@@ -87,26 +91,6 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           const resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY || __RESEND_API_KEY__ || ''
           const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null
           debugSupabase = supabase
-
-          // Log lead: update the existing row (from another flow, e.g. WiFi
-          // signup) if there is one, otherwise insert a new one. email_leads
-          // only allows one row per email (unique index on lower(email)),
-          // which is a functional index — plain-column upsert onConflict
-          // wouldn't match it, so this is done as an explicit branch instead.
-          if (supabase) {
-            const { error: leadError } = existingLeadId
-              ? await supabase.from('email_leads').update({ discount_code: discountCode }).eq('id', existingLeadId)
-              : await supabase.from('email_leads').insert({
-                  email: data.email,
-                  source: data.source ?? null,
-                  utm_source: data.utm_source ?? null,
-                  utm_medium: data.utm_medium ?? null,
-                  utm_campaign: data.utm_campaign ?? null,
-                  user_agent: data.user_agent ?? null,
-                  discount_code: discountCode,
-                })
-            if (leadError) console.error('email_leads insert/update error', leadError)
-          }
 
           // Check suppression list
           const suppressed = supabase
