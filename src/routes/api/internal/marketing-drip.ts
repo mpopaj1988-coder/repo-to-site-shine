@@ -111,12 +111,29 @@ async function fetchLastMinuteProperties(apiKey: string): Promise<AvailableProp[
     .map(r => r.value)
 }
 
-// Day N after signup → which template to send
+// Day N after signup → which template to send.
+// After the day-14 last-minute email, a weekly reminder continues for 8 more
+// weeks (day 21 through day 70) for anyone who still hasn't booked — see the
+// booked-email check below, which applies to every step in this schedule.
 const DRIP_SCHEDULE = [
   { templateName: 'marketing-why-book-direct', daysAfterSignup: 3 },
   { templateName: 'marketing-property-showcase', daysAfterSignup: 7 },
   { templateName: 'marketing-last-minute', daysAfterSignup: 14 },
+  { templateName: 'marketing-weekly-reminder-1', daysAfterSignup: 21 },
+  { templateName: 'marketing-weekly-reminder-2', daysAfterSignup: 28 },
+  { templateName: 'marketing-weekly-reminder-3', daysAfterSignup: 35 },
+  { templateName: 'marketing-weekly-reminder-4', daysAfterSignup: 42 },
+  { templateName: 'marketing-weekly-reminder-5', daysAfterSignup: 49 },
+  { templateName: 'marketing-weekly-reminder-6', daysAfterSignup: 56 },
+  { templateName: 'marketing-weekly-reminder-7', daysAfterSignup: 63 },
+  { templateName: 'marketing-weekly-reminder-8', daysAfterSignup: 70 },
 ] as const
+
+// Templates that carry a reminder of the recipient's own discount code, so
+// they must be rendered per-recipient instead of once per batch.
+function needsPerLeadCode(templateName: string): boolean {
+  return templateName === 'marketing-why-book-direct' || templateName.startsWith('marketing-weekly-reminder')
+}
 
 function getSeason(): string {
   const m = new Date().getMonth() + 1 // 1–12
@@ -156,6 +173,16 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
         let sent = 0
         let skipped = 0
 
+        // Anyone with a confirmed booking on file stops receiving promotional
+        // drip emails entirely — fetched once and checked for every step below.
+        const { data: confirmedBookings } = await sb
+          .from('bookings')
+          .select('guest_email')
+          .eq('status', 'confirmed')
+        const bookedEmails = new Set(
+          (confirmedBookings ?? []).map(b => b.guest_email?.toLowerCase()).filter(Boolean),
+        )
+
         for (const step of DRIP_SCHEDULE) {
           // For the last-minute step, check real Hospitable availability ONCE before
           // looping over subscribers. If nothing is open in the next 14 days, skip
@@ -187,9 +214,10 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
 
           if (!leads?.length) continue
 
-          // The why-book-direct email carries a reminder of each lead's own discount
-          // code, so it has to be rendered per-recipient instead of once per batch.
-          const needsPerLeadRender = step.templateName === 'marketing-why-book-direct'
+          // The why-book-direct and weekly-reminder emails carry a reminder of each
+          // lead's own discount code, so they have to be rendered per-recipient
+          // instead of once per batch.
+          const needsPerLeadRender = needsPerLeadCode(step.templateName)
 
           const template = TEMPLATES[step.templateName]
           const templateProps =
@@ -211,6 +239,9 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
 
           for (const lead of leads) {
             const { email, discount_code } = lead
+
+            // Anyone with a confirmed booking stops receiving promotional drip emails.
+            if (bookedEmails.has(email.toLowerCase())) { skipped++; continue }
 
             let leadHtml = html
             let leadText = text
@@ -259,8 +290,12 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
             }
 
             const messageId = crypto.randomUUID()
-            // Idempotency key prevents double-send even if this handler runs twice.
-            const idempotencyKey = `${step.templateName}-${email}`
+            // Unique per attempt (not per email) — a shared key across repeat runs
+            // makes the email API treat every later attempt as a duplicate of the
+            // first and silently skip sending it. The "already sent" check above
+            // (keyed on template_name + recipient_email) is what actually prevents
+            // double-sends across handler runs.
+            const idempotencyKey = `${step.templateName}-${messageId}`
 
             try {
               if (lovableApiKey) {
