@@ -18,6 +18,7 @@ import { render } from "@react-email/components";
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import { sendLovableEmail } from "@lovable.dev/email-js";
+import { sendResendEmail } from "@/lib/resend-email";
 import { TEMPLATES } from "@/lib/email-templates/registry";
 import type { BookingConfirmationProps } from "@/lib/email-templates/booking-confirmation";
 import type { BookingOwnerNotificationProps } from "@/lib/email-templates/booking-owner-notification";
@@ -271,6 +272,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
         // Send confirmation email.
         try {
           const lovableApiKey = process.env.LOVABLE_API_KEY;
+          const resendApiKey = process.env.RESEND_API_KEY;
           const template = TEMPLATES["booking-confirmation"];
           const props: BookingConfirmationProps = {
             guestName: guestName ?? "Guest",
@@ -309,6 +311,26 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
                 message_id: messageId,
               },
               { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+            );
+            await sb.from("email_send_log").insert({
+              message_id: messageId,
+              template_name: "booking-confirmation",
+              recipient_email: guestEmail,
+              status: "sent",
+            });
+          } else if (resendApiKey) {
+            await sendResendEmail(
+              {
+                to: guestEmail,
+                from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                subject,
+                html,
+                text,
+                reply_to: `vacation@${FROM_DOMAIN}`,
+                idempotency_key: `booking-confirm-${sessionId}`,
+                message_id: messageId,
+              },
+              { apiKey: resendApiKey },
             );
             await sb.from("email_send_log").insert({
               message_id: messageId,
@@ -370,6 +392,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
         // Send owner notification email.
         try {
           const lovableApiKey = process.env.LOVABLE_API_KEY;
+          const resendApiKey = process.env.RESEND_API_KEY;
           const ownerTemplate = TEMPLATES["booking-owner-notification"];
           const ownerProps: BookingOwnerNotificationProps = {
             guestName: guestName ?? "Unknown",
@@ -411,6 +434,26 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
                 message_id: ownerMessageId,
               },
               { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+            );
+            await sb.from("email_send_log").insert({
+              message_id: ownerMessageId,
+              template_name: "booking-owner-notification",
+              recipient_email: OWNER_EMAIL,
+              status: "sent",
+            });
+          } else if (resendApiKey) {
+            await sendResendEmail(
+              {
+                to: OWNER_EMAIL,
+                from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                subject: ownerSubject,
+                html: ownerHtml,
+                text: ownerText,
+                reply_to: `vacation@${FROM_DOMAIN}`,
+                idempotency_key: `booking-owner-${sessionId}`,
+                message_id: ownerMessageId,
+              },
+              { apiKey: resendApiKey },
             );
             await sb.from("email_send_log").insert({
               message_id: ownerMessageId,

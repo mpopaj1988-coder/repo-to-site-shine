@@ -3,6 +3,7 @@ import { render } from "@react-email/components";
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { sendLovableEmail } from "@lovable.dev/email-js";
+import { sendResendEmail } from "@/lib/resend-email";
 import { TEMPLATES } from "@/lib/email-templates/registry";
 import type { BookingCancellationProps } from "@/lib/email-templates/booking-cancellation";
 
@@ -120,6 +121,7 @@ export const cancelBooking = createServerFn({ method: "POST" })
       // Send cancellation email.
       try {
         const lovableApiKey = process.env.LOVABLE_API_KEY;
+        const resendApiKey = process.env.RESEND_API_KEY;
         const template = TEMPLATES["booking-cancellation"];
         const props: BookingCancellationProps = {
           guestName: row.guest_name ?? "Guest",
@@ -151,6 +153,19 @@ export const cancelBooking = createServerFn({ method: "POST" })
               idempotency_key: `booking-cancel-${row.id}`,
             },
             { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
+          );
+        } else if (resendApiKey) {
+          await sendResendEmail(
+            {
+              to: row.guest_email,
+              from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+              subject,
+              html,
+              text,
+              reply_to: `vacation@${FROM_DOMAIN}`,
+              idempotency_key: `booking-cancel-${row.id}`,
+            },
+            { apiKey: resendApiKey },
           );
         } else {
           await sb.rpc("enqueue_email", {

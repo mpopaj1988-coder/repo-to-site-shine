@@ -1,6 +1,8 @@
 import * as React from "react";
 import { render } from "@react-email/components";
 import { sendLovableEmail } from "@lovable.dev/email-js";
+import { sendResendEmail } from "@/lib/resend-email";
+import { drainEmailQueue } from "@/lib/email-queue";
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -81,6 +83,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
         try {
           const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
           const lovableApiKey = process.env.LOVABLE_API_KEY;
+          const resendApiKey = process.env.RESEND_API_KEY;
           const supabase = serviceKey ? createClient(SUPABASE_URL, serviceKey) : null;
 
           // Log the request (reuse email_leads table, source = wifi-signup)
@@ -171,6 +174,29 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
                   status: "sent",
                 });
               }
+            } else if (resendApiKey) {
+              await sendResendEmail(
+                {
+                  to: email,
+                  from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+                  subject,
+                  html,
+                  text: plainText,
+                  reply_to: `vacation@${FROM_DOMAIN}`,
+                  idempotency_key: idempotencyKey,
+                  unsubscribe_token: unsubscribeToken,
+                  message_id: messageId,
+                },
+                { apiKey: resendApiKey },
+              );
+              if (supabase) {
+                await supabase.from("email_send_log").insert({
+                  message_id: messageId,
+                  template_name: "wifi-info",
+                  recipient_email: email,
+                  status: "sent",
+                });
+              }
             } else if (supabase) {
               await supabase.from("email_send_log").insert({
                 message_id: messageId,
@@ -196,7 +222,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
                 },
               });
             } else {
-              console.error("No email path available: LOVABLE_API_KEY and SUPABASE_SERVICE_ROLE_KEY both missing");
+              console.error("No email path available: LOVABLE_API_KEY, RESEND_API_KEY, and SUPABASE_SERVICE_ROLE_KEY are all missing");
             }
           }
         } catch (err) {
@@ -234,6 +260,20 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
           }
         } catch (err) {
           console.error("mailerlite wifi-guest sync failed", err);
+        }
+
+        // Opportunistically drain any backlog in the email queue — see discount-signup.ts
+        // for why this runs here instead of relying solely on the scheduled cron.
+        try {
+          const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+          const lovableApiKey = process.env.LOVABLE_API_KEY;
+          const resendApiKey = process.env.RESEND_API_KEY;
+          if (serviceKey && (lovableApiKey || resendApiKey)) {
+            const supabase = createClient(SUPABASE_URL, serviceKey);
+            await drainEmailQueue(supabase, { lovableApiKey, resendApiKey });
+          }
+        } catch (err) {
+          console.error("opportunistic queue drain failed", err);
         }
 
         return Response.json({
