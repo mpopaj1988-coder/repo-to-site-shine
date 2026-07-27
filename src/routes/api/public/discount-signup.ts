@@ -2,6 +2,7 @@ import * as React from 'react'
 import { render } from '@react-email/components'
 import { sendLovableEmail } from '@lovable.dev/email-js'
 import { sendResendEmail } from '@/lib/resend-email'
+import { drainEmailQueue } from '@/lib/email-queue'
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
@@ -212,6 +213,22 @@ export const Route = createFileRoute('/api/public/discount-signup')({
           }
         } catch (err) {
           console.error('mailerlite sync failed', err)
+        }
+
+        // Opportunistically drain any backlog in the email queue. This means the
+        // queue keeps clearing out on real signup traffic even if the scheduled
+        // cron trigger doesn't fire — signups are the most common site event, so
+        // this is a reliable, low-cost place to piggyback queue draining.
+        try {
+          const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+          const lovableApiKey = process.env.LOVABLE_API_KEY
+          const resendApiKey = process.env.RESEND_API_KEY || process.env.VITE_RESEND_API_KEY || __RESEND_API_KEY__ || ''
+          if (serviceKey && (lovableApiKey || resendApiKey)) {
+            const supabase = createClient(SUPABASE_URL, serviceKey)
+            await drainEmailQueue(supabase, { lovableApiKey, resendApiKey })
+          }
+        } catch (err) {
+          console.error('opportunistic queue drain failed', err)
         }
 
         return Response.json({ ok: true })
