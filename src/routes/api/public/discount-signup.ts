@@ -108,7 +108,10 @@ export const Route = createFileRoute('/api/public/discount-signup')({
             const subject = typeof template.subject === 'function'
               ? template.subject({ code: discountCode }) : template.subject
             const messageId = crypto.randomUUID()
-            const idempotencyKey = `welcome-discount-${data.email}`
+            // Unique per attempt (not per email) — a shared key across repeat
+            // signups makes the email API treat every later attempt as a
+            // duplicate of the first and silently skip sending it.
+            const idempotencyKey = `welcome-discount-${messageId}`
 
             if (lovableApiKey) {
               // Direct send — no queue, no cron needed
