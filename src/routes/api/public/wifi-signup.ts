@@ -126,6 +126,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
               }
             }
 
+            const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
             const template = TEMPLATES["wifi-info"];
             const templateData = {
               propertyName: config.propertyName,
@@ -139,6 +140,7 @@ export const Route = createFileRoute("/api/public/wifi-signup")({
               notes: config.notes,
               guideSlug: config.guideSlug,
               listingSlug: slug,
+              unsubscribeUrl,
             };
 
             const element = React.createElement(template.component, templateData);

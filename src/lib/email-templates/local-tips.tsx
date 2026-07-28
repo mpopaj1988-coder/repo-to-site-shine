@@ -2,6 +2,7 @@ import {
   Body, Button, Container, Head, Heading, Hr, Html, Preview, Section, Text,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
@@ -10,9 +11,10 @@ interface LocalTipsProps {
   title: string
   description: string
   slug: string
+  unsubscribeUrl?: string
 }
 
-const LocalTipsEmail = ({ title, description, slug }: LocalTipsProps) => (
+const LocalTipsEmail = ({ title, description, slug, unsubscribeUrl }: LocalTipsProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>{description}</Preview>
@@ -39,6 +41,7 @@ const LocalTipsEmail = ({ title, description, slug }: LocalTipsProps) => (
 
           <Hr style={hr} />
           <Text style={footer}>The {SITE_NAME} team</Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

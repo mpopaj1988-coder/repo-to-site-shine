@@ -252,7 +252,8 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
         }
 
         // 4. Render React Email template to HTML and plain text
-        const element = React.createElement(template.component, templateData)
+        const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
+        const element = React.createElement(template.component, { ...templateData, unsubscribeUrl })
         const html = await render(element)
         const plainText = await render(element, { plainText: true })
 

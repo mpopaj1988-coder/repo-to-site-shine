@@ -224,46 +224,19 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
 
           if (!leads.length) continue
 
-          // The why-book-direct and weekly-reminder emails carry a reminder of each
-          // lead's own discount code, so they have to be rendered per-recipient
-          // instead of once per batch.
-          const needsPerLeadRender = needsPerLeadCode(step.templateName)
-
+          // Every template is now rendered per-recipient (not once per batch)
+          // because each one needs its own guest-specific unsubscribe link.
           const template = TEMPLATES[step.templateName]
-          const templateProps =
+          const baseProps =
             step.templateName === 'marketing-property-showcase' ? { season }
             : step.templateName === 'marketing-last-minute' ? { availableProps: lastMinuteProps }
             : {}
-
-          let html = ''
-          let text = ''
-          let subject = ''
-          if (!needsPerLeadRender) {
-            const element = React.createElement(template.component, templateProps)
-            html = await render(element)
-            text = await render(element, { plainText: true })
-            subject = typeof template.subject === 'function'
-              ? template.subject({ season })
-              : template.subject
-          }
 
           for (const lead of leads) {
             const { email, discount_code } = lead
 
             // Anyone with a confirmed booking stops receiving promotional drip emails.
             if (bookedEmails.has(email.toLowerCase())) { skipped++; continue }
-
-            let leadHtml = html
-            let leadText = text
-            let leadSubject = subject
-            if (needsPerLeadRender) {
-              const element = React.createElement(template.component, { code: discount_code })
-              leadHtml = await render(element)
-              leadText = await render(element, { plainText: true })
-              leadSubject = typeof template.subject === 'function'
-                ? template.subject({ code: discount_code })
-                : template.subject
-            }
 
             // Skip suppressed addresses.
             const { data: suppressed } = await sb
@@ -298,6 +271,17 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
                 { onConflict: 'email' },
               )
             }
+            const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
+
+            const leadProps = needsPerLeadCode(step.templateName)
+              ? { ...baseProps, code: discount_code, unsubscribeUrl }
+              : { ...baseProps, unsubscribeUrl }
+            const element = React.createElement(template.component, leadProps)
+            const leadHtml = await render(element)
+            const leadText = await render(element, { plainText: true })
+            const leadSubject = typeof template.subject === 'function'
+              ? template.subject(leadProps)
+              : template.subject
 
             const messageId = crypto.randomUUID()
             // Unique per attempt (not per email) — a shared key across repeat runs

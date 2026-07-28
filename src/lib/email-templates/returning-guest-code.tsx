@@ -2,12 +2,17 @@ import {
   Body, Button, Container, Head, Heading, Hr, Html, Preview, Section, Text,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
 const CODE = 'RETURN10'
 
-const ReturningGuestCodeEmail = () => (
+interface ReturningGuestCodeProps {
+  unsubscribeUrl?: string
+}
+
+const ReturningGuestCodeEmail = ({ unsubscribeUrl }: ReturningGuestCodeProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Your returning-guest code for 10% off is inside</Preview>
@@ -45,6 +50,7 @@ const ReturningGuestCodeEmail = () => (
 
           <Hr style={hr} />
           <Text style={footer}>The {SITE_NAME} team</Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

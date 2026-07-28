@@ -2,6 +2,7 @@ import {
   Body, Button, Container, Head, Heading, Hr, Html, Preview, Section, Text, Row, Column,
 } from "@react-email/components";
 import type { TemplateEntry } from "./registry";
+import { UnsubscribeFooter } from "./UnsubscribeFooter";
 
 const SITE_NAME = "Sea & City Rentals";
 const SITE_URL = "https://seaandcityrentals.com";
@@ -18,6 +19,7 @@ interface WifiInfoProps {
   notes?: string[];
   guideSlug?: string;
   listingSlug?: string;
+  unsubscribeUrl?: string;
 }
 
 const WifiInfoEmail = ({
@@ -32,6 +34,7 @@ const WifiInfoEmail = ({
   notes = [],
   guideSlug,
   listingSlug,
+  unsubscribeUrl,
 }: WifiInfoProps) => {
   const guideUrl = guideSlug ? `${SITE_URL}/explore/${guideSlug}` : null;
   const bookUrl = listingSlug ? `${SITE_URL}/listings/${listingSlug}` : `${SITE_URL}/properties`;
@@ -130,6 +133,7 @@ const WifiInfoEmail = ({
             <Text style={footer}>
               Enjoy your stay — The {SITE_NAME} team · {emergencyContact}
             </Text>
+            <UnsubscribeFooter url={unsubscribeUrl} />
           </Section>
         </Container>
       </Body>

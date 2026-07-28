@@ -113,8 +113,9 @@ export const Route = createFileRoute('/api/public/discount-signup')({
               }
             }
 
+            const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
             const template = TEMPLATES['welcome-discount']
-            const element = React.createElement(template.component, { code: discountCode })
+            const element = React.createElement(template.component, { code: discountCode, unsubscribeUrl })
             const html = await render(element)
             const plainText = await render(element, { plainText: true })
             const subject = typeof template.subject === 'function'
