@@ -20,6 +20,13 @@ const COMEBACK_NUDGE_DAYS = 30
 const LOCAL_TIPS_START_DAYS = 60
 const LOCAL_TIPS_REPEAT_DAYS = 28
 
+// WiFi QR guests (booked via Airbnb/VRBO/etc, so we only know them from the
+// WiFi signup, not a checkout date) get a slower, lighter sequence — no
+// review request, and quarterly instead of monthly tips.
+const WIFI_COMEBACK_NUDGE_DAYS = 45
+const WIFI_LOCAL_TIPS_START_DAYS = 90
+const WIFI_LOCAL_TIPS_REPEAT_DAYS = 90
+
 type Booking = {
   id: string
   guest_email: string
@@ -28,9 +35,19 @@ type Booking = {
   check_out: string
 }
 
+type WifiLead = {
+  id: string
+  email: string
+  created_at: string
+}
+
 function daysSince(dateStr: string, now: Date): number {
   const then = new Date(dateStr + 'T00:00:00Z').getTime()
   return Math.floor((now.getTime() - then) / (1000 * 60 * 60 * 24))
+}
+
+function daysSinceTimestamp(isoTimestamp: string, now: Date): number {
+  return Math.floor((now.getTime() - new Date(isoTimestamp).getTime()) / (1000 * 60 * 60 * 24))
 }
 
 function genToken(): string {
@@ -78,6 +95,20 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
           .limit(1000)
 
         const allBookings = (bookings ?? []) as Booking[]
+        const bookedEmails = new Set(allBookings.map((b) => b.guest_email.toLowerCase()))
+
+        // WiFi QR guests — the only record we have of guests who stayed but
+        // booked through another platform (Airbnb, VRBO, etc). Excludes anyone
+        // who also shows up in `bookings`, since those guests already get the
+        // more attentive, checkout-dated sequence above.
+        const { data: wifiLeadRows } = await sb
+          .from('email_leads')
+          .select('id, email, created_at, source')
+          .ilike('source', 'wifi-signup:%')
+          .limit(1000)
+        const wifiLeads = ((wifiLeadRows ?? []) as (WifiLead & { source: string })[]).filter(
+          (l) => !bookedEmails.has(l.email.toLowerCase()),
+        )
 
         const { data: suppressedRows } = await sb.from('suppressed_emails').select('email')
         const suppressed = new Set((suppressedRows ?? []).map((r) => r.email.toLowerCase()))
@@ -248,6 +279,30 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
           })
         }
 
+        async function daysSinceLastSend(email: string, templateName: string): Promise<number | null> {
+          const { data: lastSent } = await sb
+            .from('email_send_log')
+            .select('created_at')
+            .eq('recipient_email', email)
+            .eq('template_name', templateName)
+            .eq('status', 'sent')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle()
+          if (!lastSent) return null
+          return Math.floor((now.getTime() - new Date(lastSent.created_at).getTime()) / (1000 * 60 * 60 * 24))
+        }
+
+        async function sendLocalTips(email: string, post: NonNullable<ReturnType<typeof pickMonthlyPost>>) {
+          const template = TEMPLATES['local-tips']
+          const props = { title: post.title, description: post.description, slug: post.slug }
+          const element = React.createElement(template.component, props)
+          const html = await render(element)
+          const text = await render(element, { plainText: true })
+          const subject = typeof template.subject === 'function' ? template.subject(props) : template.subject
+          await sendEmail({ to: email, subject, html, text, templateName: 'local-tips' })
+        }
+
         // ---------------------------------------------------------------
         // Step 3: local tips — recurring monthly per guest, starting a bit
         // after the come-back nudge window so sends don't collide.
@@ -263,31 +318,62 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
           for (const email of tipsEligibleEmails) {
             if (suppressed.has(email.toLowerCase())) { skipped++; continue }
 
-            const { data: lastSent } = await sb
-              .from('email_send_log')
-              .select('created_at')
-              .eq('recipient_email', email)
-              .eq('template_name', 'local-tips')
-              .eq('status', 'sent')
-              .order('created_at', { ascending: false })
-              .limit(1)
-              .maybeSingle()
+            const daysSinceLast = await daysSinceLastSend(email, 'local-tips')
+            if (daysSinceLast !== null && daysSinceLast < LOCAL_TIPS_REPEAT_DAYS) { skipped++; continue }
 
-            if (lastSent) {
-              const daysSinceLast = Math.floor(
-                (now.getTime() - new Date(lastSent.created_at).getTime()) / (1000 * 60 * 60 * 24),
-              )
-              if (daysSinceLast < LOCAL_TIPS_REPEAT_DAYS) { skipped++; continue }
-            }
+            await sendLocalTips(email, monthlyPost)
+          }
+        }
 
-            const template = TEMPLATES['local-tips']
-            const props = { title: monthlyPost.title, description: monthlyPost.description, slug: monthlyPost.slug }
-            const element = React.createElement(template.component, props)
-            const html = await render(element)
-            const text = await render(element, { plainText: true })
-            const subject = typeof template.subject === 'function' ? template.subject(props) : template.subject
+        // ---------------------------------------------------------------
+        // Step 4: WiFi QR guest come-back nudge — once per guest, ~45 days
+        // after their WiFi signup. Dedup checks for ANY prior send (not
+        // scoped to this lead) so it never collides with Step 2's nudge if
+        // the same person later becomes a confirmed direct booker.
+        // ---------------------------------------------------------------
+        const wifiComebackCandidates = wifiLeads.filter(
+          (l) => daysSinceTimestamp(l.created_at, now) >= WIFI_COMEBACK_NUDGE_DAYS,
+        )
+        for (const lead of wifiComebackCandidates) {
+          const email = lead.email
+          if (suppressed.has(email.toLowerCase())) { skipped++; continue }
 
-            await sendEmail({ to: email, subject, html, text, templateName: 'local-tips' })
+          const { data: alreadySent } = await sb
+            .from('email_send_log')
+            .select('id')
+            .eq('recipient_email', email)
+            .eq('template_name', 'returning-guest-code')
+            .eq('status', 'sent')
+            .maybeSingle()
+          if (alreadySent) { skipped++; continue }
+
+          const template = TEMPLATES['returning-guest-code']
+          const element = React.createElement(template.component, {})
+          const html = await render(element)
+          const text = await render(element, { plainText: true })
+          const subject = typeof template.subject === 'function' ? template.subject({}) : template.subject
+
+          await sendEmail({ to: email, subject, html, text, templateName: 'returning-guest-code' })
+        }
+
+        // ---------------------------------------------------------------
+        // Step 5: WiFi QR guest local tips — recurring quarterly, starting
+        // ~90 days after signup. Shares the 'local-tips' log with Step 3, so
+        // a guest who's also a confirmed direct booker (and getting the
+        // monthly cadence there) will naturally skip here too.
+        // ---------------------------------------------------------------
+        const wifiTipsEligible = wifiLeads.filter(
+          (l) => daysSinceTimestamp(l.created_at, now) >= WIFI_LOCAL_TIPS_START_DAYS,
+        )
+        if (monthlyPost) {
+          for (const lead of wifiTipsEligible) {
+            const email = lead.email
+            if (suppressed.has(email.toLowerCase())) { skipped++; continue }
+
+            const daysSinceLast = await daysSinceLastSend(email, 'local-tips')
+            if (daysSinceLast !== null && daysSinceLast < WIFI_LOCAL_TIPS_REPEAT_DAYS) { skipped++; continue }
+
+            await sendLocalTips(email, monthlyPost)
           }
         }
 
