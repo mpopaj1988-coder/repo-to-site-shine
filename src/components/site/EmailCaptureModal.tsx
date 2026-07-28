@@ -19,9 +19,6 @@ export function EmailCaptureModal() {
 
   function dismiss() {
     setOpen(false);
-    try {
-      localStorage.setItem(STORAGE_KEY, String(Date.now()));
-    } catch {}
   }
 
   async function onSubmit(e: React.FormEvent) {
