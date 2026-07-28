@@ -5,6 +5,9 @@ on:
     - cron: "0 9 * * 1" # Every Monday at 9 AM UTC
   workflow_dispatch: # Allow manual run from the Actions tab
 
+permissions:
+  issues: write
+
 jobs:
   health-check:
     name: Check key pages
