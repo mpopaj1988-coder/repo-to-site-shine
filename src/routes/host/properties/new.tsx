@@ -4,7 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { PropertyForm } from "@/components/site/PropertyForm";
 
 export const Route = createFileRoute("/host/properties/new")({
-  head: () => ({ meta: [{ title: "Add Property — GuestConnect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Add Property — GuestConnect" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   component: NewPropertyPage,
 });
 
@@ -51,7 +56,10 @@ function NewPropertyPage() {
   return (
     <div style={pageStyle}>
       <nav style={navStyle}>
-        <Link to="/host/dashboard" style={{ fontWeight: 800, fontSize: "18px", color: "#1A3A4A", textDecoration: "none" }}>
+        <Link
+          to="/host/dashboard"
+          style={{ fontWeight: 800, fontSize: "18px", color: "#1A3A4A", textDecoration: "none" }}
+        >
           ← Dashboard
         </Link>
       </nav>
@@ -64,10 +72,27 @@ function NewPropertyPage() {
   );
 }
 
-const pageStyle: React.CSSProperties = { minHeight: "100vh", background: "#F8FAFB", fontFamily: "Arial, sans-serif" };
-const navStyle: React.CSSProperties = { background: "#fff", borderBottom: "1px solid #eee", padding: "16px 32px" };
-const mainStyle: React.CSSProperties = { maxWidth: "700px", margin: "0 auto", padding: "40px 24px" };
-const headingStyle: React.CSSProperties = { fontSize: "28px", fontWeight: 800, color: "#1A3A4A", margin: "0 0 32px" };
+const pageStyle: React.CSSProperties = {
+  minHeight: "100vh",
+  background: "#F8FAFB",
+  fontFamily: "Arial, sans-serif",
+};
+const navStyle: React.CSSProperties = {
+  background: "#fff",
+  borderBottom: "1px solid #eee",
+  padding: "16px 32px",
+};
+const mainStyle: React.CSSProperties = {
+  maxWidth: "700px",
+  margin: "0 auto",
+  padding: "40px 24px",
+};
+const headingStyle: React.CSSProperties = {
+  fontSize: "28px",
+  fontWeight: 800,
+  color: "#1A3A4A",
+  margin: "0 0 32px",
+};
 const errorStyle: React.CSSProperties = {
   color: "#e53e3e",
   background: "#fff5f5",

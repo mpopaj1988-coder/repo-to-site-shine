@@ -3,7 +3,12 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/host/signup")({
-  head: () => ({ meta: [{ title: "Start free trial — GuestConnect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Start free trial — GuestConnect" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+  }),
   component: HostSignupPage,
 });
 
@@ -109,7 +114,15 @@ function HostSignupPage() {
           </button>
         </form>
 
-        <p style={{ textAlign: "center", color: "#666", fontSize: "13px", marginTop: "20px", lineHeight: 1.5 }}>
+        <p
+          style={{
+            textAlign: "center",
+            color: "#666",
+            fontSize: "13px",
+            marginTop: "20px",
+            lineHeight: 1.5,
+          }}
+        >
           By signing up you agree to our terms and privacy policy.
         </p>
         <p style={{ textAlign: "center", color: "#666", fontSize: "14px", marginTop: "12px" }}>

@@ -3,7 +3,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/host/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — GuestConnect" }] }),
+  head: () => ({
+    meta: [{ title: "Dashboard — GuestConnect" }, { name: "robots", content: "noindex, nofollow" }],
+  }),
   component: HostDashboard,
 });
 
@@ -104,10 +106,9 @@ function HostDashboard() {
     link.click();
   };
 
-  const trialDaysLeft =
-    profile?.trial_ends_at
-      ? Math.max(0, Math.ceil((new Date(profile.trial_ends_at).getTime() - Date.now()) / 86400000))
-      : null;
+  const trialDaysLeft = profile?.trial_ends_at
+    ? Math.max(0, Math.ceil((new Date(profile.trial_ends_at).getTime() - Date.now()) / 86400000))
+    : null;
 
   if (loading) {
     return (
@@ -121,7 +122,10 @@ function HostDashboard() {
     <div style={pageStyle}>
       {/* TOP NAV */}
       <nav style={navStyle}>
-        <Link to="/host" style={{ fontWeight: 800, fontSize: "18px", color: "#1A3A4A", textDecoration: "none" }}>
+        <Link
+          to="/host"
+          style={{ fontWeight: 800, fontSize: "18px", color: "#1A3A4A", textDecoration: "none" }}
+        >
           GuestConnect
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -140,8 +144,7 @@ function HostDashboard() {
         {/* TRIAL BANNER */}
         {profile?.subscription_status === "trialing" && trialDaysLeft !== null && (
           <div style={trialBannerStyle}>
-            🎉 You're on your free trial — <strong>{trialDaysLeft} days left</strong>.
-            &nbsp;
+            🎉 You're on your free trial — <strong>{trialDaysLeft} days left</strong>. &nbsp;
             <a href="#" style={{ color: "#1A3A4A", fontWeight: 700, textDecoration: "underline" }}>
               Add payment method →
             </a>
@@ -149,7 +152,16 @@ function HostDashboard() {
         )}
 
         {/* HEADER */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "32px", flexWrap: "wrap", gap: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "32px",
+            flexWrap: "wrap",
+            gap: "12px",
+          }}
+        >
           <div>
             <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#1A3A4A", margin: "0 0 4px" }}>
               Your Properties
@@ -180,19 +192,44 @@ function HostDashboard() {
         )}
 
         {/* PROPERTY CARDS */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "20px" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gap: "20px",
+          }}
+        >
           {properties.map((prop) => (
             <div key={prop.id} style={propertyCardStyle}>
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                  marginBottom: "12px",
+                }}
+              >
                 <div>
-                  <h3 style={{ fontSize: "17px", fontWeight: 700, color: "#1A3A4A", margin: "0 0 4px" }}>
+                  <h3
+                    style={{
+                      fontSize: "17px",
+                      fontWeight: 700,
+                      color: "#1A3A4A",
+                      margin: "0 0 4px",
+                    }}
+                  >
                     {prop.property_name}
                   </h3>
                   <a
                     href={`/wifi/${prop.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: "#C9A84C", fontSize: "13px", textDecoration: "none", fontWeight: 600 }}
+                    style={{
+                      color: "#C9A84C",
+                      fontSize: "13px",
+                      textDecoration: "none",
+                      fontWeight: 600,
+                    }}
                   >
                     /wifi/{prop.slug} ↗
                   </a>
@@ -212,14 +249,23 @@ function HostDashboard() {
                 </span>
               </div>
 
-              <div style={{ background: "#F8FAFB", borderRadius: "8px", padding: "12px 14px", marginBottom: "16px" }}>
+              <div
+                style={{
+                  background: "#F8FAFB",
+                  borderRadius: "8px",
+                  padding: "12px 14px",
+                  marginBottom: "16px",
+                }}
+              >
                 <div style={wifiRowStyle}>
                   <span style={wifiLabelStyle}>Network</span>
                   <span style={wifiValueStyle}>{prop.wifi_network || "—"}</span>
                 </div>
                 <div style={wifiRowStyle}>
                   <span style={wifiLabelStyle}>Password</span>
-                  <span style={{ ...wifiValueStyle, fontFamily: "monospace", letterSpacing: "0.05em" }}>
+                  <span
+                    style={{ ...wifiValueStyle, fontFamily: "monospace", letterSpacing: "0.05em" }}
+                  >
                     {prop.wifi_password || "—"}
                   </span>
                 </div>
@@ -232,11 +278,7 @@ function HostDashboard() {
                 >
                   ⬇ QR Code
                 </button>
-                <Link
-                  to="/host/properties/$id"
-                  params={{ id: prop.id }}
-                  style={secondaryBtnStyle}
-                >
+                <Link to="/host/properties/$id" params={{ id: prop.id }} style={secondaryBtnStyle}>
                   Edit
                 </Link>
                 <button

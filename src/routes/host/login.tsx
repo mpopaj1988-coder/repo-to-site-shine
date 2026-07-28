@@ -3,7 +3,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/host/login")({
-  head: () => ({ meta: [{ title: "Log in — GuestConnect" }] }),
+  head: () => ({
+    meta: [{ title: "Log in — GuestConnect" }, { name: "robots", content: "noindex, nofollow" }],
+  }),
   component: HostLoginPage,
 });
 
