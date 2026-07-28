@@ -42,14 +42,13 @@ import { Route as ApiWebhooksStripeRouteImport } from './routes/api/webhooks/str
 import { Route as ApiPublicWifiSignupRouteImport } from './routes/api/public/wifi-signup'
 import { Route as ApiPublicReturningGuestCodeRouteImport } from './routes/api/public/returning-guest-code'
 import { Route as ApiPublicRefreshReviewsRouteImport } from './routes/api/public/refresh-reviews'
-import { Route as ApiPublicRebookingCampaignRouteImport } from './routes/api/public/rebooking-campaign'
 import { Route as ApiPublicProcessUpsellRepliesRouteImport } from './routes/api/public/process-upsell-replies'
-import { Route as ApiPublicProcessRebookingRepliesRouteImport } from './routes/api/public/process-rebooking-replies'
 import { Route as ApiPublicPreArrivalMessageRouteImport } from './routes/api/public/pre-arrival-message'
 import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/public/post-checkout-message'
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicGuestgrowthLeadRouteImport } from './routes/api/public/guestgrowth-lead'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
+import { Route as ApiInternalPostStayDripRouteImport } from './routes/api/internal/post-stay-drip'
 import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
 import { Route as ApiHostPropertiesRouteImport } from './routes/api/host/properties'
 import { Route as ApiHostProfileRouteImport } from './routes/api/host/profile'
@@ -223,22 +222,10 @@ const ApiPublicRefreshReviewsRoute = ApiPublicRefreshReviewsRouteImport.update({
   path: '/api/public/refresh-reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicRebookingCampaignRoute =
-  ApiPublicRebookingCampaignRouteImport.update({
-    id: '/api/public/rebooking-campaign',
-    path: '/api/public/rebooking-campaign',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicProcessUpsellRepliesRoute =
   ApiPublicProcessUpsellRepliesRouteImport.update({
     id: '/api/public/process-upsell-replies',
     path: '/api/public/process-upsell-replies',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicProcessRebookingRepliesRoute =
-  ApiPublicProcessRebookingRepliesRouteImport.update({
-    id: '/api/public/process-rebooking-replies',
-    path: '/api/public/process-rebooking-replies',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicPreArrivalMessageRoute =
@@ -268,6 +255,11 @@ const ApiPublicGuestgrowthLeadRoute =
 const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   id: '/api/public/discount-signup',
   path: '/api/public/discount-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInternalPostStayDripRoute = ApiInternalPostStayDripRouteImport.update({
+  id: '/api/internal/post-stay-drip',
+  path: '/api/internal/post-stay-drip',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiInternalMarketingDripRoute =
@@ -334,14 +326,13 @@ export interface FileRoutesByFullPath {
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
+  '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
-  '/api/public/process-rebooking-replies': typeof ApiPublicProcessRebookingRepliesRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
-  '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/api/public/returning-guest-code': typeof ApiPublicReturningGuestCodeRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
@@ -383,14 +374,13 @@ export interface FileRoutesByTo {
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
+  '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
-  '/api/public/process-rebooking-replies': typeof ApiPublicProcessRebookingRepliesRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
-  '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/api/public/returning-guest-code': typeof ApiPublicReturningGuestCodeRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
@@ -433,14 +423,13 @@ export interface FileRoutesById {
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
+  '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
   '/api/public/post-checkout-message': typeof ApiPublicPostCheckoutMessageRoute
   '/api/public/pre-arrival-message': typeof ApiPublicPreArrivalMessageRoute
-  '/api/public/process-rebooking-replies': typeof ApiPublicProcessRebookingRepliesRoute
   '/api/public/process-upsell-replies': typeof ApiPublicProcessUpsellRepliesRoute
-  '/api/public/rebooking-campaign': typeof ApiPublicRebookingCampaignRoute
   '/api/public/refresh-reviews': typeof ApiPublicRefreshReviewsRoute
   '/api/public/returning-guest-code': typeof ApiPublicReturningGuestCodeRoute
   '/api/public/wifi-signup': typeof ApiPublicWifiSignupRoute
@@ -484,14 +473,13 @@ export interface FileRouteTypes {
     | '/api/host/profile'
     | '/api/host/properties'
     | '/api/internal/marketing-drip'
+    | '/api/internal/post-stay-drip'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
-    | '/api/public/process-rebooking-replies'
     | '/api/public/process-upsell-replies'
-    | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
     | '/api/public/returning-guest-code'
     | '/api/public/wifi-signup'
@@ -533,14 +521,13 @@ export interface FileRouteTypes {
     | '/api/host/profile'
     | '/api/host/properties'
     | '/api/internal/marketing-drip'
+    | '/api/internal/post-stay-drip'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
-    | '/api/public/process-rebooking-replies'
     | '/api/public/process-upsell-replies'
-    | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
     | '/api/public/returning-guest-code'
     | '/api/public/wifi-signup'
@@ -582,14 +569,13 @@ export interface FileRouteTypes {
     | '/api/host/profile'
     | '/api/host/properties'
     | '/api/internal/marketing-drip'
+    | '/api/internal/post-stay-drip'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
     | '/api/public/post-checkout-message'
     | '/api/public/pre-arrival-message'
-    | '/api/public/process-rebooking-replies'
     | '/api/public/process-upsell-replies'
-    | '/api/public/rebooking-campaign'
     | '/api/public/refresh-reviews'
     | '/api/public/returning-guest-code'
     | '/api/public/wifi-signup'
@@ -629,14 +615,13 @@ export interface RootRouteChildren {
   ApiHostProfileRoute: typeof ApiHostProfileRoute
   ApiHostPropertiesRoute: typeof ApiHostPropertiesRoute
   ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
+  ApiInternalPostStayDripRoute: typeof ApiInternalPostStayDripRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicGuestgrowthLeadRoute: typeof ApiPublicGuestgrowthLeadRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
   ApiPublicPostCheckoutMessageRoute: typeof ApiPublicPostCheckoutMessageRoute
   ApiPublicPreArrivalMessageRoute: typeof ApiPublicPreArrivalMessageRoute
-  ApiPublicProcessRebookingRepliesRoute: typeof ApiPublicProcessRebookingRepliesRoute
   ApiPublicProcessUpsellRepliesRoute: typeof ApiPublicProcessUpsellRepliesRoute
-  ApiPublicRebookingCampaignRoute: typeof ApiPublicRebookingCampaignRoute
   ApiPublicRefreshReviewsRoute: typeof ApiPublicRefreshReviewsRoute
   ApiPublicReturningGuestCodeRoute: typeof ApiPublicReturningGuestCodeRoute
   ApiPublicWifiSignupRoute: typeof ApiPublicWifiSignupRoute
@@ -883,25 +868,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicRefreshReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/rebooking-campaign': {
-      id: '/api/public/rebooking-campaign'
-      path: '/api/public/rebooking-campaign'
-      fullPath: '/api/public/rebooking-campaign'
-      preLoaderRoute: typeof ApiPublicRebookingCampaignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/process-upsell-replies': {
       id: '/api/public/process-upsell-replies'
       path: '/api/public/process-upsell-replies'
       fullPath: '/api/public/process-upsell-replies'
       preLoaderRoute: typeof ApiPublicProcessUpsellRepliesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/process-rebooking-replies': {
-      id: '/api/public/process-rebooking-replies'
-      path: '/api/public/process-rebooking-replies'
-      fullPath: '/api/public/process-rebooking-replies'
-      preLoaderRoute: typeof ApiPublicProcessRebookingRepliesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/pre-arrival-message': {
@@ -937,6 +908,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/discount-signup'
       fullPath: '/api/public/discount-signup'
       preLoaderRoute: typeof ApiPublicDiscountSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal/post-stay-drip': {
+      id: '/api/internal/post-stay-drip'
+      path: '/api/internal/post-stay-drip'
+      fullPath: '/api/internal/post-stay-drip'
+      preLoaderRoute: typeof ApiInternalPostStayDripRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/internal/marketing-drip': {
@@ -1033,14 +1011,13 @@ const rootRouteChildren: RootRouteChildren = {
   ApiHostProfileRoute: ApiHostProfileRoute,
   ApiHostPropertiesRoute: ApiHostPropertiesRoute,
   ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
+  ApiInternalPostStayDripRoute: ApiInternalPostStayDripRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicGuestgrowthLeadRoute: ApiPublicGuestgrowthLeadRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
   ApiPublicPostCheckoutMessageRoute: ApiPublicPostCheckoutMessageRoute,
   ApiPublicPreArrivalMessageRoute: ApiPublicPreArrivalMessageRoute,
-  ApiPublicProcessRebookingRepliesRoute: ApiPublicProcessRebookingRepliesRoute,
   ApiPublicProcessUpsellRepliesRoute: ApiPublicProcessUpsellRepliesRoute,
-  ApiPublicRebookingCampaignRoute: ApiPublicRebookingCampaignRoute,
   ApiPublicRefreshReviewsRoute: ApiPublicRefreshReviewsRoute,
   ApiPublicReturningGuestCodeRoute: ApiPublicReturningGuestCodeRoute,
   ApiPublicWifiSignupRoute: ApiPublicWifiSignupRoute,

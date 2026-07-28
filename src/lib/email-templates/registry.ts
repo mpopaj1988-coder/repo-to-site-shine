@@ -8,6 +8,8 @@ import { template as marketingWhyBookDirect } from './marketing-why-book-direct'
 import { template as marketingPropertyShowcase } from './marketing-property-showcase'
 import { template as marketingLastMinute } from './marketing-last-minute'
 import { template as marketingWeeklyReminder } from './marketing-weekly-reminder'
+import { template as postStayReview } from './post-stay-review'
+import { template as localTips } from './local-tips'
 import { template as guestgrowthLeadNotify } from './guestgrowth-lead-notify'
 import { template as bookingOwnerNotification } from './booking-owner-notification'
 
@@ -40,6 +42,8 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'marketing-weekly-reminder-6': marketingWeeklyReminder,
   'marketing-weekly-reminder-7': marketingWeeklyReminder,
   'marketing-weekly-reminder-8': marketingWeeklyReminder,
+  'post-stay-review': postStayReview,
+  'local-tips': localTips,
   'guestgrowth-lead-notify': guestgrowthLeadNotify,
   'booking-owner-notification': bookingOwnerNotification,
 }
