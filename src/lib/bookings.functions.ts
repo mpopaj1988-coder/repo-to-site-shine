@@ -27,6 +27,12 @@ function daysUntil(checkIn: string): number {
   return Math.ceil((checkinMs - todayMs) / (1000 * 60 * 60 * 24));
 }
 
+function genToken(): string {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     year: "numeric",
@@ -122,6 +128,24 @@ export const cancelBooking = createServerFn({ method: "POST" })
       try {
         const lovableApiKey = process.env.LOVABLE_API_KEY;
         const resendApiKey = process.env.RESEND_API_KEY;
+
+        // Get or create unsubscribe token.
+        let unsubscribeToken = "";
+        const { data: existingUnsubToken } = await sb
+          .from("email_unsubscribe_tokens")
+          .select("token, used_at")
+          .eq("email", row.guest_email)
+          .maybeSingle();
+        unsubscribeToken = existingUnsubToken?.token ?? "";
+        if (!unsubscribeToken || existingUnsubToken?.used_at) {
+          unsubscribeToken = genToken();
+          await sb.from("email_unsubscribe_tokens").upsert(
+            { email: row.guest_email, token: unsubscribeToken },
+            { onConflict: "email" },
+          );
+        }
+        const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
+
         const template = TEMPLATES["booking-cancellation"];
         const props: BookingCancellationProps = {
           guestName: row.guest_name ?? "Guest",
@@ -131,6 +155,7 @@ export const cancelBooking = createServerFn({ method: "POST" })
           refundAmount: refundAmount != null
             ? `$${refundAmount.toFixed(0)} ${row.currency.toUpperCase()}`
             : undefined,
+          unsubscribeUrl,
         };
         const element = React.createElement(template.component, props);
         const html = await render(element);
@@ -151,6 +176,7 @@ export const cancelBooking = createServerFn({ method: "POST" })
               purpose: "transactional",
               label: "booking-cancellation",
               idempotency_key: `booking-cancel-${row.id}`,
+              unsubscribe_token: unsubscribeToken,
             },
             { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
           );
@@ -164,6 +190,7 @@ export const cancelBooking = createServerFn({ method: "POST" })
               text,
               reply_to: `vacation@${FROM_DOMAIN}`,
               idempotency_key: `booking-cancel-${row.id}`,
+              unsubscribe_token: unsubscribeToken,
             },
             { apiKey: resendApiKey },
           );
@@ -181,6 +208,7 @@ export const cancelBooking = createServerFn({ method: "POST" })
               purpose: "transactional",
               label: "booking-cancellation",
               idempotency_key: `booking-cancel-${row.id}`,
+              unsubscribe_token: unsubscribeToken,
               queued_at: new Date().toISOString(),
             },
           });

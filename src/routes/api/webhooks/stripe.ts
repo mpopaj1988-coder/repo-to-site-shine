@@ -273,6 +273,24 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
         try {
           const lovableApiKey = process.env.LOVABLE_API_KEY;
           const resendApiKey = process.env.RESEND_API_KEY;
+
+          // Get or create unsubscribe token.
+          let unsubscribeToken = "";
+          const { data: existingUnsubToken } = await sb
+            .from("email_unsubscribe_tokens")
+            .select("token, used_at")
+            .eq("email", guestEmail)
+            .maybeSingle();
+          unsubscribeToken = existingUnsubToken?.token ?? "";
+          if (!unsubscribeToken || existingUnsubToken?.used_at) {
+            unsubscribeToken = genToken();
+            await sb.from("email_unsubscribe_tokens").upsert(
+              { email: guestEmail, token: unsubscribeToken },
+              { onConflict: "email" },
+            );
+          }
+          const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
+
           const template = TEMPLATES["booking-confirmation"];
           const props: BookingConfirmationProps = {
             guestName: guestName ?? "Guest",
@@ -286,6 +304,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
             tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
             total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
             cancelUrl,
+            unsubscribeUrl,
           };
           const element = React.createElement(template.component, props);
           const html = await render(element);
@@ -308,6 +327,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
                 purpose: "transactional",
                 label: "booking-confirmation",
                 idempotency_key: `booking-confirm-${sessionId}`,
+                unsubscribe_token: unsubscribeToken,
                 message_id: messageId,
               },
               { apiKey: lovableApiKey, sendUrl: process.env.LOVABLE_SEND_URL },
@@ -328,6 +348,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
                 text,
                 reply_to: `vacation@${FROM_DOMAIN}`,
                 idempotency_key: `booking-confirm-${sessionId}`,
+                unsubscribe_token: unsubscribeToken,
                 message_id: messageId,
               },
               { apiKey: resendApiKey },
@@ -358,6 +379,7 @@ export const Route = createFileRoute("/api/webhooks/stripe")({
                 purpose: "transactional",
                 label: "booking-confirmation",
                 idempotency_key: `booking-confirm-${sessionId}`,
+                unsubscribe_token: unsubscribeToken,
                 queued_at: new Date().toISOString(),
               },
             });

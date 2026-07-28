@@ -2,6 +2,7 @@ import {
   Body, Button, Container, Head, Heading, Hr, Html, Preview, Section, Text,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const GOOGLE_REVIEW_URL = 'https://g.page/r/CbQ3d8oUEBhHEAE/review'
@@ -9,9 +10,10 @@ const GOOGLE_REVIEW_URL = 'https://g.page/r/CbQ3d8oUEBhHEAE/review'
 interface PostStayReviewProps {
   guestName?: string
   propertyTitle?: string
+  unsubscribeUrl?: string
 }
 
-const PostStayReviewEmail = ({ guestName, propertyTitle }: PostStayReviewProps) => (
+const PostStayReviewEmail = ({ guestName, propertyTitle, unsubscribeUrl }: PostStayReviewProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>How was your stay? A quick review would mean a lot</Preview>
@@ -41,6 +43,7 @@ const PostStayReviewEmail = ({ guestName, propertyTitle }: PostStayReviewProps) 
 
           <Hr style={hr} />
           <Text style={footer}>The {SITE_NAME} team</Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

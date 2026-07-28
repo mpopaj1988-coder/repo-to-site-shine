@@ -2,6 +2,7 @@ import {
   Body, Container, Head, Heading, Hr, Html, Preview, Section, Text, Row, Column,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://www.seaandcityrentals.com'
@@ -12,6 +13,7 @@ export interface BookingCancellationProps {
   checkIn?: string
   checkOut?: string
   refundAmount?: string   // e.g. "$850 USD" or null/undefined = no refund
+  unsubscribeUrl?: string
 }
 
 const BookingCancellationEmail = ({
@@ -20,6 +22,7 @@ const BookingCancellationEmail = ({
   checkIn = '—',
   checkOut = '—',
   refundAmount,
+  unsubscribeUrl,
 }: BookingCancellationProps) => (
   <Html lang="en" dir="ltr">
     <Head />
@@ -68,6 +71,7 @@ const BookingCancellationEmail = ({
 
           <Hr style={hr} />
           <Text style={footer}>The {SITE_NAME} team · {SITE_URL}</Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

@@ -2,15 +2,17 @@ import {
   Body, Button, Container, Head, Heading, Hr, Html, Preview, Section, Text,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
 
 interface WeeklyReminderProps {
   code?: string
+  unsubscribeUrl?: string
 }
 
-const WeeklyReminderEmail = ({ code }: WeeklyReminderProps) => (
+const WeeklyReminderEmail = ({ code, unsubscribeUrl }: WeeklyReminderProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Your direct-booking discount is still waiting for you</Preview>
@@ -48,6 +50,7 @@ const WeeklyReminderEmail = ({ code }: WeeklyReminderProps) => (
 
           <Hr style={hr} />
           <Text style={footer}>The {SITE_NAME} team</Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

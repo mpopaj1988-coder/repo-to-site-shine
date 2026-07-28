@@ -2,15 +2,17 @@ import {
   Body, Button, Container, Head, Heading, Hr, Html, Preview, Section, Text,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
 
 interface WelcomeDiscountProps {
   code?: string
+  unsubscribeUrl?: string
 }
 
-const WelcomeDiscountEmail = ({ code = 'DIRECT10' }: WelcomeDiscountProps) => (
+const WelcomeDiscountEmail = ({ code = 'DIRECT10', unsubscribeUrl }: WelcomeDiscountProps) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Your 10% off code for direct bookings is inside</Preview>
@@ -45,6 +47,7 @@ const WelcomeDiscountEmail = ({ code = 'DIRECT10' }: WelcomeDiscountProps) => (
 
           <Hr style={hr} />
           <Text style={footer}>The {SITE_NAME} team</Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

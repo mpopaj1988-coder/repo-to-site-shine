@@ -3,6 +3,7 @@ import {
   Section, Text,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
@@ -20,6 +21,7 @@ interface LastMinuteProps {
   availableProps?: AvailableProp[]
   promoCode?: string
   promoDesc?: string
+  unsubscribeUrl?: string
 }
 
 const FALLBACK_PROPS: AvailableProp[] = [
@@ -32,6 +34,7 @@ const LastMinuteEmail = ({
   availableProps = FALLBACK_PROPS,
   promoCode = 'RETURN10',
   promoDesc = '10% off for returning guests',
+  unsubscribeUrl,
 }: LastMinuteProps) => (
   <Html lang="en" dir="ltr">
     <Head />
@@ -83,6 +86,7 @@ const LastMinuteEmail = ({
             {SITE_NAME} · Tampa Bay, FL ·{' '}
             <a href={SITE_URL} style={footerLink}>{SITE_URL}</a>
           </Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>

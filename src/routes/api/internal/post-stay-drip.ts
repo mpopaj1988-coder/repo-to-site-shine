@@ -136,11 +136,12 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
           html: string
           text: string
           templateName: string
+          unsubscribeToken: string
           metadata?: Record<string, unknown>
         }) {
           const messageId = crypto.randomUUID()
           const idempotencyKey = `${opts.templateName}-${messageId}`
-          const unsubscribeToken = await getUnsubscribeToken(opts.to)
+          const unsubscribeToken = opts.unsubscribeToken
 
           try {
             if (lovableApiKey) {
@@ -234,15 +235,21 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
             .maybeSingle()
           if (alreadySent) { skipped++; continue }
 
+          const unsubscribeToken = await getUnsubscribeToken(email)
+          const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
           const template = TEMPLATES['post-stay-review']
-          const props = { guestName: booking.guest_name ?? undefined, propertyTitle: booking.property_title ?? undefined }
+          const props = {
+            guestName: booking.guest_name ?? undefined,
+            propertyTitle: booking.property_title ?? undefined,
+            unsubscribeUrl,
+          }
           const element = React.createElement(template.component, props)
           const html = await render(element)
           const text = await render(element, { plainText: true })
           const subject = typeof template.subject === 'function' ? template.subject(props) : template.subject
 
           await sendEmail({
-            to: email, subject, html, text,
+            to: email, subject, html, text, unsubscribeToken,
             templateName: 'post-stay-review',
             metadata: { booking_id: booking.id },
           })
@@ -266,14 +273,17 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
             .maybeSingle()
           if (alreadySent) { skipped++; continue }
 
+          const unsubscribeToken = await getUnsubscribeToken(email)
+          const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
           const template = TEMPLATES['returning-guest-code']
-          const element = React.createElement(template.component, {})
+          const props = { unsubscribeUrl }
+          const element = React.createElement(template.component, props)
           const html = await render(element)
           const text = await render(element, { plainText: true })
-          const subject = typeof template.subject === 'function' ? template.subject({}) : template.subject
+          const subject = typeof template.subject === 'function' ? template.subject(props) : template.subject
 
           await sendEmail({
-            to: email, subject, html, text,
+            to: email, subject, html, text, unsubscribeToken,
             templateName: 'returning-guest-code',
             metadata: { booking_id: booking.id },
           })
@@ -294,13 +304,15 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
         }
 
         async function sendLocalTips(email: string, post: NonNullable<ReturnType<typeof pickMonthlyPost>>) {
+          const unsubscribeToken = await getUnsubscribeToken(email)
+          const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
           const template = TEMPLATES['local-tips']
-          const props = { title: post.title, description: post.description, slug: post.slug }
+          const props = { title: post.title, description: post.description, slug: post.slug, unsubscribeUrl }
           const element = React.createElement(template.component, props)
           const html = await render(element)
           const text = await render(element, { plainText: true })
           const subject = typeof template.subject === 'function' ? template.subject(props) : template.subject
-          await sendEmail({ to: email, subject, html, text, templateName: 'local-tips' })
+          await sendEmail({ to: email, subject, html, text, unsubscribeToken, templateName: 'local-tips' })
         }
 
         // ---------------------------------------------------------------
@@ -347,13 +359,16 @@ export const Route = createFileRoute('/api/internal/post-stay-drip')({
             .maybeSingle()
           if (alreadySent) { skipped++; continue }
 
+          const unsubscribeToken = await getUnsubscribeToken(email)
+          const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
           const template = TEMPLATES['returning-guest-code']
-          const element = React.createElement(template.component, {})
+          const props = { unsubscribeUrl }
+          const element = React.createElement(template.component, props)
           const html = await render(element)
           const text = await render(element, { plainText: true })
-          const subject = typeof template.subject === 'function' ? template.subject({}) : template.subject
+          const subject = typeof template.subject === 'function' ? template.subject(props) : template.subject
 
-          await sendEmail({ to: email, subject, html, text, templateName: 'returning-guest-code' })
+          await sendEmail({ to: email, subject, html, text, unsubscribeToken, templateName: 'returning-guest-code' })
         }
 
         // ---------------------------------------------------------------

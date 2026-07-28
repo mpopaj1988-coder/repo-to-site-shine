@@ -115,8 +115,9 @@ export const Route = createFileRoute('/api/public/returning-guest-code')({
           )
         }
 
+        const unsubscribeUrl = `https://seaandcityrentals.com/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`
         const template = TEMPLATES['returning-guest-code']
-        const element = React.createElement(template.component, {})
+        const element = React.createElement(template.component, { unsubscribeUrl })
         const html = await render(element)
         const text = await render(element, { plainText: true })
         const subject = typeof template.subject === 'function'

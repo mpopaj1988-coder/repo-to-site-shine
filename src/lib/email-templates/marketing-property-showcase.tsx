@@ -3,6 +3,7 @@ import {
   Section, Text, Row, Column,
 } from '@react-email/components'
 import type { TemplateEntry } from './registry'
+import { UnsubscribeFooter } from './UnsubscribeFooter'
 
 const SITE_NAME = 'Sea & City Rentals'
 const SITE_URL = 'https://seaandcityrentals.com'
@@ -10,6 +11,7 @@ const SITE_URL = 'https://seaandcityrentals.com'
 interface PropertyShowcaseProps {
   firstName?: string
   season?: string
+  unsubscribeUrl?: string
 }
 
 const properties = [
@@ -39,6 +41,7 @@ const properties = [
 const PropertyShowcaseEmail = ({
   firstName = 'there',
   season = 'this season',
+  unsubscribeUrl,
 }: PropertyShowcaseProps) => (
   <Html lang="en" dir="ltr">
     <Head />
@@ -102,6 +105,7 @@ const PropertyShowcaseEmail = ({
             {SITE_NAME} · Tampa Bay, FL ·{' '}
             <a href={SITE_URL} style={footerLink}>{SITE_URL}</a>
           </Text>
+          <UnsubscribeFooter url={unsubscribeUrl} />
         </Section>
       </Container>
     </Body>
