@@ -130,6 +130,21 @@ export default {
         } catch (err) {
           console.error("Scheduled marketing drip failed:", err);
         }
+
+        // Send post-stay emails (review request, come-back nudge, local tips)
+        // to past guests.
+        try {
+          const res = await handler.fetch(
+            new Request("https://seaandcityrentals.com/api/internal/post-stay-drip", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${serviceKey}` },
+            }),
+            env, ctx,
+          );
+          console.log("Scheduled post-stay drip:", res.status, await res.text());
+        } catch (err) {
+          console.error("Scheduled post-stay drip failed:", err);
+        }
       })(),
     );
   },

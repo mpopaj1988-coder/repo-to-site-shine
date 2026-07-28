@@ -206,13 +206,23 @@ export const Route = createFileRoute('/api/internal/marketing-drip')({
           const threshold = new Date(now)
           threshold.setDate(threshold.getDate() - step.daysAfterSignup)
 
-          const { data: leads } = await sb
+          const { data: leadRows } = await sb
             .from('email_leads')
-            .select('email, discount_code')
+            .select('email, discount_code, source')
             .lte('created_at', threshold.toISOString())
             .limit(500)
 
-          if (!leads?.length) continue
+          // WiFi QR guests are excluded — they never received a discount code
+          // (that copy would be nonsensical for them), and they get their own
+          // slower-paced post-stay sequence instead (see post-stay-drip.ts).
+          // Filtered in JS rather than with `.not(...ilike...)` because that
+          // Postgres condition evaluates to NULL (excluded) for the many leads
+          // with a null source, which would silently drop them from every step.
+          const leads = (leadRows ?? []).filter(
+            (l) => !l.source?.toLowerCase().startsWith('wifi-signup:'),
+          )
+
+          if (!leads.length) continue
 
           // The why-book-direct and weekly-reminder emails carry a reminder of each
           // lead's own discount code, so they have to be rendered per-recipient
