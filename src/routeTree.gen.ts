@@ -48,6 +48,7 @@ import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/p
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicGuestgrowthLeadRouteImport } from './routes/api/public/guestgrowth-lead'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
+import { Route as ApiInternalPricelabsReportEmailRouteImport } from './routes/api/internal/pricelabs-report-email'
 import { Route as ApiInternalPostStayDripRouteImport } from './routes/api/internal/post-stay-drip'
 import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
 import { Route as ApiHostPropertiesRouteImport } from './routes/api/host/properties'
@@ -257,6 +258,12 @@ const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   path: '/api/public/discount-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInternalPricelabsReportEmailRoute =
+  ApiInternalPricelabsReportEmailRouteImport.update({
+    id: '/api/internal/pricelabs-report-email',
+    path: '/api/internal/pricelabs-report-email',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiInternalPostStayDripRoute = ApiInternalPostStayDripRouteImport.update({
   id: '/api/internal/post-stay-drip',
   path: '/api/internal/post-stay-drip',
@@ -327,6 +334,7 @@ export interface FileRoutesByFullPath {
   '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
+  '/api/internal/pricelabs-report-email': typeof ApiInternalPricelabsReportEmailRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -375,6 +383,7 @@ export interface FileRoutesByTo {
   '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
+  '/api/internal/pricelabs-report-email': typeof ApiInternalPricelabsReportEmailRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -424,6 +433,7 @@ export interface FileRoutesById {
   '/api/host/properties': typeof ApiHostPropertiesRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
+  '/api/internal/pricelabs-report-email': typeof ApiInternalPricelabsReportEmailRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -474,6 +484,7 @@ export interface FileRouteTypes {
     | '/api/host/properties'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
+    | '/api/internal/pricelabs-report-email'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
@@ -522,6 +533,7 @@ export interface FileRouteTypes {
     | '/api/host/properties'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
+    | '/api/internal/pricelabs-report-email'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
@@ -570,6 +582,7 @@ export interface FileRouteTypes {
     | '/api/host/properties'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
+    | '/api/internal/pricelabs-report-email'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
@@ -616,6 +629,7 @@ export interface RootRouteChildren {
   ApiHostPropertiesRoute: typeof ApiHostPropertiesRoute
   ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
   ApiInternalPostStayDripRoute: typeof ApiInternalPostStayDripRoute
+  ApiInternalPricelabsReportEmailRoute: typeof ApiInternalPricelabsReportEmailRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicGuestgrowthLeadRoute: typeof ApiPublicGuestgrowthLeadRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
@@ -910,6 +924,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDiscountSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/pricelabs-report-email': {
+      id: '/api/internal/pricelabs-report-email'
+      path: '/api/internal/pricelabs-report-email'
+      fullPath: '/api/internal/pricelabs-report-email'
+      preLoaderRoute: typeof ApiInternalPricelabsReportEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/internal/post-stay-drip': {
       id: '/api/internal/post-stay-drip'
       path: '/api/internal/post-stay-drip'
@@ -1012,6 +1033,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiHostPropertiesRoute: ApiHostPropertiesRoute,
   ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
   ApiInternalPostStayDripRoute: ApiInternalPostStayDripRoute,
+  ApiInternalPricelabsReportEmailRoute: ApiInternalPricelabsReportEmailRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicGuestgrowthLeadRoute: ApiPublicGuestgrowthLeadRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
