@@ -1,5 +1,5 @@
 type Tip = { name: string; note: string };
-export type HouseNote = string | { text: string; image: string };
+export type HouseNote = string | { text: string; image: string } | { text: string; video: string };
 
 export type PropertyHouseInfo = {
   propertyName: string;
@@ -328,6 +328,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "BBQ grill and outdoor seating are yours in the patio.",
       "Central Ave dining and nightlife is a 3-block walk.",
       "Enter via front gate (15th Ave) or back gate (alley between 14th and 15th).",
+      { text: "How to use the thermostat — watch this quick video for a step-by-step walkthrough.", video: "https://www.youtube.com/embed/EwSBpgAR9PM" },
       "Quiet hours: 10 PM – 7 AM.",
       "Check-out by 11 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
