@@ -7,6 +7,7 @@ import { template as returningGuestCode } from './returning-guest-code'
 import { template as marketingWhyBookDirect } from './marketing-why-book-direct'
 import { template as marketingPropertyShowcase } from './marketing-property-showcase'
 import { template as marketingLastMinute } from './marketing-last-minute'
+import { template as marketingHolidaySpecials } from './marketing-holiday-specials'
 import { template as marketingWeeklyReminder } from './marketing-weekly-reminder'
 import { template as postStayReview } from './post-stay-review'
 import { template as localTips } from './local-tips'
@@ -31,6 +32,7 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'marketing-why-book-direct': marketingWhyBookDirect,
   'marketing-property-showcase': marketingPropertyShowcase,
   'marketing-last-minute': marketingLastMinute,
+  'marketing-holiday-specials': marketingHolidaySpecials,
   // Registered under 8 distinct keys (all pointing to the same component) so
   // the drip loop's per-template "already sent" check tracks each week's
   // send separately instead of blocking every week after the first.
