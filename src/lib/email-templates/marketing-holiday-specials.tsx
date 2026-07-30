@@ -21,6 +21,7 @@ interface HolidaySpecialsProps {
   featuredProps?: HolidayProp[]
   promoCode?: string
   promoDesc?: string
+  minNights?: number // minimum stay required to use the code
   bookByDate?: string // e.g. "Dec 1"
   unsubscribeUrl?: string
 }
@@ -35,7 +36,8 @@ const HolidaySpecialsEmail = ({
   holidayName = 'the holidays',
   featuredProps = FALLBACK_PROPS,
   promoCode = 'HOLIDAY10',
-  promoDesc = '10% off any direct holiday booking',
+  promoDesc = '10% off direct holiday bookings',
+  minNights = 10,
   bookByDate,
   unsubscribeUrl,
 }: HolidaySpecialsProps) => (
@@ -78,11 +80,14 @@ const HolidaySpecialsEmail = ({
               Use <strong style={{ letterSpacing: '0.08em' }}>{promoCode}</strong> at checkout — {promoDesc}
               {bookByDate ? ` if you book by ${bookByDate}` : ''}.
             </Text>
+            <Text style={promoFinePrint}>
+              Valid on stays of {minNights}+ nights.
+            </Text>
           </Section>
 
           <Text style={text}>
-            Holiday weeks book up early. Reply to this email and I'll help you find the right place for
-            your group.
+            Perfect for a longer holiday stay — {minNights} nights or more gets you the code. Reply to
+            this email and I'll help you find the right place for your group.
           </Text>
           <Text style={signoff}>— Nella</Text>
 
@@ -110,7 +115,8 @@ export const template = {
       { title: 'St. Pete Rooftop Hot Tub', location: 'St. Petersburg, FL', slug: 'stpete-hottub', tagline: 'Sleeps 4 · Rooftop terrace · Walk to downtown' },
     ] as HolidayProp[],
     promoCode: 'HOLIDAY10',
-    promoDesc: '10% off any direct holiday booking',
+    promoDesc: '10% off direct holiday bookings',
+    minNights: 10,
     bookByDate: 'Dec 1',
   },
 } satisfies TemplateEntry
@@ -151,6 +157,7 @@ const promoLabel = {
   color: '#1A3A4A', margin: '0 0 4px', fontFamily: 'Arial, sans-serif',
 }
 const promoText = { fontSize: '14px', color: '#333', margin: '0', lineHeight: '1.5', fontFamily: 'Arial, sans-serif' }
+const promoFinePrint = { fontSize: '12px', color: '#8a7a52', margin: '8px 0 0', fontFamily: 'Arial, sans-serif' }
 const signoff = { fontSize: '14px', color: '#555', fontStyle: 'italic' as const, margin: '0 0 16px' }
 const hr = { borderColor: '#e5e5e5', margin: '28px 0 16px' }
 const footer = { fontSize: '12px', color: '#999', margin: '0', fontFamily: 'Arial, sans-serif' }
