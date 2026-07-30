@@ -50,6 +50,7 @@ import { Route as ApiPublicGuestgrowthLeadRouteImport } from './routes/api/publi
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
 import { Route as ApiInternalPostStayDripRouteImport } from './routes/api/internal/post-stay-drip'
 import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
+import { Route as ApiInternalHolidayLastMinuteCampaignRouteImport } from './routes/api/internal/holiday-last-minute-campaign'
 import { Route as ApiHostPropertiesRouteImport } from './routes/api/host/properties'
 import { Route as ApiHostProfileRouteImport } from './routes/api/host/profile'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
@@ -268,6 +269,12 @@ const ApiInternalMarketingDripRoute =
     path: '/api/internal/marketing-drip',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiInternalHolidayLastMinuteCampaignRoute =
+  ApiInternalHolidayLastMinuteCampaignRouteImport.update({
+    id: '/api/internal/holiday-last-minute-campaign',
+    path: '/api/internal/holiday-last-minute-campaign',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiHostPropertiesRoute = ApiHostPropertiesRouteImport.update({
   id: '/api/host/properties',
   path: '/api/host/properties',
@@ -325,6 +332,7 @@ export interface FileRoutesByFullPath {
   '/host/': typeof HostIndexRoute
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
+  '/api/internal/holiday-last-minute-campaign': typeof ApiInternalHolidayLastMinuteCampaignRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
@@ -373,6 +381,7 @@ export interface FileRoutesByTo {
   '/host': typeof HostIndexRoute
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
+  '/api/internal/holiday-last-minute-campaign': typeof ApiInternalHolidayLastMinuteCampaignRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
@@ -422,6 +431,7 @@ export interface FileRoutesById {
   '/host/': typeof HostIndexRoute
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
+  '/api/internal/holiday-last-minute-campaign': typeof ApiInternalHolidayLastMinuteCampaignRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
@@ -472,6 +482,7 @@ export interface FileRouteTypes {
     | '/host/'
     | '/api/host/profile'
     | '/api/host/properties'
+    | '/api/internal/holiday-last-minute-campaign'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/public/discount-signup'
@@ -520,6 +531,7 @@ export interface FileRouteTypes {
     | '/host'
     | '/api/host/profile'
     | '/api/host/properties'
+    | '/api/internal/holiday-last-minute-campaign'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/public/discount-signup'
@@ -568,6 +580,7 @@ export interface FileRouteTypes {
     | '/host/'
     | '/api/host/profile'
     | '/api/host/properties'
+    | '/api/internal/holiday-last-minute-campaign'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/public/discount-signup'
@@ -614,6 +627,7 @@ export interface RootRouteChildren {
   HostIndexRoute: typeof HostIndexRoute
   ApiHostProfileRoute: typeof ApiHostProfileRoute
   ApiHostPropertiesRoute: typeof ApiHostPropertiesRoute
+  ApiInternalHolidayLastMinuteCampaignRoute: typeof ApiInternalHolidayLastMinuteCampaignRoute
   ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
   ApiInternalPostStayDripRoute: typeof ApiInternalPostStayDripRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
@@ -924,6 +938,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInternalMarketingDripRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/holiday-last-minute-campaign': {
+      id: '/api/internal/holiday-last-minute-campaign'
+      path: '/api/internal/holiday-last-minute-campaign'
+      fullPath: '/api/internal/holiday-last-minute-campaign'
+      preLoaderRoute: typeof ApiInternalHolidayLastMinuteCampaignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/host/properties': {
       id: '/api/host/properties'
       path: '/api/host/properties'
@@ -1010,6 +1031,8 @@ const rootRouteChildren: RootRouteChildren = {
   HostIndexRoute: HostIndexRoute,
   ApiHostProfileRoute: ApiHostProfileRoute,
   ApiHostPropertiesRoute: ApiHostPropertiesRoute,
+  ApiInternalHolidayLastMinuteCampaignRoute:
+    ApiInternalHolidayLastMinuteCampaignRoute,
   ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
   ApiInternalPostStayDripRoute: ApiInternalPostStayDripRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
