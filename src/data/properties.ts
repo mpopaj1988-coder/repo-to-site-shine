@@ -46,6 +46,8 @@ export type Property = {
   alt: string;
   location: string;
   title: string;
+  /** Short, booking-intent "<type> in <city>, FL" string for the listing page's <title>/H1 — keep under ~40 chars so it fits Google's title limit alongside the brand suffix. */
+  seoTitle: string;
   description: string;
   bedrooms: number;
   bathrooms: number;
@@ -74,6 +76,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "Tampa Florida waterfront luxury 6-bedroom home with heated pool and private dock",
     location: "Tampa, FL",
     title: "Waterfront 6BR | Heated Pool + Dock | Sleeps 15",
+    seoTitle: "Waterfront Home in Tampa, FL",
     description: "Waterfront Tampa vacation rental with heated pool, private dock and two master suites — sleeps 15 in luxury. Book direct and save.",
     bedrooms: 6, bathrooms: 4, sleeps: 15,
     feature: "Pool + Dock",
@@ -100,6 +103,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "Largo Florida designer pool home with gazebo, fire pit and covered patio near Indian Rocks Beach",
     location: "Largo, FL",
     title: "Luxury 3BR 3BA | Heated Pool | Sleeps 11",
+    seoTitle: "Pool Home in Largo, FL",
     description: "Largo pool home 5 minutes from Indian Rocks Beach — heated pool, lit gazebo, fire pit and 3 spa baths. Sleeps 11. Book direct.",
     bedrooms: 3, bathrooms: 3, sleeps: 11,
     feature: "Heated Pool",
@@ -125,6 +129,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "Indian Rocks Beach Florida 2-bedroom coastal vacation home with private hot tub",
     location: "Indian Rocks Beach, FL",
     title: "Walk to Beach | Hot Tub | 2BR Coastal House",
+    seoTitle: "Beach House in Indian Rocks Beach, FL",
     description: "Walk to Indian Rocks Beach in seconds — 2BR coastal home with private hot tub, sunny deck and beach gear included. Sleeps 6.",
     bedrooms: 2, bathrooms: 2, sleeps: 6,
     feature: "Hot Tub",
@@ -150,6 +155,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "Clearwater Florida 4-bedroom family pool home with fenced yard and fire pit",
     location: "Clearwater, FL",
     title: "Family Pool Getaway | 9 Min to Clearwater Beach",
+    seoTitle: "Pool Home in Clearwater, FL",
     description: "4BR Clearwater pool home, 9 minutes to the beach — heated pool, fire pit, fenced yard and bunk room. Sleeps 14. 283+ five-star stays.",
     bedrooms: 4, bathrooms: 2, sleeps: 14,
     feature: "Heated Pool",
@@ -176,6 +182,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "Indian Rocks Beach Florida vacation rental with deck at sunset, hot tub and Gulf views",
     location: "Indian Rocks Beach, FL",
     title: "Walk to Beach | Hot Tub | 2BR · Sleeps 6",
+    seoTitle: "Gulf Retreat in Indian Rocks Beach, FL",
     description: "Steps from Indian Rocks Beach — 2BR Gulf-side home with private hot tub, sunset deck and Insta-ready interiors. Sleeps 6.",
     bedrooms: 2, bathrooms: 2, sleeps: 6,
     feature: "Hot Tub",
@@ -201,6 +208,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "St Petersburg Florida sun-soaked designer 2-bedroom condo near downtown",
     location: "St. Petersburg, FL",
     title: "Sun-Soaked | 2BR · 1BA · Sleeps 6",
+    seoTitle: "Designer Condo in St. Petersburg, FL",
     description: "Walk to downtown St. Pete — light-filled 2BR designer condo with two king beds, sleeps 6. Steps to Central Ave restaurants and Crescent Lake.",
     bedrooms: 2, bathrooms: 1, sleeps: 6,
     feature: "Sofa Bed Incl.",
@@ -226,6 +234,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "St Petersburg Florida modern 1-bedroom designer retreat with private balcony",
     location: "St. Petersburg, FL",
     title: "Modern Retreat | 1BR · Balcony · Sleeps 2",
+    seoTitle: "Modern Retreat in St. Petersburg, FL",
     description: "Editorial 1BR St. Pete retreat with king bed, private balcony and chef kitchen — minutes to the waterfront. Adults-only escape for 2.",
     bedrooms: 1, bathrooms: 1, sleeps: 2,
     feature: "Private Balcony",
@@ -251,6 +260,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "St Petersburg Florida vacation rental with private outdoor hot tub and bamboo garden",
     location: "St. Petersburg, FL",
     title: "Private Hot Tub | 1BR · Sleeps 4",
+    seoTitle: "Hot Tub Bungalow in St. Petersburg, FL",
     description: "St. Pete bungalow with private outdoor hot tub, bamboo garden and BBQ — sleeps 4, walk to downtown. King bed plus sofa bed.",
     bedrooms: 1, bathrooms: 1, sleeps: 4,
     feature: "Hot Tub + Sofa Bed",
@@ -276,6 +286,7 @@ const data: Omit<Property, "image" | "images" | "imageAlts">[] = [
     alt: "St Petersburg Florida 1-bedroom rental with bold art, game room and open plan living",
     location: "St. Petersburg, FL",
     title: "Art & Character | 1BR · 3 Beds · Sleeps 6",
+    seoTitle: "Downtown Bungalow in St. Petersburg, FL",
     description: "Bold St. Pete 1BR with statement art, dartboard game room and 3 beds — sleeps 6. Walk to downtown nightlife and Central Ave.",
     bedrooms: 1, bathrooms: 1, sleeps: 6,
     feature: "Game Room · 3 Beds",

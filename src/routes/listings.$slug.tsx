@@ -10,6 +10,14 @@ import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { getListingPricing, getListingReviews, getListingAvailability, type Pricing, type ReviewItem, type CalendarDay } from "@/lib/hospitable.functions";
 import { track } from "@/lib/analytics";
 
+function truncateDescription(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const truncated = text.slice(0, max);
+  const lastSentenceEnd = truncated.lastIndexOf(". ");
+  if (lastSentenceEnd > max * 0.5) return truncated.slice(0, lastSentenceEnd + 1);
+  return truncated.slice(0, truncated.lastIndexOf(" ")) + "…";
+}
+
 export const Route = createFileRoute("/listings/$slug")({
   validateSearch: (search: Record<string, string>) => ({
     booking: search.booking === "success" ? ("success" as const) : undefined,
@@ -42,8 +50,8 @@ export const Route = createFileRoute("/listings/$slug")({
     const pricing = loaderData?.pricing ?? null;
     const reviews = loaderData?.reviews ?? [];
     if (!p) return { meta: [{ title: "Listing — Sea & City Rentals" }] };
-    const title = `${p.title} — ${p.location} | Sea & City Rentals`;
-    const desc = `${p.tagline} ${p.description}`.slice(0, 158);
+    const title = `${p.seoTitle} | Sea & City Rentals`;
+    const desc = truncateDescription(`${p.tagline} ${p.description}`, 155);
     const url = `${SITE_URL}/listings/${p.slug}`;
     const validUntil = new Date();
     validUntil.setFullYear(validUntil.getFullYear() + 1);
@@ -224,8 +232,9 @@ function ListingPage() {
                 <MapPin className="size-3.5" /> {p.location}
               </p>
               <h1 className="mt-3 font-display text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-                {p.title}
+                {p.seoTitle}
               </h1>
+              <p className="mt-1 text-sm font-medium text-white/80 sm:text-base">{p.title}</p>
               <ul className="mt-5 flex flex-wrap gap-2">
                 <li className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/90">
                   ✦ {p.feature}
