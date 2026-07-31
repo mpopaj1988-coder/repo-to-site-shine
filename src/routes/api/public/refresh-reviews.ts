@@ -32,6 +32,8 @@ export const Route = createFileRoute("/api/public/refresh-reviews")({
   },
 });
 
+const REFRESH_INTERVAL_DAYS = 28;
+
 async function handleRefresh() {
   const token = process.env.HOSPITABLE_API_KEY || process.env.HOSPITABLE_API_TOKEN;
   if (!token) {
@@ -39,6 +41,31 @@ async function handleRefresh() {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
+  }
+
+  // Called from the daily cron, but reviews only need to refresh monthly —
+  // skip most days by checking how recently the cache was last populated.
+  const { data: lastFetch } = await supabaseAdmin
+    .from("hospitable_reviews_cache")
+    .select("fetched_at")
+    .order("fetched_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (lastFetch?.fetched_at) {
+    const daysSinceLastRefresh =
+      (Date.now() - new Date(lastFetch.fetched_at).getTime()) / (1000 * 60 * 60 * 24);
+    if (daysSinceLastRefresh < REFRESH_INTERVAL_DAYS) {
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          skipped: true,
+          reason: "not due yet",
+          daysSinceLastRefresh: Math.floor(daysSinceLastRefresh),
+        }),
+        { headers: { "Content-Type": "application/json" } },
+      );
+    }
   }
 
   // Pull property IDs from our static list (mirrors src/data/properties.ts)
