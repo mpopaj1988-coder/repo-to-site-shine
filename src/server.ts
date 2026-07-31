@@ -131,6 +131,21 @@ export default {
           console.error("Scheduled marketing drip failed:", err);
         }
 
+        // Reconcile Stripe: backfill any paid checkout session the webhook
+        // missed (booking record, guest email, calendar block, owner alert).
+        try {
+          const res = await handler.fetch(
+            new Request("https://seaandcityrentals.com/api/internal/stripe-reconcile", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${serviceKey}` },
+            }),
+            env, ctx,
+          );
+          console.log("Scheduled Stripe reconcile:", res.status, await res.text());
+        } catch (err) {
+          console.error("Scheduled Stripe reconcile failed:", err);
+        }
+
         // Send post-stay emails (review request, come-back nudge, local tips)
         // to past guests.
         try {
