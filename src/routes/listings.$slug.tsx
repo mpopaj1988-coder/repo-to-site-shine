@@ -414,7 +414,7 @@ function ListingPage() {
             ) : (
               <p className="mt-2 font-display text-2xl">No platform fees</p>
             )}
-            <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb. Returning guests get 10% off — contact us for your code.</p>
+            <p className="mt-2 text-sm text-muted-foreground">Save up to 15% vs. Airbnb.</p>
             <AvailabilityChecker
               bookingUrl={p.directBookingUrl}
               calendar={availability}
@@ -445,8 +445,6 @@ function ListingPage() {
             <ul className="mt-6 space-y-3 border-t border-border pt-5 text-sm text-muted-foreground">
               <li className="flex items-start gap-2"><span>💰</span> Save up to 15% vs. Airbnb</li>
               <li className="flex items-start gap-2"><span>💬</span> Direct line to your host</li>
-              <li className="flex items-start gap-2"><span>🔁</span> Returning guests get 10% off — contact us for your code</li>
-              <li className="flex items-start gap-2"><span>✨</span> Custom requests welcome</li>
             </ul>
             <div className="mt-5 border-t border-border pt-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--color-sea)]">
