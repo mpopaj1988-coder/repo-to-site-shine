@@ -33,7 +33,7 @@ const validateSlug = createServerFn({ method: "GET" })
   });
 
 type Tip = { name: string; note: string };
-type HouseNote = string | { text: string; image: string };
+type HouseNote = string | { text: string; image: string } | { text: string; video: string };
 
 type Guide = {
   propertyName: string;
@@ -164,16 +164,33 @@ function WifiPage() {
               {guide.notes.length > 0 && (
                 <div style={{ backgroundColor: "#F8F5EE", borderRadius: "8px", padding: "16px 18px", margin: "16px 0" }}>
                   <p style={{ fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#C9A84C", margin: "0 0 10px", fontFamily: "system-ui, sans-serif" }}>House Notes</p>
-                  {guide.notes.map((note, i) =>
-                    typeof note === "string" ? (
-                      <p key={i} style={{ fontSize: "14px", color: "#444", margin: "0 0 6px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note}</p>
-                    ) : (
+                  {guide.notes.map((note, i) => {
+                    if (typeof note === "string") {
+                      return <p key={i} style={{ fontSize: "14px", color: "#444", margin: "0 0 6px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note}</p>;
+                    }
+                    if ("video" in note) {
+                      return (
+                        <div key={i} style={{ marginBottom: "14px" }}>
+                          <p style={{ fontSize: "14px", color: "#444", margin: "0 0 8px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note.text}</p>
+                          <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: "8px" }}>
+                            <iframe
+                              src={note.video}
+                              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              title="Video guide"
+                            />
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
                       <div key={i} style={{ marginBottom: "10px" }}>
                         <p style={{ fontSize: "14px", color: "#444", margin: "0 0 8px", fontFamily: "system-ui, sans-serif", lineHeight: 1.5 }}>• {note.text}</p>
                         <img src={note.image} alt="Reference photo" style={{ width: "100%", borderRadius: "8px", display: "block" }} />
                       </div>
-                    )
-                  )}
+                    );
+                  })}
                 </div>
               )}
 

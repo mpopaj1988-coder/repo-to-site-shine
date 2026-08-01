@@ -1,5 +1,5 @@
 type Tip = { name: string; note: string };
-export type HouseNote = string | { text: string; image: string };
+export type HouseNote = string | { text: string; image: string } | { text: string; video: string };
 
 export type PropertyHouseInfo = {
   propertyName: string;
@@ -92,7 +92,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "Quiet hours: 10 PM – 8 AM. Neighbors are sensitive to noise.",
       "Pool is heated to ~88°F and turns on automatically at arrival.",
       "Induction cooktop: place a stainless steel pot on the burner first, then it turns on.",
-      "No chores needed at check-out — just be out by 10 AM.",
+      "Check-out by 10 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: [
       { name: "Bern's Steak House", note: "One of the top 5 steakhouses in the USA — legendary Hyde Park institution" },
@@ -135,11 +135,14 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     guideSlug: "clearwater-beach",
     notes: [
       "Pool turns on automatically at 9 AM. Heating is free Oct–May.",
-      { text: "Fountain/waterfall: twist both the left and right knobs (circled in photo). IMPORTANT — always turn off when not in use. Leaving it running will cause pool water to overflow and damage the pump.", image: "/guides/largo-waterfall.jpg" },
+      "Pool restart: open the black box by the pump and press Quick Clean.",
+      { text: "Pool fountain: twist the knob as shown in the photo to turn on. To turn off, twist the knob back to its original position — IMPORTANT: leaving it running will cause water to overflow out of the pool.", image: "/guides/largo-pump-knob.jpg" },
       "Gazebo lights: switch on the left outside by the blue chair at the sliding door.",
-      "Firepit available — bring your own wood. Charcoal BBQ available — bring your own charcoal.",
-      "Beach chairs and umbrella are provided.",
+      "Firepit and charcoal BBQ available — guests supply their own charcoal.",
+      "Beach chairs, umbrella, and towels are provided.",
+      "WiFi not working? Check the extension cord at the head of the bunk bed — it can sometimes get accidentally unplugged if the bed is moved. A quick replug usually does the trick!",
       "Quiet hours: 10 PM – 7 AM.",
+      "Check-out by 10 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: [
       { name: "Roosterfish Grill", note: "Waterfront seafood gem — Canadian sea scallops are legendary" },
@@ -179,11 +182,12 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     guideSlug: "clearwater-beach",
     notes: [
       "Beach is a 5-minute walk — fully open.",
-      "Beach chairs and umbrella are in the common area.",
-      "Hot tub is private to Unit A. Lights around the hot tub can be turned on by the switch near the door on your right — follow the cord.",
-      "Garbage is on the left side downstairs — shared by both units.",
+      "Beach chairs, umbrella, and beach towels are in the common area.",
+      "Hot tub is private to Unit A. To turn on the lights: follow the cord to the switch by the door of the shed on your right.",
+      "BBQ grill is stored in the shed (code: 1957). Per fire marshal regulations, the grill must be used at least 200 ft from the building — please bring it to the gravel area. Clean up after use and return the grill downstairs near the hot tub area.",
       "Keurig coffee maker provided — bring your own pods.",
       "Quiet hours: 10 PM – 7 AM. This is a duplex — please respect the neighbors.",
+      "Check-out by 11 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: IRB_RESTAURANTS,
     activities: IRB_ACTIVITIES,
@@ -208,7 +212,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "Jolley Trolley runs 7 days/week — nearest stop ~1 mile away.",
       "Charcoal BBQ available — utensils provided.",
       "Quiet hours: 10 PM – 7 AM.",
-      "No chores needed — just be out by 10 AM.",
+      "Check-out by 10 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: [
       { name: "Island Way Grill", note: "Fresh-caught daily by their own boats — Sunday brunch is exceptional" },
@@ -239,8 +243,8 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
 
   "irb-a": {
     propertyName: "Walk to Beach — IRB (Unit B)",
-    wifiNetwork: "benchkettle931",
-    wifiPassword: "SpectrumSetup-CF",
+    wifiNetwork: "spectrum6BFF",
+    wifiPassword: "happyspace961",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
     parking: "Two spots in front of Unit B (right side).",
@@ -249,11 +253,12 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     guideSlug: "clearwater-beach",
     notes: [
       "Beach is a 5-minute walk.",
-      "Beach chairs, umbrella, cooler, and wagon are available — please return before departure.",
-      "Hot tub is in the shared area — request setup with host in advance (fee applies).",
-      "Garbage is on the left side downstairs — shared by both units.",
+      "Beach essentials: 4 chairs, umbrella, and wagon — return all before departure.",
+      "Hot tub is in the shared area — request setup with host in advance.",
+      "BBQ grill is stored in the shed (code: 1957). Per fire marshal regulations, the grill must be used at least 200 ft from the building — please bring it to the gravel area. Clean up after use and return the grill downstairs near the hot tub area.",
       "Keurig coffee maker provided — bring your own pods.",
       "Quiet hours: 10 PM – 7 AM.",
+      "Check-out by 11 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: IRB_RESTAURANTS,
     activities: IRB_ACTIVITIES,
@@ -275,10 +280,9 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "Central Ave restaurants and bars are steps away.",
       "Crescent Lake is 3 blocks away — great for morning walks.",
       "Second floor unit — approximately 20 steps from the ground entrance.",
-      "Induction stovetop — place a pot or pan on the burner to activate it. Not responding? Check that the lock button is off.",
-      "Stovetop showing 'LO'? A fuse tripped. Step outside your door, open the electric panel on the left wall (may be behind a portrait), and flip the last switch (main) OFF then back ON.",
+      "Stove tip: always place a pot or pan on the burner for it to activate.",
       "Quiet hours: 10 PM – 7 AM.",
-      "No chores needed — just be out by 11 AM.",
+      "Check-out by 11 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: ST_PETE_RESTAURANTS,
     activities: ST_PETE_ACTIVITIES,
@@ -301,7 +305,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "Downtown St. Pete and Central Ave are a short walk.",
       "Stove tip: always place a pot or pan on the burner for it to activate.",
       "Quiet hours: 10 PM – 7 AM.",
-      "No chores needed — dishes in dishwasher, towels in dryer is fine.",
+      "Check-out by 11 AM — no chores needed, you're on vacation! Just leave dishes in the dishwasher and towels in the dryer, enjoy your last morning, and head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: ST_PETE_RESTAURANTS,
     activities: ST_PETE_ACTIVITIES,
@@ -311,7 +315,7 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
 
   "stpete-hottub": {
     propertyName: "Private Hot Tub Bungalow (Apt A)",
-    wifiNetwork: "Spectrum 83",
+    wifiNetwork: "See label on router",
     wifiPassword: "cleanbunny221",
     checkInTime: "3:00 PM",
     checkoutTime: "11:00 AM",
@@ -324,7 +328,9 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
       "BBQ grill and outdoor seating are yours in the patio.",
       "Central Ave dining and nightlife is a 3-block walk.",
       "Enter via front gate (15th Ave) or back gate (alley between 14th and 15th).",
+      { text: "How to use the thermostat — watch this quick video for a step-by-step walkthrough.", video: "https://www.youtube.com/embed/EwSBpgAR9PM" },
       "Quiet hours: 10 PM – 7 AM.",
+      "Check-out by 11 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
     ],
     restaurants: ST_PETE_RESTAURANTS,
     activities: ST_PETE_ACTIVITIES,
@@ -342,7 +348,9 @@ export const WIFI_CONFIG: Record<string, PropertyHouseInfo> = {
     address: "434 15th Ave N, Unit B, St. Petersburg, FL",
     emergencyContact: "248-766-2957",
     guideSlug: "st-petersburg",
-    notes: [],
+    notes: [
+      "Check-out by 11 AM — no chores needed, you're on vacation! Enjoy your last morning and when you're ready to go, just head out. A 5-star review is the best thank-you we could ask for.",
+    ],
     restaurants: ST_PETE_RESTAURANTS,
     activities: ST_PETE_ACTIVITIES,
     nightlife: ST_PETE_NIGHTLIFE,
