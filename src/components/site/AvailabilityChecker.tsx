@@ -90,16 +90,18 @@ export function AvailabilityChecker({
   const [dismissedForRange, setDismissedForRange] = useState("");
 
   // Build lookup structures for availability and pricing
-  const { unavailableSet, checkoutOnlySet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
+  const { unavailableSet, checkoutOnlySet, priceByDate, currency, minDate, maxDate, firstAvailableDate, hasAnyAvailable } =
     useMemo(() => {
       const unavail = new Set<string>();
       const priceMap: Record<string, number> = {};
       let cur = "USD";
       let earliest: Date | undefined;
+      let latestStr: string | undefined;
       let firstAvail: Date | undefined;
       for (const d of calendar) {
         if (!d.date) continue;
         if (!earliest) earliest = parseYmd(d.date);
+        if (!latestStr || d.date > latestStr) latestStr = d.date;
         if (!d.available) unavail.add(d.date);
         else if (!firstAvail) firstAvail = parseYmd(d.date);
         if (typeof d.price === "number") priceMap[d.date] = d.price;
@@ -122,6 +124,7 @@ export function AvailabilityChecker({
         priceByDate: priceMap,
         currency: cur,
         minDate: earliest ?? today,
+        maxDate: latestStr ? parseYmd(latestStr) : undefined,
         firstAvailableDate: firstAvail,
         hasAnyAvailable: !!firstAvail,
       };
@@ -349,11 +352,14 @@ export function AvailabilityChecker({
               disabled={(date) => {
                 const key = ymd(date);
                 if (date < minDate) return true;
+                // Beyond the fetched calendar window we have no data — never treat that as "available".
+                if (maxDate && date > maxDate) return true;
                 // Allow another guest's check-in date as a checkout date (same-day turnaround).
                 if (checkoutOnlySet.has(key)) return !range?.from || date <= range.from;
                 return unavailableSet.has(key);
               }}
               startMonth={minDate}
+              endMonth={maxDate}
               defaultMonth={firstAvailableDate ?? minDate}
               numberOfMonths={1}
               data-testid="availability-calendar"
