@@ -11,6 +11,12 @@
 - **Walk through everything step-by-step** — assume no prior knowledge of tools, platforms, or marketing concepts
 - Owner tends to trust recommendations blindly — this means extra responsibility to explain trade-offs, costs, and consequences clearly before proceeding
 
+### PriceLabs / Pricing & Availability Changes
+- **Never change base price, min price, max price, or minimum-stay settings on any listing without explicit, confirmed approval from Marinela for that specific change** — no proactive edits, even if the data clearly points that way. Propose it, explain the reasoning and expected effect, and wait for a direct go-ahead.
+- Before proposing or discussing a change, **confirm exactly what she's asking about** (nightly price vs. price floor/min_price vs. minimum-stay nights are three different things and easy to conflate) — if her wording is ambiguous, ask or verify against the data rather than guessing.
+- When approval is given, apply exactly the number she specifies — don't round, adjust, or "improve" it.
+- Read-only investigation (checking logs, occupancy, current settings) is always fine without asking first — the confirmation gate is specifically for anything that writes/changes a live setting.
+
 ### Video Generation
 - **Always check cost and get approval before generating any video** — never generate without explicit go-ahead
 - **Avatar UGC videos only** (marketing_studio_video model, UGC preset, Sofia or female avatar talking to camera)
