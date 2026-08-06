@@ -23,6 +23,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HostIndexRouteImport } from './routes/host/index'
 import { Route as GuestgrowthIndexRouteImport } from './routes/guestgrowth/index'
+import { Route as CleanersIndexRouteImport } from './routes/cleaners/index'
 import { Route as WifiSlugRouteImport } from './routes/wifi.$slug'
 import { Route as PlaqueSlugRouteImport } from './routes/plaque.$slug'
 import { Route as ListingsSlugRouteImport } from './routes/listings.$slug'
@@ -32,6 +33,9 @@ import { Route as HostDashboardRouteImport } from './routes/host/dashboard'
 import { Route as GuestgrowthSampleRouteImport } from './routes/guestgrowth/sample'
 import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
+import { Route as CleanersSetupRouteImport } from './routes/cleaners/setup'
+import { Route as CleanersLoginRouteImport } from './routes/cleaners/login'
+import { Route as CleanersAdminRouteImport } from './routes/cleaners/admin'
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
@@ -48,6 +52,7 @@ import { Route as ApiPublicPostCheckoutMessageRouteImport } from './routes/api/p
 import { Route as ApiPublicOrphanDayUpsellRouteImport } from './routes/api/public/orphan-day-upsell'
 import { Route as ApiPublicGuestgrowthLeadRouteImport } from './routes/api/public/guestgrowth-lead'
 import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public/discount-signup'
+import { Route as ApiInternalSyncCleaningJobsRouteImport } from './routes/api/internal/sync-cleaning-jobs'
 import { Route as ApiInternalStripeReconcileRouteImport } from './routes/api/internal/stripe-reconcile'
 import { Route as ApiInternalPostStayDripRouteImport } from './routes/api/internal/post-stay-drip'
 import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
@@ -127,6 +132,11 @@ const GuestgrowthIndexRoute = GuestgrowthIndexRouteImport.update({
   path: '/guestgrowth/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CleanersIndexRoute = CleanersIndexRouteImport.update({
+  id: '/cleaners/',
+  path: '/cleaners/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WifiSlugRoute = WifiSlugRouteImport.update({
   id: '/wifi/$slug',
   path: '/wifi/$slug',
@@ -170,6 +180,21 @@ const ExploreSlugRoute = ExploreSlugRouteImport.update({
 const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
   id: '/email/unsubscribe',
   path: '/email/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CleanersSetupRoute = CleanersSetupRouteImport.update({
+  id: '/cleaners/setup',
+  path: '/cleaners/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CleanersLoginRoute = CleanersLoginRouteImport.update({
+  id: '/cleaners/login',
+  path: '/cleaners/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CleanersAdminRoute = CleanersAdminRouteImport.update({
+  id: '/cleaners/admin',
+  path: '/cleaners/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRssDotxmlRoute = BlogRssDotxmlRouteImport.update({
@@ -258,6 +283,12 @@ const ApiPublicDiscountSignupRoute = ApiPublicDiscountSignupRouteImport.update({
   path: '/api/public/discount-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInternalSyncCleaningJobsRoute =
+  ApiInternalSyncCleaningJobsRouteImport.update({
+    id: '/api/internal/sync-cleaning-jobs',
+    path: '/api/internal/sync-cleaning-jobs',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiInternalStripeReconcileRoute =
   ApiInternalStripeReconcileRouteImport.update({
     id: '/api/internal/stripe-reconcile',
@@ -319,6 +350,9 @@ export interface FileRoutesByFullPath {
   '/unsubscribe': typeof UnsubscribeRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
+  '/cleaners/admin': typeof CleanersAdminRoute
+  '/cleaners/login': typeof CleanersLoginRoute
+  '/cleaners/setup': typeof CleanersSetupRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/guestgrowth/sample': typeof GuestgrowthSampleRoute
@@ -328,6 +362,7 @@ export interface FileRoutesByFullPath {
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/cleaners/': typeof CleanersIndexRoute
   '/guestgrowth/': typeof GuestgrowthIndexRoute
   '/host/': typeof HostIndexRoute
   '/api/host/profile': typeof ApiHostProfileRoute
@@ -335,6 +370,7 @@ export interface FileRoutesByFullPath {
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/internal/stripe-reconcile': typeof ApiInternalStripeReconcileRoute
+  '/api/internal/sync-cleaning-jobs': typeof ApiInternalSyncCleaningJobsRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -368,6 +404,9 @@ export interface FileRoutesByTo {
   '/unsubscribe': typeof UnsubscribeRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
+  '/cleaners/admin': typeof CleanersAdminRoute
+  '/cleaners/login': typeof CleanersLoginRoute
+  '/cleaners/setup': typeof CleanersSetupRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/guestgrowth/sample': typeof GuestgrowthSampleRoute
@@ -377,6 +416,7 @@ export interface FileRoutesByTo {
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/cleaners': typeof CleanersIndexRoute
   '/guestgrowth': typeof GuestgrowthIndexRoute
   '/host': typeof HostIndexRoute
   '/api/host/profile': typeof ApiHostProfileRoute
@@ -384,6 +424,7 @@ export interface FileRoutesByTo {
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/internal/stripe-reconcile': typeof ApiInternalStripeReconcileRoute
+  '/api/internal/sync-cleaning-jobs': typeof ApiInternalSyncCleaningJobsRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -418,6 +459,9 @@ export interface FileRoutesById {
   '/unsubscribe': typeof UnsubscribeRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/rss.xml': typeof BlogRssDotxmlRoute
+  '/cleaners/admin': typeof CleanersAdminRoute
+  '/cleaners/login': typeof CleanersLoginRoute
+  '/cleaners/setup': typeof CleanersSetupRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/guestgrowth/sample': typeof GuestgrowthSampleRoute
@@ -427,6 +471,7 @@ export interface FileRoutesById {
   '/listings/$slug': typeof ListingsSlugRoute
   '/plaque/$slug': typeof PlaqueSlugRoute
   '/wifi/$slug': typeof WifiSlugRoute
+  '/cleaners/': typeof CleanersIndexRoute
   '/guestgrowth/': typeof GuestgrowthIndexRoute
   '/host/': typeof HostIndexRoute
   '/api/host/profile': typeof ApiHostProfileRoute
@@ -434,6 +479,7 @@ export interface FileRoutesById {
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/internal/stripe-reconcile': typeof ApiInternalStripeReconcileRoute
+  '/api/internal/sync-cleaning-jobs': typeof ApiInternalSyncCleaningJobsRoute
   '/api/public/discount-signup': typeof ApiPublicDiscountSignupRoute
   '/api/public/guestgrowth-lead': typeof ApiPublicGuestgrowthLeadRoute
   '/api/public/orphan-day-upsell': typeof ApiPublicOrphanDayUpsellRoute
@@ -469,6 +515,9 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/blog/$slug'
     | '/blog/rss.xml'
+    | '/cleaners/admin'
+    | '/cleaners/login'
+    | '/cleaners/setup'
     | '/email/unsubscribe'
     | '/explore/$slug'
     | '/guestgrowth/sample'
@@ -478,6 +527,7 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/cleaners/'
     | '/guestgrowth/'
     | '/host/'
     | '/api/host/profile'
@@ -485,6 +535,7 @@ export interface FileRouteTypes {
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/internal/stripe-reconcile'
+    | '/api/internal/sync-cleaning-jobs'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
@@ -518,6 +569,9 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/blog/$slug'
     | '/blog/rss.xml'
+    | '/cleaners/admin'
+    | '/cleaners/login'
+    | '/cleaners/setup'
     | '/email/unsubscribe'
     | '/explore/$slug'
     | '/guestgrowth/sample'
@@ -527,6 +581,7 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/cleaners'
     | '/guestgrowth'
     | '/host'
     | '/api/host/profile'
@@ -534,6 +589,7 @@ export interface FileRouteTypes {
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/internal/stripe-reconcile'
+    | '/api/internal/sync-cleaning-jobs'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
@@ -567,6 +623,9 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/blog/$slug'
     | '/blog/rss.xml'
+    | '/cleaners/admin'
+    | '/cleaners/login'
+    | '/cleaners/setup'
     | '/email/unsubscribe'
     | '/explore/$slug'
     | '/guestgrowth/sample'
@@ -576,6 +635,7 @@ export interface FileRouteTypes {
     | '/listings/$slug'
     | '/plaque/$slug'
     | '/wifi/$slug'
+    | '/cleaners/'
     | '/guestgrowth/'
     | '/host/'
     | '/api/host/profile'
@@ -583,6 +643,7 @@ export interface FileRouteTypes {
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/internal/stripe-reconcile'
+    | '/api/internal/sync-cleaning-jobs'
     | '/api/public/discount-signup'
     | '/api/public/guestgrowth-lead'
     | '/api/public/orphan-day-upsell'
@@ -615,6 +676,9 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
+  CleanersAdminRoute: typeof CleanersAdminRoute
+  CleanersLoginRoute: typeof CleanersLoginRoute
+  CleanersSetupRoute: typeof CleanersSetupRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   GuestgrowthSampleRoute: typeof GuestgrowthSampleRoute
   HostDashboardRoute: typeof HostDashboardRoute
@@ -623,6 +687,7 @@ export interface RootRouteChildren {
   ListingsSlugRoute: typeof ListingsSlugRoute
   PlaqueSlugRoute: typeof PlaqueSlugRoute
   WifiSlugRoute: typeof WifiSlugRoute
+  CleanersIndexRoute: typeof CleanersIndexRoute
   GuestgrowthIndexRoute: typeof GuestgrowthIndexRoute
   HostIndexRoute: typeof HostIndexRoute
   ApiHostProfileRoute: typeof ApiHostProfileRoute
@@ -630,6 +695,7 @@ export interface RootRouteChildren {
   ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
   ApiInternalPostStayDripRoute: typeof ApiInternalPostStayDripRoute
   ApiInternalStripeReconcileRoute: typeof ApiInternalStripeReconcileRoute
+  ApiInternalSyncCleaningJobsRoute: typeof ApiInternalSyncCleaningJobsRoute
   ApiPublicDiscountSignupRoute: typeof ApiPublicDiscountSignupRoute
   ApiPublicGuestgrowthLeadRoute: typeof ApiPublicGuestgrowthLeadRoute
   ApiPublicOrphanDayUpsellRoute: typeof ApiPublicOrphanDayUpsellRoute
@@ -749,6 +815,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestgrowthIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cleaners/': {
+      id: '/cleaners/'
+      path: '/cleaners'
+      fullPath: '/cleaners/'
+      preLoaderRoute: typeof CleanersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/wifi/$slug': {
       id: '/wifi/$slug'
       path: '/wifi/$slug'
@@ -810,6 +883,27 @@ declare module '@tanstack/react-router' {
       path: '/email/unsubscribe'
       fullPath: '/email/unsubscribe'
       preLoaderRoute: typeof EmailUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cleaners/setup': {
+      id: '/cleaners/setup'
+      path: '/cleaners/setup'
+      fullPath: '/cleaners/setup'
+      preLoaderRoute: typeof CleanersSetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cleaners/login': {
+      id: '/cleaners/login'
+      path: '/cleaners/login'
+      fullPath: '/cleaners/login'
+      preLoaderRoute: typeof CleanersLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cleaners/admin': {
+      id: '/cleaners/admin'
+      path: '/cleaners/admin'
+      fullPath: '/cleaners/admin'
+      preLoaderRoute: typeof CleanersAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/rss.xml': {
@@ -924,6 +1018,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDiscountSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/sync-cleaning-jobs': {
+      id: '/api/internal/sync-cleaning-jobs'
+      path: '/api/internal/sync-cleaning-jobs'
+      fullPath: '/api/internal/sync-cleaning-jobs'
+      preLoaderRoute: typeof ApiInternalSyncCleaningJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/internal/stripe-reconcile': {
       id: '/api/internal/stripe-reconcile'
       path: '/api/internal/stripe-reconcile'
@@ -1019,6 +1120,9 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
+  CleanersAdminRoute: CleanersAdminRoute,
+  CleanersLoginRoute: CleanersLoginRoute,
+  CleanersSetupRoute: CleanersSetupRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   GuestgrowthSampleRoute: GuestgrowthSampleRoute,
   HostDashboardRoute: HostDashboardRoute,
@@ -1027,6 +1131,7 @@ const rootRouteChildren: RootRouteChildren = {
   ListingsSlugRoute: ListingsSlugRoute,
   PlaqueSlugRoute: PlaqueSlugRoute,
   WifiSlugRoute: WifiSlugRoute,
+  CleanersIndexRoute: CleanersIndexRoute,
   GuestgrowthIndexRoute: GuestgrowthIndexRoute,
   HostIndexRoute: HostIndexRoute,
   ApiHostProfileRoute: ApiHostProfileRoute,
@@ -1034,6 +1139,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
   ApiInternalPostStayDripRoute: ApiInternalPostStayDripRoute,
   ApiInternalStripeReconcileRoute: ApiInternalStripeReconcileRoute,
+  ApiInternalSyncCleaningJobsRoute: ApiInternalSyncCleaningJobsRoute,
   ApiPublicDiscountSignupRoute: ApiPublicDiscountSignupRoute,
   ApiPublicGuestgrowthLeadRoute: ApiPublicGuestgrowthLeadRoute,
   ApiPublicOrphanDayUpsellRoute: ApiPublicOrphanDayUpsellRoute,
