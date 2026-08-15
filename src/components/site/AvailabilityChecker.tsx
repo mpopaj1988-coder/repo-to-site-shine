@@ -3,6 +3,7 @@ import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import type { CalendarDay } from "@/lib/hospitable.functions";
 import { createBookingCheckout } from "@/lib/stripe.functions";
+import { validatePromoCode } from "@/lib/promo.functions";
 import { track } from "@/lib/analytics";
 
 function ymd(d: Date): string {
@@ -48,6 +49,24 @@ function isBlackoutNight(date: Date): boolean {
 
 type Discount = { pct: number; label: string; amount: number };
 
+// A guest never does worse than the discount they were promised: whichever of
+// the automatic length-of-stay discount and their promo code is worth more
+// wins. They don't stack — a month-long stay with a code would otherwise reach
+// ~24% off.
+function bestDiscount(
+  stay: Discount | null,
+  promo: AppliedPromo | null,
+  accommodationTotal: number,
+): Discount | null {
+  const promoDiscount: Discount | null = promo
+    ? { pct: promo.pct, label: promo.label, amount: Math.round(accommodationTotal * promo.pct) }
+    : null;
+  if (stay && promoDiscount) return promoDiscount.amount > stay.amount ? promoDiscount : stay;
+  return stay ?? promoDiscount;
+}
+
+type AppliedPromo = { code: string; pct: number; label: string };
+
 function getStayDiscount(nights: number, from: Date, to: Date, accommodationTotal: number): Discount | null {
   if (nights < 7) return null;
   // Check every night of the stay for a blackout date.
@@ -83,8 +102,32 @@ export function AvailabilityChecker({
   const [guests, setGuests] = useState(1);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
+  const [promoStatus, setPromoStatus] = useState<"idle" | "checking" | "not_found" | "already_used" | "error">("idle");
   // Tracks which rangeKey the user dismissed the upsell for, so it reappears on new date selections
   const [dismissedForRange, setDismissedForRange] = useState("");
+
+  async function applyPromoCode() {
+    const code = promoInput.trim();
+    if (!code) return;
+    setPromoStatus("checking");
+    try {
+      const result = await validatePromoCode({ data: { code } });
+      if (result.valid) {
+        setAppliedPromo({ code: result.code, pct: result.pct, label: result.label });
+        setPromoStatus("idle");
+        setPromoInput("");
+        track("promo_code_applied", { property: propertySlug, code: result.code });
+      } else {
+        setAppliedPromo(null);
+        setPromoStatus(result.reason);
+      }
+    } catch {
+      setAppliedPromo(null);
+      setPromoStatus("error");
+    }
+  }
 
   // Build lookup structures for availability and pricing
   const { unavailableSet, checkoutOnlySet, priceByDate, currency, minDate, firstAvailableDate, hasAnyAvailable } =
@@ -204,9 +247,10 @@ export function AvailabilityChecker({
       return;
     }
 
-    const discount = range?.from && range?.to
+    const stayDiscount = range?.from && range?.to
       ? getStayDiscount(nights, range.from, range.to, baseAccommodation)
       : null;
+    const discount = bestDiscount(stayDiscount, appliedPromo, baseAccommodation);
     const discountedAccommodation = discount
       ? Math.round(baseAccommodation - discount.amount)
       : Math.round(baseAccommodation);
@@ -228,6 +272,7 @@ export function AvailabilityChecker({
           total: checkoutTotal,
           currency,
           ...(discount ? { discountAmount: discount.amount, discountLabel: discount.label } : {}),
+          ...(appliedPromo ? { promoCode: appliedPromo.code } : {}),
         },
       });
       window.location.href = result.url;
@@ -378,9 +423,10 @@ export function AvailabilityChecker({
                 </div>
               );
             }
-            const disc = range?.from && range?.to
+            const stayDisc = range?.from && range?.to
               ? getStayDiscount(nights, range.from, range.to, baseAccom)
               : null;
+            const disc = bestDiscount(stayDisc, appliedPromo, baseAccom);
             const discountedAccom = disc ? baseAccom - disc.amount : baseAccom;
             const subtotal = discountedAccom + cleaningFee;
             const tax = Math.round(subtotal * 0.145);
@@ -419,6 +465,55 @@ export function AvailabilityChecker({
           )}
         </div>
       )}
+
+      {/* Discount code */}
+      <div className="mt-4">
+        {appliedPromo ? (
+          <div className="flex items-center justify-between rounded-sm border border-emerald-600/40 bg-emerald-50 px-3 py-2">
+            <span className="text-xs font-medium text-emerald-800">
+              ✓ Code <span className="font-bold">{appliedPromo.code}</span> applied
+            </span>
+            <button
+              type="button"
+              onClick={() => { setAppliedPromo(null); setPromoStatus("idle"); }}
+              className="text-xs text-emerald-800/70 underline-offset-2 hover:underline"
+            >
+              Remove
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={promoInput}
+                onChange={(e) => { setPromoInput(e.target.value); setPromoStatus("idle"); }}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyPromoCode(); } }}
+                placeholder="Discount code"
+                aria-label="Discount code"
+                className="min-w-0 flex-1 rounded-sm border border-border bg-background px-3 py-2 text-sm uppercase outline-none placeholder:normal-case focus:border-[var(--color-deep)]"
+              />
+              <button
+                type="button"
+                onClick={applyPromoCode}
+                disabled={promoStatus === "checking" || !promoInput.trim()}
+                className="shrink-0 rounded-sm border border-[var(--color-deep)] px-4 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-deep)] transition hover:bg-[var(--color-deep)] hover:text-white disabled:opacity-40"
+              >
+                {promoStatus === "checking" ? "…" : "Apply"}
+              </button>
+            </div>
+            {promoStatus === "not_found" && (
+              <p className="mt-1.5 text-xs text-red-600">That code isn't valid — double-check the email we sent you.</p>
+            )}
+            {promoStatus === "already_used" && (
+              <p className="mt-1.5 text-xs text-red-600">That code has already been used on a previous booking.</p>
+            )}
+            {promoStatus === "error" && (
+              <p className="mt-1.5 text-xs text-red-600">Couldn't check that code — please try again.</p>
+            )}
+          </>
+        )}
+      </div>
 
       <p className="mt-3 text-[10px] text-muted-foreground">
         🔒 100% refund if cancelled 5+ days before check-in · No refund within 5 days

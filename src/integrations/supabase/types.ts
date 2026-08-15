@@ -17,6 +17,8 @@ export type Database = {
       email_leads: {
         Row: {
           created_at: string
+          discount_code: string | null
+          discount_code_used_at: string | null
           email: string
           id: string
           source: string | null
@@ -27,6 +29,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          discount_code?: string | null
+          discount_code_used_at?: string | null
           email: string
           id?: string
           source?: string | null
@@ -37,6 +41,8 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          discount_code?: string | null
+          discount_code_used_at?: string | null
           email?: string
           id?: string
           source?: string | null

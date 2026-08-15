@@ -17,6 +17,7 @@ export type CheckoutInput = {
   currency: string;
   discountAmount?: number; // dollar amount saved, for display/records
   discountLabel?: string;  // e.g. "Weekly stay · 5% off"
+  promoCode?: string;      // discount code the guest entered, if any
 };
 
 async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
@@ -46,7 +47,10 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     cancel_url: listingUrl,
     customer_creation: "always",
     billing_address_collection: "required",
-    allow_promotion_codes: "true",
+    // Deliberately no `allow_promotion_codes` — discount codes are validated in
+    // our own booking widget and applied to the room rate before this session is
+    // built, so Florida tax stays correct. A second Stripe-side promo box would
+    // only reject the codes we issue, since they don't exist in Stripe.
     // Session-level metadata
     "metadata[property]": input.propertySlug,
     "metadata[title]": input.propertyTitle,
@@ -58,6 +62,7 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     "metadata[tax_cents]": String(taxCents),
     ...(input.discountAmount ? { "metadata[discount_cents]": String(Math.round(input.discountAmount * 100)) } : {}),
     ...(input.discountLabel ? { "metadata[discount_label]": input.discountLabel } : {}),
+    ...(input.promoCode ? { "metadata[promo_code]": input.promoCode } : {}),
   };
 
   let lineIndex = 1;
