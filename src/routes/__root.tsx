@@ -10,7 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { SITE_URL, PHONE } from "@/data/properties";
-import { GA4_MEASUREMENT_ID } from "@/lib/analytics";
+import { GA4_MEASUREMENT_ID, GOOGLE_ADS_ID } from "@/lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -142,6 +142,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${GA4_MEASUREMENT_ID}');`,
             },
           ]
+        : []),
+      // Google Ads conversion tag — only loads once GOOGLE_ADS_ID is filled in.
+      // Reuses the gtag.js already loaded above for GA4.
+      ...(GA4_MEASUREMENT_ID && GOOGLE_ADS_ID
+        ? [{ children: `gtag('config', '${GOOGLE_ADS_ID}');` }]
         : []),
     ],
   }),

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { track } from "@/lib/analytics";
 import { createServerFn } from "@tanstack/react-start";
 import { properties } from "@/data/properties";
 import { WIFI_CONFIG } from "@/data/wifiConfig.server";
@@ -7,6 +8,22 @@ import { createClient } from "@supabase/supabase-js";
 
 const SITE_URL = "https://seaandcityrentals.com";
 const SUPABASE_URL = "https://bgollemualqrwfrxrmwx.supabase.co";
+
+/**
+ * Tag links leaving the in-property guide so a rebooking that starts at the
+ * QR code shows up in Analytics as exactly that. Without these the visit looks
+ * like anonymous "Direct" traffic and the QR code gets no credit for revenue
+ * it actually produced.
+ */
+function withQrAttribution(url: string, slug: string, content: string) {
+  const params = new URLSearchParams({
+    utm_source: "wifi_qr",
+    utm_medium: "in_property",
+    utm_campaign: "guest_rebook",
+    utm_content: `${content}__${slug}`,
+  });
+  return `${url}?${params.toString()}`;
+}
 
 function propertyTitle(slug: string) {
   const p = properties.find((x) => x.slug === slug);
@@ -79,6 +96,13 @@ function WifiPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [guide, setGuide] = useState<Guide | null>(null);
 
+  // A guest just scanned the QR code at the property. This is the top of the
+  // warmest funnel the business has — measure it so the drop-off to email
+  // capture is visible instead of invisible.
+  useEffect(() => {
+    track("wifi_scan", { property: slug, surface: "qr_code" });
+  }, [slug]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim() || !consent) return;
@@ -94,6 +118,7 @@ function WifiPage() {
       if (res.ok) {
         const data = (await res.json()) as { ok: boolean; guide: Guide };
         setGuide(data.guide);
+        track("email_signup", { method: "wifi_qr", property: slug });
       } else {
         throw new Error("Request failed");
       }
@@ -232,7 +257,18 @@ function WifiPage() {
               {/* Local guide link */}
               {guide.guideSlug && (
                 <a
-                  href={`${SITE_URL}/explore/${guide.guideSlug}`}
+                  href={withQrAttribution(
+                    `${SITE_URL}/explore/${guide.guideSlug}`,
+                    slug,
+                    "local_guide",
+                  )}
+                  onClick={() =>
+                    track("guide_click", {
+                      surface: "wifi_guide",
+                      guide: guide.guideSlug,
+                      property: slug,
+                    })
+                  }
                   target="_blank"
                   rel="noreferrer"
                   style={{ display: "block", border: "1.5px solid #1A3A4A", color: "#1A3A4A", padding: "12px", borderRadius: "8px", textDecoration: "none", fontSize: "13px", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "center", fontFamily: "system-ui, sans-serif", marginBottom: "12px" }}
@@ -253,7 +289,10 @@ function WifiPage() {
                   Book directly next time and save up to 15% — no Airbnb fees.
                 </p>
                 <a
-                  href={`${SITE_URL}/listings/${slug}`}
+                  href={withQrAttribution(`${SITE_URL}/listings/${slug}`, slug, "rebook_cta")}
+                  onClick={() =>
+                    track("wifi_rebook_click", { property: slug, surface: "wifi_guide" })
+                  }
                   target="_blank"
                   rel="noreferrer"
                   style={{ display: "block", backgroundColor: "#C9A84C", color: "#1A3A4A", padding: "12px", borderRadius: "8px", textDecoration: "none", fontSize: "13px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "center", fontFamily: "system-ui, sans-serif" }}

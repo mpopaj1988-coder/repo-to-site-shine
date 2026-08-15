@@ -8,11 +8,13 @@ import { guides } from "@/data/guides";
 import { Bath, BedDouble, Users, Star, MapPin, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { getListingPricing, getListingReviews, getListingAvailability, type Pricing, type ReviewItem, type CalendarDay } from "@/lib/hospitable.functions";
-import { track } from "@/lib/analytics";
+import { track, trackPurchase } from "@/lib/analytics";
+import { getBookingResult } from "@/lib/stripe.functions";
 
 export const Route = createFileRoute("/listings/$slug")({
   validateSearch: (search: Record<string, string>) => ({
     booking: search.booking === "success" ? ("success" as const) : undefined,
+    session_id: typeof search.session_id === "string" ? search.session_id : undefined,
   }),
   staleTime: 5 * 60 * 1000,
   loader: async ({ params }) => {
@@ -193,7 +195,7 @@ function guideForProperty(location: string) {
 
 function ListingPage() {
   const { property: p, pricing, reviews, availability } = Route.useLoaderData() as { property: Property; pricing: Pricing; reviews: ReviewItem[]; availability: CalendarDay[] };
-  const { booking } = Route.useSearch();
+  const { booking, session_id: sessionId } = Route.useSearch();
   const [reviewPage, setReviewPage] = useState(0);
   const reviewsPerPage = 3;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -202,6 +204,33 @@ function ListingPage() {
   useEffect(() => {
     track("listing_view", { property: p.slug, location: p.location });
   }, [p.slug, p.location]);
+
+  // Booking conversion — the one event that ties marketing spend to revenue.
+  // The amount is read back from Stripe rather than taken from the URL, and
+  // trackPurchase() de-duplicates on the session id, so a refresh is harmless.
+  useEffect(() => {
+    if (booking !== "success" || !sessionId) return;
+    let cancelled = false;
+    getBookingResult({ data: { sessionId } })
+      .then((result) => {
+        if (cancelled || !result?.paid) return;
+        trackPurchase({
+          transactionId: result.transactionId,
+          value: result.value,
+          currency: result.currency,
+          property: result.property || p.slug,
+          nights: result.nights,
+          checkIn: result.checkIn,
+          checkOut: result.checkOut,
+        });
+      })
+      .catch(() => {
+        // Never let analytics break the confirmation screen.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [booking, sessionId, p.slug]);
 
   const related = properties.filter((x) => x.slug !== p.slug).slice(0, 3);
 

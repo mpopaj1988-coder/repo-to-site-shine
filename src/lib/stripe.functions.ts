@@ -43,7 +43,10 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     ].filter(Boolean).join(" · "),
     "line_items[0][price_data][unit_amount]": String(accommodationCents),
     "line_items[0][quantity]": "1",
-    success_url: `${listingUrl}?booking=success`,
+    // `{CHECKOUT_SESSION_ID}` is substituted by Stripe on redirect. We read the
+    // session back server-side to record the booking's real value in analytics,
+    // rather than trusting a number passed through the URL.
+    success_url: `${listingUrl}?booking=success&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: listingUrl,
     customer_creation: "always",
     billing_address_collection: "required",
@@ -110,4 +113,59 @@ export const createBookingCheckout = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const url = await stripeCheckoutSession(data);
     return { url };
+  });
+
+export type BookingResult = {
+  paid: boolean;
+  transactionId: string;
+  value: number; // total actually charged, in dollars
+  currency: string;
+  property: string;
+  nights?: number;
+  checkIn?: string;
+  checkOut?: string;
+};
+
+/**
+ * Read a completed checkout session back from Stripe so the confirmation page
+ * can report the booking — and its true dollar value — to analytics.
+ *
+ * Returns `paid: false` for anything not actually paid, so a guessed or
+ * replayed session id can never manufacture a fake conversion.
+ */
+export const getBookingResult = createServerFn({ method: "GET" })
+  .inputValidator((data: { sessionId: string }) => data)
+  .handler(async ({ data }): Promise<BookingResult | null> => {
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey || !data.sessionId.startsWith("cs_")) return null;
+
+    const res = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(data.sessionId)}`,
+      { headers: { Authorization: `Bearer ${stripeKey}` } },
+    );
+    if (!res.ok) return null;
+
+    const session = (await res.json()) as {
+      id: string;
+      amount_total: number | null;
+      currency: string | null;
+      payment_status: string;
+      metadata?: Record<string, string>;
+    };
+
+    if (session.payment_status !== "paid") return null;
+
+    const meta = session.metadata ?? {};
+    const nights = Number(meta.nights);
+
+    return {
+      paid: true,
+      transactionId: session.id,
+      value: (session.amount_total ?? 0) / 100,
+      currency: (session.currency ?? "usd").toUpperCase(),
+      property: meta.property ?? "",
+      nights: Number.isFinite(nights) && nights > 0 ? nights : undefined,
+      checkIn: meta.check_in,
+      checkOut: meta.check_out,
+    };
   });
