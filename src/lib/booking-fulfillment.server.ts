@@ -199,6 +199,18 @@ export async function fulfillCheckoutSession(
     // Continue anyway — log the error for investigation.
   }
 
+  // Burn the signup discount code so it can't be reused or passed around.
+  // RETURN10 is shared across all returning guests, so it stays reusable.
+  const promoCode = metadata.promo_code ?? "";
+  if (promoCode && promoCode.toUpperCase() !== "RETURN10") {
+    const { error: promoErr } = await sb
+      .from("email_leads")
+      .update({ discount_code_used_at: new Date().toISOString() })
+      .eq("discount_code", promoCode.toUpperCase())
+      .is("discount_code_used_at", null);
+    if (promoErr) console.error("Failed to mark promo code used", promoErr);
+  }
+
   // Fetch the stored cancel token (in case this was a duplicate and we got
   // the original token back via ignoreDuplicates).
   const { data: stored } = await sb
