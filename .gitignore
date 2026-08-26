@@ -20,6 +20,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Google Ads analyzer credentials
+.env.ads
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
