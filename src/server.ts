@@ -160,6 +160,36 @@ export default {
         } catch (err) {
           console.error("Scheduled post-stay drip failed:", err);
         }
+
+        // Sync Hospitable transactions into the accounting ledger.
+        try {
+          const res = await handler.fetch(
+            new Request("https://seaandcityrentals.com/api/internal/accounting-sync-hospitable", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${serviceKey}` },
+            }),
+            env, ctx,
+          );
+          console.log("Scheduled accounting sync:", res.status, await res.text());
+        } catch (err) {
+          console.error("Scheduled accounting sync failed:", err);
+        }
+
+        // On the 1st of the month: email last month's Profit & Loss report.
+        if (new Date().getUTCDate() === 1) {
+          try {
+            const res = await handler.fetch(
+              new Request("https://seaandcityrentals.com/api/internal/accounting-monthly-report", {
+                method: "POST",
+                headers: { Authorization: `Bearer ${serviceKey}` },
+              }),
+              env, ctx,
+            );
+            console.log("Scheduled monthly P&L report:", res.status, await res.text());
+          } catch (err) {
+            console.error("Scheduled monthly P&L report failed:", err);
+          }
+        }
       })(),
     );
   },

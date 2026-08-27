@@ -34,6 +34,7 @@ import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as BlogRssDotxmlRouteImport } from './routes/blog.rss[.]xml'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as AdminAccountingIndexRouteImport } from './routes/admin/accounting/index'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as HostPropertiesNewRouteImport } from './routes/host/properties/new'
 import { Route as HostPropertiesIdRouteImport } from './routes/host/properties/$id'
@@ -51,11 +52,22 @@ import { Route as ApiPublicDiscountSignupRouteImport } from './routes/api/public
 import { Route as ApiInternalStripeReconcileRouteImport } from './routes/api/internal/stripe-reconcile'
 import { Route as ApiInternalPostStayDripRouteImport } from './routes/api/internal/post-stay-drip'
 import { Route as ApiInternalMarketingDripRouteImport } from './routes/api/internal/marketing-drip'
+import { Route as ApiInternalAccountingSyncHospitableRouteImport } from './routes/api/internal/accounting-sync-hospitable'
+import { Route as ApiInternalAccountingMonthlyReportRouteImport } from './routes/api/internal/accounting-monthly-report'
 import { Route as ApiHostPropertiesRouteImport } from './routes/api/host/properties'
 import { Route as ApiHostProfileRouteImport } from './routes/api/host/profile'
+import { Route as AdminAccountingLoginRouteImport } from './routes/admin/accounting/login'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
+import { Route as ApiAdminAccountingUploadVenmoRouteImport } from './routes/api/admin/accounting/upload-venmo'
+import { Route as ApiAdminAccountingTransactionsRouteImport } from './routes/api/admin/accounting/transactions'
+import { Route as ApiAdminAccountingSyncRouteImport } from './routes/api/admin/accounting/sync'
+import { Route as ApiAdminAccountingSessionRouteImport } from './routes/api/admin/accounting/session'
+import { Route as ApiAdminAccountingPlRouteImport } from './routes/api/admin/accounting/pl'
+import { Route as ApiAdminAccountingLogoutRouteImport } from './routes/api/admin/accounting/logout'
+import { Route as ApiAdminAccountingLoginRouteImport } from './routes/api/admin/accounting/login'
+import { Route as ApiAdminAccountingTransactionsIdRouteImport } from './routes/api/admin/accounting/transactions.$id'
 
 const UnsubscribeRoute = UnsubscribeRouteImport.update({
   id: '/unsubscribe',
@@ -182,6 +194,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => BlogRoute,
 } as any)
+const AdminAccountingIndexRoute = AdminAccountingIndexRouteImport.update({
+  id: '/admin/accounting/',
+  path: '/admin/accounting/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   id: '/lovable/email/suppression',
   path: '/lovable/email/suppression',
@@ -275,6 +292,18 @@ const ApiInternalMarketingDripRoute =
     path: '/api/internal/marketing-drip',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiInternalAccountingSyncHospitableRoute =
+  ApiInternalAccountingSyncHospitableRouteImport.update({
+    id: '/api/internal/accounting-sync-hospitable',
+    path: '/api/internal/accounting-sync-hospitable',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInternalAccountingMonthlyReportRoute =
+  ApiInternalAccountingMonthlyReportRouteImport.update({
+    id: '/api/internal/accounting-monthly-report',
+    path: '/api/internal/accounting-monthly-report',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiHostPropertiesRoute = ApiHostPropertiesRouteImport.update({
   id: '/api/host/properties',
   path: '/api/host/properties',
@@ -283,6 +312,11 @@ const ApiHostPropertiesRoute = ApiHostPropertiesRouteImport.update({
 const ApiHostProfileRoute = ApiHostProfileRouteImport.update({
   id: '/api/host/profile',
   path: '/api/host/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAccountingLoginRoute = AdminAccountingLoginRouteImport.update({
+  id: '/admin/accounting/login',
+  path: '/admin/accounting/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LovableEmailTransactionalSendRoute =
@@ -302,6 +336,51 @@ const LovableEmailQueueProcessRoute =
     id: '/lovable/email/queue/process',
     path: '/lovable/email/queue/process',
     getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminAccountingUploadVenmoRoute =
+  ApiAdminAccountingUploadVenmoRouteImport.update({
+    id: '/api/admin/accounting/upload-venmo',
+    path: '/api/admin/accounting/upload-venmo',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminAccountingTransactionsRoute =
+  ApiAdminAccountingTransactionsRouteImport.update({
+    id: '/api/admin/accounting/transactions',
+    path: '/api/admin/accounting/transactions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminAccountingSyncRoute = ApiAdminAccountingSyncRouteImport.update({
+  id: '/api/admin/accounting/sync',
+  path: '/api/admin/accounting/sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminAccountingSessionRoute =
+  ApiAdminAccountingSessionRouteImport.update({
+    id: '/api/admin/accounting/session',
+    path: '/api/admin/accounting/session',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminAccountingPlRoute = ApiAdminAccountingPlRouteImport.update({
+  id: '/api/admin/accounting/pl',
+  path: '/api/admin/accounting/pl',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminAccountingLogoutRoute =
+  ApiAdminAccountingLogoutRouteImport.update({
+    id: '/api/admin/accounting/logout',
+    path: '/api/admin/accounting/logout',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAdminAccountingLoginRoute = ApiAdminAccountingLoginRouteImport.update({
+  id: '/api/admin/accounting/login',
+  path: '/api/admin/accounting/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminAccountingTransactionsIdRoute =
+  ApiAdminAccountingTransactionsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => ApiAdminAccountingTransactionsRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -330,8 +409,11 @@ export interface FileRoutesByFullPath {
   '/wifi/$slug': typeof WifiSlugRoute
   '/guestgrowth/': typeof GuestgrowthIndexRoute
   '/host/': typeof HostIndexRoute
+  '/admin/accounting/login': typeof AdminAccountingLoginRoute
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
+  '/api/internal/accounting-monthly-report': typeof ApiInternalAccountingMonthlyReportRoute
+  '/api/internal/accounting-sync-hospitable': typeof ApiInternalAccountingSyncHospitableRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/internal/stripe-reconcile': typeof ApiInternalStripeReconcileRoute
@@ -349,9 +431,18 @@ export interface FileRoutesByFullPath {
   '/host/properties/$id': typeof HostPropertiesIdRoute
   '/host/properties/new': typeof HostPropertiesNewRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
+  '/admin/accounting/': typeof AdminAccountingIndexRoute
+  '/api/admin/accounting/login': typeof ApiAdminAccountingLoginRoute
+  '/api/admin/accounting/logout': typeof ApiAdminAccountingLogoutRoute
+  '/api/admin/accounting/pl': typeof ApiAdminAccountingPlRoute
+  '/api/admin/accounting/session': typeof ApiAdminAccountingSessionRoute
+  '/api/admin/accounting/sync': typeof ApiAdminAccountingSyncRoute
+  '/api/admin/accounting/transactions': typeof ApiAdminAccountingTransactionsRouteWithChildren
+  '/api/admin/accounting/upload-venmo': typeof ApiAdminAccountingUploadVenmoRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
+  '/api/admin/accounting/transactions/$id': typeof ApiAdminAccountingTransactionsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -379,8 +470,11 @@ export interface FileRoutesByTo {
   '/wifi/$slug': typeof WifiSlugRoute
   '/guestgrowth': typeof GuestgrowthIndexRoute
   '/host': typeof HostIndexRoute
+  '/admin/accounting/login': typeof AdminAccountingLoginRoute
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
+  '/api/internal/accounting-monthly-report': typeof ApiInternalAccountingMonthlyReportRoute
+  '/api/internal/accounting-sync-hospitable': typeof ApiInternalAccountingSyncHospitableRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/internal/stripe-reconcile': typeof ApiInternalStripeReconcileRoute
@@ -398,9 +492,18 @@ export interface FileRoutesByTo {
   '/host/properties/$id': typeof HostPropertiesIdRoute
   '/host/properties/new': typeof HostPropertiesNewRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
+  '/admin/accounting': typeof AdminAccountingIndexRoute
+  '/api/admin/accounting/login': typeof ApiAdminAccountingLoginRoute
+  '/api/admin/accounting/logout': typeof ApiAdminAccountingLogoutRoute
+  '/api/admin/accounting/pl': typeof ApiAdminAccountingPlRoute
+  '/api/admin/accounting/session': typeof ApiAdminAccountingSessionRoute
+  '/api/admin/accounting/sync': typeof ApiAdminAccountingSyncRoute
+  '/api/admin/accounting/transactions': typeof ApiAdminAccountingTransactionsRouteWithChildren
+  '/api/admin/accounting/upload-venmo': typeof ApiAdminAccountingUploadVenmoRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
+  '/api/admin/accounting/transactions/$id': typeof ApiAdminAccountingTransactionsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -429,8 +532,11 @@ export interface FileRoutesById {
   '/wifi/$slug': typeof WifiSlugRoute
   '/guestgrowth/': typeof GuestgrowthIndexRoute
   '/host/': typeof HostIndexRoute
+  '/admin/accounting/login': typeof AdminAccountingLoginRoute
   '/api/host/profile': typeof ApiHostProfileRoute
   '/api/host/properties': typeof ApiHostPropertiesRoute
+  '/api/internal/accounting-monthly-report': typeof ApiInternalAccountingMonthlyReportRoute
+  '/api/internal/accounting-sync-hospitable': typeof ApiInternalAccountingSyncHospitableRoute
   '/api/internal/marketing-drip': typeof ApiInternalMarketingDripRoute
   '/api/internal/post-stay-drip': typeof ApiInternalPostStayDripRoute
   '/api/internal/stripe-reconcile': typeof ApiInternalStripeReconcileRoute
@@ -448,9 +554,18 @@ export interface FileRoutesById {
   '/host/properties/$id': typeof HostPropertiesIdRoute
   '/host/properties/new': typeof HostPropertiesNewRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
+  '/admin/accounting/': typeof AdminAccountingIndexRoute
+  '/api/admin/accounting/login': typeof ApiAdminAccountingLoginRoute
+  '/api/admin/accounting/logout': typeof ApiAdminAccountingLogoutRoute
+  '/api/admin/accounting/pl': typeof ApiAdminAccountingPlRoute
+  '/api/admin/accounting/session': typeof ApiAdminAccountingSessionRoute
+  '/api/admin/accounting/sync': typeof ApiAdminAccountingSyncRoute
+  '/api/admin/accounting/transactions': typeof ApiAdminAccountingTransactionsRouteWithChildren
+  '/api/admin/accounting/upload-venmo': typeof ApiAdminAccountingUploadVenmoRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/lovable/email/transactional/send': typeof LovableEmailTransactionalSendRoute
+  '/api/admin/accounting/transactions/$id': typeof ApiAdminAccountingTransactionsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -480,8 +595,11 @@ export interface FileRouteTypes {
     | '/wifi/$slug'
     | '/guestgrowth/'
     | '/host/'
+    | '/admin/accounting/login'
     | '/api/host/profile'
     | '/api/host/properties'
+    | '/api/internal/accounting-monthly-report'
+    | '/api/internal/accounting-sync-hospitable'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/internal/stripe-reconcile'
@@ -499,9 +617,18 @@ export interface FileRouteTypes {
     | '/host/properties/$id'
     | '/host/properties/new'
     | '/lovable/email/suppression'
+    | '/admin/accounting/'
+    | '/api/admin/accounting/login'
+    | '/api/admin/accounting/logout'
+    | '/api/admin/accounting/pl'
+    | '/api/admin/accounting/session'
+    | '/api/admin/accounting/sync'
+    | '/api/admin/accounting/transactions'
+    | '/api/admin/accounting/upload-venmo'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
     | '/lovable/email/transactional/send'
+    | '/api/admin/accounting/transactions/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -529,8 +656,11 @@ export interface FileRouteTypes {
     | '/wifi/$slug'
     | '/guestgrowth'
     | '/host'
+    | '/admin/accounting/login'
     | '/api/host/profile'
     | '/api/host/properties'
+    | '/api/internal/accounting-monthly-report'
+    | '/api/internal/accounting-sync-hospitable'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/internal/stripe-reconcile'
@@ -548,9 +678,18 @@ export interface FileRouteTypes {
     | '/host/properties/$id'
     | '/host/properties/new'
     | '/lovable/email/suppression'
+    | '/admin/accounting'
+    | '/api/admin/accounting/login'
+    | '/api/admin/accounting/logout'
+    | '/api/admin/accounting/pl'
+    | '/api/admin/accounting/session'
+    | '/api/admin/accounting/sync'
+    | '/api/admin/accounting/transactions'
+    | '/api/admin/accounting/upload-venmo'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
     | '/lovable/email/transactional/send'
+    | '/api/admin/accounting/transactions/$id'
   id:
     | '__root__'
     | '/'
@@ -578,8 +717,11 @@ export interface FileRouteTypes {
     | '/wifi/$slug'
     | '/guestgrowth/'
     | '/host/'
+    | '/admin/accounting/login'
     | '/api/host/profile'
     | '/api/host/properties'
+    | '/api/internal/accounting-monthly-report'
+    | '/api/internal/accounting-sync-hospitable'
     | '/api/internal/marketing-drip'
     | '/api/internal/post-stay-drip'
     | '/api/internal/stripe-reconcile'
@@ -597,9 +739,18 @@ export interface FileRouteTypes {
     | '/host/properties/$id'
     | '/host/properties/new'
     | '/lovable/email/suppression'
+    | '/admin/accounting/'
+    | '/api/admin/accounting/login'
+    | '/api/admin/accounting/logout'
+    | '/api/admin/accounting/pl'
+    | '/api/admin/accounting/session'
+    | '/api/admin/accounting/sync'
+    | '/api/admin/accounting/transactions'
+    | '/api/admin/accounting/upload-venmo'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
     | '/lovable/email/transactional/send'
+    | '/api/admin/accounting/transactions/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -625,8 +776,11 @@ export interface RootRouteChildren {
   WifiSlugRoute: typeof WifiSlugRoute
   GuestgrowthIndexRoute: typeof GuestgrowthIndexRoute
   HostIndexRoute: typeof HostIndexRoute
+  AdminAccountingLoginRoute: typeof AdminAccountingLoginRoute
   ApiHostProfileRoute: typeof ApiHostProfileRoute
   ApiHostPropertiesRoute: typeof ApiHostPropertiesRoute
+  ApiInternalAccountingMonthlyReportRoute: typeof ApiInternalAccountingMonthlyReportRoute
+  ApiInternalAccountingSyncHospitableRoute: typeof ApiInternalAccountingSyncHospitableRoute
   ApiInternalMarketingDripRoute: typeof ApiInternalMarketingDripRoute
   ApiInternalPostStayDripRoute: typeof ApiInternalPostStayDripRoute
   ApiInternalStripeReconcileRoute: typeof ApiInternalStripeReconcileRoute
@@ -644,6 +798,14 @@ export interface RootRouteChildren {
   HostPropertiesIdRoute: typeof HostPropertiesIdRoute
   HostPropertiesNewRoute: typeof HostPropertiesNewRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
+  AdminAccountingIndexRoute: typeof AdminAccountingIndexRoute
+  ApiAdminAccountingLoginRoute: typeof ApiAdminAccountingLoginRoute
+  ApiAdminAccountingLogoutRoute: typeof ApiAdminAccountingLogoutRoute
+  ApiAdminAccountingPlRoute: typeof ApiAdminAccountingPlRoute
+  ApiAdminAccountingSessionRoute: typeof ApiAdminAccountingSessionRoute
+  ApiAdminAccountingSyncRoute: typeof ApiAdminAccountingSyncRoute
+  ApiAdminAccountingTransactionsRoute: typeof ApiAdminAccountingTransactionsRouteWithChildren
+  ApiAdminAccountingUploadVenmoRoute: typeof ApiAdminAccountingUploadVenmoRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
   LovableEmailTransactionalSendRoute: typeof LovableEmailTransactionalSendRoute
@@ -826,6 +988,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof BlogRoute
     }
+    '/admin/accounting/': {
+      id: '/admin/accounting/'
+      path: '/admin/accounting'
+      fullPath: '/admin/accounting/'
+      preLoaderRoute: typeof AdminAccountingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/suppression': {
       id: '/lovable/email/suppression'
       path: '/lovable/email/suppression'
@@ -945,6 +1114,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInternalMarketingDripRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/accounting-sync-hospitable': {
+      id: '/api/internal/accounting-sync-hospitable'
+      path: '/api/internal/accounting-sync-hospitable'
+      fullPath: '/api/internal/accounting-sync-hospitable'
+      preLoaderRoute: typeof ApiInternalAccountingSyncHospitableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal/accounting-monthly-report': {
+      id: '/api/internal/accounting-monthly-report'
+      path: '/api/internal/accounting-monthly-report'
+      fullPath: '/api/internal/accounting-monthly-report'
+      preLoaderRoute: typeof ApiInternalAccountingMonthlyReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/host/properties': {
       id: '/api/host/properties'
       path: '/api/host/properties'
@@ -957,6 +1140,13 @@ declare module '@tanstack/react-router' {
       path: '/api/host/profile'
       fullPath: '/api/host/profile'
       preLoaderRoute: typeof ApiHostProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/accounting/login': {
+      id: '/admin/accounting/login'
+      path: '/admin/accounting/login'
+      fullPath: '/admin/accounting/login'
+      preLoaderRoute: typeof AdminAccountingLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lovable/email/transactional/send': {
@@ -979,6 +1169,62 @@ declare module '@tanstack/react-router' {
       fullPath: '/lovable/email/queue/process'
       preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/upload-venmo': {
+      id: '/api/admin/accounting/upload-venmo'
+      path: '/api/admin/accounting/upload-venmo'
+      fullPath: '/api/admin/accounting/upload-venmo'
+      preLoaderRoute: typeof ApiAdminAccountingUploadVenmoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/transactions': {
+      id: '/api/admin/accounting/transactions'
+      path: '/api/admin/accounting/transactions'
+      fullPath: '/api/admin/accounting/transactions'
+      preLoaderRoute: typeof ApiAdminAccountingTransactionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/sync': {
+      id: '/api/admin/accounting/sync'
+      path: '/api/admin/accounting/sync'
+      fullPath: '/api/admin/accounting/sync'
+      preLoaderRoute: typeof ApiAdminAccountingSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/session': {
+      id: '/api/admin/accounting/session'
+      path: '/api/admin/accounting/session'
+      fullPath: '/api/admin/accounting/session'
+      preLoaderRoute: typeof ApiAdminAccountingSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/pl': {
+      id: '/api/admin/accounting/pl'
+      path: '/api/admin/accounting/pl'
+      fullPath: '/api/admin/accounting/pl'
+      preLoaderRoute: typeof ApiAdminAccountingPlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/logout': {
+      id: '/api/admin/accounting/logout'
+      path: '/api/admin/accounting/logout'
+      fullPath: '/api/admin/accounting/logout'
+      preLoaderRoute: typeof ApiAdminAccountingLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/login': {
+      id: '/api/admin/accounting/login'
+      path: '/api/admin/accounting/login'
+      fullPath: '/api/admin/accounting/login'
+      preLoaderRoute: typeof ApiAdminAccountingLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/accounting/transactions/$id': {
+      id: '/api/admin/accounting/transactions/$id'
+      path: '/$id'
+      fullPath: '/api/admin/accounting/transactions/$id'
+      preLoaderRoute: typeof ApiAdminAccountingTransactionsIdRouteImport
+      parentRoute: typeof ApiAdminAccountingTransactionsRoute
     }
   }
 }
@@ -1006,6 +1252,21 @@ const ExploreRouteChildren: ExploreRouteChildren = {
 const ExploreRouteWithChildren =
   ExploreRoute._addFileChildren(ExploreRouteChildren)
 
+interface ApiAdminAccountingTransactionsRouteChildren {
+  ApiAdminAccountingTransactionsIdRoute: typeof ApiAdminAccountingTransactionsIdRoute
+}
+
+const ApiAdminAccountingTransactionsRouteChildren: ApiAdminAccountingTransactionsRouteChildren =
+  {
+    ApiAdminAccountingTransactionsIdRoute:
+      ApiAdminAccountingTransactionsIdRoute,
+  }
+
+const ApiAdminAccountingTransactionsRouteWithChildren =
+  ApiAdminAccountingTransactionsRoute._addFileChildren(
+    ApiAdminAccountingTransactionsRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -1029,8 +1290,13 @@ const rootRouteChildren: RootRouteChildren = {
   WifiSlugRoute: WifiSlugRoute,
   GuestgrowthIndexRoute: GuestgrowthIndexRoute,
   HostIndexRoute: HostIndexRoute,
+  AdminAccountingLoginRoute: AdminAccountingLoginRoute,
   ApiHostProfileRoute: ApiHostProfileRoute,
   ApiHostPropertiesRoute: ApiHostPropertiesRoute,
+  ApiInternalAccountingMonthlyReportRoute:
+    ApiInternalAccountingMonthlyReportRoute,
+  ApiInternalAccountingSyncHospitableRoute:
+    ApiInternalAccountingSyncHospitableRoute,
   ApiInternalMarketingDripRoute: ApiInternalMarketingDripRoute,
   ApiInternalPostStayDripRoute: ApiInternalPostStayDripRoute,
   ApiInternalStripeReconcileRoute: ApiInternalStripeReconcileRoute,
@@ -1048,6 +1314,15 @@ const rootRouteChildren: RootRouteChildren = {
   HostPropertiesIdRoute: HostPropertiesIdRoute,
   HostPropertiesNewRoute: HostPropertiesNewRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
+  AdminAccountingIndexRoute: AdminAccountingIndexRoute,
+  ApiAdminAccountingLoginRoute: ApiAdminAccountingLoginRoute,
+  ApiAdminAccountingLogoutRoute: ApiAdminAccountingLogoutRoute,
+  ApiAdminAccountingPlRoute: ApiAdminAccountingPlRoute,
+  ApiAdminAccountingSessionRoute: ApiAdminAccountingSessionRoute,
+  ApiAdminAccountingSyncRoute: ApiAdminAccountingSyncRoute,
+  ApiAdminAccountingTransactionsRoute:
+    ApiAdminAccountingTransactionsRouteWithChildren,
+  ApiAdminAccountingUploadVenmoRoute: ApiAdminAccountingUploadVenmoRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
   LovableEmailTransactionalSendRoute: LovableEmailTransactionalSendRoute,

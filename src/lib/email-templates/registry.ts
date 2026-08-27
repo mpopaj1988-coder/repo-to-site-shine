@@ -12,6 +12,7 @@ import { template as postStayReview } from './post-stay-review'
 import { template as localTips } from './local-tips'
 import { template as guestgrowthLeadNotify } from './guestgrowth-lead-notify'
 import { template as bookingOwnerNotification } from './booking-owner-notification'
+import { template as monthlyPlReport } from './monthly-pl-report'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -46,4 +47,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'local-tips': localTips,
   'guestgrowth-lead-notify': guestgrowthLeadNotify,
   'booking-owner-notification': bookingOwnerNotification,
+  'monthly-pl-report': monthlyPlReport,
 }
