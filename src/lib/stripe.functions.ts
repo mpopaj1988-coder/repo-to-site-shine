@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { SITE_URL } from "@/data/properties";
+import { MAX_PETS, petFeeFor } from "@/data/pets";
 
 const TAX_RATE = 0.145; // Florida state + county tourist development tax
 
@@ -8,6 +9,7 @@ export type CheckoutInput = {
   propertyTitle: string;
   hospitableId?: string;
   guests?: number;
+  pets?: number;
   checkIn: string; // YYYY-MM-DD
   checkOut: string; // YYYY-MM-DD
   nights: number;
@@ -27,7 +29,12 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
   const listingUrl = `${SITE_URL}/listings/${input.propertySlug}`;
   const accommodationCents = Math.round(input.accommodation * 100);
   const cleaningFeeCents = Math.round(input.cleaningFee * 100);
-  const subtotalCents = accommodationCents + cleaningFeeCents;
+  // Pet fee is recomputed here from the pet count — never trust a client amount.
+  const pets = Math.max(0, Math.min(MAX_PETS, Math.floor(input.pets ?? 0)));
+  const petFeeCents = Math.round(petFeeFor(pets) * 100);
+  // Florida taxes mandatory charges tied to the stay, so the pet fee is taxed
+  // the same way as the cleaning fee.
+  const subtotalCents = accommodationCents + cleaningFeeCents + petFeeCents;
   const taxCents = Math.round(subtotalCents * TAX_RATE);
 
   const params: Record<string, string> = {
@@ -60,6 +67,8 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     "metadata[accommodation_cents]": String(accommodationCents),
     "metadata[cleaning_fee_cents]": String(cleaningFeeCents),
     "metadata[tax_cents]": String(taxCents),
+    "metadata[pets]": String(pets),
+    "metadata[pet_fee_cents]": String(petFeeCents),
     ...(input.discountAmount ? { "metadata[discount_cents]": String(Math.round(input.discountAmount * 100)) } : {}),
     ...(input.discountLabel ? { "metadata[discount_label]": input.discountLabel } : {}),
     ...(input.promoCode ? { "metadata[promo_code]": input.promoCode } : {}),
@@ -72,6 +81,18 @@ async function stripeCheckoutSession(input: CheckoutInput): Promise<string> {
     params[`line_items[${lineIndex}][price_data][currency]`] = input.currency.toLowerCase();
     params[`line_items[${lineIndex}][price_data][product_data][name]`] = "Cleaning fee";
     params[`line_items[${lineIndex}][price_data][unit_amount]`] = String(cleaningFeeCents);
+    params[`line_items[${lineIndex}][quantity]`] = "1";
+    lineIndex++;
+  }
+
+  // Pet fee ($50 per pet, per stay)
+  if (petFeeCents > 0) {
+    params[`line_items[${lineIndex}][price_data][currency]`] = input.currency.toLowerCase();
+    params[`line_items[${lineIndex}][price_data][product_data][name]`] =
+      `Pet fee (${pets} pet${pets !== 1 ? "s" : ""})`;
+    params[`line_items[${lineIndex}][price_data][product_data][description]`] =
+      "$50 per pet, per stay";
+    params[`line_items[${lineIndex}][price_data][unit_amount]`] = String(petFeeCents);
     params[`line_items[${lineIndex}][quantity]`] = "1";
     lineIndex++;
   }

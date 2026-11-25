@@ -17,6 +17,8 @@ export interface BookingConfirmationProps {
   discount?: string      // e.g. "-$37 USD"
   discountLabel?: string // e.g. "Weekly stay · 5% off"
   cleaningFee?: string   // e.g. "$150 USD"
+  petFee?: string
+  petFeeLabel?: string
   tax?: string           // e.g. "$130 USD"
   total?: string         // e.g. "$1,022 USD"
   cancelUrl?: string
@@ -33,6 +35,8 @@ const BookingConfirmationEmail = ({
   discount,
   discountLabel,
   cleaningFee,
+  petFee,
+  petFeeLabel,
   tax,
   total = '—',
   cancelUrl = SITE_URL,
@@ -91,6 +95,12 @@ const BookingConfirmationEmail = ({
               <Row style={summaryRow}>
                 <Column style={summaryLabel}>Cleaning fee</Column>
                 <Column style={summaryValue}>{cleaningFee}</Column>
+              </Row>
+            )}
+            {petFee && (
+              <Row style={summaryRow}>
+                <Column style={summaryLabel}>{petFeeLabel ?? 'Pet fee'}</Column>
+                <Column style={summaryValue}>{petFee}</Column>
               </Row>
             )}
             {tax && (

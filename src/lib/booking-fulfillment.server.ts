@@ -55,8 +55,10 @@ async function createHospitableReservation(opts: {
   guestLastName: string;
   guestEmail: string;
   adults: number;
+  pets: number;
   accommodationCents: number;
   cleaningFeeCents: number;
+  petFeeCents: number;
   taxCents: number;
   currency: string;
   stripeSessionId: string;
@@ -66,7 +68,10 @@ async function createHospitableReservation(opts: {
   const body = {
     check_in: opts.checkIn,
     check_out: opts.checkOut,
-    guests: { adults: Math.max(1, opts.adults) },
+    guests: {
+      adults: Math.max(1, opts.adults),
+      ...(opts.pets > 0 ? { pets: opts.pets } : {}),
+    },
     guest: {
       first_name: opts.guestFirstName,
       last_name: opts.guestLastName,
@@ -79,6 +84,7 @@ async function createHospitableReservation(opts: {
       currency: opts.currency.toUpperCase(),
       accommodation: opts.accommodationCents,
       ...(opts.cleaningFeeCents > 0 ? { cleaning_fee: opts.cleaningFeeCents } : {}),
+      ...(opts.petFeeCents > 0 ? { pet_fee: opts.petFeeCents } : {}),
       ...(opts.taxCents > 0 ? { pass_through_taxes: opts.taxCents } : {}),
     },
   };
@@ -139,11 +145,15 @@ export async function fulfillCheckoutSession(
     ? parseInt(metadata.cleaning_fee_cents, 10)
     : 0;
   const taxCents = metadata.tax_cents ? parseInt(metadata.tax_cents, 10) : 0;
+  const pets = metadata.pets ? parseInt(metadata.pets, 10) || 0 : 0;
+  const petFeeCents = metadata.pet_fee_cents ? parseInt(metadata.pet_fee_cents, 10) || 0 : 0;
   const discountCents = metadata.discount_cents ? parseInt(metadata.discount_cents, 10) : 0;
   const discountLabel = metadata.discount_label ?? "";
-  const totalCents = session.amount_total ?? accommodationCents + cleaningFeeCents + taxCents;
+  const totalCents = session.amount_total ?? accommodationCents + cleaningFeeCents + petFeeCents + taxCents;
   const accommodationAmount = accommodationCents / 100;
   const cleaningFeeAmount = cleaningFeeCents / 100;
+  const petFeeAmount = petFeeCents / 100;
+  const petFeeLabel = `Pet fee (${pets} pet${pets !== 1 ? "s" : ""})`;
   const taxAmount = taxCents / 100;
   const discountAmount = discountCents / 100;
   const totalAmount = totalCents / 100;
@@ -254,6 +264,7 @@ export async function fulfillCheckoutSession(
       accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
       ...(discountAmount > 0 ? { discount: `-$${discountAmount.toFixed(0)} ${currency.toUpperCase()}`, discountLabel } : {}),
       ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
+      ...(petFeeAmount > 0 ? { petFee: `$${petFeeAmount.toFixed(0)} ${currency.toUpperCase()}`, petFeeLabel } : {}),
       tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
       total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
       cancelUrl,
@@ -353,8 +364,10 @@ export async function fulfillCheckoutSession(
       guestLastName,
       guestEmail,
       adults: guestCount,
+      pets,
       accommodationCents,
       cleaningFeeCents,
+      petFeeCents,
       taxCents,
       currency,
       stripeSessionId: sessionId,
@@ -380,6 +393,7 @@ export async function fulfillCheckoutSession(
       accommodation: `$${accommodationAmount.toFixed(0)} ${currency.toUpperCase()}`,
       ...(discountAmount > 0 ? { discount: `-$${discountAmount.toFixed(0)} ${currency.toUpperCase()}`, discountLabel } : {}),
       ...(cleaningFeeAmount > 0 ? { cleaningFee: `$${cleaningFeeAmount.toFixed(0)} ${currency.toUpperCase()}` } : {}),
+      ...(petFeeAmount > 0 ? { petFee: `$${petFeeAmount.toFixed(0)} ${currency.toUpperCase()}`, petFeeLabel } : {}),
       tax: `$${taxAmount.toFixed(0)} ${currency.toUpperCase()}`,
       total: `$${totalAmount.toFixed(0)} ${currency.toUpperCase()}`,
       stripeSessionId: sessionId,
