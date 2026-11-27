@@ -5,6 +5,7 @@ import type { CalendarDay } from "@/lib/hospitable.functions";
 import { createBookingCheckout } from "@/lib/stripe.functions";
 import { validatePromoCode } from "@/lib/promo.functions";
 import { track } from "@/lib/analytics";
+import { MAX_PETS, PET_FEE_PER_PET, petFeeFor } from "@/data/pets";
 
 function ymd(d: Date): string {
   const y = d.getFullYear();
@@ -100,6 +101,7 @@ export function AvailabilityChecker({
 }) {
   const [range, setRange] = useState<DateRange | undefined>();
   const [guests, setGuests] = useState(1);
+  const [pets, setPets] = useState(0);
   const [showCalendar, setShowCalendar] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [promoInput, setPromoInput] = useState("");
@@ -236,6 +238,7 @@ export function AvailabilityChecker({
       total,
       currency,
       guests,
+      pets,
       check_in: range?.from ? ymd(range.from) : undefined,
       check_out: range?.to ? ymd(range.to) : undefined,
     });
@@ -254,7 +257,8 @@ export function AvailabilityChecker({
     const discountedAccommodation = discount
       ? Math.round(baseAccommodation - discount.amount)
       : Math.round(baseAccommodation);
-    const checkoutTotal = discountedAccommodation + cleaningFee;
+    const petFee = petFeeFor(pets);
+    const checkoutTotal = discountedAccommodation + cleaningFee + petFee;
 
     setRedirecting(true);
     try {
@@ -264,6 +268,7 @@ export function AvailabilityChecker({
           propertyTitle: propertyTitle ?? propertySlug ?? "Vacation Rental",
           hospitableId,
           guests,
+          pets,
           checkIn: ymd(range!.from!),
           checkOut: ymd(range!.to!),
           nights,
@@ -381,6 +386,35 @@ export function AvailabilityChecker({
         </div>
       </div>
 
+      {/* Pets — $50 per pet, per stay */}
+      <div className="mt-2 flex items-center justify-between rounded-sm border border-border bg-background px-3 py-2">
+        <div>
+          <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Pets</span>
+          <p className="text-[10px] text-muted-foreground">${PET_FEE_PER_PET} per pet, per stay</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="Remove pet"
+            disabled={pets <= 0}
+            onClick={() => setPets((p) => Math.max(0, p - 1))}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-sm text-muted-foreground transition hover:border-[var(--color-deep)] hover:text-foreground disabled:opacity-30"
+          >
+            −
+          </button>
+          <span className="w-6 text-center text-sm font-semibold text-foreground">{pets}</span>
+          <button
+            type="button"
+            aria-label="Add pet"
+            disabled={pets >= MAX_PETS}
+            onClick={() => setPets((p) => Math.min(MAX_PETS, p + 1))}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-sm text-muted-foreground transition hover:border-[var(--color-deep)] hover:text-foreground disabled:opacity-30"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
       {showCalendar && (
         <div className="mt-3 rounded-sm border border-border bg-background p-2">
           {hasAnyAvailable ? (
@@ -428,7 +462,8 @@ export function AvailabilityChecker({
               : null;
             const disc = bestDiscount(stayDisc, appliedPromo, baseAccom);
             const discountedAccom = disc ? baseAccom - disc.amount : baseAccom;
-            const subtotal = discountedAccom + cleaningFee;
+            const petFee = petFeeFor(pets);
+            const subtotal = discountedAccom + cleaningFee + petFee;
             const tax = Math.round(subtotal * 0.145);
             const grandTotal = Math.round(subtotal + tax);
             return (
@@ -447,6 +482,12 @@ export function AvailabilityChecker({
                   <span>Cleaning fee</span>
                   <span>${cleaningFee} {currency}</span>
                 </div>
+                {petFee > 0 && (
+                  <div className="flex items-center justify-between text-muted-foreground">
+                    <span>Pet fee ({pets} × ${PET_FEE_PER_PET})</span>
+                    <span>${petFee} {currency}</span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between text-muted-foreground">
                   <span>FL taxes (14.5%)</span>
                   <span>${tax} {currency}</span>
